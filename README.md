@@ -25,13 +25,19 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
 ### Router
+```
 npm install vue-router@4
+```
 
 ### Pinia
+```
 npm install pinia
+```
 
 ### Bootstrap 5
+```
 npm install --save bootstrap
 npm install --save @popperjs/core
 npm install bootstrap-icons 
+```
 
