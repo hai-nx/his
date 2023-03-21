@@ -29,10 +29,5 @@ html, body,
 :root {
     --his-background-color: #F0F1F1;
     --his-color: #333;
-    
-    --his-sidebar-background-color: #182537;
-    --his-sidebar-color: #fff;
-    --his-sidebar-width-collapsed: 50px;
-    --his-sidebar-width-expanded: 250px;
 }
 </style>
