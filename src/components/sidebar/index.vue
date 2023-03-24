@@ -1,94 +1,108 @@
 <template>
-    <aside class="sidebar" :class="{ close: is_close }">
+    <aside :class="{collapsed: isCollapsed}">
+        <!--
+            header
+        -->
         <div class="sidebar-header">
-            <div class="sidebar-header-logo">
-                <span>HIS</span>
+            <div class="sidebar-brand">
+                tmp_BRAND
             </div>
-
-            <button class="sidebar-header-toggle" @click="onSidebarToggle()">
+            <button class="sidebar-toggle" @click="sidebarToggle()">
                 <i class="bi bi-list"></i>
             </button>
         </div>
 
+        <!--
+            items
+        -->
         <ul class="nav-links">
             <li>
-                <a href="#">
-                    <i class="bi bi-columns-gap"></i>
-                    <span class="link-name">
-                        Dashborad
-                    </span>
-                </a>
+                <div class="icon-link">
+                    <a href="#">
+                        <router-link :to="{ name: 'dashboard' }">
+                            <i class="bi bi-columns-gap"></i>
+                            <span class="link-name">
+                                Trang chủ
+                            </span>
+                        </router-link>
+                    </a>
+                </div>
                 <ul class="sub-menu blank">
                     <li><a class="link-name" href="#">Dashborad</a></li>
                 </ul>
             </li>
+
             <li>
                 <div class="icon-link">
                     <a href="#">
                         <i class="bi bi-collection"></i>
                         <span class="link-name">
-                            Dictionary
+                            Danh mục
                         </span>
                     </a>
-                    <i class="bi bi-chevron-down arrow" @click="handleDropDown($event)"></i>
+                    <i class="bi bi-chevron-right arrow" @click="sidebarDropDown($event)"></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link-name" href="#">Dictionary</a></li>
-                    <li><a href="#">Sub 1</a></li>
-                    <li><a href="#">Sub 2</a></li>
-                    <li><a href="#">Sub 3</a></li>
+                    <li><a class="link-name" href="#">Danh mục</a></li>
+                    <li><a href="#"><router-link :to="{ name: 'role' }">Chi nhánh</router-link></a></li>
+                    <li><a href="#"><router-link :to="{ name: 'user' }">Khoa</router-link></a></li>
+                    <li><a href="#"><router-link :to="{ name: 'user' }">Phòng</router-link></a></li>
+                    <li><a href="#"><router-link :to="{ name: 'user' }">Giường</router-link></a></li>
                 </ul>
             </li>
+
             <li>
                 <div class="icon-link">
                     <a href="#">
-                        <i class="bi bi-collection"></i>
+                        <i class="bi bi-gear"></i>
                         <span class="link-name">
-                            Report
+                            Hệ thống
                         </span>
                     </a>
-                    <i class="bi bi-chevron-down arrow" @click="handleDropDown($event)"></i>
+                    <i class="bi bi-chevron-right arrow" @click="sidebarDropDown($event)"></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link-name" href="#">Report</a></li>
-                    <li><a href="#">Sub 1</a></li>
-                    <li><a href="#">Sub 2</a></li>
-                    <li><a href="#">Sub 3</a></li>
+                    <li><a class="link-name" href="#">Hệ thống</a></li>
+                    <li><a href="#"><router-link :to="{ name: 'role' }">Vai trò</router-link></a></li>
+                    <li><a href="#"><router-link :to="{ name: 'user' }">Người dùng</router-link></a></li>
                 </ul>
             </li>
+
         </ul>
     </aside>
 </template>
 
 <script>
 export default {
-    name: 'sidebar',
+    name: "SideBar",
     data() {
         return {
-            is_close: false,
-
-            items: [
-                { labal: 'Dashborad' },
-                { label: '', type:'sidebar-divider' },
-                { 
-                    label: 'Hệ thống',
-                    children: [
-                        { label: 'Vai trò và quyền hạn' },
-                        { label: 'Người dùng' },
-                        { label: '', type:'sidebar-divider' },
-                        { label: 'Tùy chọn' },
-                    ]
-                }
-            ]
+            isCollapsed: false
         }
     },
-
     methods: {
-        onSidebarToggle() {
-            this.is_close = !this.is_close;
+        sidebarToggle() {
+            this.sidebarToggleSubMenu('1111');
+
+            this.isCollapsed = !this.isCollapsed;
         },
-        handleDropDown(e) {
+        sidebarToggleSubMenu(element) {
+            // đóng các sub menu đang mở
+            // nếu đưuọc gọi từ sự kiện đóng/mở sub menu thì không xử lý tại node đó.
+            if (!this.isCollapsed) {
+                var elements = document.getElementsByClassName("show-menu");
+                for (let i = elements.length; i > 0; i--) {
+                    var el = elements[i - 1];
+                    if (el !== element) {
+                        elements[i - 1].classList.remove("show-menu");
+                    }
+                }
+            }
+        },
+        sidebarDropDown(e) {
             var arrowParent = e.target.parentElement.parentElement;
+            this.sidebarToggleSubMenu(arrowParent);
+
             arrowParent.classList.toggle("show-menu")
         }
     },
@@ -96,106 +110,105 @@ export default {
 </script>
 
 <style scoped>
+
 aside {
-    --his-sidebar-width-collapse: 50px;
-    --his-sidebar-width-expanded: 280px;
-    --his-sidebar-header-height: 50px;
-}
-
-.close {
-    width: var(--his-sidebar-width-collapse) !important;
-}
-
-.sidebar-header-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    transition: 0.3s ease;
-    transition-delay: 0.1s;
-}
-
-.sidebar-header-toggle {
-    border: 0;
-    width: var(--his-sidebar-width-collapse);
-}
-
-.sidebar {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    border-right: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
-    transition: 0.2s ease-out;
-    width: var(--his-sidebar-width-expanded)
+    background-color: #182537; 
+    color: #FFFFFF;
+    width: 280px;
+
+    transition: 0.3s ease;
+    z-index: 999; /* đẩy lên trên những componenet khác */
 }
 
-.sidebar-header {
+aside .sidebar-header {
     display: flex;
-    align-items: stretch;
     justify-content: space-between;
-    border-bottom: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
-    height: var(--his-sidebar-header-height);
+    border-bottom: 1px solid #263D53;
+    min-height: 50px;
 }
 
-.close .sidebar-header-logo {
+aside .sidebar-header .sidebar-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    font-size: 20px;
+    font-weight: 600;
+    transition: 0.3s ease;
+    transition-delay: 0.1s;
+    width: 100%;
+}
+
+aside.collapsed .sidebar-header .sidebar-brand {
     display: none;
-    font-size: 25px;
-    transition-delay: 0s;
 }
 
-.sidebar-header-toggle :hover {
+aside .sidebar-header .sidebar-toggle {
+    /* width: 50px; */
+    padding: 0px;
+    background-color: transparent;
+    color: #FFFFFF;
+    border: none;
+}
+
+aside .sidebar-header .sidebar-toggle i {
+    font-size: 20px;
+    padding: 0px 15px;
+}
+
+aside .sidebar-header .sidebar-toggle:hover {
+    background-color: #263D53;
     cursor: pointer;
 }
 
-ul {
-    padding-left: 0px;
+.collapsed {
+    width: 50px !important;
 }
 
-.sidebar .nav-links {
-    background: rebeccapurple;
+aside .nav-links {
     height: 100%;
-    padding-top: 30px;
+    padding-top: 5px;
     padding-left: 0px;
-    overflow: auto;
-}
-
-.sidebar .nav-links {
     overflow: visible;
 }
 
-
-.sidebar .nav-links::-webkit-scrollbar {
+aside .nav-links::-webkit-scrollbar {
     display: none;
 }
 
-.sidebar .nav-links li {
+aside .nav-links li {
     position: relative;
     list-style: none;
 }
 
-.sidebar .nav-links li {
-    position: relative;
-    list-style: none;
+aside .nav-links li.show-menu {
+    background-color: #263D53;
 }
 
-.sidebar .nav-links li:hover {
-    background: red;
+aside .nav-links li:hover {
+    background: #263D53;
     transition: all 0.4s ease;
 }
 
-.sidebar .nav-links li .icon-link {
+aside .nav-links li .icon-link {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
 }
 
-.sidebar.close .nav-links li .icon-link {
+aside.collapsed .nav-links li .icon-link {
     display: block;
 }
 
-.sidebar .nav-links li i {
-    height: 50px;
-    width: var(--his-sidebar-width-collapse);
+aside .nav-links li i {
+    height: 100%;
+    /* width: 50px; */
+    padding-left: 15px;
+    padding-right: 15px;
     text-align: center;
     line-height: 50px;
     color: #fff;
@@ -204,60 +217,71 @@ ul {
     cursor: pointer;
 }
 
-.sidebar .nav-links li.show-menu i.arrow {
-    transform: rotate(-180deg);
+aside .nav-links li.show-menu i.arrow {
+    transform: rotate(90deg);
+    
 }
 
-.sidebar.close .nav-links i.arrow {
+aside .nav-links li i.arrow {
+    font-size: 13px;
+}
+
+aside.collapsed .nav-links i.arrow {
     display: none;
 }
 
-.sidebar .nav-links li a {
+aside .nav-links li a {
     display: flex;
     align-items: center;
     text-decoration: none;
+    width: 100%; /*HAINX*/
 }
 
-.sidebar .nav-links li a .link-name {
-    font-size: 18px;
-    font-weight: 400;
+aside .nav-links li a .link-name {
+    /* font-size: 18px; */
+    /* font-weight: 400; */
+    font-size: 15px;
+    font-weight: 600;
     color: #fff;
+    white-space:nowrap;
 }
 
-.sidebar.close .nav-links li a .link-name {
+aside.collapsed .nav-links li a .link-name {
     opacity: 0;
     pointer-events: none;
     display: none;
 }
 
-
-.sidebar .nav-links li .sub-menu {
-    padding: 6px 6px 14px 50px;
-    margin-top: -10px;
-    background-color: cadetblue;
+aside .nav-links li .sub-menu {
+    padding: 0px 0px 10px 50px;
+    background-color: #263D53;
     display: none;
 }
-.sidebar .nav-links li.show-menu .sub-menu {
+
+aside .nav-links li.show-menu .sub-menu {
     display: block;
+    transition: all 0.3s ease;
 }
-.sidebar.close .nav-links li .sub-menu {
+
+aside.collapsed .nav-links li .sub-menu {
     position: absolute;
     left: 100%;
-    top: -10px;
     margin-top: 0;
     padding: 10px 20px;
     transition: all 0.4s ease;
     opacity: 0;
     pointer-events: none;
-}
-.sidebar.close .nav-links li:hover .sub-menu {
-    top: 0;
-    opacity: 1;
-    pointer-events: auto;
-    display: block;
+    min-width: 200px;
 }
 
-.sidebar .nav-links li .sub-menu a {
+aside.collapsed .nav-links li:hover .sub-menu {
+    display: block;
+    top: 0; 
+    opacity: 1;
+    pointer-events: auto;
+}
+
+aside .nav-links li .sub-menu a {
     color: #fff;
     font-size: 15px;
     padding: 5px 0;
@@ -266,31 +290,33 @@ ul {
     transition: all 0.3s ease;
 }
 
-
-.sidebar .nav-links li .sub-menu a:hover {
+aside .nav-links li .sub-menu a:hover {
     opacity: 1;
 }
 
-
-
-.sidebar .nav-links li .sub-menu .link-name {
+aside .nav-links li .sub-menu .link-name {
     display: none;
 }
-.sidebar.close .nav-links li .sub-menu .link-name {
-    font-size: 18px;
+
+aside.collapsed .nav-links li .sub-menu .link-name {
+    /* font-size: 18px; */
+    font-size: 15px;
+    font-weight: 600;
     opacity: 1;
     display: block;
 }
 
-.sidebar .nav-links li .sub-menu.blank {
+aside .nav-links li .sub-menu.blank {
     opacity: 1;
     pointer-events: auto;
     padding: 3px 20px 6px 16px;
     opacity: 0;
     pointer-events: none;
+    display: none;
 }
-.sidebar .nav-links li:hover .sub-menu.blank {
+aside .nav-links li:hover .sub-menu.blank {
     top: 50%;
     transform: translateY(-50%);
 }
+
 </style>

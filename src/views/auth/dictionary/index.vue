@@ -1,5 +1,5 @@
 <template>
-    <h1>USER</h1>
+    <h1>DICTIONARY</h1>
 </template>
 
 <script>

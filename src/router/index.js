@@ -11,6 +11,9 @@ import error from '@/views/public/error'
 
 /*auth*/
 import dashboard from '@/views/auth/dashboard'
+import role from '@/views/auth/role'
+import role_detail from '@/views/auth/role-detail'
+import user from '@/views/auth/user'
 
 
 const routes = [
@@ -20,6 +23,10 @@ const routes = [
     { path: '/register', name: 'register', component: register, meta: { layout: layout_default } },
 
     { path: '/dashboard', name: 'dashboard', component: dashboard, meta: { layout: layout_auth } },
+    { path: '/role', name: 'role', component: role, meta: { layout: layout_auth } },
+    { path: '/role-detail/:id', name: 'role_detail', component: role_detail, meta: { layout: layout_auth } },
+    { path: '/role-detail/create', name: 'role_detail', component: role_detail, meta: { layout: layout_auth } },
+    { path: '/user', name: 'user', component: user, meta: { layout: layout_auth } },
 
     { path: '/:pathMatch(.*)*', name: 'error', component: error, meta: { layout: layout_default } },
 ]
