@@ -2,20 +2,23 @@
     <div class="container mt-3">
         <form @submit.prevent="onSave()">
             <div class="d-flex justify-content-between align-items-center mb-2">
-                <h3>Vai trò</h3>
+                <div class="flex-shrink-0">
+                    <h3>Vai trò</h3>
+                </div>
 
-                <div>
-                    <button type="submit" class="btn btn-primary rounded-1 px-4 me-2">
-                        <span>Lưu</span>
-                    </button>
-                    <button type="button" class="btn btn-outline-primary rounded-1 px-4" @click="onCancel()">
+                <div class="flex-shrink-0">
+                    <button type="button" class="btn btn-outline-dark rounded-1 px-4 me-2" @click="onCancel()">
                         <span>Hủy</span>
                     </button>
+                    <button type="submit" class="btn btn-primary rounded-1 px-4">
+                        <span>Lưu</span>
+                    </button>
+                    
                 </div>
             </div>
 
 
-            <div class="card mb-3">
+            <div class="card rounded-1 mb-3">
                 <div class="card-body">
                     <div class="row">
                         <h5 class="card-title">Vai trò</h5>

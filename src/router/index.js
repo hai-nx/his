@@ -15,6 +15,8 @@ import role from '@/views/auth/role'
 import role_detail from '@/views/auth/role-detail'
 import user from '@/views/auth/user'
 
+import setting from '@/views/auth/setting'
+
 
 const routes = [
     { path: '/', name: 'home', component: home, meta: { layout: layout_default } },
@@ -27,6 +29,8 @@ const routes = [
     { path: '/role-detail/:id', name: 'role_detail', component: role_detail, meta: { layout: layout_auth } },
     { path: '/role-detail/create', name: 'role_detail', component: role_detail, meta: { layout: layout_auth } },
     { path: '/user', name: 'user', component: user, meta: { layout: layout_auth } },
+
+    { path: '/setting', name: 'setting', component: setting, meta: { layout: layout_auth } },
 
     { path: '/:pathMatch(.*)*', name: 'error', component: error, meta: { layout: layout_default } },
 ]
