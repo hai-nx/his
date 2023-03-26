@@ -28,7 +28,7 @@
                     </a>
                 </div>
                 <ul class="sub-menu blank">
-                    <li><a class="link-name" href="#">Dashborad</a></li>
+                    <li><a class="link-name" href="#">Trang chủ</a></li>
                 </ul>
             </li>
 
@@ -45,9 +45,9 @@
                 <ul class="sub-menu">
                     <li><a class="link-name" href="#">Danh mục</a></li>
                     <li><a href="#"><router-link :to="{ name: 'role' }">Chi nhánh</router-link></a></li>
-                    <li><a href="#"><router-link :to="{ name: 'user' }">Khoa</router-link></a></li>
-                    <li><a href="#"><router-link :to="{ name: 'user' }">Phòng</router-link></a></li>
-                    <li><a href="#"><router-link :to="{ name: 'user' }">Giường</router-link></a></li>
+                    <li><a href="#"><router-link :to="{ name: 'role' }">Khoa</router-link></a></li>
+                    <li><a href="#"><router-link :to="{ name: 'role' }">Phòng</router-link></a></li>
+                    <li><a href="#"><router-link :to="{ name: 'role' }">Giường</router-link></a></li>
                 </ul>
             </li>
 
@@ -64,7 +64,22 @@
                 <ul class="sub-menu">
                     <li><a class="link-name" href="#">Hệ thống</a></li>
                     <li><a href="#"><router-link :to="{ name: 'role' }">Vai trò</router-link></a></li>
-                    <li><a href="#"><router-link :to="{ name: 'user' }">Người dùng</router-link></a></li>
+                    <li><a href="#"><router-link :to="{ name: 'users' }">Người dùng</router-link></a></li>
+                </ul>
+            </li>
+
+            <!--Cấu hình-->
+            <li>
+                <div class="icon-link">
+                    <a href="#">
+                        <router-link :to="{ name: 'setting' }">
+                            <i class="bi bi-gear"></i>
+                            <span class="link-name">Cấu hình</span>
+                        </router-link>
+                    </a>
+                </div>
+                <ul class="sub-menu blank">
+                    <li><a class="link-name" href="#">Cấu hình</a></li>
                 </ul>
             </li>
 

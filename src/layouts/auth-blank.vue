@@ -1,15 +1,17 @@
 <template>
-    <h1>USER</h1>
+    <slot></slot>
 </template>
 
 <script>
+
 export default {
     data() {
         return {}
+    },
+    components: {
     }
 }
 </script>
 
-<style>
-    
+<style scoped>
 </style>

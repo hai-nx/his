@@ -6,7 +6,7 @@
             </div>
 
             <div>
-                <button class="btn btn-primary px-4" @click="onAddNew()">
+                <button class="btn btn-primary rounded-1 px-4" @click="onAddNew()">
                     <i class="bi bi-plus-lg me-2"></i>
                     <span>Thêm vai trò</span>
                 </button>

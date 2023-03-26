@@ -10,6 +10,10 @@ export const useAuth = defineStore('auth', {
             lastname: '',
             fullname: '',
             token: ''
+        },
+        working_place: {
+            department_id: '',
+            room_id: ''
         }
     }),
     getters: {
