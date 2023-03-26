@@ -42,7 +42,7 @@
                                                 </div>
                                                 <div class="form-group mb-4">
                                                     <div class="form-check mb-0">
-                                                        <input id="remember" type="checkbox" class="form-check-input me-2" :value="isRemember"/>
+                                                        <input id="remember" type="checkbox" class="form-check-input me-2" :value="is_remember"/>
                                                         <label for="remember" class="form-check-label">
                                                             Nhớ mật khẩu
                                                         </label>
@@ -81,7 +81,7 @@ export default {
     },
     data() {
         return {
-            isRemember: true,
+            is_remember: true,
             email: '',
             username: '',
             password: '',
@@ -129,10 +129,10 @@ export default {
         },
         login() {
             if (this.validate()) {
-                const payload = { username: this.username, password: this.password, isRemember: this.isRemember };
+                const payload = { username: this.username, password: this.password, is_remember: this.is_remember };
                 this.store.login(payload);
                 if (this.store.getAuthenticated) {
-                    this.$router.push({ name: 'dashboard'});
+                    this.$router.push({ name: 'sel-department'});
                 }
             }
         },

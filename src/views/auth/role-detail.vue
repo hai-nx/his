@@ -46,12 +46,7 @@
                         <h5 class="card-title">Quyền hạn</h5>
                     </div>
 
-                    <div class="row mb-3">
-                        <label class="col-md-2 col-form-label" for="name">Ghi chú</label>
-                        <div class="col-md-10">
-                            <input type="text" id="name" class="form-control form-control-sm" />
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </form>

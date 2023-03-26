@@ -1,43 +1,27 @@
 <template>
     <div class="d-flex h-100">
-        <sidebar></sidebar>
+        <his-sidebar></his-sidebar>
         
-        <div class="w-100">
-            <nav class="navbar navbar-expand-sm bg-light border-bottom p-0">
-
-                <div class="container-fluid justify-content-end">
-                    <!-- Links -->
-                    <ul class="navbar-nav">
-                        <!-- <li class="nav-item">
-                        <a class="nav-link" href="#">Link 1</a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="#">Link 2</a>
-                        </li> -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">tmp_USERNAME</a>
-                        </li>
-                    </ul>
-                </div>
-
-            </nav>
-
-            <main>
+        <div class="flex-fill">
+            <div class="d-flex flex-column h-100">
+                <his-nav></his-nav>
                 <slot></slot>
-            </main>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import sidebar from '@/components/sidebar'
+import HisSidebar from '@/components/his-sidebar'
+import HisNav from '@/components/his-nav'
 
 export default {
     data() {
         return {}
     },
     components: {  
-        sidebar
+        HisNav,
+        HisSidebar
     }
 }
 </script>
