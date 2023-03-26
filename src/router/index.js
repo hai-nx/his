@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { layout_auth, layout_default } from '@/utils/constant'
+import { useAuth } from '@/stores/auth'
 
 /*public*/
 import home from '@/views/public/home'
@@ -23,7 +24,6 @@ import users from '@/views/auth/system/users'
 import user_detail from '@/views/auth/system/users/detail'
 
 import setting from '@/views/auth/setting'
-
 
 const routes = [
     /*puclic: các trang công khai*/
@@ -57,10 +57,10 @@ const routes = [
     { path: '/setting', name: 'setting', component: setting, meta: { layout: layout_auth } },
 
     /*
-        error: hiển thị lỗi
-            tách thành 2 phần riêng biệt là:
-            - thông báo chung
-            - thông báo chi tiết
+    error: hiển thị lỗi
+        tách thành 2 phần riêng biệt là:
+        - thông báo chung
+        - thông báo chi tiết
     */
     { path: '/:pathMatch(.*)*', name: 'error', component: error, meta: { layout: layout_default } },
 ]
@@ -68,6 +68,21 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+});
+
+router.beforeEach((to, from, next) => {
+
+    var store = useAuth();
+    // kiểm tra đăng nhập
+    const isAuthenticated = store.getAuthenticated;
+    // kiểm tra trang có yêu càu quyền đăng nhập
+    const isAuthenticationRequired = to.meta.layout === layout_auth; 
+    
+    // nếu trang yêu cầu quyền đăng nhập mà chua đăng nhập thì trả về trang login
+    if (!isAuthenticated && isAuthenticationRequired)
+        next({ name: 'login' });
+    else
+        next();
 })
 
 export default router

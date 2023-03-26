@@ -32,9 +32,14 @@
 export default {
     data() {
         return {
+            departments: [],
+            room: [],
             departmentId: '',
             roomId: ''
         }
+    },
+    created() {
+        
     },
     methods: {
         selDepartment() {
