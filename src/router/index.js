@@ -19,6 +19,13 @@ import role_detail from '@/views/auth/role-detail'
 import dashboard from '@/views/auth/dashboard'
 import selDepartment from '@/views/auth/sel-department'
 
+import branchs from '@/views/auth/dictionary/branchs'
+import branchDetail from '@/views/auth/dictionary/branchs/detail'
+import departments from '@/views/auth/dictionary/departments'
+import departmentDetail from '@/views/auth/dictionary/departments/detail'
+import rooms from '@/views/auth/dictionary/rooms'
+import roomDetail from '@/views/auth/dictionary/rooms/detail'
+
 import system from '@/views/auth/system'
 import users from '@/views/auth/system/users'
 import user_detail from '@/views/auth/system/users/detail'
@@ -41,6 +48,27 @@ const routes = [
     { path: '/dashboard', name: 'dashboard', component: dashboard, meta: { layout: layout_auth } },
 
     /*dictionary: danh mục*/
+    { path: '/branchs', name: 'branch', component: branchs, meta: { layout: layout_auth } },
+    { 
+        path: '/branchs/detail', name: 'branch-detail', component: branchDetail, meta: { layout: layout_auth },
+        children: [{ 
+            path: ':id', name: 'branch-detail-edit', component: branchDetail 
+        }],
+    },
+    { path: '/departments', name: 'department', component: departments, meta: { layout: layout_auth } },
+    { 
+        path: '/departments/detail', name: 'department-detail', component: departmentDetail, meta: { layout: layout_auth },
+        children: [{ 
+            path: ':id', name: 'department-detail-edit', component: departmentDetail 
+        }],
+    },
+    { path: '/rooms', name: 'room', component: rooms, meta: { layout: layout_auth } },
+    { 
+        path: '/rooms/detail', name: 'room-detail', component: roomDetail, meta: { layout: layout_auth },
+        children: [{ 
+            path: ':id', name: 'room-detail-edit', component: roomDetail 
+        }],
+    },
 
     /*system: hệ thống*/
     { path: '/system', name: 'system', component: system, meta: { layout: layout_auth } },

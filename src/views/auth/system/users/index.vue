@@ -19,7 +19,7 @@
         <div class="card">
             <div class="card-body p-0">
                 <div class="table-responsive text-nowrap">
-                    <table class="table table-hover table-striped">
+                    <table class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th scope="col" width="50px">#</th>
@@ -89,6 +89,5 @@ export default {
 }
 </script>
 
-<style>
-    
+<style scoped>
 </style>

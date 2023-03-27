@@ -44,10 +44,9 @@
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link-name" href="#">Danh mục</a></li>
-                    <li><a href="#"><router-link :to="{ name: 'role' }">Chi nhánh</router-link></a></li>
-                    <li><a href="#"><router-link :to="{ name: 'role' }">Khoa</router-link></a></li>
-                    <li><a href="#"><router-link :to="{ name: 'role' }">Phòng</router-link></a></li>
-                    <li><a href="#"><router-link :to="{ name: 'role' }">Giường</router-link></a></li>
+                    <li><a href="#"><router-link :to="{ name: 'branch' }">Chi nhánh</router-link></a></li>
+                    <li><a href="#"><router-link :to="{ name: 'department' }">Khoa</router-link></a></li>
+                    <li><a href="#"><router-link :to="{ name: 'room' }">Phòng</router-link></a></li>
                 </ul>
             </li>
 
