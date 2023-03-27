@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { layout_auth, layout_default } from '@/utils/constant'
+import { useAuth } from '@/stores/auth'
 
 /*public*/
 import home from '@/views/public/home'
@@ -18,12 +19,18 @@ import role_detail from '@/views/auth/role-detail'
 import dashboard from '@/views/auth/dashboard'
 import selDepartment from '@/views/auth/sel-department'
 
+import branchs from '@/views/auth/dictionary/branchs'
+import branchDetail from '@/views/auth/dictionary/branchs/detail'
+import departments from '@/views/auth/dictionary/departments'
+import departmentDetail from '@/views/auth/dictionary/departments/detail'
+import rooms from '@/views/auth/dictionary/rooms'
+import roomDetail from '@/views/auth/dictionary/rooms/detail'
+
 import system from '@/views/auth/system'
 import users from '@/views/auth/system/users'
 import user_detail from '@/views/auth/system/users/detail'
 
 import setting from '@/views/auth/setting'
-
 
 const routes = [
     /*puclic: các trang công khai*/
@@ -41,6 +48,27 @@ const routes = [
     { path: '/dashboard', name: 'dashboard', component: dashboard, meta: { layout: layout_auth } },
 
     /*dictionary: danh mục*/
+    { path: '/branchs', name: 'branch', component: branchs, meta: { layout: layout_auth } },
+    { 
+        path: '/branchs/detail', name: 'branch-detail', component: branchDetail, meta: { layout: layout_auth },
+        children: [{ 
+            path: ':id', name: 'branch-detail-edit', component: branchDetail 
+        }],
+    },
+    { path: '/departments', name: 'department', component: departments, meta: { layout: layout_auth } },
+    { 
+        path: '/departments/detail', name: 'department-detail', component: departmentDetail, meta: { layout: layout_auth },
+        children: [{ 
+            path: ':id', name: 'department-detail-edit', component: departmentDetail 
+        }],
+    },
+    { path: '/rooms', name: 'room', component: rooms, meta: { layout: layout_auth } },
+    { 
+        path: '/rooms/detail', name: 'room-detail', component: roomDetail, meta: { layout: layout_auth },
+        children: [{ 
+            path: ':id', name: 'room-detail-edit', component: roomDetail 
+        }],
+    },
 
     /*system: hệ thống*/
     { path: '/system', name: 'system', component: system, meta: { layout: layout_auth } },
@@ -57,10 +85,10 @@ const routes = [
     { path: '/setting', name: 'setting', component: setting, meta: { layout: layout_auth } },
 
     /*
-        error: hiển thị lỗi
-            tách thành 2 phần riêng biệt là:
-            - thông báo chung
-            - thông báo chi tiết
+    error: hiển thị lỗi
+        tách thành 2 phần riêng biệt là:
+        - thông báo chung
+        - thông báo chi tiết
     */
     { path: '/:pathMatch(.*)*', name: 'error', component: error, meta: { layout: layout_default } },
 ]
@@ -68,6 +96,21 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+});
+
+router.beforeEach((to, from, next) => {
+
+    var store = useAuth();
+    // kiểm tra đăng nhập
+    const isAuthenticated = store.getAuthenticated;
+    // kiểm tra trang có yêu càu quyền đăng nhập
+    const isAuthenticationRequired = to.meta.layout === layout_auth; 
+    
+    // nếu trang yêu cầu quyền đăng nhập mà chua đăng nhập thì trả về trang login
+    if (!isAuthenticated && isAuthenticationRequired)
+        next({ name: 'login' });
+    else
+        next();
 })
 
 export default router
