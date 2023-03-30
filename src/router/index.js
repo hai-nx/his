@@ -2,35 +2,35 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { layout_auth, layout_default } from '@/utils/constant'
 import { useAuth } from '@/stores/auth'
 
-/*public*/
-import home from '@/views/public/home'
-import login from '@/views/public/user/login'
-import forgot_password from '@/views/public/user/forgot_password'
-import register from '@/views/public/user/register'
+/*global*/
+import home                 from '@/views/public/home'
+import login                from '@/views/public/user/login'
+import forgot_password      from '@/views/public/user/forgot-password'
+import register             from '@/views/public/user/register'
 
-import error from '@/views/public/error'
+import error                from '@/views/public/error'
 
 /*auth*/
 
-import role from '@/views/auth/role'
-import role_detail from '@/views/auth/role-detail'
+import role                 from '@/views/auth/role'
+import role_detail          from '@/views/auth/role-detail'
 
 /*auth > admin*/
-import dashboard from '@/views/auth/dashboard'
-import selDepartment from '@/views/auth/sel-department'
+import dashboard            from '@/views/auth/dashboard'
+import selDepartment        from '@/views/auth/sel-department'
 
-import branchs from '@/views/auth/dictionary/branchs'
-import branchDetail from '@/views/auth/dictionary/branchs/detail'
-import departments from '@/views/auth/dictionary/departments'
-import departmentDetail from '@/views/auth/dictionary/departments/detail'
-import rooms from '@/views/auth/dictionary/rooms'
-import roomDetail from '@/views/auth/dictionary/rooms/detail'
+import branchs              from '@/views/auth/dictionary/branchs'
+import branchDetail         from '@/views/auth/dictionary/branchs/detail'
+import departments          from '@/views/auth/dictionary/departments'
+import departmentDetail     from '@/views/auth/dictionary/departments/detail'
+import rooms                from '@/views/auth/dictionary/rooms'
+import roomDetail           from '@/views/auth/dictionary/rooms/detail'
 
-import system from '@/views/auth/system'
-import users from '@/views/auth/system/users'
-import user_detail from '@/views/auth/system/users/detail'
+import system               from '@/views/auth/system'
+import users                from '@/views/auth/system/users'
+import user_detail          from '@/views/auth/system/users/detail'
 
-import setting from '@/views/auth/setting'
+import setting              from '@/views/auth/setting'
 
 const routes = [
     /*puclic: các trang công khai*/

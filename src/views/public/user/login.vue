@@ -24,7 +24,7 @@
                                                         type="text" 
                                                         class="form-control"
                                                         v-model="username"
-                                                        :on-blur="valid_username"
+                                                        :on-blur="validateUsername"
                                                         :class="{ 'is-invalid': errors.username }"
                                                         />
                                                     <div class="invalid-feedback">{{ errors.username }}</div>
@@ -35,7 +35,7 @@
                                                         type="password" 
                                                         class="form-control"
                                                         v-model="password"
-                                                        :on-blur="valid_password"
+                                                        :on-blur="validatePassword"
                                                         :class="{ 'is-invalid': errors.password }"
                                                         />
                                                     <div class="invalid-feedback">{{ errors.password }}</div>
@@ -97,7 +97,7 @@ export default {
         this.store.logout();
     },
     methods: {
-        valid_username() {
+        validateUsername() {
             let isValid = true;
             this.errors.username = '';
             if (!this.username) {
@@ -106,7 +106,7 @@ export default {
             }
             return isValid;
         },
-        valid_password() {
+        validatePassword() {
             let isValid = true;
             this.errors.password = '';
             if (!this.password) {
@@ -117,18 +117,18 @@ export default {
             }
             return isValid;
         },
-        validate() {
+        validateBeforeSubmit() {
             let isValid = true;
-            if (!this.valid_username()) {
+            if (!this.validateUsername()) {
                 isValid = false;
             }
-            if (!this.valid_password()) {
+            if (!this.validatePassword()) {
                 isValid = false;
             }
             return isValid
         },
         login() {
-            if (this.validate()) {
+            if (this.validateBeforeSubmit()) {
                 const payload = { username: this.username, password: this.password, is_remember: this.is_remember };
                 this.store.login(payload);
                 if (this.store.getAuthenticated) {
