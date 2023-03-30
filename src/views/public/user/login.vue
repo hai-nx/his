@@ -98,24 +98,18 @@ export default {
     },
     methods: {
         validateUsername() {
-            let isValid = true;
             this.errors.username = '';
             if (!this.username) {
                 this.errors.username = 'Tên đăng nhập không được bỏ trống!';
-                isValid = false;
             }
-            return isValid;
+            return this.errors.username === '';
         },
         validatePassword() {
-            let isValid = true;
             this.errors.password = '';
             if (!this.password) {
                 this.errors.password = 'Mật khẩu không được bỏ trống!';
-                isValid = false;
-
-                console.log('xxxx')
             }
-            return isValid;
+            return this.errors.password === '';
         },
         validateBeforeSubmit() {
             let isValid = true;
