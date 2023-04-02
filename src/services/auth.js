@@ -1,4 +1,5 @@
-//import axiosClient from '@/utils/axiosClient'
+import axiosClient from '@/utils/axiosClient'
+import security from '../utils/security';
 
 //import axios from "axios";
 
@@ -34,20 +35,27 @@ function login(username, password) {
     // });
 
 
-    // fetch data from api
-    if (username && password) {
-        return {
-            username: 'tmp_USERNAME',
-            firstname: 'tmp_FIRSTNAME',
-            lastname: 'tmp_LASTNAME',
-            token: 'tmp_TOKEN'
-        };
-    }
-    else {
-        return {}
-    }
+    // // fetch data from api
+    // if (username && password) {
+    //     return {
+    //         username: 'tmp_USERNAME',
+    //         firstname: 'tmp_FIRSTNAME',
+    //         lastname: 'tmp_LASTNAME',
+    //         token: 'tmp_TOKEN'
+    //     };
+    // }
+    // else {
+    //     return {}
+    // }
 
-    
+    const url = "api/Login/Authenticate";
+    const obj = {
+        UserName: username,
+        Password: security.encodeMd5(password),
+        RememberMe: false
+    };
+
+    return axiosClient.post(url, obj);
 }
 
 function resetPassword(email) {

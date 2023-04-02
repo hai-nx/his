@@ -9,12 +9,17 @@ const axiosClient = axios.create({
     headers: {
         'content-type': 'application/json',
     },
-    paramsSerializer: params => queryString.stringify(params),
+    // paramsSerializer: params => queryString.stringify(params),
 });
 axiosClient.interceptors.request.use(async (config) => {
+    const { params } = config;
+    if (params && Object.keys(params).length !== 0) {
+        config.paramsSerializer = (params) => queryString.stringify(params);
+    }
+
     // Handle token here ...
     return config;
-})
+});
 axiosClient.interceptors.response.use((response) => {
     if (response && response.data) {
         return response.data;
