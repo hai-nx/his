@@ -99,8 +99,8 @@
 import { useAuth } from "@/stores/auth";
 // import authService from "../../../services/auth";
 // import { authService } from '@/services/auth';
-import authService from "../../../services/authService";
-import security from "../../../utils/security";
+// import authService from "../../../services/authService";
+// import security from "../../../utils/security";
 
 export default {
   name: "login",
@@ -142,18 +142,20 @@ export default {
       }
       return this.errors.password === "";
     },
-    validateBeforeSubmit() {
-      let isValid = true;
-      if (!this.validateUsername()) {
-        isValid = false;
-      }
-      if (!this.validatePassword()) {
-        isValid = false;
-      }
-      return isValid;
+    validate() {
+      return this.validateUsername() && this.validatePassword();
+
+      // let isValid = true;
+      // if (!this.validateUsername()) {
+      //   isValid = false;
+      // }
+      // if (!this.validatePassword()) {
+      //   isValid = false;
+      // }
+      // return isValid;
     },
     async login() {
-      if (this.validateBeforeSubmit()) {
+      if (this.validate()) {
         const payload = {
           username: this.username,
           password: this.password,
@@ -166,16 +168,16 @@ export default {
       }
       
       /* eslint-disable */
-      debugger;
+      // debugger;
 
-      var ss = security.encodeMd5(this.password);
+      // var ss = security.encodeMd5(this.password);
 
-      var ss = await authService.authenticate(
-        this.username,
-        this.password,
-        this.is_remember
-      );
-      console.log(ss);
+      // var ss = await authService.authenticate(
+      //   this.username,
+      //   this.password,
+      //   this.is_remember
+      // );
+      // console.log(ss);
     },
 
     forgotPassword() {
