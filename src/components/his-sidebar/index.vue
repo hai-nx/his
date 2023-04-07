@@ -50,6 +50,43 @@
                 </ul>
             </li>
 
+            <!--Ngoại trú-->
+            <li>
+                <div class="icon-link">
+                    <a href="#">
+                        <i class="bi bi-app-indicator"></i>
+                        <span class="link-name">
+                            Ngoại trú
+                        </span>
+                    </a>
+                    <i class="bi bi-chevron-right arrow" @click="sidebarDropDown($event)"></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link-name" href="#">Ngoại trú</a></li>
+                    <li><a href="#"><router-link :to="{ name: 'outpatient-register' }">Đăng ký khám</router-link></a></li>
+                    <!-- <li><a href="#"><router-link :to="{ name: 'users' }">Người dùng</router-link></a></li> -->
+                </ul>
+            </li>
+
+            <!--Nội trú-->
+            <li>
+                <div class="icon-link">
+                    <a href="#">
+                        <i class="bi bi-clipboard-check"></i>
+                        <span class="link-name">
+                            Nội trú
+                        </span>
+                    </a>
+                    <i class="bi bi-chevron-right arrow" @click="sidebarDropDown($event)"></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link-name" href="#">Nội trú</a></li>
+                    <!-- <li><a href="#"><router-link :to="{ name: 'role' }">Đăng ký khám</router-link></a></li> -->
+                    <!-- <li><a href="#"><router-link :to="{ name: 'users' }">Người dùng</router-link></a></li> -->
+                </ul>
+            </li>
+
+
             <li>
                 <div class="icon-link">
                     <a href="#">
