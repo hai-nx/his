@@ -26,6 +26,8 @@ import departmentDetail     from '@/views/auth/dictionary/departments/detail'
 import rooms                from '@/views/auth/dictionary/rooms'
 import roomDetail           from '@/views/auth/dictionary/rooms/detail'
 
+import outpatientRegister   from '@/views/auth/outpatient/register'
+
 import system               from '@/views/auth/system'
 import users                from '@/views/auth/system/users'
 import user_detail          from '@/views/auth/system/users/detail'
@@ -69,6 +71,8 @@ const routes = [
             path: ':id', name: 'room-detail-edit', component: roomDetail 
         }],
     },
+
+    { path: '/outpatient/register', name: 'outpatient-register', component: outpatientRegister, meta: { layout: layout_auth } },
 
     /*system: hệ thống*/
     { path: '/system', name: 'system', component: system, meta: { layout: layout_auth } },
