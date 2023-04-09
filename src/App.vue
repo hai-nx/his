@@ -25,9 +25,4 @@ html, body,
 #app {
     height: 100%;
 }
-
-:root {
-    --his-background-color: #F0F1F1;
-    --his-color: #333;
-}
 </style>

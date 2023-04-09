@@ -64,7 +64,7 @@
                 <ul class="sub-menu">
                     <li><a class="link-name" href="#">Ngoại trú</a></li>
                     <li><a href="#"><router-link :to="{ name: 'outpatient-register' }">Đăng ký khám</router-link></a></li>
-                    <!-- <li><a href="#"><router-link :to="{ name: 'users' }">Người dùng</router-link></a></li> -->
+                    <li><a href="#"><router-link :to="{ name: 'outpatient-patient' }">Danh sách bệnh nhân</router-link></a></li>
                 </ul>
             </li>
 
@@ -99,7 +99,7 @@
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link-name" href="#">Hệ thống</a></li>
-                    <li><a href="#"><router-link :to="{ name: 'role' }">Vai trò</router-link></a></li>
+                    <li><a href="#"><router-link :to="{ name: 'roles' }">Vai trò</router-link></a></li>
                     <li><a href="#"><router-link :to="{ name: 'users' }">Người dùng</router-link></a></li>
                 </ul>
             </li>
@@ -125,7 +125,7 @@
 
 <script>
 export default {
-    name: "SideBar",
+    name: "HisSideBar",
     data() {
         return {
             isCollapsed: false

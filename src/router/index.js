@@ -11,10 +11,6 @@ import register             from '@/views/public/user/register'
 import error                from '@/views/public/error'
 
 /*auth*/
-
-import role                 from '@/views/auth/role'
-import role_detail          from '@/views/auth/role-detail'
-
 /*auth > admin*/
 import dashboard            from '@/views/auth/dashboard'
 import selDepartment        from '@/views/auth/sel-department'
@@ -26,11 +22,14 @@ import departmentDetail     from '@/views/auth/dictionary/departments/detail'
 import rooms                from '@/views/auth/dictionary/rooms'
 import roomDetail           from '@/views/auth/dictionary/rooms/detail'
 
-import outpatientRegister   from '@/views/auth/outpatient/register'
+import outPatientRegister   from '@/views/auth/outpatient/register'
+import outPatient           from '@/views/auth/outpatient/patient'
 
 import system               from '@/views/auth/system'
 import users                from '@/views/auth/system/users'
-import user_detail          from '@/views/auth/system/users/detail'
+import userDetail           from '@/views/auth/system/users/detail'
+import roles                from '@/views/auth/system/roles'
+import roleDetail           from '@/views/auth/system/roles/detail'
 
 import setting              from '@/views/auth/setting'
 
@@ -40,11 +39,6 @@ const routes = [
     { path: '/login', name: 'login', component: login, meta: { layout: layout_default } },
     { path: '/forgot-password', name: 'forgot_password', component: forgot_password, meta: { layout: layout_default } },
     { path: '/register', name: 'register', component: register, meta: { layout: layout_default } },
-
-    
-    { path: '/role', name: 'role', component: role, meta: { layout: layout_auth } },
-    { path: '/role-detail/:id', name: 'role_detail', component: role_detail, meta: { layout: layout_auth } },
-    { path: '/role-detail/create', name: 'role_detail_create', component: role_detail, meta: { layout: layout_auth } },
     
     /*dashboard: trang chủ và các thông tin liên quan*/
     { path: '/dashboard', name: 'dashboard', component: dashboard, meta: { layout: layout_auth } },
@@ -72,17 +66,24 @@ const routes = [
         }],
     },
 
-    { path: '/outpatient/register', name: 'outpatient-register', component: outpatientRegister, meta: { layout: layout_auth } },
+    { path: '/outpatient/register', name: 'outpatient-register', component: outPatientRegister, meta: { layout: layout_auth } },
+    { path: '/outpatient/patient', name: 'outpatient-patient', component: outPatient, meta: { layout: layout_auth } },
 
     /*system: hệ thống*/
     { path: '/system', name: 'system', component: system, meta: { layout: layout_auth } },
     { path: '/sel-department', name: 'sel-department', component: selDepartment, meta: { layout: layout_auth } },
     { path: '/users', name: 'users', component: users, meta: { layout: layout_auth } },
     { 
-        path: '/users/detail', name: 'user-detail', component: user_detail, meta: { layout: layout_auth },
+        path: '/users/detail', name: 'user-detail', component: userDetail, meta: { layout: layout_auth },
         children: [{ 
-            path: ':id', name: 'user-detail-edit', component: user_detail 
+            path: ':id', name: 'user-detail-edit', component: userDetail 
         }],
+    },
+    { path: '/roles', name: 'roles', component: roles, meta: { layout: layout_auth } },
+    { path: '/roles/detail', name: 'role-detail', component: roleDetail, meta: { layout: layout_auth },
+        children: [
+            { path: ':id', name: 'role-detail-view', component: roleDetail },
+        ]
     },
 
     /*setting: tùy chọn (tách tùy chọn ra khỏi hệ thống)*/

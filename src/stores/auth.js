@@ -12,8 +12,8 @@ export const useAuth = defineStore('auth', {
             token: ''
         },
         working_place: {
-            department_id: '',
-            room_id: ''
+            departmentId: '',
+            roomId: ''
         }
     }),
     getters: {

@@ -19,37 +19,6 @@
         <div class="card">
             <div class="card-body p-0">
                 <div class="table-responsive text-nowrap">
-                    <!-- <table class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th scope="col" width="50px">#</th>
-                                <th scope="col" width="150px">Mã chi nhánh</th>
-                                <th scope="col" min-width="300px">Tên chi nhánh</th>
-                                <th scope="col" width="150px">Địa chỉ</th>
-                                <th scope="col" width="100px">Trạng thái</th>
-                                <th scope="col" width="100px"></th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr v-for="(item, index) in items" :key="item.id" @dblclick="onEdit(item.id)">
-                                <th>{{ index + 1 }}</th>
-                                <td>{{ item.code }}</td>
-                                <td>{{ item.name }}</td>
-                                <td>{{ item.address }}</td>
-                                <td>{{ item.status }}</td>
-                                <td>
-                                    <button class="btn btn-outline-primary border-0 btn-sm me-2" title="Sửa" @click.stop="onEdit(item.id)">
-                                        <i class="bi bi-pen"></i>
-                                    </button>
-
-                                    <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa" @click.stop="onDelete(item.id)">
-                                        <i class="bi bi-x-lg"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table> -->
                     <his-table :items="items" :columns="columns">
                         <template #table-row="{ item }">
                             <td width="1px">
@@ -71,7 +40,8 @@
 </template>
 
 <script>
-import HisTable from '@/components/his-table'
+// import HisTable from '@/components/his-table'
+import { HisTable } from '@/components'
 
 export default {
     data() {
