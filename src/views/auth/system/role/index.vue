@@ -1,12 +1,12 @@
 <template>
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center">
-            <h3>Chi nhánh</h3>
+            <h3>Vai trò</h3>
 
             <div>
                 <a-button type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
-                    Thêm chi nhánh
+                    Thêm vai trò
                 </a-button>
             </div>
         </div>
@@ -22,16 +22,9 @@
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'action'">
                     <span>
-                        <button class="btn btn-outline-primary border-0 btn-sm me-2" title="Sửa" @click="handleEdit(record)">
-                            <i class="bi bi-pen"></i>
-                        </button>
-
-                        <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa" @click="handleDelete(record)">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                        <!-- <a class="ant-dropdown-link" @click="handleDelete(record)">Xóa</a>
+                        <a class="ant-dropdown-link" @click="handleDelete(record)">Xóa</a>
                         <a-divider type="vertical" />
-                        <a class="ant-dropdown-link" @click="handleEdit(record)">Sửa</a> -->
+                        <a class="ant-dropdown-link" @click="handleEdit(record)">Sửa</a>
                     </span>
                 </template>
             </template>
@@ -50,22 +43,22 @@ export default defineComponent({
         const router = useRouter();
         const items = ref([])
         const columns = ref([
-            { title: 'Mã khoa', key: 'code', dataIndex: 'code', width: 200 },
-            { title: 'Tên khoa', key: 'name', dataIndex: 'name', width: 500 },
+            { title: 'Mã vai trò', key: 'code', dataIndex: 'code', width: 200 },
+            { title: 'Tên vai trò', key: 'name', dataIndex: 'name', width: 500 },
             { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
             { title: 'Ngừng sử dụng', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 200 }
         ])
 
         const handleAdd = () => {
-            router.push('branch-detail');
+            router.push({ name: 'role-detail' });
         }
 
         const handleDelete = (item) => {
             Modal.confirm({
-                content: 'Xác nhận xóa chi nhánh [' + item.code + ']?',
-                okText: 'Đồng ý',
-                cancelText: 'Hủy',
+                content: 'Xac nhan xoa vai tro [' + item.code + ']?',
+                okText: 'Dong y',
+                cancelText: 'Huy',
                 onOk() {
                     roleService.delete(item.id)
                 },

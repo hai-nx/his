@@ -19,6 +19,7 @@
 
 <script>
 export default {
+    name: 'HisNav',
     data() {
         return {}
     }

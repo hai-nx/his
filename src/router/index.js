@@ -11,27 +11,17 @@ import register             from '@/views/public/user/register'
 import error                from '@/views/public/error'
 
 /*auth*/
-
-import role                 from '@/views/auth/role'
-import role_detail          from '@/views/auth/role-detail'
-
 /*auth > admin*/
 import dashboard            from '@/views/auth/dashboard'
 import selDepartment        from '@/views/auth/sel-department'
 
-import branchs              from '@/views/auth/dictionary/branchs'
-import branchDetail         from '@/views/auth/dictionary/branchs/detail'
-import departments          from '@/views/auth/dictionary/departments'
-import departmentDetail     from '@/views/auth/dictionary/departments/detail'
-import rooms                from '@/views/auth/dictionary/rooms'
-import roomDetail           from '@/views/auth/dictionary/rooms/detail'
+import outPatientRegister   from '@/views/auth/outpatient/register'
+import outPatient           from '@/views/auth/outpatient/patient'
 
-import outpatientRegister   from '@/views/auth/outpatient/register'
 
-import system               from '@/views/auth/system'
-import users                from '@/views/auth/system/users'
-import user_detail          from '@/views/auth/system/users/detail'
 
+import dictionaries         from '@/router/dictionary'
+import systems              from '@/router/system'
 import setting              from '@/views/auth/setting'
 
 const routes = [
@@ -40,51 +30,16 @@ const routes = [
     { path: '/login', name: 'login', component: login, meta: { layout: layout_default } },
     { path: '/forgot-password', name: 'forgot_password', component: forgot_password, meta: { layout: layout_default } },
     { path: '/register', name: 'register', component: register, meta: { layout: layout_default } },
-
-    
-    { path: '/role', name: 'role', component: role, meta: { layout: layout_auth } },
-    { path: '/role-detail/:id', name: 'role_detail', component: role_detail, meta: { layout: layout_auth } },
-    { path: '/role-detail/create', name: 'role_detail_create', component: role_detail, meta: { layout: layout_auth } },
     
     /*dashboard: trang chủ và các thông tin liên quan*/
     { path: '/dashboard', name: 'dashboard', component: dashboard, meta: { layout: layout_auth } },
-
-    /*dictionary: danh mục*/
-    { path: '/branchs', name: 'branch', component: branchs, meta: { layout: layout_auth } },
-    { 
-        path: '/branchs/detail', name: 'branch-detail', component: branchDetail, meta: { layout: layout_auth },
-        children: [{ 
-            path: ':id', name: 'branch-detail-edit', component: branchDetail 
-        }],
-    },
-    { path: '/departments', name: 'department', component: departments, meta: { layout: layout_auth } },
-    { 
-        path: '/departments/detail', name: 'department-detail', component: departmentDetail, meta: { layout: layout_auth },
-        children: [{ 
-            path: ':id', name: 'department-detail-edit', component: departmentDetail 
-        }],
-    },
-    { path: '/rooms', name: 'room', component: rooms, meta: { layout: layout_auth } },
-    { 
-        path: '/rooms/detail', name: 'room-detail', component: roomDetail, meta: { layout: layout_auth },
-        children: [{ 
-            path: ':id', name: 'room-detail-edit', component: roomDetail 
-        }],
-    },
-
-    { path: '/outpatient/register', name: 'outpatient-register', component: outpatientRegister, meta: { layout: layout_auth } },
-
-    /*system: hệ thống*/
-    { path: '/system', name: 'system', component: system, meta: { layout: layout_auth } },
     { path: '/sel-department', name: 'sel-department', component: selDepartment, meta: { layout: layout_auth } },
-    { path: '/users', name: 'users', component: users, meta: { layout: layout_auth } },
-    { 
-        path: '/users/detail', name: 'user-detail', component: user_detail, meta: { layout: layout_auth },
-        children: [{ 
-            path: ':id', name: 'user-detail-edit', component: user_detail 
-        }],
-    },
 
+    { path: '/outpatient/register', name: 'outpatient-register', component: outPatientRegister, meta: { layout: layout_auth } },
+    { path: '/outpatient/patient', name: 'outpatient-patient', component: outPatient, meta: { layout: layout_auth } },
+
+    ...dictionaries,
+    ...systems,
     /*setting: tùy chọn (tách tùy chọn ra khỏi hệ thống)*/
     { path: '/setting', name: 'setting', component: setting, meta: { layout: layout_auth } },
 

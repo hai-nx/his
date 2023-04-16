@@ -41,3 +41,18 @@ npm install --save @popperjs/core
 npm install bootstrap-icons 
 ```
 
+### Ant design
+```
+npm install ant-design-vue --save
+```
+
+### Typescript
+```
+npm install typescript
+```
+
+### Loader
+```
+npm i vue-loader
+```
+

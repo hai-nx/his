@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { authService } from '@/services/auth'
+import { authService } from '@/services/auth-service'
 
 export const useAuth = defineStore('auth', {
     state: () => ({
@@ -12,8 +12,8 @@ export const useAuth = defineStore('auth', {
             token: ''
         },
         working_place: {
-            department_id: '',
-            room_id: ''
+            departmentId: '',
+            roomId: ''
         }
     }),
     getters: {
@@ -22,7 +22,6 @@ export const useAuth = defineStore('auth', {
     },
     actions: {
         login(payload) {
-
             var res = authService.login(payload.username, payload.password);
             if (res) {
                 this.isAuthenticated = true;
