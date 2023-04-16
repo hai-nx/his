@@ -51,3 +51,8 @@ npm install ant-design-vue --save
 npm install typescript
 ```
 
+### Loader
+```
+npm i vue-loader
+```
+

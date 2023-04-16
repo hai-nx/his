@@ -6,7 +6,7 @@
             <div>
                 <a-button type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
-                    Thêm chi nhánh
+                    <span>Thêm chi nhánh</span>
                 </a-button>
             </div>
         </div>
@@ -29,9 +29,6 @@
                         <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa" @click="handleDelete(record)">
                             <i class="bi bi-x-lg"></i>
                         </button>
-                        <!-- <a class="ant-dropdown-link" @click="handleDelete(record)">Xóa</a>
-                        <a-divider type="vertical" />
-                        <a class="ant-dropdown-link" @click="handleEdit(record)">Sửa</a> -->
                     </span>
                 </template>
             </template>
@@ -43,7 +40,7 @@
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Modal } from 'ant-design-vue'
-import roleService from '@/services/system/role-service.js'
+import branchService from '@/services/dictionary/branch-service'
 
 export default defineComponent({
     setup() {
@@ -58,7 +55,7 @@ export default defineComponent({
         ])
 
         const handleAdd = () => {
-            router.push('branch-detail');
+            router.push({ name: 'branch-detail'});
         }
 
         const handleDelete = (item) => {
@@ -67,7 +64,7 @@ export default defineComponent({
                 okText: 'Đồng ý',
                 cancelText: 'Hủy',
                 onOk() {
-                    roleService.delete(item.id)
+                    branchService.delete(item.id)
                 },
                 onCancel() {
                      Modal.destroyAll();
@@ -89,7 +86,7 @@ export default defineComponent({
         }
     },
     mounted() {
-        roleService.getAll().then(res => { this.items = res.result });
+        branchService.getAll().then(res => { console.log('xxx'); this.items = res.result });
     },
     components: {}
 }); 

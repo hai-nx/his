@@ -120,15 +120,6 @@ export default {
         },
         validate() {
             return this.validateUsername() && this.validatePassword();
-
-            // let isValid = true;
-            // if (!this.validateUsername()) {
-            //   isValid = false;
-            // }
-            // if (!this.validatePassword()) {
-            //   isValid = false;
-            // }
-            // return isValid;
         },
         async login() {
             if (this.validate()) {

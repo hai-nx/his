@@ -59,6 +59,8 @@
 </template>
 
 <script>
+import roleService from '@/services/system/role-service.js'
+
 export default {
     data() {
         return {
@@ -72,14 +74,14 @@ export default {
         }
     },
     mounted() {
-
+        this.item = roleService.getById(this.item.id);
     },
     methods: {
         onSave() {
-            console.log(this.item)
+            roleService.createOrEdit(this.item)
         },
         onCancel() {
-            this.$router.push({ name: 'roles' })
+            this.$router.push({ name: 'role' })
         },
     },
 }

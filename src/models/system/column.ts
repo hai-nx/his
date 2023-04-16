@@ -1,4 +1,4 @@
-export class RoleModel {
+export class ColumnModel {
     id: string;
     code: string;
     name: string;
@@ -14,4 +14,4 @@ export class RoleModel {
     }
 }
 
-export default RoleModel
+export default ColumnModel
