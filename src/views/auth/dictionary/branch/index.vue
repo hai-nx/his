@@ -1,7 +1,7 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid mt-3">
         <div class="d-flex justify-content-between align-items-center">
-            <h3>Chi nhánh</h3>
+            <h3>Danh mục chi nhánh</h3>
 
             <div>
                 <a-button type="primary" @click="handleAdd">
@@ -47,8 +47,8 @@ export default defineComponent({
         const router = useRouter();
         const items = ref([])
         const columns = ref([
-            { title: 'Mã khoa', key: 'code', dataIndex: 'code', width: 200 },
-            { title: 'Tên khoa', key: 'name', dataIndex: 'name', width: 500 },
+            { title: 'Mã chi nhánh', key: 'code', dataIndex: 'code', width: 200 },
+            { title: 'Tên chi nhánh', key: 'name', dataIndex: 'name', width: 500 },
             { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
             { title: 'Ngừng sử dụng', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 200 }
@@ -74,7 +74,7 @@ export default defineComponent({
         }
 
         const handleEdit = (item) => {
-            router.push({ name: 'role-detail-view', params: { id: item.id } })
+            router.push({ name: 'branch-detail-view', params: { id: item.id } })
         }
 
         return {
@@ -86,7 +86,7 @@ export default defineComponent({
         }
     },
     mounted() {
-        branchService.getAll().then(res => { console.log('xxx'); this.items = res.result });
+        branchService.getAll().then(res => { this.items = res.result });
     },
     components: {}
 }); 
