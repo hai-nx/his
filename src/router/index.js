@@ -13,7 +13,7 @@ import error                from '@/views/public/error'
 /*auth*/
 /*auth > admin*/
 import dashboard            from '@/views/auth/dashboard'
-import selDepartment        from '@/views/auth/sel-department'
+import selDepartment        from '@/views/auth/setting/workplace'
 
 import outPatientRegister   from '@/views/auth/outpatient/register'
 import outPatient           from '@/views/auth/outpatient/patient'

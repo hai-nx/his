@@ -30,10 +30,46 @@
             </a-menu>
         </a-layout-sider>
         <a-layout>
-            <a-layout-header style="background: #fff; padding: 0">
-                <menu-unfold-outlined v-if="collapsed" class="trigger" @click="toggleCollapsed" />
-                <menu-fold-outlined v-else class="trigger" @click="toggleCollapsed" />
+            <a-layout-header class="his-layout-header">
+                <div 
+                    class="trigger" 
+                    @click="toggleCollapsed">
+                    <menu-unfold-outlined v-if="collapsed"/>
+                    <menu-fold-outlined v-else/>
+                </div>
+
+                <div class="his-layout-header__extra">
+                    <a-dropdown>
+                        <a-button type="text">
+                            <h6>tmp_USER</h6>
+                        </a-button>
+                        <template #overlay>
+                            <a-menu @click="handleMenuClick">
+                                <a-menu-item key="1">
+                                    <template #icon>
+                                        <desktop-outlined/>
+                                    </template>
+                                    Chọn đơn vị làm việc
+                                </a-menu-item>
+                                <a-menu-item key="2">
+                                    <template #icon>
+                                        <user-outlined/>
+                                    </template>
+                                    Tài khoản
+                                </a-menu-item>
+                                <a-menu-divider />
+                                <a-menu-item key="3" danger>
+                                    <template #icon>
+                                        <logout-outlined/>
+                                    </template>
+                                    Đăng xuất
+                                </a-menu-item>
+                            </a-menu>
+                        </template>
+                    </a-dropdown>
+                </div>
             </a-layout-header>
+
             <a-layout-content>
                 <slot></slot>
             </a-layout-content>
@@ -45,18 +81,28 @@
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue';
+import { MenuUnfoldOutlined, MenuFoldOutlined, LogoutOutlined, UserOutlined, DesktopOutlined } from '@ant-design/icons-vue';
 import { useLayoutSider } from '@/stores/layout-sider.js'
 
 export default defineComponent({
     setup() {
-        const router = useRouter()
+        const router = useRouter();
         const layoutSiderStore = useLayoutSider();
-        const { collapsed, selectedKeys, openKeys, items } = storeToRefs(layoutSiderStore)
-        const { toggleCollapsed } = layoutSiderStore
+        const { collapsed, selectedKeys, openKeys, items } = storeToRefs(layoutSiderStore);
+        const { toggleCollapsed } = layoutSiderStore;
 
         const handleClick = (name) => {
             router.push({name: name});
+        }
+
+        const handleMenuClick = e => {
+            if (e.key === '1') {
+                router.push({ name: 'sel-department' })
+            } else if (e.key === '2') {
+                router.push({ name: 'setting' })
+            } else if (e.key === '3') {
+                router.push({ name: 'login' })
+            }
         }
 
         return {
@@ -65,12 +111,16 @@ export default defineComponent({
             openKeys,
             items,
             toggleCollapsed,
-            handleClick
+            handleClick,
+            handleMenuClick
         }
     },
     components: {
         MenuUnfoldOutlined,
         MenuFoldOutlined,
+        LogoutOutlined,
+        UserOutlined,
+        DesktopOutlined
     }
 })
 </script>
@@ -90,6 +140,29 @@ export default defineComponent({
     background: #141414;
 }
 
+.logo {
+    height: 32px;
+    background: rgba(255, 255, 255, 0.3);
+    margin: 16px;
+}
+
+.site-layout 
+.site-layout-background {
+    background: #fff;
+}
+
+
+.his-layout-header {
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px;
+}
+
+.his-layout-header__extra {
+    padding: 0 24px;
+}
+
 .trigger {
     font-size: 18px;
     line-height: 64px;
@@ -100,15 +173,5 @@ export default defineComponent({
 
 .trigger:hover {
     color: #1890ff;
-}
-
-.logo {
-    height: 32px;
-    background: rgba(255, 255, 255, 0.3);
-    margin: 16px;
-}
-
-.site-layout .site-layout-background {
-    background: #fff;
 }
 </style>

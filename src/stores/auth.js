@@ -41,9 +41,14 @@ export const useAuth = defineStore('auth', {
                 fullname: '',
                 token: ''
             };
+
+            
         },
         resetPassword(payload) {
             authService.resetPassword(payload);
+        },
+        workplaceSettings(payload) {
+            console.log(payload);
         }
     }
 });

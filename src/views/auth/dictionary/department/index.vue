@@ -1,12 +1,12 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid mt-3">
         <div class="d-flex justify-content-between align-items-center">
-            <h3>Chi nhánh</h3>
+            <h3>Danh mục khoa</h3>
 
             <div>
                 <a-button type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
-                    Thêm chi nhánh
+                    <span>Thêm khoa</span>
                 </a-button>
             </div>
         </div>
@@ -29,9 +29,6 @@
                         <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa" @click="handleDelete(record)">
                             <i class="bi bi-x-lg"></i>
                         </button>
-                        <!-- <a class="ant-dropdown-link" @click="handleDelete(record)">Xóa</a>
-                        <a-divider type="vertical" />
-                        <a class="ant-dropdown-link" @click="handleEdit(record)">Sửa</a> -->
                     </span>
                 </template>
             </template>
@@ -43,7 +40,7 @@
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Modal } from 'ant-design-vue'
-import roleService from '@/services/system/role-service.js'
+import departmentService from '@/services/dictionary/department-service'
 
 export default defineComponent({
     setup() {
@@ -58,7 +55,7 @@ export default defineComponent({
         ])
 
         const handleAdd = () => {
-            router.push('branch-detail');
+            router.push({ name: 'department-detail'});
         }
 
         const handleDelete = (item) => {
@@ -67,7 +64,7 @@ export default defineComponent({
                 okText: 'Đồng ý',
                 cancelText: 'Hủy',
                 onOk() {
-                    roleService.delete(item.id)
+                    departmentService.delete(item.id)
                 },
                 onCancel() {
                      Modal.destroyAll();
@@ -77,7 +74,7 @@ export default defineComponent({
         }
 
         const handleEdit = (item) => {
-            router.push({ name: 'role-detail-view', params: { id: item.id } })
+            router.push({ name: 'department-detail-view', params: { id: item.id } })
         }
 
         return {
@@ -88,9 +85,12 @@ export default defineComponent({
             handleEdit
         }
     },
-    mounted() {
-        roleService.getAll().then(res => { this.items = res.result });
+    created() {
+        departmentService
+            .getAll()
+            .then(res => { 
+                this.items = res.result 
+            });
     },
-    components: {}
 }); 
 </script>
