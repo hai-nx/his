@@ -40,7 +40,8 @@
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Modal } from 'ant-design-vue'
-import departmentService from '@/services/dictionary/department-service'
+// import departmentService from '@/services/dictionary/department-service'
+import { departmentService } from '@/services'
 
 export default defineComponent({
     setup() {

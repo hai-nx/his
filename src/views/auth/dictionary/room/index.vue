@@ -1,14 +1,12 @@
 <template>
     <div class="container-fluid mt-3">
-        
-
         <div class="d-flex justify-content-between align-items-center">
-            <h3>Danh mục chi nhánh</h3>
+            <h3>Danh mục khoa</h3>
 
             <div>
                 <a-button type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
-                    <span>Thêm chi nhánh</span>
+                    <span>Thêm khoa</span>
                 </a-button>
             </div>
         </div>
@@ -42,22 +40,22 @@
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Modal } from 'ant-design-vue'
-import branchService from '@/services/dictionary/branch-service'
+import { roomService } from '@/services'
 
 export default defineComponent({
     setup() {
         const router = useRouter();
         const items = ref([])
         const columns = ref([
-            { title: 'Mã chi nhánh', key: 'code', dataIndex: 'code', width: 200 },
-            { title: 'Tên chi nhánh', key: 'name', dataIndex: 'name', width: 500 },
+            { title: 'Mã phòng', key: 'code', dataIndex: 'code', width: 200 },
+            { title: 'Tên phòng', key: 'name', dataIndex: 'name', width: 500 },
             { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
             { title: 'Ngừng sử dụng', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 200 }
         ])
 
         const handleAdd = () => {
-            router.push({ name: 'branch-detail'});
+            router.push({ name: 'room-detail'});
         }
 
         const handleDelete = (item) => {
@@ -66,7 +64,7 @@ export default defineComponent({
                 okText: 'Đồng ý',
                 cancelText: 'Hủy',
                 onOk() {
-                    branchService.delete(item.id)
+                    roomService.delete(item.id)
                 },
                 onCancel() {
                      Modal.destroyAll();
@@ -76,7 +74,7 @@ export default defineComponent({
         }
 
         const handleEdit = (item) => {
-            router.push({ name: 'branch-detail-view', params: { id: item.id } })
+            router.push({ name: 'room-detail-view', params: { id: item.id } })
         }
 
         return {
@@ -87,9 +85,12 @@ export default defineComponent({
             handleEdit
         }
     },
-    mounted() {
-        branchService.getAll().then(res => { this.items = res.result });
+    created() {
+        roomService
+            .getAll()
+            .then(res => { 
+                this.items = res.result 
+            });
     },
-    components: {}
 }); 
 </script>

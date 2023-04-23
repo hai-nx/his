@@ -2,7 +2,7 @@ import axiosClient from '@/utils/axiosClient'
 
 const branchService = {
     getAll() {
-        const url = 'api/Branch/GetAll'
+        const url = 'api/SBranch/GetAll'
         const obj = {
             codeFilter: '',
             nameFilter: ''
@@ -10,13 +10,13 @@ const branchService = {
         return axiosClient.get(url, obj)
     },
     getById(id) {
-        return axiosClient.get('api/Branch/GetById', id)
+        return axiosClient.get('api/SBranch/GetById', id)
     },
     createOrEdit(input) {
-        return axiosClient.post('api/Branch/CreateOrEdit', input)
+        return axiosClient.post('api/SBranch/CreateOrEdit', input)
     },
     delete(id) {
-        return axiosClient.post('api/Branch/Delete', id)
+        return axiosClient.post('api/SBranch/Delete', id)
     }
 }
 

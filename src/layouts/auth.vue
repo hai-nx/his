@@ -22,7 +22,7 @@
                                 <span>{{ item.title }}</span>
                             </template>
                             <template v-for="sub in item.children" :key="sub.key">
-                                <a-menu-item @click="handleClick(sub.router)">{{ sub.title }}</a-menu-item>
+                                <a-menu-item @click.stop="handleClick(sub.router)">{{ sub.title }}</a-menu-item>
                             </template>
                         </a-sub-menu>
                     </template>
