@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid mt-3">
         <div class="d-flex justify-content-between align-items-center">
             <h3>Vai trò</h3>
 
@@ -22,9 +22,13 @@
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'action'">
                     <span>
-                        <a class="ant-dropdown-link" @click="handleDelete(record)">Xóa</a>
-                        <a-divider type="vertical" />
-                        <a class="ant-dropdown-link" @click="handleEdit(record)">Sửa</a>
+                        <button class="btn btn-outline-primary border-0 btn-sm me-2" title="Sửa" @click="handleEdit(record)">
+                            <i class="bi bi-pen"></i>
+                        </button>
+
+                        <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa" @click="handleDelete(record)">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
                     </span>
                 </template>
             </template>

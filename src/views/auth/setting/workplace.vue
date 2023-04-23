@@ -3,7 +3,7 @@
         <div class="mx-auto mt-5 col-md-6">
             <a-card title="Chọn đơn vị làm việc">
                 <a-input-group class="mb-3" v-if="branchOptions.length > 1">
-                    <label>Chi nhanhs</label>
+                    <label>Chi nhánh</label>
                     <a-select class="w-100" allow-clear show-search :options="branchOptions" v-model:value="branchValue"></a-select>
                 </a-input-group>
                 <a-input-group class="mb-3">
@@ -11,7 +11,7 @@
                     <a-select class="w-100" allow-clear show-search :options="departmentOptions" v-model:value="departmentValue"></a-select>
                 </a-input-group>
                 <a-input-group class="mb-3">
-                    <label>Phongf</label>
+                    <label>Phòng, buồng</label>
                     <a-select class="w-100" allow-clear show-search :options="roomOptions" v-model:value="roomValue"></a-select>
                 </a-input-group>
 
@@ -28,7 +28,7 @@
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '@/stores/auth'
-import branchService from '@/services/dictionary/branch-service'
+import { branchService, departmentService, roomService } from '@/services'
 
 export default defineComponent({
     setup() {
@@ -76,6 +76,28 @@ export default defineComponent({
                     this.branchValue = this.branchOptions[0].value
                 }
             })  
+        
+        departmentService
+            .getAll()
+            .then(res => {
+                this.departmentOptions = res.result.map((item) => {
+                    return {
+                        value: item.id,
+                        label: item.name
+                    }
+                })
+            })
+
+        roomService
+            .getAll()
+            .then(res => {
+                this.roomOptions = res.result.map((item) => {
+                    return {
+                        value: item.id,
+                        label: item.name
+                    }
+                })
+            })
     },
     // mounted() {
     //     branchService
