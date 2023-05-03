@@ -1,13 +1,4 @@
-:root {
-    --his-background-color: #F7F7F7;
-    --his-background-color-content: #FFFFFF;
-    --his-color: #333;
-}
-
-.his-bg {
-    background-color: var(--his-background-color);
-}
-
-.his-bg-content {
-    background-color: var(--his-background-color-content);
+html, body, 
+#app {
+    height: 100%;
 }

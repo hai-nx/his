@@ -20,15 +20,6 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-
-### Router
-```
-npm install vue-router@4
-```
-
 ### Pinia
 ```
 npm install pinia
@@ -46,13 +37,11 @@ npm install bootstrap-icons
 npm install ant-design-vue --save
 ```
 
-### Typescript
+### Axios
 ```
-npm install typescript
-```
-
-### Loader
-```
-npm i vue-loader
+npm install axios
+npm install query-string
 ```
 
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -1,8 +1,9 @@
 <template>
     <a-layout class="h-100">
         <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
+
             <div class="logo"></div>
-            <!--menu-->
+
             <a-menu theme="dark" mode="inline" v-model:openKeys="openKeys" v-model:selectedKeys="selectedKeys">
                 <template v-for="item in items" :key="item.key">
                     <template v-if="!item.children">
@@ -29,38 +30,37 @@
                 </template>
             </a-menu>
         </a-layout-sider>
+
         <a-layout>
             <a-layout-header class="his-layout-header">
-                <div 
-                    class="trigger" 
-                    @click="toggleCollapsed">
-                    <menu-unfold-outlined v-if="collapsed"/>
-                    <menu-fold-outlined v-else/>
+                <div class="trigger" @click="toggleCollapsed">
+                    <menu-unfold-outlined v-if="collapsed" />
+                    <menu-fold-outlined v-else />
                 </div>
 
                 <div class="his-layout-header__extra">
                     <a-dropdown>
                         <a-button type="text">
-                            <h6>tmp_USER</h6>
+                            <h6>{{ user.username }}</h6>
                         </a-button>
                         <template #overlay>
                             <a-menu @click="handleMenuClick">
                                 <a-menu-item key="1">
                                     <template #icon>
-                                        <desktop-outlined/>
+                                        <desktop-outlined />
                                     </template>
                                     Chọn đơn vị làm việc
                                 </a-menu-item>
                                 <a-menu-item key="2">
                                     <template #icon>
-                                        <user-outlined/>
+                                        <user-outlined />
                                     </template>
                                     Tài khoản
                                 </a-menu-item>
                                 <a-menu-divider />
                                 <a-menu-item key="3" danger>
                                     <template #icon>
-                                        <logout-outlined/>
+                                        <logout-outlined />
                                     </template>
                                     Đăng xuất
                                 </a-menu-item>
@@ -70,42 +70,51 @@
                 </div>
             </a-layout-header>
 
-            <a-layout-content>
+            <a-layout-content class="px-3 py-3">
                 <slot></slot>
             </a-layout-content>
         </a-layout>
     </a-layout>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
+<script lang="ts">
+import { defineComponent, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
+import { useAuth } from '@/stores/auth'
+import { useLayoutMenu } from '@/stores/layout-menu'
 import { MenuUnfoldOutlined, MenuFoldOutlined, LogoutOutlined, UserOutlined, DesktopOutlined } from '@ant-design/icons-vue';
-import { useLayoutSider } from '@/stores/layout-sider.js'
+
 
 export default defineComponent({
+    name: 'AuthLayout',
     setup() {
         const router = useRouter();
-        const layoutSiderStore = useLayoutSider();
+        const authStore = useAuth();
+        const layoutSiderStore = useLayoutMenu();
         const { collapsed, selectedKeys, openKeys, items } = storeToRefs(layoutSiderStore);
         const { toggleCollapsed } = layoutSiderStore;
+        const user = computed(() => authStore.user);
 
-        const handleClick = (name) => {
-            router.push({name: name});
+        // xử lý khi chọn item
+        const handleClick = (key: string) => {
+            if (key !== '')
+                router.push({ name: key });
         }
 
-        const handleMenuClick = e => {
-            if (e.key === '1') {
-                router.push({ name: 'sel-department' })
-            } else if (e.key === '2') {
-                router.push({ name: 'setting' })
-            } else if (e.key === '3') {
-                router.push({ name: 'login' })
-            }
+        const handleMenuClick = (e: object) => {
+            // if (e.key === '1') {
+            console.log(e);
+            //     router.push({ name: 'sel-department' })
+            // } else if (e.key === '2') {
+            //     router.push({ name: 'setting' })
+            // } else if (e.key === '3') {
+            //     router.push({ name: 'login' })
+            // }
         }
 
         return {
+            user,
             collapsed,
             selectedKeys,
             openKeys,
@@ -122,7 +131,7 @@ export default defineComponent({
         UserOutlined,
         DesktopOutlined
     }
-})
+});
 </script>
 
 <style scoped>
@@ -146,8 +155,7 @@ export default defineComponent({
     margin: 16px;
 }
 
-.site-layout 
-.site-layout-background {
+.site-layout .site-layout-background {
     background: #fff;
 }
 
