@@ -1,28 +1,21 @@
 <template>
     <component :is="layout">
-        <router-view/>
+        <router-view />
     </component>
 </template>
 
-<script>
-import { computed } from 'vue'
+<script lang="ts">
+import { defineComponent, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { layout_default } from '@/utils/constant'
+import { LAYOUT_DEFAULT } from '@/utils/constant'
 
-export default {
-  name: 'App',
-  setup() {
+export default defineComponent({
+    name: 'App',
+    setup() {
         const route = useRoute();
         return {
-            layout: computed(() => route.meta.layout || layout_default)
+            layout: computed(() => route.meta.layout || LAYOUT_DEFAULT)
         }
     }
-}
+});
 </script>
-
-<style>
-html, body, 
-#app {
-    height: 100%;
-}
-</style>
