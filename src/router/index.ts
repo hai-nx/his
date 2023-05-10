@@ -8,14 +8,12 @@ import loginView from '@/views/public/LoginView.vue'
 import dashboardView from '@/views/auth/system/dashboard/index.vue'
 import workplaceView from '@/views/auth/WorkplaceView.vue'
 
-import branchView from '@/views/auth/dictionary/BranchView.vue'
-import branchDetailView from '@/views/auth/dictionary/BranchDetailView.vue'
-import departmentView from '@/views/auth/dictionary/DepartmentView.vue'
-import departmentDetailView from '@/views/auth/dictionary/DepartmentDetailView.vue'
-import roomView from '@/views/auth/dictionary/RoomView.vue'
-import roomDetailView from '@/views/auth/dictionary/RoomDetailView.vue'
-import icdView from '@/views/auth/dictionary/ICDView.vue'
-import icdDetailView from '@/views/auth/dictionary/ICDDetailView.vue'
+import branchView       from '@/views/auth/dictionary/branch/BranchView.vue'
+import departmentView   from '@/views/auth/dictionary/department/DepartmentView.vue'
+import hospitalView     from '@/views/auth/dictionary/hospital/HospitalView.vue'
+import icdView          from '@/views/auth/dictionary/icd/ICDView.vue'
+import jobView          from '@/views/auth/dictionary/job/JobView.vue'
+import roomView         from '@/views/auth/dictionary/room/RoomView.vue'
 
 import otherView from '@/views/auth/dictionary/OtherView.vue'
 
@@ -31,29 +29,13 @@ const routes: Array<RouteRecordRaw> = [
 
     { path: '/dictionary', name: 'dictionary', component: otherView, meta: { layout: LAYOUT_AUTH } },
     { path: '/branch', name: 'branch', component: branchView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/branch/detail', name: 'branch-detail', component: branchDetailView, meta: { layout: LAYOUT_AUTH },
-        children: [
-            { path: ':id', name: 'branch-detail-view', component: branchDetailView },
-        ]
-    },
     { path: '/department', name: 'department', component: departmentView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/department/detail', name: 'department-detail', component: departmentDetailView, meta: { layout: LAYOUT_AUTH },
-        children: [
-            { path: ':id', name: 'department-detail-view', component: departmentDetailView },
-        ]
-    },
-    { path: '/room', name: 'room', component: roomView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/room/detail', name: 'room-detail', component: roomDetailView, meta: { layout: LAYOUT_AUTH },
-        children: [
-            { path: ':id', name: 'room-detail-view', component: roomDetailView },
-        ]
-    },
+    { path: '/hospital', name: 'hospital', component: hospitalView, meta: { layout: LAYOUT_AUTH } },
     { path: '/icd', name: 'icd', component: icdView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/icd/detail', name: 'icd-detail', component: icdDetailView, meta: { layout: LAYOUT_AUTH },
-        children: [
-            { path: ':id', name: 'icd-detail-view', component: icdDetailView },
-        ]
-    },
+    { path: '/job', name: 'job', component: jobView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/room', name: 'room', component: roomView, meta: { layout: LAYOUT_AUTH } },
+    
+    { path: '/icd', name: 'icd', component: icdView, meta: { layout: LAYOUT_AUTH } },
 
     { path: '/error', name: 'error', component: errorView, meta: { layout: LAYOUT_DEFAULT } }
 ]

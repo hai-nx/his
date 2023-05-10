@@ -37,21 +37,23 @@
                 </template>
             </template>
         </a-table>
+
+        <teleport to="body">
+            <RoomDetailView :visible="visible" :data="record" @toggle="handleToggle" />
+        </teleport>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { Modal } from 'ant-design-vue'
-import RoomModel from '@/models/dictionary/RoomModel'
-import roomService from '@/services/dictionary/room-service';
-
+import { RoomModel } from '@/models'
+import { roomService } from '@/services';
+import RoomDetailView from './RoomDetailView.vue'
 
 export default defineComponent({
-    name: 'ICD10View',
+    name: 'RoomView',
     setup() {
-        const router = useRouter();
         const columns = ref([
             { title: 'Mã phòng', key: 'code', dataIndex: 'code', width: 200 },
             { title: 'Tên phòng', key: 'name', dataIndex: 'name', width: 500 },
@@ -59,50 +61,82 @@ export default defineComponent({
             { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 100 }
         ]);
-        const items = ref<RoomModel[]>([])
+        const items = ref<RoomModel[]>([]);
+        const record = ref<RoomModel>();
+        const visible = ref<boolean>(false)
 
-        const handleAdd = () => {
-            router.push({ name: 'room-detail' });
-        }
-
-        const handleDelete = (item: RoomModel) => {
-            Modal.confirm({
-                content: 'Xác nhận xóa chi nhánh [' + item.code + ']?',
-                okText: 'Đồng ý',
-                cancelText: 'Hủy',
-                onOk() {
-                    roomService.delete(item.id)
-                },
-                onCancel() {
-                    Modal.destroyAll();
-                },
-            });
-
-        }
-
-        const handleEdit = (item: RoomModel) => {
-            router.push({ name: 'room-detail-view', params: { id: item.id } })
-        }
-
+        // lấy dữ liệu
         const handleLoad = () => {
+            items.value = [];
             roomService.getAll()
                 .then(res => {
                     items.value = res.data.result
                 });
         }
 
+        // thêm mới
+        const handleAdd = () => {
+            show(true, undefined);
+        }
+
+        // sửa
+        const handleEdit = (item: RoomModel) => {
+            show(true, item);
+        }
+
+        // xóa
+        const handleDelete = (item: RoomModel) => {
+            if (item.id !== undefined) {
+                let id = item.id!;
+                Modal.confirm({
+                    content: 'Bạn có thực sự muốn xóa phòng <' + item.code + '> đã chọn không?',
+                    okText: 'Đồng ý',
+                    cancelText: 'Bỏ qua',
+                    onOk() {
+                        roomService.delete(id)
+                            .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
+                            .finally(() => {
+                                handleLoad();
+                            });
+                    },
+                    onCancel() {
+                        Modal.destroyAll();
+                    }
+                });
+            }
+        }
+
+        // ẩn / hiện chi tiết
+        const handleToggle = (result: boolean) => {
+            visible.value = !visible.value;
+            if (result) {
+                record.value = undefined;
+                handleLoad();
+            }
+        }
+
+        const show = (v: boolean, r: RoomModel | undefined) => {
+            record.value = r;
+            visible.value = v;
+        }
 
         return {
             items,
+            record,
             columns,
+            visible,
             handleAdd,
             handleDelete,
             handleEdit,
-            handleLoad
+            handleLoad,
+            handleToggle
         }
     },
     mounted() {
         this.handleLoad();
+    },
+    components: {
+        RoomDetailView
     }
 });
 </script>
