@@ -1,5 +1,5 @@
 import ApiResult from '@/models/ApiResult'
-import RoomModel from '@/models/dictionary/RoomModel'
+import { RoomModel } from '@/models'
 import request from '@/utils/request'
 
 const roomService = {

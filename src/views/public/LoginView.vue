@@ -16,16 +16,16 @@
                             <a-form-item label="Tên đăng nhập" 
                                 :disabled="loading"
                                 :rules="[{ required: true, message: 'Please input your username!' }]">
-                                <a-input v-model:value="username" />
+                                <a-input v-model:value="username" :disabled="loading"/>
                             </a-form-item>
 
                             <a-form-item label="Mật khẩu"
                                 :rules="[{ required: true, message: 'Please input your password!' }]">
-                                <a-input-password v-model:value="password" />
+                                <a-input-password v-model:value="password" :disabled="loading"/>
                             </a-form-item>
 
                             <a-form-item>
-                                <a-checkbox v-model:checked="remember">Ghi nhớ đăng nhập</a-checkbox>
+                                <a-checkbox v-model:checked="remember" :disabled="loading">Ghi nhớ đăng nhập</a-checkbox>
                             </a-form-item>
 
                             <a-form-item class="mb-0">

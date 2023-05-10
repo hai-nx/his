@@ -1,5 +1,4 @@
-import ApiResult from '@/models/ApiResult'
-import DepartmentModel from '@/models/dictionary/DepartmentModel'
+import { ApiResult, DepartmentModel } from '@/models'
 import request from '@/utils/request'
 
 const departmentService = {

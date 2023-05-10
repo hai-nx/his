@@ -1,10 +1,9 @@
-import ApiResult from '@/models/ApiResult'
-import BranchModel from '@/models/dictionary/BranchModel'
+import { ApiResult, BranchModel } from '@/models'
 import request from '@/utils/request'
 
 const branchService = {
     getAll() {
-        return request.get<ApiResult<BranchModel[]>>('api/SBranch/GetAll')
+        return request.get<ApiResult<BranchModel[]>>('api/SBranch/GetAll');
     },
     getById(id: string) {
         return request.get<ApiResult<BranchModel>>('api/SBranch/GetById?id=' + id);
@@ -13,8 +12,8 @@ const branchService = {
         return request.post<ApiResult<BranchModel>>('api/SBranch/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post<ApiResult<BranchModel>>('api/SBranch/Delete', id);
+        return request.post<ApiResult<BranchModel>>('api/SBranch/Delete?id=' + id);
     }
 }
 
-export default branchService;
+export default branchService
