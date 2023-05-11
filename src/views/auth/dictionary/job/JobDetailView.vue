@@ -5,7 +5,7 @@
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
                         <span class="text-danger me-1">*</span>
-                        <span>Mã chi nhánh</span>
+                        <span>Mã nghề nghiệp</span>
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
@@ -18,7 +18,7 @@
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
                         <span class="text-danger me-1">*</span>
-                        <span>Tên chi nhánh</span>
+                        <span>Tên nghề nghiệp</span>
                     </label>
                 </div>
                 <div class="col-12 col-md-8">

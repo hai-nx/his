@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="d-flex justify-content-between align-items-center">
-            <h3>Danh mục ICD</h3>
+            <h3>Danh mục dân tộc</h3>
 
             <div>
                 <a-button type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
-                    <span>Thêm mã bệnh</span>
+                    <span>Thêm dân tộc</span>
                 </a-button>
             </div>
         </div>
@@ -39,7 +39,7 @@
         </a-table>
 
         <teleport to="body">
-            <ICDDetailView :visible="visible" :data="record" @toggle="handleToggle" />
+            <EthnicDetailView :visible="visible" :data="record" @toggle="handleToggle" />
         </teleport>
     </div>
 </template>
@@ -47,32 +47,28 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { Modal } from 'ant-design-vue'
-import { ICDModel } from '@/models'
-import { icdService } from '@/services';
-import ICDDetailView from './ICDDetailView.vue'
+import { EthnicModel } from '@/models'
+import { ethnicService } from '@/services';
+import EthnicDetailView from './EthnicDetailView.vue'
 
 export default defineComponent({
-    name: 'ICDView',
+    name: 'JobView',
     setup() {
         const columns = ref([
-            { title: 'Mã bệnh', key: 'code', dataIndex: 'code', width: 200 },
-            { title: 'Tên bệnh', key: 'name', dataIndex: 'name', width: 500 },
-            { title: 'Tên tiếng anh', key: 'nameEnglish', dataIndex: 'nameEnglish', width: 500 },
-            { title: 'Mã chương', key: 'chapterCode', dataIndex: 'chapterCode', width: 200 },
-            { title: 'Mã nhóm chính', key: 'mainGroupCode', dataIndex: 'mainGroupCode', width: 200 },
-            { title: 'Mã loại', key: 'typeCode', dataIndex: 'typeCode', width: 200 },
+            { title: 'Mã dân tộc', key: 'code', dataIndex: 'code', width: 200 },
+            { title: 'Tên dân tộc', key: 'name', dataIndex: 'name', width: 500 },
             { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
             { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 100 }
         ]);
-        const items = ref<ICDModel[]>([]);
-        const record = ref<ICDModel>();
+        const items = ref<EthnicModel[]>([]);
+        const record = ref<EthnicModel>();
         const visible = ref<boolean>(false)
 
         // lấy dữ liệu
         const handleLoad = () => {
             items.value = [];
-            icdService.getAll()
+            ethnicService.getAll()
                 .then(res => {
                     items.value = res.data.result
                 });
@@ -84,12 +80,12 @@ export default defineComponent({
         }
 
         // sửa
-        const handleEdit = (item: ICDModel) => {
+        const handleEdit = (item: EthnicModel) => {
             show(true, item);
         }
 
         // xóa
-        const handleDelete = (item: ICDModel) => {
+        const handleDelete = (item: EthnicModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
                 Modal.confirm({
@@ -97,7 +93,7 @@ export default defineComponent({
                     okText: 'Đồng ý',
                     cancelText: 'Bỏ qua',
                     onOk() {
-                        icdService.delete(id)
+                        ethnicService.delete(id)
                             .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
                             .finally(() => {
                                 handleLoad();
@@ -119,7 +115,7 @@ export default defineComponent({
             }
         }
 
-        const show = (v: boolean, r: ICDModel | undefined) => {
+        const show = (v: boolean, r: EthnicModel | undefined) => {
             record.value = r;
             visible.value = v;
         }
@@ -140,7 +136,7 @@ export default defineComponent({
         this.handleLoad();
     },
     components: {
-        ICDDetailView
+        EthnicDetailView
     }
 });
 </script>
