@@ -6,6 +6,7 @@
             <div>
                 <a-button type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
+                    <span>Thêm bệnh viện</span>
                 </a-button>
             </div>
         </div>

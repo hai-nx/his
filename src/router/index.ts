@@ -10,12 +10,14 @@ import workplaceView from '@/views/auth/WorkplaceView.vue'
 
 import branchView       from '@/views/auth/dictionary/branch/BranchView.vue'
 import departmentView   from '@/views/auth/dictionary/department/DepartmentView.vue'
+import ethnicView       from '@/views/auth/dictionary/ethnic/EthnicView.vue'
 import hospitalView     from '@/views/auth/dictionary/hospital/HospitalView.vue'
 import icdView          from '@/views/auth/dictionary/icd/ICDView.vue'
 import jobView          from '@/views/auth/dictionary/job/JobView.vue'
 import roomView         from '@/views/auth/dictionary/room/RoomView.vue'
+import otherView        from '@/views/auth/dictionary/OtherView.vue'
 
-import otherView from '@/views/auth/dictionary/OtherView.vue'
+import admissionView    from '@/views/auth/admission/AdmissionView.vue'
 
 import errorView from '@/views/public/error.vue'
 
@@ -30,12 +32,13 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/dictionary', name: 'dictionary', component: otherView, meta: { layout: LAYOUT_AUTH } },
     { path: '/branch', name: 'branch', component: branchView, meta: { layout: LAYOUT_AUTH } },
     { path: '/department', name: 'department', component: departmentView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/ethnic', name: 'ethnic', component: ethnicView, meta: { layout: LAYOUT_AUTH } },
     { path: '/hospital', name: 'hospital', component: hospitalView, meta: { layout: LAYOUT_AUTH } },
     { path: '/icd', name: 'icd', component: icdView, meta: { layout: LAYOUT_AUTH } },
     { path: '/job', name: 'job', component: jobView, meta: { layout: LAYOUT_AUTH } },
     { path: '/room', name: 'room', component: roomView, meta: { layout: LAYOUT_AUTH } },
     
-    { path: '/icd', name: 'icd', component: icdView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/admission', name: 'admission', component: admissionView, meta: { layout: LAYOUT_AUTH } },
 
     { path: '/error', name: 'error', component: errorView, meta: { layout: LAYOUT_DEFAULT } }
 ]

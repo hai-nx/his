@@ -8,7 +8,7 @@ export const useLayoutMenu = defineStore('layoutMenu', {
         items: [
             { key: 'dashboard', title: 'Trang chủ', icon: 'bi-house', router: 'dashboard' },
 
-            { key: 'reg', title: 'Đăng ký khám bệnh', icon: 'bi-house', router: '' },
+            { key: 'admission', title: 'Đăng ký khám bệnh', icon: 'bi-house', router: 'admission' },
 
             { key: 'dictionary', title: 'Danh mục', icon: 'bi-collection', router: '', 
                 children: [
@@ -18,6 +18,7 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                     { key: 'icd', title: 'ICD', router: 'icd' },
                     { key: 'job', title: 'Nghề nghiệp', router: 'job' },
                     { key: 'hospital', title: 'Bệnh viện', router: 'hospital' },
+                    { key: 'ethnic', title: 'Dân tộc', router: 'ethnic' },
 
                     { key: 'other', title: 'Khác', router: 'dictionary' },
                 ]
