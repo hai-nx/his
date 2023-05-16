@@ -98,6 +98,7 @@ export default defineComponent({
 
         // xử lý khi chọn item
         const handleClick = (key: string) => {
+            console.log('router: ' + key);
             if (key !== '')
                 router.push({ name: key });
         }

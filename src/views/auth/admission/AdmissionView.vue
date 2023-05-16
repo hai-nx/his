@@ -37,10 +37,6 @@
                 </template>
             </template>
         </a-table>
-
-        <teleport to="body">
-            <ICDDetailView :visible="visible" :data="record" @toggle="handleToggle" />
-        </teleport>
     </div>
 </template>
 
@@ -49,10 +45,9 @@ import { defineComponent, ref } from 'vue'
 import { Modal } from 'ant-design-vue'
 import { ICDModel } from '@/models'
 import { icdService } from '@/services';
-import ICDDetailView from './ICDDetailView.vue'
 
 export default defineComponent({
-    name: 'ICDView',
+    name: 'AdmissionView',
     setup() {
         const columns = ref([
             { title: 'Mã bệnh', key: 'code', dataIndex: 'code', width: 200 },
@@ -140,7 +135,6 @@ export default defineComponent({
         this.handleLoad();
     },
     components: {
-        ICDDetailView
     }
 });
 </script>

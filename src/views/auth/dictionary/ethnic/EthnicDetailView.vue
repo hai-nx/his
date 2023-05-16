@@ -5,7 +5,7 @@
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
                         <span class="text-danger me-1">*</span>
-                        <span>Mã bệnh</span>
+                        <span>Mã dân tộc</span>
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
@@ -17,18 +17,8 @@
             <div class="row mb-1">
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
-                        <span>Mã báo cáo BYT</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.mohReportCode" :disabled="loading"/>
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
                         <span class="text-danger me-1">*</span>
-                        <span>Tên bệnh</span>
+                        <span>Tên dân tộc</span>
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
@@ -37,77 +27,6 @@
                     }" />
                 </div>
             </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span>Tên tiếng anh</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.nameEnglish" :disabled="loading"/>
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span>Tên thường dùng</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.nameCommon" :disabled="loading"/>
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span>Mã chương</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.chapterCode" :disabled="loading"/>
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span>Mã nhóm chính</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.mainGroupCode" :disabled="loading"/>
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span>Mã nhóm phụ 1</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.subGroup1Code" :disabled="loading"/>
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span>Mã nhóm phụ 2</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.subGroup2Code" :disabled="loading"/>
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span>Mã loại</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.typeCode" :disabled="loading"/>
-                </div>
-            </div>
-
             <div class="row mb-1">
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
@@ -137,23 +56,23 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from 'vue'
 import { Modal } from "ant-design-vue";
-import { ICDModel } from '@/models'
-import { icdService } from '@/services'
+import { EthnicModel } from '@/models'
+import { ethnicService } from '@/services'
 
 export default defineComponent({
-    name: 'ICDDetailView',
+    name: 'JobDetailView',
     props: {
         visible: {
             type: Boolean,
             required: true
         },
         data: {
-            type: Object as PropType<ICDModel>
+            type: Object as PropType<EthnicModel>
         }
     },
     setup(props, { emit }) {
-        const title = ref<string>('Thêm mới mã bệnh');
-        const item = ref<ICDModel>({
+        const title = ref<string>('Thêm mới dân tộc');
+        const item = ref<EthnicModel>({
             id: undefined,
             code: "",
             name: "",
@@ -167,7 +86,7 @@ export default defineComponent({
 
         const handleSave = function () {
             loading.value = true;
-            icdService.createOrEdit(item.value)
+            ethnicService.createOrEdit(item.value)
                 .then(res => {
                     if (res) {
                         result = true;
@@ -189,7 +108,7 @@ export default defineComponent({
             loading.value = true;
             result = true;
 
-            icdService.createOrEdit(item.value)
+            ethnicService.createOrEdit(item.value)
                 .then(res => {
                     if (res) {
                         result = true;
@@ -237,10 +156,10 @@ export default defineComponent({
 
                 if (props.data !== null && props.data?.id !== undefined) {
                     let data = props.data!;
-                    icdService.getById(data.id!)
+                    ethnicService.getById(data.id!)
                         .then(res => {
                             item.value = res.data.result;
-                            title.value = "Sửa mã bệnh";
+                            title.value = "Sửa dân tộc";
                             loading.value = false;
                         })
                         .catch(error => {
