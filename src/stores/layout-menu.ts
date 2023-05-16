@@ -16,9 +16,14 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                     { key: 'department', title: 'Khoa', router: 'department' },
                     { key: 'room', title: 'Phòng', router: 'room' },
                     { key: 'icd', title: 'ICD', router: 'icd' },
-                    { key: 'job', title: 'Nghề nghiệp', router: 'job' },
+                    { key: 'career', title: 'Nghề nghiệp', router: 'career' },
                     { key: 'hospital', title: 'Bệnh viện', router: 'hospital' },
                     { key: 'ethnic', title: 'Dân tộc', router: 'ethnic' },
+                    { key: 'employee', title: 'Nhân viên', router: 'employee' },
+                    { key: 'country', title: 'Quốc gia', router: 'country' },
+                    { key: 'province', title: 'Tỉnh, thành phố', router: 'province' },
+                    { key: 'district', title: 'Quận, huyện', router: 'district' },
+                    { key: 'ward', title: 'Xã, phường', router: 'ward' },
 
                     { key: 'other', title: 'Khác', router: 'dictionary' },
                 ]

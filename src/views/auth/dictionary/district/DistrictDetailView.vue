@@ -5,44 +5,26 @@
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
                         <span class="text-danger me-1">*</span>
-                        <span>Mã khoa</span>
+                        <span>Mã quận, huyện</span>
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.code" :disabled="loading" />
+                    <a-input v-model:value="item.code" :disabled="loading" :class="{
+                        'input-danger': errors.code
+                    }" />
                 </div>
             </div>
             <div class="row mb-1">
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
                         <span class="text-danger me-1">*</span>
-                        <span>Mã khoa (BYT)</span>
+                        <span>Tên quận, huyện</span>
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.mohCode" :disabled="loading" />
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span class="text-danger me-1">*</span>
-                        <span>Tên khoa</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.name" :disabled="loading" />
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span class="text-danger me-1">*</span>
-                        <span>Chi nhánh</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-select v-model:value="item.branchId" :options="branchs" :disabled="loading" class="w-100" />
+                    <a-input v-model:value="item.name" :disabled="loading" :class="{
+                        'input-danger': errors.name
+                    }" />
                 </div>
             </div>
             <div class="row mb-1">
@@ -74,38 +56,37 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from 'vue'
 import { Modal } from "ant-design-vue";
-import { DepartmentModel } from '@/models'
-import { branchService, departmentService } from '@/services'
+import { DistrictModel } from '@/models'
+import { districtService } from '@/services';
 
 export default defineComponent({
-    name: 'DepartmentDetailView',
+    name: 'DistrictDetailView',
     props: {
         visible: {
             type: Boolean,
             required: true
         },
         data: {
-            type: Object as PropType<DepartmentModel>
+            type: Object as PropType<DistrictModel>
         }
     },
     setup(props, { emit }) {
-        const loading = ref<boolean>(false);
-        const title = ref<string>('Thêm mới chi nhánh');
-        const item = ref<DepartmentModel>({
+        const title = ref<string>('Thêm mới mã bệnh');
+        const item = ref<DistrictModel>({
             id: undefined,
             code: "",
             name: "",
-            mohCode: "",
-            branchId: "",
+            description: "",
             inactive: false
         });
-        const branchs = ref<{ value: string, label: string }[]>([]);
+        const errors = ref({ code: '', name: '' });
+        const loading = ref<boolean>(false);
 
         let result = false;
 
-        const handleSave = () => {
+        const handleSave = function () {
             loading.value = true;
-            departmentService.createOrEdit(item.value)
+            districtService.createOrEdit(item.value)
                 .then(res => {
                     if (res) {
                         result = true;
@@ -116,17 +97,18 @@ export default defineComponent({
                 })
                 .catch(error => {
                     Modal.error({ content: error.message, okText: "Đồng ý" });
+                    //errors.value = error.response.data.errors;
                 })
                 .finally(() => {
                     loading.value = false;
                 });
         }
 
-        const handleSaveAndAddNew = () => {
+        const handleSaveAndAddNew = function () {
             loading.value = true;
             result = true;
 
-            departmentService.createOrEdit(item.value)
+            districtService.createOrEdit(item.value)
                 .then(res => {
                     if (res) {
                         result = true;
@@ -136,6 +118,7 @@ export default defineComponent({
                 })
                 .catch(error => {
                     Modal.error({ content: error.message, okText: "Đồng ý" });
+                    //errors.value = error.response.data.errors;
                 })
                 .finally(() => {
                     loading.value = false;
@@ -144,25 +127,21 @@ export default defineComponent({
             reset();
         }
 
-        const handleCancel = () => {
+        const handleCancel = function () {
             toggle();
         }
 
-        const reset = () => {
+        const reset = function () {
             item.value = {
                 id: undefined,
                 code: "",
-                mohCode: "",
                 name: "",
-                branchId: "",
-                branchCode: "",
-                branchName: "",
                 description: "",
                 inactive: false
             }
         }
 
-        const toggle = () => {
+        const toggle = function () {
             emit("toggle", result);
         }
 
@@ -170,16 +149,17 @@ export default defineComponent({
 
         watch(show, (value) => {
             if (value) {
-                reset();
-                loading.value = true;
                 result = false;
+                loading.value = true;
+
+                reset();
 
                 if (props.data !== null && props.data?.id !== undefined) {
                     let data = props.data!;
-                    departmentService.getById(data.id!)
+                    districtService.getById(data.id!)
                         .then(res => {
                             item.value = res.data.result;
-                            title.value = "Sửa chi nhánh";
+                            title.value = "Sửa mã bệnh";
                             loading.value = false;
                         })
                         .catch(error => {
@@ -191,30 +171,14 @@ export default defineComponent({
                     loading.value = false;
                 }
             }
-
-            // lấy dữ liệu
-            if (value) {
-                branchService.getAll()
-                    .then(res => {
-                        branchs.value = res.data.result.map((x) => ({ value: x.id!, label: x.name }));
-                    })
-                    .catch(() => {
-                        branchs.value = [];
-                    })
-                    .finally(() => {
-                        if (branchs.value.length === 1) {
-                            item.value.branchId = branchs.value[0].value;
-                        }
-                    });
-            }
         });
 
         return {
             title,
             item,
+            errors,
             show,
             loading,
-            branchs,
             handleSave,
             handleSaveAndAddNew,
             handleCancel,

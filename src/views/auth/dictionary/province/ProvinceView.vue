@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="d-flex justify-content-between align-items-center">
-            <h3>Danh mục nghề nghiệp</h3>
+            <h3>Danh mục tỉnh, thành phố</h3>
 
             <div>
                 <a-button type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
-                    <span>Thêm nghề nghiệp</span>
+                    <span>Thêm tỉnh, thành phố</span>
                 </a-button>
             </div>
         </div>
@@ -39,7 +39,7 @@
         </a-table>
 
         <teleport to="body">
-            <JobDetailView :visible="visible" :data="record" @toggle="handleToggle" />
+            <ProvinceDetailView :visible="visible" :data="record" @toggle="handleToggle" />
         </teleport>
     </div>
 </template>
@@ -47,12 +47,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { Modal } from 'ant-design-vue'
-import { JobModel } from '@/models'
-import { jobService } from '@/services';
-import JobDetailView from './JobDetailView.vue'
+import { ProvinceModel } from '@/models'
+import { provinceService } from '@/services';
+import ProvinceDetailView from './ProvinceDetailView.vue'
 
 export default defineComponent({
-    name: 'JobView',
+    name: 'ProvinceView',
     setup() {
         const columns = ref([
             { title: 'Mã nghề nghiệp', key: 'code', dataIndex: 'code', width: 200 },
@@ -61,14 +61,14 @@ export default defineComponent({
             { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 100 }
         ]);
-        const items = ref<JobModel[]>([]);
-        const record = ref<JobModel>();
+        const items = ref<ProvinceModel[]>([]);
+        const record = ref<ProvinceModel>();
         const visible = ref<boolean>(false)
 
         // lấy dữ liệu
         const handleLoad = () => {
             items.value = [];
-            jobService.getAll()
+            provinceService.getAll()
                 .then(res => {
                     items.value = res.data.result
                 });
@@ -80,12 +80,12 @@ export default defineComponent({
         }
 
         // sửa
-        const handleEdit = (item: JobModel) => {
+        const handleEdit = (item: ProvinceModel) => {
             show(true, item);
         }
 
         // xóa
-        const handleDelete = (item: JobModel) => {
+        const handleDelete = (item: ProvinceModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
                 Modal.confirm({
@@ -93,7 +93,7 @@ export default defineComponent({
                     okText: 'Đồng ý',
                     cancelText: 'Bỏ qua',
                     onOk() {
-                        jobService.delete(id)
+                        provinceService.delete(id)
                             .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
                             .finally(() => {
                                 handleLoad();
@@ -115,7 +115,7 @@ export default defineComponent({
             }
         }
 
-        const show = (v: boolean, r: JobModel | undefined) => {
+        const show = (v: boolean, r: ProvinceModel | undefined) => {
             record.value = r;
             visible.value = v;
         }
@@ -136,7 +136,7 @@ export default defineComponent({
         this.handleLoad();
     },
     components: {
-        JobDetailView
+        ProvinceDetailView
     }
 });
 </script>
