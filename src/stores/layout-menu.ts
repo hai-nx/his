@@ -9,16 +9,26 @@ export const useLayoutMenu = defineStore('layoutMenu', {
             { key: 'dashboard', title: 'Trang chủ', icon: 'bi-house', router: 'dashboard' },
 
             { key: 'admission', title: 'Đăng ký khám bệnh', icon: 'bi-house', router: 'admission' },
+            { key: 'treatment', title: 'Đăng ký khám bệnh v2', icon: 'bi-house', router: 'treatment' },
+            { key: 'exam', title: 'Khám bệnh', icon: 'bi-house', router: 'exam' },
 
             { key: 'dictionary', title: 'Danh mục', icon: 'bi-collection', router: '', 
                 children: [
                     { key: 'branch', title: 'Chi nhánh', router: 'branch' },
+                    { key: 'department-type', title: 'Loại khoa', router: 'department-type' },
                     { key: 'department', title: 'Khoa', router: 'department' },
+                    { key: 'room-type', title: 'Loại phòng', router: 'room-type' },
                     { key: 'room', title: 'Phòng', router: 'room' },
                     { key: 'icd', title: 'ICD', router: 'icd' },
-                    { key: 'job', title: 'Nghề nghiệp', router: 'job' },
+                    { key: 'career', title: 'Nghề nghiệp', router: 'career' },
                     { key: 'hospital', title: 'Bệnh viện', router: 'hospital' },
                     { key: 'ethnic', title: 'Dân tộc', router: 'ethnic' },
+                    { key: 'gender', title: 'Giới tính', router: 'gender' },
+                    { key: 'employee', title: 'Nhân viên', router: 'employee' },
+                    { key: 'country', title: 'Quốc gia', router: 'country' },
+                    { key: 'province', title: 'Tỉnh, thành phố', router: 'province' },
+                    { key: 'district', title: 'Quận, huyện', router: 'district' },
+                    { key: 'ward', title: 'Xã, phường', router: 'ward' },
 
                     { key: 'other', title: 'Khác', router: 'dictionary' },
                 ]

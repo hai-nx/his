@@ -1,140 +1,92 @@
 <template>
-    <div>
-        <div class="d-flex justify-content-between align-items-center">
-            <h3>Danh mục ICD</h3>
-
-            <div>
-                <a-button type="primary" @click="handleAdd">
-                    <i class="bi bi-plus-lg me-2"></i>
-                    <span>Thêm mã bệnh</span>
-                </a-button>
-            </div>
-        </div>
-
-        <a-table class="ant-table-striped" size="middle" :columns="columns" :data-source="items" bordered>
-            <template #bodyCell="{ column, record }">
-                <template v-if="column.key === 'inactive'">
-                    <span>
-                        <a-tag v-if="record.inactive" color="error">
-                            <span>Ngừng hoạt động</span>
-                        </a-tag>
-                        <a-tag v-else color="success">
-                            <span>Hoạt động</span>
-                        </a-tag>
-                    </span>
-                </template>
-                <template v-else-if="column.key === 'action'">
-                    <span>
-                        <button class="btn btn-outline-primary border-0 btn-sm me-2" title="Sửa"
-                            @click="handleEdit(record)">
-                            <i class="bi bi-pen"></i>
-                        </button>
-
-                        <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa" @click="handleDelete(record)">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                    </span>
-                </template>
-            </template>
-        </a-table>
+    <div class="card-container">
+        <a-tabs v-model:activeKey="activeKey" type="card">
+            <a-tab-pane key="1" tab="Tiếp nhận bệnh nhân">
+                <AdmissionRegisterView />
+            </a-tab-pane>
+            <a-tab-pane key="2" tab="Danh sách bệnh nhân tiếp nhận">
+                <AdmissionRegisterPatientView />
+            </a-tab-pane>
+        </a-tabs>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { Modal } from 'ant-design-vue'
-import { ICDModel } from '@/models'
-import { icdService } from '@/services';
+
+import AdmissionRegisterView from './AdmissionRegisterView.vue'
+import AdmissionRegisterPatientView from './AdmissionRegisterPatientView.vue'
 
 export default defineComponent({
     name: 'AdmissionView',
     setup() {
-        const columns = ref([
-            { title: 'Mã bệnh', key: 'code', dataIndex: 'code', width: 200 },
-            { title: 'Tên bệnh', key: 'name', dataIndex: 'name', width: 500 },
-            { title: 'Tên tiếng anh', key: 'nameEnglish', dataIndex: 'nameEnglish', width: 500 },
-            { title: 'Mã chương', key: 'chapterCode', dataIndex: 'chapterCode', width: 200 },
-            { title: 'Mã nhóm chính', key: 'mainGroupCode', dataIndex: 'mainGroupCode', width: 200 },
-            { title: 'Mã loại', key: 'typeCode', dataIndex: 'typeCode', width: 200 },
-            { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
-            { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
-            { title: 'Xử lý', key: 'action', width: 100 }
-        ]);
-        const items = ref<ICDModel[]>([]);
-        const record = ref<ICDModel>();
-        const visible = ref<boolean>(false)
-
-        // lấy dữ liệu
-        const handleLoad = () => {
-            items.value = [];
-            icdService.getAll()
-                .then(res => {
-                    items.value = res.data.result
-                });
-        }
-
-        // thêm mới
-        const handleAdd = () => {
-            show(true, undefined);
-        }
-
-        // sửa
-        const handleEdit = (item: ICDModel) => {
-            show(true, item);
-        }
-
-        // xóa
-        const handleDelete = (item: ICDModel) => {
-            if (item.id !== undefined) {
-                let id = item.id!;
-                Modal.confirm({
-                    content: 'Bạn có thực sự muốn xóa mã bệnh <' + item.code + '> đã chọn không?',
-                    okText: 'Đồng ý',
-                    cancelText: 'Bỏ qua',
-                    onOk() {
-                        icdService.delete(id)
-                            .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
-                            .finally(() => {
-                                handleLoad();
-                            });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
-                    }
-                });
-            }
-        }
-
-        // ẩn / hiện chi tiết
-        const handleToggle = (result: boolean) => {
-            visible.value = !visible.value;
-            if (result) {
-                record.value = undefined;
-                handleLoad();
-            }
-        }
-
-        const show = (v: boolean, r: ICDModel | undefined) => {
-            record.value = r;
-            visible.value = v;
-        }
-
         return {
-            items,
-            record,
-            columns,
-            visible,
-            handleAdd,
-            handleDelete,
-            handleEdit,
-            handleLoad,
-            handleToggle
+            activeKey: ref('1'),
         }
-    },
-    mounted() {
-        this.handleLoad();
     },
     components: {
+        AdmissionRegisterView,
+        AdmissionRegisterPatientView,
     }
 });
 </script>
+
+<style>
+.card-container p {
+    margin: 0px;
+}
+
+.card-container>.ant-tabs-card .ant-tabs-content {
+    margin-top: -16px;
+}
+
+.card-container>.ant-tabs-card .ant-tabs-content>.ant-tabs-tabpane {
+    padding: 16px;
+    background: #fff;
+}
+
+.card-container>.ant-tabs-card>.ant-tabs-nav::before {
+    display: none;
+}
+
+.card-container>.ant-tabs-card .ant-tabs-tab,
+[data-theme='compact'] .card-container>.ant-tabs-card .ant-tabs-tab {
+    background: transparent;
+    border-color: transparent;
+}
+
+.card-container>.ant-tabs-card .ant-tabs-tab-active,
+[data-theme='compact'] .card-container>.ant-tabs-card .ant-tabs-tab-active {
+    background: #fff;
+    border-color: #fff;
+}
+
+#components-tabs-demo-card-top .code-box-demo {
+    padding: 24px;
+    overflow: hidden;
+    background: #f5f5f5;
+}
+
+[data-theme='compact'] .card-container>.ant-tabs-card .ant-tabs-content {
+    height: 120px;
+    margin-top: -8px;
+}
+
+[data-theme='dark'] .card-container>.ant-tabs-card .ant-tabs-tab {
+    background: transparent;
+    border-color: transparent;
+}
+
+[data-theme='dark'] #components-tabs-demo-card-top .code-box-demo {
+    background: #000;
+}
+
+[data-theme='dark'] .card-container>.ant-tabs-card .ant-tabs-content>.ant-tabs-tabpane {
+    background: #141414;
+}
+
+[data-theme='dark'] .card-container>.ant-tabs-card .ant-tabs-tab-active {
+    background: #141414;
+    border-color: #141414;
+}
+</style>

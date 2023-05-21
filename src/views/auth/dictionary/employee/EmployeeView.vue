@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="d-flex justify-content-between align-items-center">
-            <h3>Danh mục khoa</h3>
+            <h3>Danh mục nhân viên</h3>
 
             <div>
                 <a-button type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
-                    <span>Thêm khoa</span>
+                    <span>Thêm nhân viên</span>
                 </a-button>
             </div>
         </div>
@@ -39,7 +39,7 @@
         </a-table>
 
         <teleport to="body">
-            <DepartmentDetailView :visible="visible" :data="record" @toggle="handleToggle" />
+            <EmployeeDetailView :visible="visible" :data="record" @toggle="handleToggle" />
         </teleport>
     </div>
 </template>
@@ -47,30 +47,28 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { Modal } from 'ant-design-vue'
-import { DepartmentModel } from '@/models'
-import { departmentService } from '@/services';
-import DepartmentDetailView from './DepartmentDetailView.vue'
+import { EmployeeModel } from '@/models'
+import { employeeService } from '@/services'
+import EmployeeDetailView from './EmployeeDetailView.vue'
 
 export default defineComponent({
-    name: 'DepartmentView',
+    name: 'EmployeeView',
     setup() {
         const columns = ref([
-            { title: 'Mã khoa', key: 'code', dataIndex: 'code', width: 200 },
-            { title: 'Mã khoa (BYT)', key: 'mohCode', dataIndex: 'mohCode', width: 200 },
-            { title: 'Tên khoa', key: 'name', dataIndex: 'name', width: 500 },
-            { title: 'Chi nhánh', key: 'branchName', dataIndex: 'branchName', width: 500 },
+            { title: 'Mã nhân viên', key: 'code', dataIndex: 'code', width: 200 },
+            { title: 'Tên nhân viên', key: 'name', dataIndex: 'name', width: 500 },
             { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
             { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 100 }
         ]);
-        const items = ref<DepartmentModel[]>([]);
-        const record = ref<DepartmentModel>();
+        const items = ref<EmployeeModel[]>([]);
+        const record = ref<EmployeeModel>();
         const visible = ref<boolean>(false)
 
         // lấy dữ liệu
         const handleLoad = () => {
             items.value = [];
-            departmentService.getAll()
+            employeeService.getAll()
                 .then(res => {
                     items.value = res.data.result
                 });
@@ -82,20 +80,20 @@ export default defineComponent({
         }
 
         // sửa
-        const handleEdit = (item: DepartmentModel) => {
+        const handleEdit = (item: EmployeeModel) => {
             show(true, item);
         }
 
         // xóa
-        const handleDelete = (item: DepartmentModel) => {
+        const handleDelete = (item: EmployeeModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
                 Modal.confirm({
-                    content: 'Bạn có thực sự muốn xóa khoa <' + item.code + '> đã chọn không?',
+                    content: 'Bạn có thực sự muốn xóa mã bệnh <' + item.code + '> đã chọn không?',
                     okText: 'Đồng ý',
                     cancelText: 'Bỏ qua',
                     onOk() {
-                        departmentService.delete(id)
+                        employeeService.delete(id)
                             .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
                             .finally(() => {
                                 handleLoad();
@@ -117,7 +115,7 @@ export default defineComponent({
             }
         }
 
-        const show = (v: boolean, r: DepartmentModel | undefined) => {
+        const show = (v: boolean, r: EmployeeModel | undefined) => {
             record.value = r;
             visible.value = v;
         }
@@ -138,7 +136,7 @@ export default defineComponent({
         this.handleLoad();
     },
     components: {
-        DepartmentDetailView
+        EmployeeDetailView
     }
 });
 </script>

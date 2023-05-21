@@ -4,4 +4,5 @@ export default interface DictionaryBase {
     name: string,
     description?: string,
     inactive: boolean,
+    sortOrder?: number
 }
