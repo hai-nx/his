@@ -5,7 +5,7 @@
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
                         <span class="text-danger me-1">*</span>
-                        <span>Mã phòng</span>
+                        <span>Mã loại khoa</span>
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
@@ -15,78 +15,12 @@
             <div class="row mb-1">
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
-                        <span>Mã phòng (BYT)</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.mohCode" :disabled="loading" />
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
                         <span class="text-danger me-1">*</span>
-                        <span>Tên phòng</span>
+                        <span>Tên loại khoa</span>
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
                     <a-input v-model:value="item.name" :disabled="loading" />
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span class="text-danger me-1">*</span>
-                        <span>Loại phòng</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-select 
-                        v-model:value="item.roomTypeId" 
-                        :options="roomTypes" 
-                        :field-names="fields"
-                        :disabled="loading" 
-                        class="w-100">
-                        <template #option="{ code, name }">
-                            <div class="row">
-                                <span class="col-3">{{ code }}</span>
-                                <span class="col-9">{{ name }}</span>
-                            </div>
-                        </template>
-                    </a-select>
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span class="text-danger me-1">*</span>
-                        <span>Khoa</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-select 
-                        v-model:value="item.departmentId" 
-                        :options="departments" 
-                        :field-names="fields"
-                        :disabled="loading" 
-                        class="w-100" >
-                        <template #option="{ code, name }">
-                            <div class="row">
-                                <span class="col-3">{{ code }}</span>
-                                <span class="col-9">{{ name }}</span>
-                            </div>
-                        </template>
-                    </a-select>
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span>Số thứ tự</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input-number v-model:value="item.sortOrder" :disabled="loading" class="w-100"/>
                 </div>
             </div>
             <div class="row mb-1">
@@ -97,6 +31,16 @@
                 </div>
                 <div class="col-12 col-md-8">
                     <a-textarea v-model:value="item.description" :disabled="loading" />
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-12 col-md-4 text-start text-md-end">
+                    <label>
+                        <span>Số thứ tự</span>
+                    </label>
+                </div>
+                <div class="col-12 col-md-8">
+                    <a-input-number v-model:value="item.sortOrder" :disabled="loading" class="w-100"/>
                 </div>
             </div>
             <div class="row mb-1">
@@ -117,42 +61,35 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from 'vue'
-import { Modal } from "ant-design-vue";
-import { DepartmentModel, RoomModel, RoomTypeModel } from '@/models'
-import { departmentService, roomService, roomTypeService } from '@/services';
+import { Modal, SelectProps } from "ant-design-vue";
+import { DepartmentTypeModel } from '@/models'
+import { departmentTypeService } from '@/services';
 
 export default defineComponent({
-    name: 'DepartmentDetailView',
+    name: 'DepartmentTypeDetailView',
     props: {
         visible: {
             type: Boolean,
             required: true
         },
         data: {
-            type: Object as PropType<RoomModel>
+            type: Object as PropType<DepartmentTypeModel>
         }
     },
     setup(props, { emit }) {
         const loading = ref<boolean>(false);
-        const fields = ref({ value: 'id', label: 'name' });
-
         const result = ref<boolean>(false);
-        const title = ref<string>('Thêm mới chi nhánh');
-        const item = ref<RoomModel>({
+        const title = ref<string>('Thêm mới loại khoa');
+        const item = ref<DepartmentTypeModel>({
             id: undefined,
-            code: '',
-            name: '',
-            roomTypeId: '',
-            departmentId: '',
+            code: "",
+            name: "",
             inactive: false
         });
 
-        const roomTypes = ref<RoomTypeModel[]>([]);
-        const departments = ref<DepartmentModel[]>([]);
-
         const handleSave = () => {
             loading.value = true;
-            roomService.createOrEdit(item.value)
+            departmentTypeService.createOrEdit(item.value)
                 .then(res => {
                     if (res) {
                         result.value = true;
@@ -183,11 +120,9 @@ export default defineComponent({
         const reset = () => {
             item.value = {
                 id: undefined,
-                code: '',
-                name: '',
-                roomTypeId: '',
-                departmentId: '',
-                description: '',
+                code: "",
+                name: "",
+                description: "",
                 inactive: false
             }
         }
@@ -204,12 +139,12 @@ export default defineComponent({
                 loading.value = true;
                 result.value = false;
 
-                if (props.data !== undefined && props.data?.id !== undefined) {
+                if (props.data !== null && props.data?.id !== undefined) {
                     let data = props.data!;
-                    roomService.getById(data.id!)
+                    departmentTypeService.getById(data.id!)
                         .then(res => {
                             item.value = res.data.result;
-                            title.value = "Sửa phòng";
+                            title.value = "Sửa chi loại khoa";
                             loading.value = false;
                         })
                         .catch(error => {
@@ -221,25 +156,6 @@ export default defineComponent({
                     loading.value = false;
                 }
             }
-
-            // lấy dữ liệu
-            if (value) {
-                roomTypeService.getAll()
-                    .then(response => {
-                        roomTypes.value = response.data.result.filter(x => !x.inactive);
-                        if (roomTypes.value.length > 0) {
-                            item.value.roomTypeId = roomTypes.value[0].id!;
-                        }
-                    });
-
-                departmentService.getAll()
-                    .then(response => {
-                        departments.value = response.data.result.filter(x => !x.inactive);
-                        if (departments.value.length > 0) {
-                            item.value.departmentId = departments.value[0].id!;
-                        }
-                    });
-            }
         });
 
         return {
@@ -247,10 +163,7 @@ export default defineComponent({
             item,
             show,
             loading,
-            fields,
             result,
-            roomTypes,
-            departments,
             handleSave,
             handleSaveAndAddNew,
             handleCancel,

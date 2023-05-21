@@ -48,6 +48,16 @@
                 </div>
             </div>
             <div class="row mb-1">
+                <div class="col-12 col-md-4 text-start text-md-end">
+                    <label>
+                        <span>Số thứ tự</span>
+                    </label>
+                </div>
+                <div class="col-12 col-md-8">
+                    <a-input-number v-model:value="item.sortOrder" :disabled="loading" class="w-100"/>
+                </div>
+            </div>
+            <div class="row mb-1">
                 <div class="col-12 col-md-8 offset-md-4">
                     <a-checkbox v-model:checked="item.inactive" :disabled="loading">Ngừng theo dõi</a-checkbox>
                 </div>

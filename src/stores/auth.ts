@@ -14,12 +14,16 @@ export const useAuth = defineStore('auth', {
             token: '' as string,
             refreshToken: '' as string
         },
+        workplace: {
+            branch: '' as string,
+            department: '' as string,
+            rooms: [] as string[]
+        },
         error: '' as string
     }),
     actions: {
         async login(username: string, password: string, remember: boolean) {
             this.loading = true;
-            console.log('loadfing')
             await authService.login(username, password)
                 .then(response => {
                     if (response.data.isSuccessed) {
@@ -33,19 +37,16 @@ export const useAuth = defineStore('auth', {
                             token: '',
                             refreshToken: ''
                         }
-                        console.log(response)
-                        router.push({ name: 'workplace' });
+                        router.push({ name: 'workplace-option' });
 
                         // xử lý lưu tài khoản
                         if (remember)
                             console.log(remember)
                     } else {
                         this.error = response.data.message
-                        console.log('aaaa')
                     }
                 })
                 .catch(error => {
-                    console.log('error')
                     this.error = error.message;
                 })
                 .finally(() => {
@@ -54,10 +55,18 @@ export const useAuth = defineStore('auth', {
         },
         logout() {
             this.isAuthenticated = false;
+        },
+        updateWorkplate(branch: string, department: string, rooms: string[]) {
+            this.workplace = {
+                branch: branch,
+                department: department,
+                rooms: rooms
+            }
         }
     },
     getters: {
         getAuthenticated: (state) => state.isAuthenticated,
-        getUser: (state) => state.user
+        getUser: (state) => state.user,
+        getWorkplace: (state) => state.workplace
     },
 })

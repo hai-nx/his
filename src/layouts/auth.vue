@@ -70,7 +70,7 @@
                 </div>
             </a-layout-header>
 
-            <a-layout-content class="px-3 py-3">
+            <a-layout-content class="px-3 py-2">
                 <slot></slot>
             </a-layout-content>
         </a-layout>
@@ -83,6 +83,7 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAuth } from '@/stores/auth'
 import { useLayoutMenu } from '@/stores/layout-menu'
+import type { MenuProps } from 'ant-design-vue';
 import { MenuUnfoldOutlined, MenuFoldOutlined, LogoutOutlined, UserOutlined, DesktopOutlined } from '@ant-design/icons-vue';
 
 
@@ -103,13 +104,13 @@ export default defineComponent({
                 router.push({ name: key });
         }
 
-        const handleMenuClick = (e: object) => {
-            // if (e.key === '1') {
-            console.log(e);
-            //     router.push({ name: 'sel-department' })
-            // } else if (e.key === '2') {
-            //     router.push({ name: 'setting' })
-            // } else if (e.key === '3') {
+        const handleMenuClick: MenuProps['onClick'] = e => {
+            if (e.key === '1') {
+                router.push({ name: 'workplace-option' });
+            } else if (e.key === '2') {
+                router.push({ name: 'option' });
+            }
+            //else if (e.key === '3') {
             //     router.push({ name: 'login' })
             // }
         }

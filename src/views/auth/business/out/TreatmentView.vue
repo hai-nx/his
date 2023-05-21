@@ -1,15 +1,13 @@
 <template>
     <div>
-        <div class="d-flex justify-content-between align-items-center">
-            <h3>Danh mục dân tộc</h3>
-
-            <div>
-                <a-button type="primary" @click="handleAdd">
+        <a-page-header title="Danh mục bệnh nhân tiếp nhận">
+            <template #extra>
+                <a-button key="1" type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
-                    <span>Thêm dân tộc</span>
+                    Đăng ký khám
                 </a-button>
-            </div>
-        </div>
+            </template>
+        </a-page-header>
 
         <a-table class="ant-table-striped" size="middle" :columns="columns" :data-source="items" bordered>
             <template #bodyCell="{ column, record }">
@@ -39,7 +37,7 @@
         </a-table>
 
         <teleport to="body">
-            <EthnicDetailView :visible="visible" :data="record" @toggle="handleToggle" />
+            <TreatmentDetailView :visible="visible" :data="record" @toggle="handleToggle" />
         </teleport>
     </div>
 </template>
@@ -47,30 +45,35 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { Modal } from 'ant-design-vue'
-import { EthnicModel } from '@/models'
-import { ethnicService } from '@/services';
-import EthnicDetailView from './EthnicDetailView.vue'
+import { TreatmentModel, TreatmentFilterModel } from '@/models'
+import { patientService } from '@/services';
+import TreatmentDetailView from './TreatmentDetailView.vue'
 
 export default defineComponent({
-    name: 'EthnicView',
+    name: 'TreatmentView',
     setup() {
         const columns = ref([
-            { title: 'Mã dân tộc', key: 'code', dataIndex: 'code', width: 200 },
-            { title: 'Tên dân tộc', key: 'name', dataIndex: 'name', width: 500 },
-            { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
-            { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
+            { title: 'Mã bệnh nhân', key: 'patientCode', dataIndex: 'patientCode', width: 200 },
+            { title: 'Mã điều trị', key: 'code', dataIndex: 'code', width: 500 },
+            { title: 'Họ tên', key: 'patientName', dataIndex: 'patientName', width: 500 },
+            { title: 'Giới tính', key: 'genderName', dataIndex: 'genderName', width: 200 },
+            { title: 'Đối tượng', key: 'patientTypeName', dataIndex: 'patientTypeName', width: 200 },
+            { title: 'Thẻ BHYT', key: 'heinCode', dataIndex: 'heinCode', width: 200 },
             { title: 'Xử lý', key: 'action', width: 100 }
         ]);
-        const items = ref<EthnicModel[]>([]);
-        const record = ref<EthnicModel>();
+        const items = ref<TreatmentModel[]>([]);
+        const record = ref<TreatmentModel>();
         const visible = ref<boolean>(false)
 
         // lấy dữ liệu
         const handleLoad = () => {
             items.value = [];
-            ethnicService.getAll()
-                .then(res => {
-                    items.value = res.data.result
+            let filter: TreatmentFilterModel = {
+                
+            }
+            patientService.getAll(filter)
+                .then(response => {
+                    items.value = response.data.result
                 });
         }
 
@@ -80,29 +83,29 @@ export default defineComponent({
         }
 
         // sửa
-        const handleEdit = (item: EthnicModel) => {
+        const handleEdit = (item: TreatmentModel) => {
             show(true, item);
         }
 
         // xóa
-        const handleDelete = (item: EthnicModel) => {
+        const handleDelete = (item: TreatmentModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
-                Modal.confirm({
-                    content: 'Bạn có thực sự muốn xóa mã bệnh <' + item.code + '> đã chọn không?',
-                    okText: 'Đồng ý',
-                    cancelText: 'Bỏ qua',
-                    onOk() {
-                        ethnicService.delete(id)
-                            .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
-                            .finally(() => {
-                                handleLoad();
-                            });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
-                    }
-                });
+                // Modal.confirm({
+                //     content: 'Bạn có thực sự muốn xóa chi nhánh <' + item.code + '> đã chọn không?',
+                //     okText: 'Đồng ý',
+                //     cancelText: 'Bỏ qua',
+                //     onOk() {
+                //         patientService.delete(id)
+                //             .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
+                //             .finally(() => {
+                //                 handleLoad();
+                //             });
+                //     },
+                //     onCancel() {
+                //         Modal.destroyAll();
+                //     }
+                // });
             }
         }
 
@@ -115,7 +118,7 @@ export default defineComponent({
             }
         }
 
-        const show = (v: boolean, r: EthnicModel | undefined) => {
+        const show = (v: boolean, r: TreatmentModel | undefined) => {
             record.value = r;
             visible.value = v;
         }
@@ -136,7 +139,7 @@ export default defineComponent({
         this.handleLoad();
     },
     components: {
-        EthnicDetailView
+        TreatmentDetailView
     }
 });
 </script>

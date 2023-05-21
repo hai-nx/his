@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="d-flex justify-content-between align-items-center">
-            <h3>Danh mục dân tộc</h3>
+            <h3>Danh mục loại phòng</h3>
 
             <div>
                 <a-button type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
-                    <span>Thêm dân tộc</span>
+                    <span>Thêm loại phòng</span>
                 </a-button>
             </div>
         </div>
@@ -39,7 +39,7 @@
         </a-table>
 
         <teleport to="body">
-            <EthnicDetailView :visible="visible" :data="record" @toggle="handleToggle" />
+            <RoomTypeDetailView :visible="visible" :data="record" @toggle="handleToggle" />
         </teleport>
     </div>
 </template>
@@ -47,28 +47,29 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { Modal } from 'ant-design-vue'
-import { EthnicModel } from '@/models'
-import { ethnicService } from '@/services';
-import EthnicDetailView from './EthnicDetailView.vue'
+import { RoomTypeModel } from '@/models'
+import { roomTypeService } from '@/services';
+import RoomTypeDetailView from './RoomTypeDetailView.vue'
 
 export default defineComponent({
-    name: 'EthnicView',
+    name: 'RoomTypeView',
     setup() {
         const columns = ref([
-            { title: 'Mã dân tộc', key: 'code', dataIndex: 'code', width: 200 },
-            { title: 'Tên dân tộc', key: 'name', dataIndex: 'name', width: 500 },
+            { title: 'Mã loại phòng', key: 'code', dataIndex: 'code', width: 200 },
+            { title: 'Tên loại phòng', key: 'name', dataIndex: 'name', width: 500 },
             { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
+            { title: 'Số thứ tự', key: 'sortOrder', dataIndex: 'sortOrder', width: 200 },
             { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 100 }
         ]);
-        const items = ref<EthnicModel[]>([]);
-        const record = ref<EthnicModel>();
+        const items = ref<RoomTypeModel[]>([]);
+        const record = ref<RoomTypeModel>();
         const visible = ref<boolean>(false)
 
         // lấy dữ liệu
         const handleLoad = () => {
             items.value = [];
-            ethnicService.getAll()
+            roomTypeService.getAll()
                 .then(res => {
                     items.value = res.data.result
                 });
@@ -80,20 +81,20 @@ export default defineComponent({
         }
 
         // sửa
-        const handleEdit = (item: EthnicModel) => {
+        const handleEdit = (item: RoomTypeModel) => {
             show(true, item);
         }
 
         // xóa
-        const handleDelete = (item: EthnicModel) => {
+        const handleDelete = (item: RoomTypeModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
                 Modal.confirm({
-                    content: 'Bạn có thực sự muốn xóa mã bệnh <' + item.code + '> đã chọn không?',
+                    content: 'Bạn có thực sự muốn xóa phòng <' + item.code + '> đã chọn không?',
                     okText: 'Đồng ý',
                     cancelText: 'Bỏ qua',
                     onOk() {
-                        ethnicService.delete(id)
+                        roomTypeService.delete(id)
                             .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
                             .finally(() => {
                                 handleLoad();
@@ -115,7 +116,7 @@ export default defineComponent({
             }
         }
 
-        const show = (v: boolean, r: EthnicModel | undefined) => {
+        const show = (v: boolean, r: RoomTypeModel | undefined) => {
             record.value = r;
             visible.value = v;
         }
@@ -136,7 +137,7 @@ export default defineComponent({
         this.handleLoad();
     },
     components: {
-        EthnicDetailView
+        RoomTypeDetailView
     }
 });
 </script>
