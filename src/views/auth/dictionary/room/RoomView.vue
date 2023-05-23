@@ -57,6 +57,8 @@ export default defineComponent({
         const columns = ref([
             { title: 'Mã phòng', key: 'code', dataIndex: 'code', width: 200 },
             { title: 'Tên phòng', key: 'name', dataIndex: 'name', width: 500 },
+            { title: 'Khoa', key: 'departmentName', dataIndex: 'departmentName', width: 500 },
+            { title: 'Loại phòng', key: 'roomTypeName', dataIndex: 'roomTypeName', width: 500 },
             { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
             { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 100 }

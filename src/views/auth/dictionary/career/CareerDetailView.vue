@@ -56,8 +56,8 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from 'vue'
 import { Modal } from "ant-design-vue";
-import { JobModel } from '@/models'
-import { jobService } from '@/services'
+import { CareerModel } from '@/models'
+import { careerService } from '@/services'
 
 export default defineComponent({
     name: 'JobDetailView',
@@ -67,12 +67,12 @@ export default defineComponent({
             required: true
         },
         data: {
-            type: Object as PropType<JobModel>
+            type: Object as PropType<CareerModel>
         }
     },
     setup(props, { emit }) {
         const title = ref<string>('Thêm mới mã bệnh');
-        const item = ref<JobModel>({
+        const item = ref<CareerModel>({
             id: undefined,
             code: "",
             name: "",
@@ -86,7 +86,7 @@ export default defineComponent({
 
         const handleSave = function () {
             loading.value = true;
-            jobService.createOrEdit(item.value)
+            careerService.createOrEdit(item.value)
                 .then(res => {
                     if (res) {
                         result = true;
@@ -108,7 +108,7 @@ export default defineComponent({
             loading.value = true;
             result = true;
 
-            jobService.createOrEdit(item.value)
+            careerService.createOrEdit(item.value)
                 .then(res => {
                     if (res) {
                         result = true;
@@ -156,7 +156,7 @@ export default defineComponent({
 
                 if (props.data !== null && props.data?.id !== undefined) {
                     let data = props.data!;
-                    jobService.getById(data.id!)
+                    careerService.getById(data.id!)
                         .then(res => {
                             item.value = res.data.result;
                             title.value = "Sửa mã bệnh";

@@ -60,7 +60,7 @@ import { EthnicModel } from '@/models'
 import { ethnicService } from '@/services'
 
 export default defineComponent({
-    name: 'JobDetailView',
+    name: 'EthnicDetailView',
     props: {
         visible: {
             type: Boolean,

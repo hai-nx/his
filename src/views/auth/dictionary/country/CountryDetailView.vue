@@ -5,7 +5,7 @@
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
                         <span class="text-danger me-1">*</span>
-                        <span>Mã chi nhánh</span>
+                        <span>Mã quốc gia</span>
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
@@ -18,7 +18,7 @@
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
                         <span class="text-danger me-1">*</span>
-                        <span>Tên chi nhánh</span>
+                        <span>Tên quốc gia</span>
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
@@ -30,31 +30,11 @@
             <div class="row mb-1">
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
-                        <span>Địa chỉ</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.address" :disabled="loading" />
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
                         <span>Mô tả</span>
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
                     <a-textarea v-model:value="item.description" :disabled="loading" />
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span>Số thứ tự</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input-number v-model:value="item.sortOrder" :disabled="loading" class="w-100"/>
                 </div>
             </div>
             <div class="row mb-1">
@@ -76,27 +56,26 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from 'vue'
 import { Modal } from "ant-design-vue";
-import { BranchModel } from '@/models'
-import { branchService } from '@/services'
+import { CountryModel } from '@/models'
+import { countryService } from '@/services';
 
 export default defineComponent({
-    name: 'BranchDetailView',
+    name: 'CountryDetailView',
     props: {
         visible: {
             type: Boolean,
             required: true
         },
         data: {
-            type: Object as PropType<BranchModel>
+            type: Object as PropType<CountryModel>
         }
     },
     setup(props, { emit }) {
-        const title = ref<string>('Thêm mới chi nhánh');
-        const item = ref<BranchModel>({
+        const title = ref<string>('Thêm mới mã bệnh');
+        const item = ref<CountryModel>({
             id: undefined,
             code: "",
             name: "",
-            address: "",
             description: "",
             inactive: false
         });
@@ -107,7 +86,7 @@ export default defineComponent({
 
         const handleSave = function () {
             loading.value = true;
-            branchService.createOrEdit(item.value)
+            countryService.createOrEdit(item.value)
                 .then(res => {
                     if (res) {
                         result = true;
@@ -129,7 +108,7 @@ export default defineComponent({
             loading.value = true;
             result = true;
 
-            branchService.createOrEdit(item.value)
+            countryService.createOrEdit(item.value)
                 .then(res => {
                     if (res) {
                         result = true;
@@ -157,7 +136,6 @@ export default defineComponent({
                 id: undefined,
                 code: "",
                 name: "",
-                address: "",
                 description: "",
                 inactive: false
             }
@@ -178,10 +156,10 @@ export default defineComponent({
 
                 if (props.data !== null && props.data?.id !== undefined) {
                     let data = props.data!;
-                    branchService.getById(data.id!)
+                    countryService.getById(data.id!)
                         .then(res => {
                             item.value = res.data.result;
-                            title.value = "Sửa chi nhánh";
+                            title.value = "Sửa mã bệnh";
                             loading.value = false;
                         })
                         .catch(error => {

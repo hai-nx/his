@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="d-flex justify-content-between align-items-center">
-            <h3>Danh mục khoa</h3>
+            <h3>Danh mục loại khoa</h3>
 
             <div>
                 <a-button type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
-                    <span>Thêm khoa</span>
+                    <span>Thêm loại khoa</span>
                 </a-button>
             </div>
         </div>
@@ -39,7 +39,7 @@
         </a-table>
 
         <teleport to="body">
-            <DepartmentDetailView :visible="visible" :data="record" @toggle="handleToggle" />
+            <DepartmentTypeDetailView :visible="visible" :data="record" @toggle="handleToggle" />
         </teleport>
     </div>
 </template>
@@ -47,30 +47,29 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { Modal } from 'ant-design-vue'
-import { DepartmentModel } from '@/models'
-import { departmentService } from '@/services';
-import DepartmentDetailView from './DepartmentDetailView.vue'
+import { DepartmentTypeModel } from '@/models'
+import { departmentTypeService } from '@/services';
+import DepartmentTypeDetailView from './DepartmentTypeDetailView.vue'
 
 export default defineComponent({
-    name: 'DepartmentView',
+    name: 'DepartmentTypeView',
     setup() {
         const columns = ref([
-            { title: 'Mã khoa', key: 'code', dataIndex: 'code', width: 200 },
-            { title: 'Mã khoa (BYT)', key: 'mohCode', dataIndex: 'mohCode', width: 200 },
-            { title: 'Tên khoa', key: 'name', dataIndex: 'name', width: 500 },
-            { title: 'Chi nhánh', key: 'branchName', dataIndex: 'branchName', width: 500 },
+            { title: 'Mã loại khoa', key: 'code', dataIndex: 'code', width: 200 },
+            { title: 'Tên loại khoa', key: 'name', dataIndex: 'name', width: 500 },
             { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
+            { title: 'Số thứ tự', key: 'sortOrder', dataIndex: 'sortOrder', width: 200 },
             { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 100 }
         ]);
-        const items = ref<DepartmentModel[]>([]);
-        const record = ref<DepartmentModel>();
+        const items = ref<DepartmentTypeModel[]>([]);
+        const record = ref<DepartmentTypeModel>();
         const visible = ref<boolean>(false)
 
         // lấy dữ liệu
         const handleLoad = () => {
             items.value = [];
-            departmentService.getAll()
+            departmentTypeService.getAll()
                 .then(res => {
                     items.value = res.data.result
                 });
@@ -82,20 +81,20 @@ export default defineComponent({
         }
 
         // sửa
-        const handleEdit = (item: DepartmentModel) => {
+        const handleEdit = (item: DepartmentTypeModel) => {
             show(true, item);
         }
 
         // xóa
-        const handleDelete = (item: DepartmentModel) => {
+        const handleDelete = (item: DepartmentTypeModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
                 Modal.confirm({
-                    content: 'Bạn có thực sự muốn xóa khoa <' + item.code + '> đã chọn không?',
+                    content: 'Bạn có thực sự muốn xóa loại khoa <' + item.code + '> đã chọn không?',
                     okText: 'Đồng ý',
                     cancelText: 'Bỏ qua',
                     onOk() {
-                        departmentService.delete(id)
+                        departmentTypeService.delete(id)
                             .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
                             .finally(() => {
                                 handleLoad();
@@ -117,7 +116,7 @@ export default defineComponent({
             }
         }
 
-        const show = (v: boolean, r: DepartmentModel | undefined) => {
+        const show = (v: boolean, r: DepartmentTypeModel | undefined) => {
             record.value = r;
             visible.value = v;
         }
@@ -138,7 +137,7 @@ export default defineComponent({
         this.handleLoad();
     },
     components: {
-        DepartmentDetailView
+        DepartmentTypeDetailView
     }
 });
 </script>

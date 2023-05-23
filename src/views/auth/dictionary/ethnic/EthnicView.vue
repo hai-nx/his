@@ -52,7 +52,7 @@ import { ethnicService } from '@/services';
 import EthnicDetailView from './EthnicDetailView.vue'
 
 export default defineComponent({
-    name: 'JobView',
+    name: 'EthnicView',
     setup() {
         const columns = ref([
             { title: 'Mã dân tộc', key: 'code', dataIndex: 'code', width: 200 },
