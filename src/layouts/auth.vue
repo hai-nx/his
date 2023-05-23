@@ -2,7 +2,7 @@
     <a-layout class="h-100">
         <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
 
-            <div class="logo"></div>
+            <div class="logo"></div>  
 
             <a-menu theme="dark" mode="inline" v-model:openKeys="openKeys" v-model:selectedKeys="selectedKeys">
                 <template v-for="item in items" :key="item.key">
