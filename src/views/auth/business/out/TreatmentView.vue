@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <a-page-header title="Danh mục bệnh nhân tiếp nhận">
+    <a-layout>
+        <a-page-header title="Danh mục bệnh nhân tiếp nhận" class="bg-white border-top">
             <template #extra>
                 <a-button key="1" type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
@@ -9,42 +9,62 @@
             </template>
         </a-page-header>
 
-        <a-table class="ant-table-striped" size="middle" :columns="columns" :data-source="items" bordered>
-            <template #bodyCell="{ column, record }">
-                <template v-if="column.key === 'inactive'">
-                    <span>
-                        <a-tag v-if="record.inactive" color="error">
-                            <span>Ngừng hoạt động</span>
-                        </a-tag>
-                        <a-tag v-else color="success">
-                            <span>Hoạt động</span>
-                        </a-tag>
-                    </span>
-                </template>
-                <template v-else-if="column.key === 'action'">
-                    <span>
-                        <button class="btn btn-outline-primary border-0 btn-sm me-2" title="Sửa"
-                            @click="handleEdit(record)">
-                            <i class="bi bi-pen"></i>
-                        </button>
+        <a-layout-content>
+            <div class="px-3 py-2">
+                <a-card class="mb-1" size="small">
+                    <div class="row">
+                        <div class="col-2">
+                            <label>Mã bệnh nhân</label>
+                        </div>
+                        <div class="col-2">
+                            <a-input></a-input>
+                        </div>
+                    </div>
+                </a-card>
 
-                        <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa" @click="handleDelete(record)">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                    </span>
-                </template>
-            </template>
-        </a-table>
+
+                <a-table class="ant-table-striped" size="small" :columns="columns" :data-source="items" bordered>
+                    <template #bodyCell="{ column, record }">
+                        <template v-if="column.key === 'inactive'">
+                            <span>
+                                <a-tag v-if="record.inactive" color="error">
+                                    <span>Ngừng hoạt động</span>
+                                </a-tag>
+                                <a-tag v-else color="success">
+                                    <span>Hoạt động</span>
+                                </a-tag>
+                            </span>
+                        </template>
+                        <template v-else-if="column.key === 'action'">
+                            <span>
+                                <button class="btn btn-outline-primary border-0 btn-sm me-2" title="Sửa"
+                                    @click="handleEdit(record)">
+                                    <i class="bi bi-pen"></i>
+                                </button>
+
+                                <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa"
+                                    @click="handleDelete(record)">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </span>
+                        </template>
+                    </template>
+                </a-table>
+            </div>
+        </a-layout-content>
+
+
 
         <teleport to="body">
             <TreatmentDetailView :visible="visible" :data="record" @toggle="handleToggle" />
         </teleport>
-    </div>
+    </a-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { Modal } from 'ant-design-vue'
+// import { EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import { TreatmentModel, TreatmentFilterModel } from '@/models'
 import { patientService } from '@/services';
 import TreatmentDetailView from './TreatmentDetailView.vue'
@@ -69,7 +89,7 @@ export default defineComponent({
         const handleLoad = () => {
             items.value = [];
             let filter: TreatmentFilterModel = {
-                
+
             }
             patientService.getAll(filter)
                 .then(response => {
