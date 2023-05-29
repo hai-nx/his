@@ -21,7 +21,7 @@
         <div class="col-md-8">
           <div class="row">
             <div class="col-md-2">
-              <label>Mã DV</label>
+              <label>Tên DV</label>
             </div>
             <div class="col-md-10">
               <a-input v-model:value="item.patientCode" :disabled="loading" />
@@ -44,7 +44,7 @@
         <div class="col-md-8">
           <div class="row">
             <div class="col-md-2">
-              <label>Mã BHYT</label>
+              <label>Tên BHYT</label>
             </div>
             <div class="col-md-10">
               <a-input v-model:value="item.patientCode" :disabled="loading" />
@@ -60,11 +60,84 @@
               <label>Đợn vị tính</label>
             </div>
             <div class="col-md-8">
-              <a-select class="col-md-12" />
+              <a-select class="w-100" />
             </div>
           </div>
         </div>
-        <div class="col-md-8"></div>
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-4">
+                  <label>Nhóm BHYT</label>
+                </div>
+                <div class="col-md-8">
+                  <a-select class="w-100" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-4">
+                  <label>Nhóm DV</label>
+                </div>
+                <div class="col-md-8">
+                  <a-select class="w-100" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-4">
+              <label>Tỷ lệ BHTT</label>
+            </div>
+            <div class="col-md-8">
+              <a-input v-model:value="item.patientCode" :disabled="loading" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-4">
+                  <label>Trần BHYT</label>
+                </div>
+                <div class="col-md-8">
+                  <a-input
+                    v-model:value="item.patientCode"
+                    :disabled="loading"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-4">
+                  <label>Loại PPTT</label>
+                </div>
+                <div class="col-md-8">
+                  <a-select class="w-100" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <a-table
+          class="ant-table-striped my-2"
+          size="middle"
+          :columns="columns"
+          :data-source="items"
+          bordered>
+        </a-table>
       </div>
     </div>
 
@@ -175,8 +248,6 @@ export default defineComponent({
   },
 });
 </script>
-  label {
-    
-  }
+
 <style>
 </style>
