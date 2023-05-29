@@ -19,6 +19,7 @@ import ProvinceModel        from './dictionary/province'
 import RoomModel            from './dictionary/room'
 import RoomTypeModel        from './dictionary/room-type'
 import WardModel            from './dictionary/ward'
+import ServiceModel         from './dictionary/service'
 
 export {
     ApiResult,
@@ -42,5 +43,6 @@ export {
     ProvinceModel,
     RoomModel,
     RoomTypeModel,
-    WardModel
+    WardModel,
+    ServiceModel
 }

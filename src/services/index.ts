@@ -15,6 +15,7 @@ import provinceService          from './dictionary/province'
 import roomService              from './dictionary/room'
 import roomTypeService          from './dictionary/room-type'
 import wardService              from './dictionary/ward'
+import serviceService           from './dictionary/service'
 
 import patientService           from './business/patient'
 
@@ -37,6 +38,7 @@ export {
     roomService,
     roomTypeService,
     wardService,
+    serviceService,
 
     patientService
 }

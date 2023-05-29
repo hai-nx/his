@@ -25,6 +25,7 @@ import roomView                 from '@/views/auth/dictionary/room/RoomView.vue'
 import roomTypeView             from '@/views/auth/dictionary/room-type/RoomTypeView.vue'
 import wardView                 from '@/views/auth/dictionary/ward/WardView.vue'
 import dictionaryView           from '@/views/auth/dictionary/DictionaryView.vue'
+import serviceView              from '@/views/auth/dictionary/service/ServiceView.vue'
 
 import admissionView            from '@/views/auth/admission/AdmissionView.vue'
 
@@ -59,6 +60,7 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/room', name: 'room', component: roomView, meta: { layout: LAYOUT_AUTH } },
     { path: '/room-type', name: 'room-type', component: roomTypeView, meta: { layout: LAYOUT_AUTH } },
     { path: '/ward', name: 'ward', component: wardView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/service', name: 'service', component: serviceView, meta: { layout: LAYOUT_AUTH } },
     
     { path: '/admission', name: 'admission', component: admissionView, meta: { layout: LAYOUT_AUTH } },
 

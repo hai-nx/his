@@ -43,7 +43,6 @@
                 </div>
             </div>
 
-
             <template #footer>
                 <a-button key="submit" type="primary" :loading="loading" @click.prevent="handleSave">Lưu</a-button>
                 <a-button type="primary" :loading="loading" @click.prevent="handleSaveAndAddNew">Lưu và Thêm mới</a-button>
