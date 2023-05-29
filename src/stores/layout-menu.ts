@@ -9,7 +9,7 @@ export const useLayoutMenu = defineStore('layoutMenu', {
             { key: 'dashboard', title: 'Trang chủ', icon: 'bi-house', router: 'dashboard' },
 
             { key: 'admission', title: 'Đăng ký khám bệnh', icon: 'bi-house', router: 'admission' },
-            { key: 'treatment', title: 'Đăng ký khám bệnh v2', icon: 'bi-house', router: 'treatment' },
+            { key: 'treatment', title: 'Đón tiếp', icon: 'bi-house', router: 'treatment' },
             { key: 'exam', title: 'Khám bệnh', icon: 'bi-house', router: 'exam' },
 
             { key: 'dictionary', title: 'Danh mục', icon: 'bi-collection', router: '', 

@@ -1,7 +1,7 @@
 <template>
     <a-modal :visible="true" :mask-closable="false" width="1000px" title="Chọn đơn vị làm việc" @cancel="handleCancel">
-        <div class="row mb-3">
-            <div class="col-12 col-md-6">
+        <div class="row">
+            <div class="col-12 col-md-6 mb-3">
                 <div class="row">
                     <div class="col-12 col-md-3 text-start text-md-end">
                         <label>
@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 mb-3">
                 <div class="row">
                     <div class="col-12 col-md-3 text-start text-md-end">
                         <label>
@@ -47,7 +47,7 @@
             <a-table 
                 :columns="columns" 
                 :data-source="rooms" 
-                :scroll="{ x: 0, y: 500 }" 
+                :scroll="{ y: 500 }" 
                 :pagination="false"
                 :row-selection="{ selectedRowKeys: roomSelectedRowKeys, onChange: handleRoomSelectChange }" 
                 row-key="id"
@@ -206,5 +206,3 @@ export default defineComponent({
     },
 })
 </script>
-
-<style></style>
