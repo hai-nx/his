@@ -94,14 +94,14 @@
         <div class="col-md-4">
           <div class="row">
             <div class="col-md-4">
-              <label>Tỷ lệ BHTT</label>
+              <label>Loại PPTT</label>
             </div>
             <div class="col-md-8">
-              <a-input v-model:value="item.patientCode" :disabled="loading" />
+              <a-select class="w-100" />
             </div>
           </div>
         </div>
-        <div class="col-md-8">
+        <!-- <div class="col-md-8">
           <div class="row">
             <div class="col-md-6">
               <div class="row">
@@ -127,7 +127,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="row">
@@ -195,6 +195,16 @@ export default defineComponent({
       inactive: false,
     });
 
+    const columns = ref([
+      // { title: 'Id', key: 'id', dataIndex: 'id', width: 0, show: false },
+      { title: 'Mã', key: 'code', dataIndex: 'code', width: 200 },
+      { title: 'Tên', key: 'name', dataIndex: 'name', width: 500 },
+      { title: 'Giá cũ', key: 'oldUnitPrice', dataIndex: 'oldUnitPrice', width: 200 },
+      { title: 'Giá mới', key: 'newUnitPrice', dataIndex: 'newUnitPrice', width: 200 },
+      { title: 'Trần BH', key: 'ceilingPrice', dataIndex: 'ceilingPrice',  width: 200 },
+      { title: 'Ngày áp dụng', key: 'executionTime', dataIndex: 'executionTime', width: 200 },
+    ]);
+
     const handleSave = () => {
       loading.value = true;
     };
@@ -235,6 +245,7 @@ export default defineComponent({
     return {
       title,
       item,
+      columns,
       show,
       loading,
       fields,
