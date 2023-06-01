@@ -108,7 +108,7 @@
           class="ant-table-striped my-2"
           size="middle"
           :columns="columns"
-          :data-source="items"
+          :data-source="servicePricePolicies"
           bordered
         >
         </a-table>
@@ -139,6 +139,8 @@
 <script lang="ts">
 import { ServiceModel, ServicePricePolicyModel } from "@/models";
 import { defineComponent, ref, computed, watch, PropType } from "vue";
+import { serviceService, servicePricePolicyService } from "@/services";
+import { Modal } from "ant-design-vue";
 
 export default defineComponent({
   name: "ServiceDetailView",
@@ -152,34 +154,69 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
+    //#region Khai báo biến
+
     const loading = ref<boolean>(false);
     const fields = ref({ value: "id", label: "name" });
 
     const result = ref<boolean>(false);
     const title = ref<string>("Thêm mới dịch vụ ký thuật");
-    const service = ref<ServiceModel>({
-      id: undefined,
-      code: "",
-      name: "",
-      serviceTypeId: undefined,
-      serviceUnitId: undefined,
-      serviceGroupId: undefined,
-      serviceUnitName: "",
-      serviceGroupName: "",
-      inactive: false,
-    });
-
-    const servicePricePolicies = ref<ServicePricePolicyModel>();
-
+    const servicePricePolicies = ref<ServicePricePolicyModel[]>([]);
+    const service = ref<ServiceModel>();
     const columns = ref([
       // { title: 'Id', key: 'id', dataIndex: 'id', width: 0, show: false },
-      { title: "Mã", key: "code", dataIndex: "code", width: 200 },
-      { title: "Tên", key: "name", dataIndex: "name", width: 500 },
-      { title: "Giá cũ", key: "oldUnitPrice", dataIndex: "oldUnitPrice", width: 200, },
-      { title: "Giá mới", key: "newUnitPrice", dataIndex: "newUnitPrice", width: 200, },
-      { title: "Trần BH", key: "ceilingPrice", dataIndex: "ceilingPrice", width: 200, },
-      { title: "Ngày áp dụng", key: "executionTime", dataIndex: "executionTime", width: 200, },
+      { title: "Mã", key: "patientTypeCode", dataIndex: "patientTypeCode", width: 200 },
+      { title: "Tên", key: "patientTypeName", dataIndex: "patientTypeName", width: 500 },
+      {
+        title: "Giá cũ",
+        key: "oldUnitPrice",
+        dataIndex: "oldUnitPrice",
+        width: 200,
+      },
+      {
+        title: "Giá mới",
+        key: "newUnitPrice",
+        dataIndex: "newUnitPrice",
+        width: 200,
+      },
+      {
+        title: "Trần BH",
+        key: "ceilingPrice",
+        dataIndex: "ceilingPrice",
+        width: 200,
+      },
+      {
+        title: "Ngày áp dụng",
+        key: "executionTime",
+        dataIndex: "executionTime",
+        width: 200,
+      },
     ]);
+
+    //#endregion
+
+    //#region InitDate
+    const getServicePricePolicies = async () => {
+      var res = await servicePricePolicyService.getAll();
+      servicePricePolicies.value = res.data.result;
+    };
+
+    const getServiceById = (id: string) => {
+      serviceService
+        .getById(id!)
+        .then((res) => {
+          service.value = res.data.result;
+          title.value = "Sửa dịch vụ kỹ thuật";
+          loading.value = false;
+        })
+        .catch((error) => {
+          Modal.error({ content: error.message, okText: "Đồng ý" });
+          toggle();
+        });
+    };
+
+    // getServicePricePolicies();
+    //#endregion
 
     const handleSave = () => {
       loading.value = true;
@@ -207,6 +244,7 @@ export default defineComponent({
         serviceUnitName: "",
         serviceGroupName: "",
         inactive: false,
+        servicePricePolicies: servicePricePolicies.value,
       };
     };
 
@@ -216,7 +254,21 @@ export default defineComponent({
 
     const show = computed(() => props.visible);
 
-    // watch(show, (value) => {});
+    watch(show, (value) => {
+      if (value) {
+        loading.value = true;
+
+        if (props.data !== undefined && props.data !== null && props.data?.id !== undefined ) {
+          let data = props.data!;
+          getServiceById(data.id!);
+        } else {
+          getServicePricePolicies();
+          reset();
+
+          loading.value = false;
+        }
+      }
+    });
 
     return {
       title,

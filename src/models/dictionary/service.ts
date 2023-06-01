@@ -1,4 +1,5 @@
 import DictionaryBase from './base'
+import ServicePricePolicyModel from './servicePricePolicy'
 
 export default interface ServiceModel extends DictionaryBase {
     serviceTypeId: string | undefined,
@@ -7,4 +8,6 @@ export default interface ServiceModel extends DictionaryBase {
 
     serviceUnitName: string,
     serviceGroupName: string,
+
+    servicePricePolicies: ServicePricePolicyModel[]
 }
