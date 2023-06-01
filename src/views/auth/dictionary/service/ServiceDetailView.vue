@@ -14,7 +14,7 @@
               <label>Mã DV</label>
             </div>
             <div class="col-md-8">
-              <a-input v-model:value="item.patientCode" :disabled="loading" />
+              <a-input v-model:value="service.code" :disabled="loading" />
             </div>
           </div>
         </div>
@@ -24,7 +24,7 @@
               <label>Tên DV</label>
             </div>
             <div class="col-md-10">
-              <a-input v-model:value="item.patientCode" :disabled="loading" />
+              <a-input v-model:value="service.name" :disabled="loading" />
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@
               <label>Mã BHYT</label>
             </div>
             <div class="col-md-8">
-              <a-input v-model:value="item.patientCode" :disabled="loading" />
+              <a-input v-model:value="service.code" :disabled="loading" />
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
               <label>Tên BHYT</label>
             </div>
             <div class="col-md-10">
-              <a-input v-model:value="item.patientCode" :disabled="loading" />
+              <a-input v-model:value="service.name" :disabled="loading" />
             </div>
           </div>
         </div>
@@ -101,33 +101,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="col-md-8">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-md-4">
-                  <label>Trần BHYT</label>
-                </div>
-                <div class="col-md-8">
-                  <a-input
-                    v-model:value="item.patientCode"
-                    :disabled="loading"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-md-4">
-                  <label>Loại PPTT</label>
-                </div>
-                <div class="col-md-8">
-                  <a-select class="w-100" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
 
       <div class="row">
@@ -136,7 +109,8 @@
           size="middle"
           :columns="columns"
           :data-source="items"
-          bordered>
+          bordered
+        >
         </a-table>
       </div>
     </div>
@@ -163,7 +137,7 @@
 </template>
 
 <script lang="ts">
-import { ServiceModel } from "@/models";
+import { ServiceModel, ServicePricePolicyModel } from "@/models";
 import { defineComponent, ref, computed, watch, PropType } from "vue";
 
 export default defineComponent({
@@ -183,7 +157,7 @@ export default defineComponent({
 
     const result = ref<boolean>(false);
     const title = ref<string>("Thêm mới dịch vụ ký thuật");
-    const item = ref<ServiceModel>({
+    const service = ref<ServiceModel>({
       id: undefined,
       code: "",
       name: "",
@@ -195,14 +169,16 @@ export default defineComponent({
       inactive: false,
     });
 
+    const servicePricePolicies = ref<ServicePricePolicyModel>();
+
     const columns = ref([
       // { title: 'Id', key: 'id', dataIndex: 'id', width: 0, show: false },
-      { title: 'Mã', key: 'code', dataIndex: 'code', width: 200 },
-      { title: 'Tên', key: 'name', dataIndex: 'name', width: 500 },
-      { title: 'Giá cũ', key: 'oldUnitPrice', dataIndex: 'oldUnitPrice', width: 200 },
-      { title: 'Giá mới', key: 'newUnitPrice', dataIndex: 'newUnitPrice', width: 200 },
-      { title: 'Trần BH', key: 'ceilingPrice', dataIndex: 'ceilingPrice',  width: 200 },
-      { title: 'Ngày áp dụng', key: 'executionTime', dataIndex: 'executionTime', width: 200 },
+      { title: "Mã", key: "code", dataIndex: "code", width: 200 },
+      { title: "Tên", key: "name", dataIndex: "name", width: 500 },
+      { title: "Giá cũ", key: "oldUnitPrice", dataIndex: "oldUnitPrice", width: 200, },
+      { title: "Giá mới", key: "newUnitPrice", dataIndex: "newUnitPrice", width: 200, },
+      { title: "Trần BH", key: "ceilingPrice", dataIndex: "ceilingPrice", width: 200, },
+      { title: "Ngày áp dụng", key: "executionTime", dataIndex: "executionTime", width: 200, },
     ]);
 
     const handleSave = () => {
@@ -221,7 +197,7 @@ export default defineComponent({
     };
 
     const reset = () => {
-      item.value = {
+      service.value = {
         id: undefined,
         code: "",
         name: "",
@@ -244,7 +220,8 @@ export default defineComponent({
 
     return {
       title,
-      item,
+      service,
+      servicePricePolicies,
       columns,
       show,
       loading,
