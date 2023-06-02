@@ -112,6 +112,7 @@
           bordered
         >
         </a-table>
+        <!-- <p>{{servicePricePolicies}}</p> -->
       </div>
     </div>
 
@@ -138,7 +139,7 @@
 
 <script lang="ts">
 import { ServiceModel, ServicePricePolicyModel } from "@/models";
-import { defineComponent, ref, computed, watch, PropType } from "vue";
+import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
 import { serviceService, servicePricePolicyService } from "@/services";
 import { Modal } from "ant-design-vue";
 
@@ -161,12 +162,37 @@ export default defineComponent({
 
     const result = ref<boolean>(false);
     const title = ref<string>("Thêm mới dịch vụ ký thuật");
-    const servicePricePolicies = ref<ServicePricePolicyModel[]>([]);
-    const service = ref<ServiceModel>();
+    const state = reactive({
+      servicePricePolicies2: [] as ServicePricePolicyModel[]
+    })
+    // let servicePricePolicies: ServicePricePolicyModel[] = reactive([]);
+    let servicePricePolicies = ref<ServicePricePolicyModel[]>([]);
+    let service = reactive<ServiceModel>({
+      id: undefined,
+      code: "",
+      name: "",
+      inactive: false,
+      serviceTypeId: undefined,
+      serviceUnitId: undefined,
+      serviceGroupId: undefined,
+      serviceUnitName: "",
+      serviceGroupName: "",
+      servicePricePolicies: [],
+    });
     const columns = ref([
       // { title: 'Id', key: 'id', dataIndex: 'id', width: 0, show: false },
-      { title: "Mã", key: "patientTypeCode", dataIndex: "patientTypeCode", width: 200 },
-      { title: "Tên", key: "patientTypeName", dataIndex: "patientTypeName", width: 500 },
+      {
+        title: "Mã",
+        key: "patientTypeCode",
+        dataIndex: "patientTypeCode",
+        width: 200,
+      },
+      {
+        title: "Tên",
+        key: "patientTypeName",
+        dataIndex: "patientTypeName",
+        width: 500,
+      },
       {
         title: "Giá cũ",
         key: "oldUnitPrice",
@@ -196,26 +222,37 @@ export default defineComponent({
     //#endregion
 
     //#region InitDate
-    const getServicePricePolicies = async () => {
+    async function getServicePricePolicies(): Promise<ServicePricePolicyModel[]> {
       var res = await servicePricePolicyService.getAll();
-      servicePricePolicies.value = res.data.result;
-    };
+      console.log('Gia trị');
+      console.log(res.data.result);
+      state.servicePricePolicies2 = res.data.result;
+      console.log('Gia trị state');
+      console.log(state.servicePricePolicies2);
+      console.log(state.servicePricePolicies2);
+      return res.data.result;
+    }
 
-    const getServiceById = (id: string) => {
-      serviceService
-        .getById(id!)
-        .then((res) => {
-          service.value = res.data.result;
-          title.value = "Sửa dịch vụ kỹ thuật";
-          loading.value = false;
-        })
-        .catch((error) => {
-          Modal.error({ content: error.message, okText: "Đồng ý" });
-          toggle();
-        });
-    };
+    async function getServiceById(id: string | null) {
+      reset();
+      if (id !== undefined && id !== null) {
+        serviceService
+          .getById(id!)
+          .then((res) => {
+            service = res.data.result;
+            title.value = "Sửa dịch vụ kỹ thuật";
+            loading.value = false;
+          })
+          .catch((error) => {
+            Modal.error({ content: error.message, okText: "Đồng ý" });
+            toggle();
+          });
+      } else {
+        service.servicePricePolicies = servicePricePolicies.value =
+          await getServicePricePolicies();
+      }
+    }
 
-    // getServicePricePolicies();
     //#endregion
 
     const handleSave = () => {
@@ -234,7 +271,7 @@ export default defineComponent({
     };
 
     const reset = () => {
-      service.value = {
+      service = {
         id: undefined,
         code: "",
         name: "",
@@ -244,7 +281,7 @@ export default defineComponent({
         serviceUnitName: "",
         serviceGroupName: "",
         inactive: false,
-        servicePricePolicies: servicePricePolicies.value,
+        servicePricePolicies: [],
       };
     };
 
@@ -254,19 +291,12 @@ export default defineComponent({
 
     const show = computed(() => props.visible);
 
-    watch(show, (value) => {
+    watch(show, async (value) => {
       if (value) {
         loading.value = true;
-
-        if (props.data !== undefined && props.data !== null && props.data?.id !== undefined ) {
-          let data = props.data!;
-          getServiceById(data.id!);
-        } else {
-          getServicePricePolicies();
-          reset();
-
-          loading.value = false;
-        }
+        let id = props && props.data ? props.data.id : null;
+        await getServiceById(id as string | null);
+        loading.value = false;
       }
     });
 
@@ -279,11 +309,10 @@ export default defineComponent({
       loading,
       fields,
       result,
-      //   roomTypes,
-      //   departments,
       handleSave,
       handleSaveAndAddNew,
       handleCancel,
+      ...state
     };
   },
 });
