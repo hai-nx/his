@@ -9,5 +9,5 @@ export default interface ServiceModel extends DictionaryBase {
     serviceUnitName: string,
     serviceGroupName: string,
 
-    servicePricePolicies: ServicePricePolicyModel[]
+    servicePricePolicies: ServicePricePolicyModel[],
 }

@@ -108,11 +108,56 @@
           class="ant-table-striped my-2"
           size="middle"
           :columns="columns"
-          :data-source="servicePricePolicies"
+          :data-source="service.servicePricePolicies"
           bordered
         >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'patientTypeCode'">
+              <a-input
+                class="my-0 mx-0 w-100"
+                v-model:value="record.patientTypeCode"
+                disabled
+              />
+            </template>
+            <template v-else-if="column.key === 'patientTypeName'">
+              <a-input
+                class="my-0 mx-0 w-100"
+                v-model:value="record.patientTypeName"
+                disabled
+              />
+            </template>
+            <template v-else-if="column.key === 'oldUnitPrice'">
+              <a-input-number
+                style="text-align: right"
+                class="my-0 mx-0 w-100"
+                v-model:value="record.oldUnitPrice"
+                min="0"
+              />
+            </template>
+            <template v-else-if="column.key === 'newUnitPrice'">
+              <a-input-number
+                class="my-0 mx-0 w-100"
+                v-model:value="record.newUnitPrice"
+                min="0"
+              />
+            </template>
+            <template v-else-if="column.key === 'ceilingPrice'">
+              <a-input-number
+                class="my-0 mx-0"
+                v-model:value="record.ceilingPrice"
+                min="0"
+              />
+            </template>
+            <template v-else-if="column.key === 'executionTime'">
+              <a-date-picker
+                class="my-0 mx-0 w-100"
+                v-model:value="record.executionTime"
+                placeholder="dd/MM/yyyy"
+                format="DD/MM/YYYY"
+              />
+            </template>
+          </template>
         </a-table>
-        <!-- <p>{{servicePricePolicies}}</p> -->
       </div>
     </div>
 
@@ -162,11 +207,6 @@ export default defineComponent({
 
     const result = ref<boolean>(false);
     const title = ref<string>("Thêm mới dịch vụ ký thuật");
-    const state = reactive({
-      servicePricePolicies2: [] as ServicePricePolicyModel[]
-    })
-    // let servicePricePolicies: ServicePricePolicyModel[] = reactive([]);
-    let servicePricePolicies = ref<ServicePricePolicyModel[]>([]);
     let service = reactive<ServiceModel>({
       id: undefined,
       code: "",
@@ -177,10 +217,11 @@ export default defineComponent({
       serviceGroupId: undefined,
       serviceUnitName: "",
       serviceGroupName: "",
-      servicePricePolicies: [],
+      servicePricePolicies: reactive([]) as ServicePricePolicyModel[],
     });
-    const columns = ref([
-      // { title: 'Id', key: 'id', dataIndex: 'id', width: 0, show: false },
+
+    const columns = reactive([
+      // { title: "Id", key: "id", dataIndex: "id", width: 0, show: false },
       {
         title: "Mã",
         key: "patientTypeCode",
@@ -198,12 +239,14 @@ export default defineComponent({
         key: "oldUnitPrice",
         dataIndex: "oldUnitPrice",
         width: 200,
+        isEditing: true,
       },
       {
         title: "Giá mới",
         key: "newUnitPrice",
         dataIndex: "newUnitPrice",
         width: 200,
+        isEditing: true,
       },
       {
         title: "Trần BH",
@@ -218,18 +261,17 @@ export default defineComponent({
         width: 200,
       },
     ]);
-
     //#endregion
 
-    //#region InitDate
-    async function getServicePricePolicies(): Promise<ServicePricePolicyModel[]> {
+    //#region InitData
+    //#endregion
+
+    //#region Function
+
+    async function getServicePricePolicies(): Promise<
+      ServicePricePolicyModel[]
+    > {
       var res = await servicePricePolicyService.getAll();
-      console.log('Gia trị');
-      console.log(res.data.result);
-      state.servicePricePolicies2 = res.data.result;
-      console.log('Gia trị state');
-      console.log(state.servicePricePolicies2);
-      console.log(state.servicePricePolicies2);
       return res.data.result;
     }
 
@@ -248,8 +290,7 @@ export default defineComponent({
             toggle();
           });
       } else {
-        service.servicePricePolicies = servicePricePolicies.value =
-          await getServicePricePolicies();
+        service.servicePricePolicies = await getServicePricePolicies();
       }
     }
 
@@ -271,18 +312,16 @@ export default defineComponent({
     };
 
     const reset = () => {
-      service = {
-        id: undefined,
-        code: "",
-        name: "",
-        serviceTypeId: undefined,
-        serviceUnitId: undefined,
-        serviceGroupId: undefined,
-        serviceUnitName: "",
-        serviceGroupName: "",
-        inactive: false,
-        servicePricePolicies: [],
-      };
+      service.id = undefined;
+      (service.code = ""),
+        (service.name = ""),
+        (service.inactive = false),
+        (service.serviceTypeId = undefined),
+        (service.serviceUnitId = undefined),
+        (service.serviceGroupId = undefined),
+        (service.serviceUnitName = ""),
+        (service.serviceGroupName = ""),
+        (service.servicePricePolicies = []);
     };
 
     const toggle = () => {
@@ -303,7 +342,6 @@ export default defineComponent({
     return {
       title,
       service,
-      servicePricePolicies,
       columns,
       show,
       loading,
@@ -312,11 +350,14 @@ export default defineComponent({
       handleSave,
       handleSaveAndAddNew,
       handleCancel,
-      ...state
     };
   },
 });
 </script>
 
 <style>
+/* .ant-table-cell {
+  padding: 0;
+  margin: 0;
+} */
 </style>
