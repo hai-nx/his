@@ -97,7 +97,15 @@
               <label>Loại PPTT</label>
             </div>
             <div class="col-md-8">
-              <a-select class="w-100" />
+              <a-select class="w-100" :value="service.surgicalProcedureTypeId">
+                <a-select-option
+                  v-for="option in surgicalProcedureTypes"
+                  :value="option.id"
+                  :key="option.id"
+                >
+                  <span>{{ option.name }}</span>
+                </a-select-option>
+              </a-select>
             </div>
           </div>
         </div>
@@ -183,9 +191,17 @@
 </template>
 
 <script lang="ts">
-import { ServiceModel, ServicePricePolicyModel } from "@/models";
+import {
+  ServiceModel,
+  ServicePricePolicyModel,
+  SurgicalProcedureTypeModel,
+} from "@/models";
 import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
-import { serviceService, servicePricePolicyService } from "@/services";
+import {
+  serviceService,
+  servicePricePolicyService,
+  surgicalProcedureTypeService,
+} from "@/services";
 import { Modal } from "ant-design-vue";
 
 export default defineComponent({
@@ -215,13 +231,15 @@ export default defineComponent({
       serviceTypeId: undefined,
       serviceUnitId: undefined,
       serviceGroupId: undefined,
+      surgicalProcedureTypeId: undefined,
       serviceUnitName: "",
       serviceGroupName: "",
-      servicePricePolicies: reactive([]) as ServicePricePolicyModel[],
+      servicePricePolicies: reactive([]),
     });
 
+    const surgicalProcedureTypes = ref<SurgicalProcedureTypeModel[]>([]);
+
     const columns = reactive([
-      // { title: "Id", key: "id", dataIndex: "id", width: 0, show: false },
       {
         title: "Mã",
         key: "patientTypeCode",
@@ -261,6 +279,7 @@ export default defineComponent({
         width: 200,
       },
     ]);
+
     //#endregion
 
     //#region InitData
@@ -268,10 +287,20 @@ export default defineComponent({
 
     //#region Function
 
+    async function InitData() {
+      surgicalProcedureTypes.value = await getSurgicalProcedureTypes();
+      console.log(surgicalProcedureTypes.value);
+    }
+
     async function getServicePricePolicies(): Promise<
       ServicePricePolicyModel[]
     > {
       var res = await servicePricePolicyService.getAll();
+      return res.data.result;
+    }
+
+    async function getSurgicalProcedureTypes() {
+      var res = await surgicalProcedureTypeService.getAll();
       return res.data.result;
     }
 
@@ -319,6 +348,7 @@ export default defineComponent({
         (service.serviceTypeId = undefined),
         (service.serviceUnitId = undefined),
         (service.serviceGroupId = undefined),
+        (service.surgicalProcedureTypeId = undefined),
         (service.serviceUnitName = ""),
         (service.serviceGroupName = ""),
         (service.servicePricePolicies = []);
@@ -333,6 +363,9 @@ export default defineComponent({
     watch(show, async (value) => {
       if (value) {
         loading.value = true;
+
+        await InitData();
+
         let id = props && props.data ? props.data.id : null;
         await getServiceById(id as string | null);
         loading.value = false;
@@ -347,6 +380,7 @@ export default defineComponent({
       loading,
       fields,
       result,
+      surgicalProcedureTypes,
       handleSave,
       handleSaveAndAddNew,
       handleCancel,
