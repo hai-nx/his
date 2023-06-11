@@ -72,7 +72,15 @@
                   <label>Nhóm BHYT</label>
                 </div>
                 <div class="col-md-8">
-                  <a-select class="w-100" />
+                  <a-select class="w-100" :value="service.serviceGroupId">
+                    <a-select-option
+                      v-for="option in serviceGroups"
+                      :value="option.id"
+                      :key="option.id"
+                    >
+                      <span>{{ option.name }}</span>
+                    </a-select-option>
+                  </a-select>
                 </div>
               </div>
             </div>
@@ -82,7 +90,15 @@
                   <label>Nhóm DV</label>
                 </div>
                 <div class="col-md-8">
-                  <a-select class="w-100" />
+                  <a-select class="w-100" :value="service.serviceGroupId">
+                    <a-select-option
+                      v-for="option in serviceGroups"
+                      :value="option.id"
+                      :key="option.id"
+                    >
+                      <span>{{ option.name }}</span>
+                    </a-select-option>
+                  </a-select>
                 </div>
               </div>
             </div>
@@ -151,7 +167,7 @@
             </template>
             <template v-else-if="column.key === 'ceilingPrice'">
               <a-input-number
-                class="my-0 mx-0"
+                class="my-0 mx-0 w-100"
                 v-model:value="record.ceilingPrice"
                 min="0"
               />
@@ -195,12 +211,14 @@ import {
   ServiceModel,
   ServicePricePolicyModel,
   SurgicalProcedureTypeModel,
+  ServiceGroupModel,
 } from "@/models";
 import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
 import {
   serviceService,
   servicePricePolicyService,
   surgicalProcedureTypeService,
+  serviceGroupService,
 } from "@/services";
 import { Modal } from "ant-design-vue";
 
@@ -238,6 +256,7 @@ export default defineComponent({
     });
 
     const surgicalProcedureTypes = ref<SurgicalProcedureTypeModel[]>([]);
+    const serviceGroups = ref<ServiceGroupModel[]>([]);
 
     const columns = reactive([
       {
@@ -289,18 +308,21 @@ export default defineComponent({
 
     async function InitData() {
       surgicalProcedureTypes.value = await getSurgicalProcedureTypes();
-      console.log(surgicalProcedureTypes.value);
+      serviceGroups.value = await getServiceGroups();
     }
 
-    async function getServicePricePolicies(): Promise<
-      ServicePricePolicyModel[]
-    > {
+    async function getServicePricePolicies() {
       var res = await servicePricePolicyService.getAll();
       return res.data.result;
     }
 
     async function getSurgicalProcedureTypes() {
       var res = await surgicalProcedureTypeService.getAll();
+      return res.data.result;
+    }
+
+    async function getServiceGroups() {
+      var res = await serviceGroupService.getAll();
       return res.data.result;
     }
 
@@ -381,6 +403,7 @@ export default defineComponent({
       fields,
       result,
       surgicalProcedureTypes,
+      serviceGroups,
       handleSave,
       handleSaveAndAddNew,
       handleCancel,
