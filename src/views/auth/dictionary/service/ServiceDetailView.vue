@@ -90,14 +90,18 @@
                   <label>Nhóm DV</label>
                 </div>
                 <div class="col-md-8">
-                  <a-select class="w-100" :value="service.serviceGroupId">
-                    <a-select-option
-                      v-for="option in serviceGroups"
-                      :value="option.id"
-                      :key="option.id"
-                    >
-                      <span>{{ option.name }}</span>
-                    </a-select-option>
+                  <a-select
+                    v-model:value="service.serviceGroupId"
+                    :options="serviceGroups"
+                    :field-names="fields"
+                    :disabled="loading"
+                    class="w-100"
+                  >
+                    <template #option="{ name }">
+                      <div class="row">
+                        <span>{{ name }}</span>
+                      </div>
+                    </template>
                   </a-select>
                 </div>
               </div>
@@ -113,14 +117,18 @@
               <label>Loại PPTT</label>
             </div>
             <div class="col-md-8">
-              <a-select class="w-100" :value="service.surgicalProcedureTypeId">
-                <a-select-option
-                  v-for="option in surgicalProcedureTypes"
-                  :value="option.id"
-                  :key="option.id"
-                >
-                  <span>{{ option.name }}</span>
-                </a-select-option>
+              <a-select
+                v-model:value="service.surgicalProcedureTypeId"
+                :options="surgicalProcedureTypes"
+                :field-names="fields"
+                :disabled="loading"
+                class="w-100"
+              >
+                <template #option="{ name }">
+                  <div class="row">
+                    <span>{{ name }}</span>
+                  </div>
+                </template>
               </a-select>
             </div>
           </div>
