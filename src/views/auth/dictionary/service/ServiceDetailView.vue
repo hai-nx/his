@@ -60,7 +60,19 @@
               <label>Đợn vị tính</label>
             </div>
             <div class="col-md-8">
-              <a-select class="w-100" />
+              <a-select
+                v-model:value="service.serviceUnitId"
+                :options="serviceUnits"
+                :field-names="fields"
+                :disabled="loading"
+                class="w-100"
+              >
+                <template #option="{ name }">
+                  <div class="row">
+                    <span>{{ name }}</span>
+                  </div>
+                </template>
+              </a-select>
             </div>
           </div>
         </div>
@@ -72,14 +84,18 @@
                   <label>Nhóm BHYT</label>
                 </div>
                 <div class="col-md-8">
-                  <a-select class="w-100" :value="service.serviceGroupId">
-                    <a-select-option
-                      v-for="option in serviceGroups"
-                      :value="option.id"
-                      :key="option.id"
-                    >
-                      <span>{{ option.name }}</span>
-                    </a-select-option>
+                  <a-select
+                    v-model:value="service.serviceGroupHeInId"
+                    :options="serviceGroupHeIns"
+                    :field-names="fields"
+                    :disabled="loading"
+                    class="w-100"
+                  >
+                    <template #option="{ name }">
+                      <div class="row">
+                        <span>{{ name }}</span>
+                      </div>
+                    </template>
                   </a-select>
                 </div>
               </div>
@@ -217,9 +233,10 @@
 <script lang="ts">
 import {
   ServiceModel,
-  ServicePricePolicyModel,
   SurgicalProcedureTypeModel,
   ServiceGroupModel,
+  ServiceGroupHeInModel,
+  ServiceUnitModel,
 } from "@/models";
 import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
 import {
@@ -227,6 +244,8 @@ import {
   servicePricePolicyService,
   surgicalProcedureTypeService,
   serviceGroupService,
+  serviceGroupHeInService,
+  serviceUnitService,
 } from "@/services";
 import { Modal } from "ant-design-vue";
 
@@ -257,6 +276,7 @@ export default defineComponent({
       serviceTypeId: undefined,
       serviceUnitId: undefined,
       serviceGroupId: undefined,
+      serviceGroupHeInId: undefined,
       surgicalProcedureTypeId: undefined,
       serviceUnitName: "",
       serviceGroupName: "",
@@ -265,6 +285,8 @@ export default defineComponent({
 
     const surgicalProcedureTypes = ref<SurgicalProcedureTypeModel[]>([]);
     const serviceGroups = ref<ServiceGroupModel[]>([]);
+    const serviceGroupHeIns = ref<ServiceGroupHeInModel[]>([]);
+    const serviceUnits = ref<ServiceUnitModel[]>([]);
 
     const columns = reactive([
       {
@@ -314,9 +336,11 @@ export default defineComponent({
 
     //#region Function
 
-    async function InitData() {
+    async function initData() {
       surgicalProcedureTypes.value = await getSurgicalProcedureTypes();
       serviceGroups.value = await getServiceGroups();
+      serviceGroupHeIns.value = await getServiceGroupHeIns();
+      serviceUnits.value = await getServiceUnits();
     }
 
     async function getServicePricePolicies() {
@@ -331,6 +355,16 @@ export default defineComponent({
 
     async function getServiceGroups() {
       var res = await serviceGroupService.getAll();
+      return res.data.result;
+    }
+
+    async function getServiceUnits() {
+      var res = await serviceUnitService.getAll();
+      return res.data.result;
+    }
+
+    async function getServiceGroupHeIns() {
+      var res = await serviceGroupHeInService.getAll();
       return res.data.result;
     }
 
@@ -377,6 +411,7 @@ export default defineComponent({
         (service.inactive = false),
         (service.serviceTypeId = undefined),
         (service.serviceUnitId = undefined),
+        (service.serviceGroupHeInId = undefined),
         (service.serviceGroupId = undefined),
         (service.surgicalProcedureTypeId = undefined),
         (service.serviceUnitName = ""),
@@ -394,7 +429,7 @@ export default defineComponent({
       if (value) {
         loading.value = true;
 
-        await InitData();
+        await initData();
 
         let id = props && props.data ? props.data.id : null;
         await getServiceById(id as string | null);
@@ -412,6 +447,8 @@ export default defineComponent({
       result,
       surgicalProcedureTypes,
       serviceGroups,
+      serviceGroupHeIns,
+      serviceUnits,
       handleSave,
       handleSaveAndAddNew,
       handleCancel,
@@ -421,8 +458,12 @@ export default defineComponent({
 </script>
 
 <style>
-/* .ant-table-cell {
-  padding: 0;
-  margin: 0;
+/* .ant-table.ant-table-middle .ant-table-title,
+.ant-table.ant-table-middle .ant-table-footer,
+.ant-table.ant-table-middle .ant-table-thead > tr > th,
+.ant-table.ant-table-middle .ant-table-tbody > tr > td,
+.ant-table.ant-table-middle tfoot > tr > th,
+.ant-table.ant-table-middle tfoot > tr > td {
+  padding: 3px 3px;
 } */
 </style>

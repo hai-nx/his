@@ -23,6 +23,8 @@ import ServiceModel from './dictionary/service'
 import ServicePricePolicyModel from './dictionary/servicePricePolicy'
 import SurgicalProcedureTypeModel from './dictionary/surgicalProcedureType'
 import ServiceGroupModel from './dictionary/serviceGroup'
+import ServiceGroupHeInModel from './dictionary/serviceGroupHeIn'
+import ServiceUnitModel from './dictionary/serviceUnit'
 
 export {
     ApiResult,
@@ -48,7 +50,9 @@ export {
     RoomTypeModel,
     WardModel,
     ServiceModel,
+    ServiceUnitModel,
     ServiceGroupModel,
+    ServiceGroupHeInModel,
     ServicePricePolicyModel,
     SurgicalProcedureTypeModel
 }

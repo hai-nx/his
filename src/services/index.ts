@@ -19,7 +19,8 @@ import serviceService from './dictionary/service'
 import servicePricePolicyService from './dictionary/servicePricePolicy'
 import surgicalProcedureTypeService from './dictionary/surgicalProcedureType'
 import serviceGroupService from './dictionary/serviceGroup'
-
+import serviceGroupHeInService from './dictionary/serviceGroupHeIn'
+import serviceUnitService from './dictionary/serviceUnit'
 
 import patientService from './business/patient'
 
@@ -46,6 +47,8 @@ export {
     servicePricePolicyService,
     surgicalProcedureTypeService,
     serviceGroupService,
+    serviceGroupHeInService,
+    serviceUnitService,
 
     patientService
 }
