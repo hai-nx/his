@@ -12,7 +12,7 @@ const servicePricePolicyService = {
         return request.post<ApiResult<ServicePricePolicyModel>>('api/SServicePricePolicy/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post<ApiResult<ServicePricePolicyModel>>('api/SServicePricePolicy/Delete?id=' + id);
+        return request.delete<ApiResult<ServicePricePolicyModel>>('api/SServicePricePolicy/Delete?id=' + id);
     }
 }
 

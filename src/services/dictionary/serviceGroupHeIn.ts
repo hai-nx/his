@@ -12,7 +12,7 @@ const serviceGroupHeInService = {
         return request.post<ApiResult<ServiceGroupHeInModel>>('api/SServiceGroupHeIn/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post<ApiResult<ServiceGroupHeInModel>>('api/SServiceGroupHeIn/Delete?id=' + id);
+        return request.delete<ApiResult<ServiceGroupHeInModel>>('api/SServiceGroupHeIn/Delete?id=' + id);
     }
 }
 

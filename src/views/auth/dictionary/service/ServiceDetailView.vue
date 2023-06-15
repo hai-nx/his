@@ -37,7 +37,7 @@
               <label>Mã BHYT</label>
             </div>
             <div class="col-md-8">
-              <a-input v-model:value="service.code" :disabled="loading" />
+              <a-input v-model:value="service.heInCode" :disabled="loading" />
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
               <label>Tên BHYT</label>
             </div>
             <div class="col-md-10">
-              <a-input v-model:value="service.name" :disabled="loading" />
+              <a-input v-model:value="service.heInName" :disabled="loading" />
             </div>
           </div>
         </div>
@@ -237,6 +237,7 @@ import {
   ServiceGroupModel,
   ServiceGroupHeInModel,
   ServiceUnitModel,
+  ServicePricePolicyModel,
 } from "@/models";
 import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
 import {
@@ -272,6 +273,8 @@ export default defineComponent({
       id: undefined,
       code: "",
       name: "",
+      heInCode: "",
+      heInName: "",
       inactive: false,
       serviceTypeId: undefined,
       serviceUnitId: undefined,
@@ -343,27 +346,31 @@ export default defineComponent({
       serviceUnits.value = await getServiceUnits();
     }
 
-    async function getServicePricePolicies() {
+    async function getServicePricePolicies(): Promise<
+      ServicePricePolicyModel[]
+    > {
       var res = await servicePricePolicyService.getAll();
       return res.data.result;
     }
 
-    async function getSurgicalProcedureTypes() {
+    async function getSurgicalProcedureTypes(): Promise<
+      SurgicalProcedureTypeModel[]
+    > {
       var res = await surgicalProcedureTypeService.getAll();
       return res.data.result;
     }
 
-    async function getServiceGroups() {
+    async function getServiceGroups(): Promise<ServiceGroupModel[]> {
       var res = await serviceGroupService.getAll();
       return res.data.result;
     }
 
-    async function getServiceUnits() {
+    async function getServiceUnits(): Promise<ServiceUnitModel[]> {
       var res = await serviceUnitService.getAll();
       return res.data.result;
     }
 
-    async function getServiceGroupHeIns() {
+    async function getServiceGroupHeIns(): Promise<ServiceGroupHeInModel[]> {
       var res = await serviceGroupHeInService.getAll();
       return res.data.result;
     }
@@ -374,7 +381,23 @@ export default defineComponent({
         serviceService
           .getById(id!)
           .then((res) => {
-            service = res.data.result;
+            service.id = res.data.result.id;
+            (service.code = res.data.result.code),
+              (service.name = res.data.result.name),
+              (service.heInCode = res.data.result.heInCode),
+              (service.heInName = res.data.result.heInName),
+              (service.inactive = res.data.result.inactive),
+              (service.serviceTypeId = res.data.result.serviceTypeId),
+              (service.serviceUnitId = res.data.result.serviceUnitId),
+              (service.serviceGroupHeInId = res.data.result.serviceGroupHeInId),
+              (service.serviceGroupId = res.data.result.serviceGroupId),
+              (service.surgicalProcedureTypeId =
+                res.data.result.surgicalProcedureTypeId),
+              (service.serviceUnitName = res.data.result.serviceUnitName),
+              (service.serviceGroupName = res.data.result.serviceGroupName),
+              (service.servicePricePolicies =
+                res.data.result.servicePricePolicies);
+
             title.value = "Sửa dịch vụ kỹ thuật";
             loading.value = false;
           })
@@ -389,8 +412,18 @@ export default defineComponent({
 
     //#endregion
 
-    const handleSave = () => {
+    const handleSave = async () => {
       loading.value = true;
+
+      console.log(service);
+
+      let resultSave = await serviceService.createOrEdit(service);
+      if (resultSave.data.isSuccessed) {
+        result.value = true;
+        toggle();
+      } else {
+        Modal.error({ content: resultSave.data.message, okText: "Đồng ý" });
+      }
     };
 
     const handleSaveAndAddNew = () => {

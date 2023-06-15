@@ -12,7 +12,7 @@ const serviceUnitService = {
         return request.post<ApiResult<ServiceUnitModel>>('api/SServiceUnit/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post<ApiResult<ServiceUnitModel>>('api/SServiceUnit/Delete?id=' + id);
+        return request.delete<ApiResult<ServiceUnitModel>>('api/SServiceUnit/Delete?id=' + id);
     }
 }
 
