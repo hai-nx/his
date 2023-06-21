@@ -1,6 +1,5 @@
 import DictionaryBase from './base'
 import ServicePricePolicyModel from './servicePricePolicy'
-import { ref } from 'vue'
 
 export default interface ServiceModel extends DictionaryBase {
     heInCode: string,

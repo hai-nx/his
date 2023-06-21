@@ -197,11 +197,20 @@
               />
             </template>
             <template v-else-if="column.key === 'executionTime'">
-              <a-date-picker
+              <!-- <a-date-picker
                 class="my-0 mx-0 w-100"
                 v-model:value="record.executionTime"
                 placeholder="dd/MM/yyyy"
                 format="DD/MM/YYYY"
+                locale="en_US"
+              /> -->
+              <input
+                class="my-0 mx-0 w-100"
+                type="date"
+                placeholder="dd/MM/yyyy"
+                format="dd/MM/yyyy"
+                DataFormatString
+                :value="record.executionTime"
               />
             </template>
           </template>
@@ -249,6 +258,7 @@ import {
   serviceUnitService,
 } from "@/services";
 import { Modal } from "ant-design-vue";
+// import moment from "moment";
 
 export default defineComponent({
   name: "ServiceDetailView",
@@ -334,9 +344,6 @@ export default defineComponent({
 
     //#endregion
 
-    //#region InitData
-    //#endregion
-
     //#region Function
 
     async function initData() {
@@ -378,33 +385,41 @@ export default defineComponent({
     async function getServiceById(id: string | null) {
       reset();
       if (id !== undefined && id !== null) {
-        serviceService
-          .getById(id!)
-          .then((res) => {
-            service.id = res.data.result.id;
-            (service.code = res.data.result.code),
-              (service.name = res.data.result.name),
-              (service.heInCode = res.data.result.heInCode),
-              (service.heInName = res.data.result.heInName),
-              (service.inactive = res.data.result.inactive),
-              (service.serviceTypeId = res.data.result.serviceTypeId),
-              (service.serviceUnitId = res.data.result.serviceUnitId),
-              (service.serviceGroupHeInId = res.data.result.serviceGroupHeInId),
-              (service.serviceGroupId = res.data.result.serviceGroupId),
-              (service.surgicalProcedureTypeId =
-                res.data.result.surgicalProcedureTypeId),
-              (service.serviceUnitName = res.data.result.serviceUnitName),
-              (service.serviceGroupName = res.data.result.serviceGroupName),
-              (service.servicePricePolicies =
-                res.data.result.servicePricePolicies);
+        var resultDto = await serviceService.getById(id!);
+        if (resultDto.data.isSuccessed == true) {
+          service.id = resultDto.data.result.id;
+          service.code = resultDto.data.result.code;
+          service.name = resultDto.data.result.name;
+          service.heInCode = resultDto.data.result.heInCode;
+          service.heInName = resultDto.data.result.heInName;
+          service.inactive = resultDto.data.result.inactive;
+          service.serviceTypeId = resultDto.data.result.serviceTypeId;
+          service.serviceUnitId = resultDto.data.result.serviceUnitId;
+          service.serviceGroupHeInId = resultDto.data.result.serviceGroupHeInId;
+          service.serviceGroupId = resultDto.data.result.serviceGroupId;
+          service.surgicalProcedureTypeId =
+            resultDto.data.result.surgicalProcedureTypeId;
+          service.serviceUnitName = resultDto.data.result.serviceUnitName;
+          service.serviceGroupName = resultDto.data.result.serviceGroupName;
+          service.servicePricePolicies =
+            resultDto.data.result.servicePricePolicies;
 
-            title.value = "Sửa dịch vụ kỹ thuật";
-            loading.value = false;
-          })
-          .catch((error) => {
-            Modal.error({ content: error.message, okText: "Đồng ý" });
-            toggle();
-          });
+          // resultDto.data.result.servicePricePolicies.forEach((element) => {
+          //   element.executionTime = moment(
+          //     moment(element.executionTime.toString()).format("DD/MM/YYYY"),
+          //     "DD/MM/YYYY"
+          //   ).toDate();
+          // });
+
+          service.servicePricePolicies =
+            resultDto.data.result.servicePricePolicies;
+
+          title.value = "Sửa dịch vụ kỹ thuật";
+          loading.value = false;
+        } else {
+          Modal.error({ content: resultDto.data.message, okText: "Đồng ý" });
+          toggle();
+        }
       } else {
         service.servicePricePolicies = await getServicePricePolicies();
       }
@@ -414,8 +429,6 @@ export default defineComponent({
 
     const handleSave = async () => {
       loading.value = true;
-
-      console.log(service);
 
       let resultSave = await serviceService.createOrEdit(service);
       if (resultSave.data.isSuccessed) {
@@ -441,6 +454,8 @@ export default defineComponent({
       service.id = undefined;
       (service.code = ""),
         (service.name = ""),
+        (service.heInCode = ""),
+        (service.heInName = ""),
         (service.inactive = false),
         (service.serviceTypeId = undefined),
         (service.serviceUnitId = undefined),
@@ -449,7 +464,7 @@ export default defineComponent({
         (service.surgicalProcedureTypeId = undefined),
         (service.serviceUnitName = ""),
         (service.serviceGroupName = ""),
-        (service.servicePricePolicies = []);
+        (service.servicePricePolicies = reactive([]));
     };
 
     const toggle = () => {
