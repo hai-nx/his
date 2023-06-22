@@ -1,3 +1,5 @@
+import { Dayjs } from 'dayjs'
+
 export default interface ServicePricePolicyModel {
     id: string | undefined,
     serviceId: string | undefined,
@@ -5,7 +7,7 @@ export default interface ServicePricePolicyModel {
     oldUnitPrice: number,
     newUnitPrice: number,
     ceilingPrice: number,
-    executionTime: Date | null,
+    executionTime: Dayjs | null,
 
     patientTypeCode: string
     patientTypeName: string

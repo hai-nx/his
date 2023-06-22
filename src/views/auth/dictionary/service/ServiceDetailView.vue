@@ -4,7 +4,8 @@
     :title="title"
     @cancel="handleCancel"
     :mask-closable="false"
-    width="960px"
+    width="1000px"
+    height="720px"
   >
     <div class="container">
       <div class="row mb-1">
@@ -155,9 +156,10 @@
         <a-table
           class="ant-table-striped my-2"
           size="middle"
+          bordered
           :columns="columns"
           :data-source="service.servicePricePolicies"
-          bordered
+          :scroll="{ y: 150 }"
         >
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'patientTypeCode'">
@@ -197,20 +199,51 @@
               />
             </template>
             <template v-else-if="column.key === 'executionTime'">
-              <!-- <a-date-picker
+              <a-date-picker
                 class="my-0 mx-0 w-100"
-                v-model:value="record.executionTime"
                 placeholder="dd/MM/yyyy"
                 format="DD/MM/YYYY"
-                locale="en_US"
-              /> -->
-              <input
+                v-model:value="record.executionTime"
+              />
+            </template>
+          </template>
+        </a-table>
+      </div>
+
+      <div class="row">
+        <a-table
+          class="ant-table-striped my-2"
+          size="middle"
+          :columns="columnRoows"
+          :data-source="service.executionRooms"
+          bordered
+          :scroll="{ y: 150 }"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'isCheck'">
+              <a-checkbox
+                class="my-0 mx-0 w-100 text-center"
+                v-model:checked="record.isCheck"
+              />
+            </template>
+            <template v-if="column.key === 'roomCode'">
+              <a-input
                 class="my-0 mx-0 w-100"
-                type="date"
-                placeholder="dd/MM/yyyy"
-                format="dd/MM/yyyy"
-                DataFormatString
-                :value="record.executionTime"
+                v-model:value="record.roomCode"
+                disabled
+              />
+            </template>
+            <template v-else-if="column.key === 'roomName'">
+              <a-input
+                class="my-0 mx-0 w-100"
+                v-model:value="record.roomName"
+                disabled
+              />
+            </template>
+            <template v-else-if="column.key === 'isMain'">
+              <a-checkbox
+                class="my-0 mx-0 w-100 text-center"
+                v-model:checked="record.isMain"
               />
             </template>
           </template>
@@ -259,6 +292,7 @@ import {
 } from "@/services";
 import { Modal } from "ant-design-vue";
 // import moment from "moment";
+import dayjs from "dayjs";
 
 export default defineComponent({
   name: "ServiceDetailView",
@@ -294,6 +328,7 @@ export default defineComponent({
       serviceUnitName: "",
       serviceGroupName: "",
       servicePricePolicies: reactive([]),
+      executionRooms: reactive([]),
     });
 
     const surgicalProcedureTypes = ref<SurgicalProcedureTypeModel[]>([]);
@@ -306,39 +341,67 @@ export default defineComponent({
         title: "Mã",
         key: "patientTypeCode",
         dataIndex: "patientTypeCode",
-        width: 200,
+        width: 120,
       },
       {
         title: "Tên",
         key: "patientTypeName",
         dataIndex: "patientTypeName",
-        width: 500,
+        width: 250,
       },
       {
         title: "Giá cũ",
         key: "oldUnitPrice",
         dataIndex: "oldUnitPrice",
-        width: 200,
+        width: 120,
         isEditing: true,
       },
       {
         title: "Giá mới",
         key: "newUnitPrice",
         dataIndex: "newUnitPrice",
-        width: 200,
+        width: 120,
         isEditing: true,
       },
       {
         title: "Trần BH",
         key: "ceilingPrice",
         dataIndex: "ceilingPrice",
-        width: 200,
+        width: 120,
       },
       {
         title: "Ngày áp dụng",
         key: "executionTime",
         dataIndex: "executionTime",
-        width: 200,
+        width: 120,
+      },
+    ]);
+
+    const columnRoows = reactive([
+      {
+        title: "Chọn",
+        key: "isCheck",
+        dataIndex: "isCheck",
+        width: 100,
+      },
+      {
+        title: "Mã phòng thực hiện",
+        key: "roomCode",
+        dataIndex: "roomCode",
+        width: 120,
+      },
+      {
+        title: "Tên phòng thực hiện",
+        key: "roomName",
+        dataIndex: "roomName",
+        width: 250,
+      },
+      {
+        title: "Phòng thực hiện chính",
+        key: "isMain",
+        dataIndex: "isMain",
+        width: 120,
+        isEditing: true,
       },
     ]);
 
@@ -384,44 +447,44 @@ export default defineComponent({
 
     async function getServiceById(id: string | null) {
       reset();
-      if (id !== undefined && id !== null) {
-        var resultDto = await serviceService.getById(id!);
-        if (resultDto.data.isSuccessed == true) {
-          service.id = resultDto.data.result.id;
-          service.code = resultDto.data.result.code;
-          service.name = resultDto.data.result.name;
-          service.heInCode = resultDto.data.result.heInCode;
-          service.heInName = resultDto.data.result.heInName;
-          service.inactive = resultDto.data.result.inactive;
-          service.serviceTypeId = resultDto.data.result.serviceTypeId;
-          service.serviceUnitId = resultDto.data.result.serviceUnitId;
-          service.serviceGroupHeInId = resultDto.data.result.serviceGroupHeInId;
-          service.serviceGroupId = resultDto.data.result.serviceGroupId;
-          service.surgicalProcedureTypeId =
-            resultDto.data.result.surgicalProcedureTypeId;
-          service.serviceUnitName = resultDto.data.result.serviceUnitName;
-          service.serviceGroupName = resultDto.data.result.serviceGroupName;
-          service.servicePricePolicies =
-            resultDto.data.result.servicePricePolicies;
+      var resultDto = await serviceService.getById(id!);
+      if (resultDto.data.isSuccessed == true) {
+        service.id = resultDto.data.result.id;
+        service.code = resultDto.data.result.code;
+        service.name = resultDto.data.result.name;
+        service.heInCode = resultDto.data.result.heInCode;
+        service.heInName = resultDto.data.result.heInName;
+        service.inactive = resultDto.data.result.inactive;
+        service.serviceTypeId = resultDto.data.result.serviceTypeId;
+        service.serviceUnitId = resultDto.data.result.serviceUnitId;
+        service.serviceGroupHeInId = resultDto.data.result.serviceGroupHeInId;
+        service.serviceGroupId = resultDto.data.result.serviceGroupId;
+        service.surgicalProcedureTypeId =
+          resultDto.data.result.surgicalProcedureTypeId;
+        service.serviceUnitName = resultDto.data.result.serviceUnitName;
+        service.serviceGroupName = resultDto.data.result.serviceGroupName;
 
-          // resultDto.data.result.servicePricePolicies.forEach((element) => {
-          //   element.executionTime = moment(
-          //     moment(element.executionTime.toString()).format("DD/MM/YYYY"),
-          //     "DD/MM/YYYY"
-          //   ).toDate();
-          // });
-
-          service.servicePricePolicies =
-            resultDto.data.result.servicePricePolicies;
-
-          title.value = "Sửa dịch vụ kỹ thuật";
-          loading.value = false;
-        } else {
-          Modal.error({ content: resultDto.data.message, okText: "Đồng ý" });
-          toggle();
+        if (
+          resultDto.data.result.servicePricePolicies !== null &&
+          resultDto.data.result.servicePricePolicies.length > 0
+        ) {
+          resultDto.data.result.servicePricePolicies.forEach((element) => {
+            element.executionTime = dayjs(
+              dayjs().format("DD-MM-YYYY"),
+              "DD-MM-YYYY"
+            );
+          });
         }
+
+        service.servicePricePolicies =
+          resultDto.data.result.servicePricePolicies;
+        service.executionRooms = resultDto.data.result.executionRooms;
+
+        title.value = "Sửa dịch vụ kỹ thuật";
+        loading.value = false;
       } else {
-        service.servicePricePolicies = await getServicePricePolicies();
+        Modal.error({ content: resultDto.data.message, okText: "Đồng ý" });
+        toggle();
       }
     }
 
@@ -452,19 +515,20 @@ export default defineComponent({
 
     const reset = () => {
       service.id = undefined;
-      (service.code = ""),
-        (service.name = ""),
-        (service.heInCode = ""),
-        (service.heInName = ""),
-        (service.inactive = false),
-        (service.serviceTypeId = undefined),
-        (service.serviceUnitId = undefined),
-        (service.serviceGroupHeInId = undefined),
-        (service.serviceGroupId = undefined),
-        (service.surgicalProcedureTypeId = undefined),
-        (service.serviceUnitName = ""),
-        (service.serviceGroupName = ""),
-        (service.servicePricePolicies = reactive([]));
+      service.code = "";
+      service.name = "";
+      service.heInCode = "";
+      service.heInName = "";
+      service.inactive = false;
+      service.serviceTypeId = undefined;
+      service.serviceUnitId = undefined;
+      service.serviceGroupHeInId = undefined;
+      service.serviceGroupId = undefined;
+      service.surgicalProcedureTypeId = undefined;
+      service.serviceUnitName = "";
+      service.serviceGroupName = "";
+      service.servicePricePolicies = reactive([]);
+      service.executionRooms = reactive([]);
     };
 
     const toggle = () => {
@@ -476,10 +540,14 @@ export default defineComponent({
     watch(show, async (value) => {
       if (value) {
         loading.value = true;
-
         await initData();
 
-        let id = props && props.data ? props.data.id : null;
+        let id =
+          props && props.data
+            ? props.data.id
+            : "00000000-0000-0000-0000-000000000000";
+        console.log(id);
+
         await getServiceById(id as string | null);
         loading.value = false;
       }
@@ -489,6 +557,7 @@ export default defineComponent({
       title,
       service,
       columns,
+      columnRoows,
       show,
       loading,
       fields,
@@ -505,13 +574,8 @@ export default defineComponent({
 });
 </script>
 
-<style>
-/* .ant-table.ant-table-middle .ant-table-title,
-.ant-table.ant-table-middle .ant-table-footer,
-.ant-table.ant-table-middle .ant-table-thead > tr > th,
-.ant-table.ant-table-middle .ant-table-tbody > tr > td,
-.ant-table.ant-table-middle tfoot > tr > th,
-.ant-table.ant-table-middle tfoot > tr > td {
-  padding: 3px 3px;
+<style >
+/* .ant-table.ant-table-middle .ant-table-tbody > tr > td {
+  padding: 5px 5px !important;
 } */
 </style>
