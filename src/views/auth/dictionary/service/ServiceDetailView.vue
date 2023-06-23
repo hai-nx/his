@@ -157,6 +157,7 @@
           class="ant-table-striped my-2"
           size="middle"
           bordered
+          :pagination="false"
           :columns="columns"
           :data-source="service.servicePricePolicies"
           :scroll="{ y: 150 }"
@@ -178,8 +179,7 @@
             </template>
             <template v-else-if="column.key === 'oldUnitPrice'">
               <a-input-number
-                style="text-align: right"
-                class="my-0 mx-0 w-100"
+                class="my-0 mx-0 w-100 text-align-right"
                 v-model:value="record.oldUnitPrice"
                 min="0"
               />
@@ -217,16 +217,17 @@
           :columns="columnRoows"
           :data-source="service.executionRooms"
           bordered
+          :pagination="false"
           :scroll="{ y: 150 }"
         >
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'isCheck'">
               <a-checkbox
-                class="my-0 mx-0 w-100 text-center"
+                class="my-0 mx-0 w-100 centered-checkbox"
                 v-model:checked="record.isCheck"
               />
             </template>
-            <template v-if="column.key === 'roomCode'">
+            <!-- <template v-if="column.key === 'roomCode'">
               <a-input
                 class="my-0 mx-0 w-100"
                 v-model:value="record.roomCode"
@@ -239,10 +240,10 @@
                 v-model:value="record.roomName"
                 disabled
               />
-            </template>
+            </template> -->
             <template v-else-if="column.key === 'isMain'">
               <a-checkbox
-                class="my-0 mx-0 w-100 text-center"
+                class="my-0 mx-0 w-100 centered-checkbox"
                 v-model:checked="record.isMain"
               />
             </template>
@@ -279,12 +280,10 @@ import {
   ServiceGroupModel,
   ServiceGroupHeInModel,
   ServiceUnitModel,
-  ServicePricePolicyModel,
 } from "@/models";
 import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
 import {
   serviceService,
-  servicePricePolicyService,
   surgicalProcedureTypeService,
   serviceGroupService,
   serviceGroupHeInService,
@@ -342,12 +341,14 @@ export default defineComponent({
         key: "patientTypeCode",
         dataIndex: "patientTypeCode",
         width: 120,
+        className: "column-header-center",
       },
       {
         title: "Tên",
         key: "patientTypeName",
         dataIndex: "patientTypeName",
         width: 250,
+        className: "column-header-center",
       },
       {
         title: "Giá cũ",
@@ -355,6 +356,7 @@ export default defineComponent({
         dataIndex: "oldUnitPrice",
         width: 120,
         isEditing: true,
+        className: "column-header-center",
       },
       {
         title: "Giá mới",
@@ -362,18 +364,21 @@ export default defineComponent({
         dataIndex: "newUnitPrice",
         width: 120,
         isEditing: true,
+        className: "column-header-center",
       },
       {
         title: "Trần BH",
         key: "ceilingPrice",
         dataIndex: "ceilingPrice",
         width: 120,
+        className: "column-header-center",
       },
       {
         title: "Ngày áp dụng",
         key: "executionTime",
         dataIndex: "executionTime",
         width: 120,
+        className: "column-header-center",
       },
     ]);
 
@@ -382,26 +387,30 @@ export default defineComponent({
         title: "Chọn",
         key: "isCheck",
         dataIndex: "isCheck",
-        width: 100,
+        className: "column-header-center",
+        width: 70,
       },
       {
         title: "Mã phòng thực hiện",
         key: "roomCode",
         dataIndex: "roomCode",
         width: 120,
+        className: "column-header-center",
       },
       {
         title: "Tên phòng thực hiện",
         key: "roomName",
         dataIndex: "roomName",
         width: 250,
+        className: "column-header-center",
       },
       {
         title: "Phòng thực hiện chính",
         key: "isMain",
         dataIndex: "isMain",
-        width: 120,
+        width: 100,
         isEditing: true,
+        className: "column-header-center",
       },
     ]);
 
@@ -414,13 +423,6 @@ export default defineComponent({
       serviceGroups.value = await getServiceGroups();
       serviceGroupHeIns.value = await getServiceGroupHeIns();
       serviceUnits.value = await getServiceUnits();
-    }
-
-    async function getServicePricePolicies(): Promise<
-      ServicePricePolicyModel[]
-    > {
-      var res = await servicePricePolicyService.getAll();
-      return res.data.result;
     }
 
     async function getSurgicalProcedureTypes(): Promise<
@@ -469,10 +471,12 @@ export default defineComponent({
           resultDto.data.result.servicePricePolicies.length > 0
         ) {
           resultDto.data.result.servicePricePolicies.forEach((element) => {
-            element.executionTime = dayjs(
-              dayjs().format("DD-MM-YYYY"),
-              "DD-MM-YYYY"
-            );
+            if (element.executionTime !== null) {
+              element.executionTime = dayjs(
+                dayjs(element.executionTime).format("DD-MM-YYYY"),
+                "DD-MM-YYYY"
+              );
+            }
           });
         }
 
@@ -546,7 +550,6 @@ export default defineComponent({
           props && props.data
             ? props.data.id
             : "00000000-0000-0000-0000-000000000000";
-        console.log(id);
 
         await getServiceById(id as string | null);
         loading.value = false;
@@ -578,4 +581,16 @@ export default defineComponent({
 /* .ant-table.ant-table-middle .ant-table-tbody > tr > td {
   padding: 5px 5px !important;
 } */
+td.column-center,
+th.column-header-center {
+  text-align: center !important;
+}
+</style>
+
+<style scoped>
+.centered-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
