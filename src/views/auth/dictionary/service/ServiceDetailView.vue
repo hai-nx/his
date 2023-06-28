@@ -198,6 +198,13 @@
                 min="0"
               />
             </template>
+            <template v-else-if="column.key === 'paymentRate'">
+              <a-input-number
+                class="my-0 mx-0 w-100"
+                v-model:value="record.paymentRate"
+                max="100"
+              />
+            </template>
             <template v-else-if="column.key === 'executionTime'">
               <a-date-picker
                 class="my-0 mx-0 w-100"
@@ -319,7 +326,6 @@ export default defineComponent({
       heInCode: "",
       heInName: "",
       inactive: false,
-      serviceTypeId: undefined,
       serviceUnitId: undefined,
       serviceGroupId: undefined,
       serviceGroupHeInId: undefined,
@@ -362,6 +368,14 @@ export default defineComponent({
         title: "Giá mới",
         key: "newUnitPrice",
         dataIndex: "newUnitPrice",
+        width: 120,
+        isEditing: true,
+        className: "column-header-center",
+      },
+      {
+        title: "Tỷ lệ TT",
+        key: "paymentRate",
+        dataIndex: "paymentRate",
         width: 120,
         isEditing: true,
         className: "column-header-center",
@@ -457,7 +471,6 @@ export default defineComponent({
         service.heInCode = resultDto.data.result.heInCode;
         service.heInName = resultDto.data.result.heInName;
         service.inactive = resultDto.data.result.inactive;
-        service.serviceTypeId = resultDto.data.result.serviceTypeId;
         service.serviceUnitId = resultDto.data.result.serviceUnitId;
         service.serviceGroupHeInId = resultDto.data.result.serviceGroupHeInId;
         service.serviceGroupId = resultDto.data.result.serviceGroupId;
@@ -524,7 +537,6 @@ export default defineComponent({
       service.heInCode = "";
       service.heInName = "";
       service.inactive = false;
-      service.serviceTypeId = undefined;
       service.serviceUnitId = undefined;
       service.serviceGroupHeInId = undefined;
       service.serviceGroupId = undefined;
@@ -577,7 +589,7 @@ export default defineComponent({
 });
 </script>
 
-<style >
+<style>
 /* .ant-table.ant-table-middle .ant-table-tbody > tr > td {
   padding: 5px 5px !important;
 } */

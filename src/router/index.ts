@@ -2,37 +2,37 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { LAYOUT_DEFAULT, LAYOUT_AUTH } from '@/utils/constant'
 import { useAuth } from '@/stores/auth'
 
-import homeView                 from '@/views/public/HomeView.vue'
-import loginView                from '@/views/public/LoginView.vue'
+import homeView from '@/views/public/HomeView.vue'
+import loginView from '@/views/public/LoginView.vue'
 
-import dashboardView            from '@/views/auth/system/DashboardView.vue'
-import optionView               from '@/views/auth/system/OptionView.vue'
-import workplaceOptionView      from '@/views/auth/system/WorkplaceOptionView.vue'
+import dashboardView from '@/views/auth/system/DashboardView.vue'
+import optionView from '@/views/auth/system/OptionView.vue'
+import workplaceOptionView from '@/views/auth/system/WorkplaceOptionView.vue'
 
-import branchView               from '@/views/auth/dictionary/branch/BranchView.vue'
-import careerView               from '@/views/auth/dictionary/career/CareerView.vue'
-import countryView              from '@/views/auth/dictionary/country/CountryView.vue'
-import departmentView           from '@/views/auth/dictionary/department/DepartmentView.vue'
-import departmentTypeView       from '@/views/auth/dictionary/department-type/DepartmentTypeView.vue'
-import districtView             from '@/views/auth/dictionary/district/DistrictView.vue'
-import employeeView             from '@/views/auth/dictionary/employee/EmployeeView.vue'
-import ethnicView               from '@/views/auth/dictionary/ethnic/EthnicView.vue'
-import genderView               from '@/views/auth/dictionary/gender/GenderView.vue'
-import hospitalView             from '@/views/auth/dictionary/hospital/HospitalView.vue'
-import icdView                  from '@/views/auth/dictionary/icd/ICDView.vue'
-import provinceView             from '@/views/auth/dictionary/province/ProvinceView.vue'
-import roomView                 from '@/views/auth/dictionary/room/RoomView.vue'
-import roomTypeView             from '@/views/auth/dictionary/room-type/RoomTypeView.vue'
-import wardView                 from '@/views/auth/dictionary/ward/WardView.vue'
-import dictionaryView           from '@/views/auth/dictionary/DictionaryView.vue'
-import serviceView              from '@/views/auth/dictionary/service/ServiceView.vue'
+import branchView from '@/views/auth/dictionary/branch/BranchView.vue'
+import careerView from '@/views/auth/dictionary/career/CareerView.vue'
+import countryView from '@/views/auth/dictionary/country/CountryView.vue'
+import departmentView from '@/views/auth/dictionary/department/DepartmentView.vue'
+import departmentTypeView from '@/views/auth/dictionary/department-type/DepartmentTypeView.vue'
+import districtView from '@/views/auth/dictionary/district/DistrictView.vue'
+import employeeView from '@/views/auth/dictionary/employee/EmployeeView.vue'
+import ethnicView from '@/views/auth/dictionary/ethnic/EthnicView.vue'
+import genderView from '@/views/auth/dictionary/gender/GenderView.vue'
+import hospitalView from '@/views/auth/dictionary/hospital/HospitalView.vue'
+import icdView from '@/views/auth/dictionary/icd/ICDView.vue'
+import provinceView from '@/views/auth/dictionary/province/ProvinceView.vue'
+import roomView from '@/views/auth/dictionary/room/RoomView.vue'
+import roomTypeView from '@/views/auth/dictionary/room-type/RoomTypeView.vue'
+import wardView from '@/views/auth/dictionary/ward/WardView.vue'
+import dictionaryView from '@/views/auth/dictionary/DictionaryView.vue'
+import serviceView from '@/views/auth/dictionary/service/ServiceView.vue'
 
-import admissionView            from '@/views/auth/admission/AdmissionView.vue'
+import admissionView from '@/views/auth/admission/AdmissionView.vue'
 
-import treatmentView            from '@/views/auth/business/out/TreatmentView.vue'
-import examView                 from '@/views/auth/business/out/ExamView.vue'
+import treatmentView from '@/views/auth/business/out/TreatmentView.vue'
+import examView from '@/views/auth/business/out/ExamView.vue'
 
-import errorView                from '@/views/public/error.vue'
+import errorView from '@/views/public/error.vue'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -61,7 +61,7 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/room-type', name: 'room-type', component: roomTypeView, meta: { layout: LAYOUT_AUTH } },
     { path: '/ward', name: 'ward', component: wardView, meta: { layout: LAYOUT_AUTH } },
     { path: '/service', name: 'service', component: serviceView, meta: { layout: LAYOUT_AUTH } },
-    
+
     { path: '/admission', name: 'admission', component: admissionView, meta: { layout: LAYOUT_AUTH } },
 
     { path: '/treatment', name: 'treatment', component: treatmentView, meta: { layout: LAYOUT_AUTH } },
@@ -80,9 +80,9 @@ router.beforeEach((to, from, next) => {
     // kiểm tra đăng nhập
     const isAuthenticated = store.getAuthenticated;
     // kiểm tra trang có yêu càu quyền đăng nhập
-    const isAuthenticationRequired = to.meta.layout === LAYOUT_AUTH; 
-    
-    // nếu trang yêu cầu quyền đăng nhập mà chua đăng nhập thì trả về trang login
+    const isAuthenticationRequired = to.meta.layout === LAYOUT_AUTH;
+
+    // nếu trang yêu cầu quyền đăng nhập mà chưa đăng nhập thì trả về trang login
     if (!isAuthenticated && isAuthenticationRequired)
         next({ name: 'login' });
     else

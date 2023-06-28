@@ -7,6 +7,7 @@ export default interface ServicePricePolicyModel {
     oldUnitPrice: number,
     newUnitPrice: number,
     ceilingPrice: number,
+    paymentRate: number,
     executionTime: Dayjs | null,
 
     patientTypeCode: string

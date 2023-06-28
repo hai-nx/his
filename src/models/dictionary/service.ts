@@ -5,7 +5,6 @@ import ExecutionRoomModel from './executionRoom'
 export default interface ServiceModel extends DictionaryBase {
     heInCode: string,
     heInName: string
-    serviceTypeId: string | undefined,
     serviceUnitId: string | undefined,
     serviceGroupHeInId: string | undefined,
     serviceGroupId: string | undefined,
