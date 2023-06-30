@@ -1,4 +1,4 @@
-import { ApiResult, ServiceModel } from '@/models'
+import { ApiResult, ServiceModel, ExecutionRoomModel } from '@/models'
 import request from '@/utils/request'
 
 const serviceService = {
@@ -13,6 +13,9 @@ const serviceService = {
     },
     delete(id: string) {
         return request.delete<ApiResult<ServiceModel>>('api/SService/Delete?id=' + id);
+    },
+    getExecutionRoomByGroupHeIn(serviceGroupHeInId: string | undefined) {
+        return request.get<ApiResult<ExecutionRoomModel[]>>('api/SService/GetExecutionRoomByGroupHeIn?serviceGroupHeInId=' + serviceGroupHeInId);
     }
 }
 

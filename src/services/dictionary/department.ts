@@ -12,7 +12,7 @@ const departmentService = {
         return request.post<ApiResult<DepartmentModel>>('api/SDepartment/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post('api/SDepartment/Delete', id);
+        return request.delete('api/SDepartment/Delete?id=' + id);
     }
 }
 

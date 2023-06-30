@@ -12,7 +12,10 @@
         <div class="col-md-4">
           <div class="row">
             <div class="col-md-4">
-              <label>Mã DV</label>
+              <label>
+                <span>Mã DV</span>
+                <span class="text-danger me-1">*</span>
+              </label>
             </div>
             <div class="col-md-8">
               <a-input v-model:value="service.code" :disabled="loading" />
@@ -22,7 +25,10 @@
         <div class="col-md-8">
           <div class="row">
             <div class="col-md-2">
-              <label>Tên DV</label>
+              <label>
+                <span>Tên DV</span>
+                <span class="text-danger me-1">*</span>
+              </label>
             </div>
             <div class="col-md-10">
               <a-input v-model:value="service.name" :disabled="loading" />
@@ -35,7 +41,10 @@
         <div class="col-md-4">
           <div class="row">
             <div class="col-md-4">
-              <label>Mã BHYT</label>
+              <label>
+                <span>Mã BH</span>
+                <span class="text-danger me-1">*</span>
+              </label>
             </div>
             <div class="col-md-8">
               <a-input v-model:value="service.heInCode" :disabled="loading" />
@@ -45,7 +54,10 @@
         <div class="col-md-8">
           <div class="row">
             <div class="col-md-2">
-              <label>Tên BHYT</label>
+              <label>
+                <span>Tên BH</span>
+                <span class="text-danger me-1">*</span>
+              </label>
             </div>
             <div class="col-md-10">
               <a-input v-model:value="service.heInName" :disabled="loading" />
@@ -58,7 +70,10 @@
         <div class="col-md-4">
           <div class="row">
             <div class="col-md-4">
-              <label>Đợn vị tính</label>
+              <label>
+                <span>Đợn vị tính</span>
+                <span class="text-danger me-1">*</span>
+              </label>
             </div>
             <div class="col-md-8">
               <a-select
@@ -82,7 +97,10 @@
             <div class="col-md-6">
               <div class="row">
                 <div class="col-md-4">
-                  <label>Nhóm BHYT</label>
+                  <label>
+                    <span>Nhóm BH</span>
+                    <span class="text-danger me-1">*</span>
+                  </label>
                 </div>
                 <div class="col-md-8">
                   <a-select
@@ -104,7 +122,10 @@
             <div class="col-md-6">
               <div class="row">
                 <div class="col-md-4">
-                  <label>Nhóm DV</label>
+                  <label>
+                    <span>Nhóm DV</span>
+                    <span class="text-danger me-1">*</span>
+                  </label>
                 </div>
                 <div class="col-md-8">
                   <a-select
@@ -217,7 +238,7 @@
         </a-table>
       </div>
 
-      <div class="row">
+      <div class="row" v-if="isShowExecutionRooms">
         <a-table
           class="ant-table-striped my-2"
           size="middle"
@@ -234,20 +255,6 @@
                 v-model:checked="record.isCheck"
               />
             </template>
-            <!-- <template v-if="column.key === 'roomCode'">
-              <a-input
-                class="my-0 mx-0 w-100"
-                v-model:value="record.roomCode"
-                disabled
-              />
-            </template>
-            <template v-else-if="column.key === 'roomName'">
-              <a-input
-                class="my-0 mx-0 w-100"
-                v-model:value="record.roomName"
-                disabled
-              />
-            </template> -->
             <template v-else-if="column.key === 'isMain'">
               <a-checkbox
                 class="my-0 mx-0 w-100 centered-checkbox"
@@ -283,6 +290,7 @@
 <script lang="ts">
 import {
   ServiceModel,
+  ExecutionRoomModel,
   SurgicalProcedureTypeModel,
   ServiceGroupModel,
   ServiceGroupHeInModel,
@@ -336,9 +344,11 @@ export default defineComponent({
       executionRooms: reactive([]),
     });
 
+    const erro = ref<string>();
+
     const surgicalProcedureTypes = ref<SurgicalProcedureTypeModel[]>([]);
     const serviceGroups = ref<ServiceGroupModel[]>([]);
-    const serviceGroupHeIns = ref<ServiceGroupHeInModel[]>([]);
+    var serviceGroupHeIns = ref<ServiceGroupHeInModel[]>([]);
     const serviceUnits = ref<ServiceUnitModel[]>([]);
 
     const columns = reactive([
@@ -346,14 +356,14 @@ export default defineComponent({
         title: "Mã",
         key: "patientTypeCode",
         dataIndex: "patientTypeCode",
-        width: 120,
+        width: 100,
         className: "column-header-center",
       },
       {
         title: "Tên",
         key: "patientTypeName",
         dataIndex: "patientTypeName",
-        width: 250,
+        width: 200,
         className: "column-header-center",
       },
       {
@@ -461,6 +471,19 @@ export default defineComponent({
       return res.data.result;
     }
 
+    function getExecutionRoomByGroupHeIn(
+      serviceGroupHeInId: string | undefined
+    ): ExecutionRoomModel[] {
+      console.log(serviceGroupHeInId);
+
+      serviceService
+        .getExecutionRoomByGroupHeIn(serviceGroupHeInId)
+        .then((res) => (service.executionRooms = res.data.result))
+        .catch();
+
+      return service.executionRooms;
+    }
+
     async function getServiceById(id: string | null) {
       reset();
       var resultDto = await serviceService.getById(id!);
@@ -505,10 +528,83 @@ export default defineComponent({
       }
     }
 
+    async function Validata(): Promise<boolean> {
+      let isValid = true;
+      let strArr = [];
+      erro.value = "";
+
+      if (service.code === null || service.code === "") {
+        strArr.push("Mã DV");
+      }
+      if (service.name === null || service.name === "") {
+        strArr.push("Tên DV");
+      }
+      if (service.heInCode === null || service.heInCode === "") {
+        strArr.push("Mã BH");
+      }
+      if (service.heInName === null || service.heInName === "") {
+        strArr.push("Tên BH");
+      }
+      if (
+        service.serviceUnitId === null ||
+        service.serviceUnitId === undefined
+      ) {
+        strArr.push("Đơn vị tính");
+      }
+      if (
+        service.serviceGroupId === null ||
+        service.serviceGroupId === undefined
+      ) {
+        strArr.push("Nhóm DV");
+      }
+      if (
+        service.serviceGroupHeInId === null ||
+        service.serviceGroupHeInId === undefined
+      ) {
+        strArr.push("Nhóm BH");
+      }
+
+      if (strArr.length > 0) {
+        erro.value = "- " + strArr.join(", ") + " không được để trống!";
+        isValid = false;
+
+        Modal.error({
+          content: erro.value,
+          title: "Thông báo",
+          okText: "Đồng ý",
+        });
+        return isValid;
+      }
+
+      return isValid;
+    }
+
+    const isShowExecutionRooms = computed(() => {
+      let serviceGroupHeIn = serviceGroupHeIns.value.find(
+        (f) => f.id === service.serviceGroupHeInId
+      );
+
+      if (
+        serviceGroupHeIn !== null &&
+        (serviceGroupHeIn?.code === "1" ||
+          serviceGroupHeIn?.code === "2" ||
+          serviceGroupHeIn?.code === "3")
+      ) {
+        getExecutionRoomByGroupHeIn(service.serviceGroupHeInId);
+        return true;
+      } else return false;
+    });
+
     //#endregion
 
     const handleSave = async () => {
       loading.value = true;
+
+      const isValid = await Validata();
+      if (!isValid) {
+        loading.value = false;
+        return;
+      }
 
       let resultSave = await serviceService.createOrEdit(service);
       if (resultSave.data.isSuccessed) {
@@ -519,9 +615,15 @@ export default defineComponent({
       }
     };
 
-    const handleSaveAndAddNew = () => {
+    const handleSaveAndAddNew = async () => {
       loading.value = true;
       result.value = true;
+
+      const isValid = await Validata();
+      if (!isValid) {
+        loading.value = false;
+        return;
+      }
 
       reset();
     };
@@ -581,6 +683,8 @@ export default defineComponent({
       serviceGroups,
       serviceGroupHeIns,
       serviceUnits,
+      isShowExecutionRooms,
+      erro,
       handleSave,
       handleSaveAndAddNew,
       handleCancel,
