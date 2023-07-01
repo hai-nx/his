@@ -14,9 +14,6 @@ const serviceService = {
     delete(id: string) {
         return request.delete<ApiResult<ServiceModel>>('api/SService/Delete?id=' + id);
     },
-    getExecutionRoomByGroupHeIn(serviceGroupHeInId: string | undefined) {
-        return request.get<ApiResult<ExecutionRoomModel[]>>('api/SService/GetExecutionRoomByGroupHeIn?serviceGroupHeInId=' + serviceGroupHeInId);
-    }
 }
 
 export default serviceService

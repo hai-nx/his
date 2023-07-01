@@ -471,19 +471,6 @@ export default defineComponent({
       return res.data.result;
     }
 
-    function getExecutionRoomByGroupHeIn(
-      serviceGroupHeInId: string | undefined
-    ): ExecutionRoomModel[] {
-      console.log(serviceGroupHeInId);
-
-      serviceService
-        .getExecutionRoomByGroupHeIn(serviceGroupHeInId)
-        .then((res) => (service.executionRooms = res.data.result))
-        .catch();
-
-      return service.executionRooms;
-    }
-
     async function getServiceById(id: string | null) {
       reset();
       var resultDto = await serviceService.getById(id!);
@@ -590,7 +577,6 @@ export default defineComponent({
           serviceGroupHeIn?.code === "2" ||
           serviceGroupHeIn?.code === "3")
       ) {
-        getExecutionRoomByGroupHeIn(service.serviceGroupHeInId);
         return true;
       } else return false;
     });
@@ -612,6 +598,7 @@ export default defineComponent({
         toggle();
       } else {
         Modal.error({ content: resultSave.data.message, okText: "Đồng ý" });
+        loading.value = false;
       }
     };
 
