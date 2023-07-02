@@ -171,6 +171,23 @@
             </div>
           </div>
         </div>
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-8">
+                  <a-checkbox
+                    v-model:checked="service.inactive"
+                    :disabled="loading"
+                    >Ngừng theo dõi</a-checkbox
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6"></div>
+          </div>
+        </div>
       </div>
 
       <div class="row">
@@ -217,6 +234,7 @@
                 class="my-0 mx-0 w-100"
                 v-model:value="record.ceilingPrice"
                 min="0"
+                :disabled="!record.isHeIn"
               />
             </template>
             <template v-else-if="column.key === 'paymentRate'">
@@ -224,6 +242,7 @@
                 class="my-0 mx-0 w-100"
                 v-model:value="record.paymentRate"
                 max="100"
+                :disabled="!record.isHeIn"
               />
             </template>
             <template v-else-if="column.key === 'executionTime'">
@@ -290,7 +309,6 @@
 <script lang="ts">
 import {
   ServiceModel,
-  ExecutionRoomModel,
   SurgicalProcedureTypeModel,
   ServiceGroupModel,
   ServiceGroupHeInModel,
@@ -352,13 +370,13 @@ export default defineComponent({
     const serviceUnits = ref<ServiceUnitModel[]>([]);
 
     const columns = reactive([
-      {
-        title: "Mã",
-        key: "patientTypeCode",
-        dataIndex: "patientTypeCode",
-        width: 100,
-        className: "column-header-center",
-      },
+      // {
+      //   title: "Mã",
+      //   key: "patientTypeCode",
+      //   dataIndex: "patientTypeCode",
+      //   width: 100,
+      //   className: "column-header-center",
+      // },
       {
         title: "Tên",
         key: "patientTypeName",

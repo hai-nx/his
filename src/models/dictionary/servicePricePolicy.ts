@@ -10,6 +10,7 @@ export default interface ServicePricePolicyModel {
     paymentRate: number,
     executionTime: Dayjs | null,
 
-    patientTypeCode: string
+    isHeIn: boolean,
+    patientTypeCode: string,
     patientTypeName: string
 }
