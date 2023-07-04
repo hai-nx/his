@@ -81,7 +81,7 @@ import { ServiceModel } from "@/models";
 import { serviceService } from "@/services";
 import ServiceDetailView from "./ServiceDetailView.vue";
 import ServiceDetailImportView from "./ServiceDetailImportView.vue";
-import * as XLSX from "xlsx";
+// import * as XLSX from "xlsx";
 
 export default defineComponent({
   name: "BranchView",
@@ -177,23 +177,23 @@ export default defineComponent({
     const handleImportExcel = () => {
       showImportExcel(true);
 
-      //   // Đường dẫn tới file Excel
-      //   const filePath = "C:\\Users\\duyng\\Desktop\\ServiceTemplate.xlsx";
+      // // Đường dẫn tới file Excel
+      // const filePath = "C:\\Users\\duyng\\Desktop\\ServiceTemplate.xlsx";
 
-      //   // Đọc file Excel
-      //   const workbook = XLSX.readFile(filePath);
+      // // Đọc file Excel
+      // const workbook = XLSX.readFile(filePath);
 
-      //   // Lấy danh sách tên các sheet trong file Excel
-      //   const sheetNames = workbook.SheetNames;
+      // // Lấy danh sách tên các sheet trong file Excel
+      // const sheetNames = workbook.SheetNames;
 
-      //   // Lấy dữ liệu từ sheet đầu tiên
-      //   const firstSheetName = sheetNames[0];
-      //   const worksheet = workbook.Sheets[firstSheetName];
+      // // Lấy dữ liệu từ sheet đầu tiên
+      // const firstSheetName = sheetNames[0];
+      // const worksheet = workbook.Sheets[firstSheetName];
 
-      //   // Chuyển đổi dữ liệu sang định dạng JSON
-      //   const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+      // // Chuyển đổi dữ liệu sang định dạng JSON
+      // const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-      //   console.log(jsonData);
+      // console.log(jsonData);
     };
 
     const show = (v: boolean, r: ServiceModel | undefined) => {
@@ -203,6 +203,7 @@ export default defineComponent({
 
     const showImportExcel = (v: boolean) => {
       visibleImportExcel.value = v;
+      console.log(visibleImportExcel.value);
     };
 
     return {
@@ -210,6 +211,7 @@ export default defineComponent({
       record,
       columns,
       visible,
+      visibleImportExcel,
       handleAdd,
       handleDelete,
       handleEdit,
