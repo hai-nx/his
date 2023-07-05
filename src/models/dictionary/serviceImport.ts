@@ -1,17 +1,18 @@
-import DictionaryBase from './base'
-
-export default interface ServiceImportModel extends DictionaryBase {
+export default interface ServiceImportModel {
+    code: string,
+    name: string
     heInCode: string,
     heInName: string
-    serviceUnitId: string | undefined,
-    serviceGroupHeInId: string | undefined,
-    serviceGroupId: string | undefined,
-    surgicalProcedureTypeId: string | undefined
+    softOrder: Number,
+    inactive: boolean,
+    serviceUnitCode: string | undefined,
+    serviceGroupHeInCode: string | undefined,
+    serviceGroupCode: string | undefined,
+    surgicalProcedureTypeCode: string | undefined
 
     heInPrice: Number,
     servicePrice: Number,
     peoplePrice: Number,
     paymentRate: Number,
     ceilingPrice: Number,
-
 }

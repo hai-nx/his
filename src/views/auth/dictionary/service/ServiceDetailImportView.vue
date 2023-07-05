@@ -57,8 +57,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from "vue";
+import { defineComponent, ref, computed, watch, reactive } from "vue";
 import * as XLSX from "xlsx";
+import { ServiceImportModel } from "@/models";
 
 export default defineComponent({
   name: "ServiceDetailImportView",
@@ -77,9 +78,7 @@ export default defineComponent({
     const selectedFileName = ref<string>();
     const fileInput = ref<HTMLInputElement | null>(null);
     const show = computed(() => props.visible);
-
-    const headers = ref<string[]>([]);
-    const data = ref<Array<Array<string | number>>>([]);
+    const datas = ref<ServiceImportModel[]>([]);
 
     const handleCancel = () => {
       toggle();
@@ -116,21 +115,48 @@ export default defineComponent({
               XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
             if (json.length > 2) {
-              headers.value = json[1].map((item) => String(item)); // Dòng thứ 2 làm header
-              data.value = json.slice(2); // Lấy dữ liệu từ dòng thứ 3 trở đi
+              datas.value = [];
 
-              // Tạo đối tượng từ dữ liệu
-              const objectData = data.value.map((row) => {
-                const obj = {};
-                headers.value.forEach((header, index) => {
-                  // obj[header] = row[index];
+              // let headerExcels = json[1].map((item) => String(item)); // Dòng thứ 2 làm header
+              let dataExcels = json.slice(2); // Lấy dữ liệu từ dòng thứ 3 trở đi
 
-                  console.log("header: " + header, "index: " + index);
-                });
-                return obj;
+              dataExcels.forEach((row) => {
+                const excelData: ServiceImportModel = {
+                  code: row[0] == undefined ? "" : row[0].toString(),
+                  name: row[1] == undefined ? "" : row[1].toString(),
+                  heInCode: row[2] == undefined ? "" : row[2].toString(),
+                  heInName: row[3] == undefined ? "" : row[3].toString(),
+                  softOrder:
+                    row[4] === undefined ? 0 : parseInt(row[4].toString()),
+                  inactive:
+                    row[5] === undefined
+                      ? false
+                      : JSON.parse(row[5].toString()),
+                  serviceUnitCode: row[6] == undefined ? "" : row[6].toString(),
+                  serviceGroupCode:
+                    row[7] == undefined ? "" : row[7].toString(),
+                  serviceGroupHeInCode:
+                    row[8] == undefined ? "" : row[8].toString(),
+                  surgicalProcedureTypeCode:
+                    row[9] === null || row[9] === undefined
+                      ? ""
+                      : row[9].toString(),
+                  heInPrice:
+                    row[10] === undefined ? 0 : parseFloat(row[10].toString()),
+                  servicePrice:
+                    row[11] === undefined ? 0 : parseFloat(row[11].toString()),
+                  peoplePrice:
+                    row[12] === undefined ? 0 : parseFloat(row[12].toString()),
+                  paymentRate:
+                    row[13] === undefined ? 0 : parseFloat(row[13].toString()),
+                  ceilingPrice:
+                    row[14] === undefined ? 0 : parseFloat(row[14].toString()),
+                };
+
+                datas.value?.push(excelData);
               });
 
-              console.log(objectData);
+              console.log(datas.value);
             }
           }
         };
@@ -157,12 +183,11 @@ export default defineComponent({
       title,
       selectedFileName,
       fileInput,
+      datas,
       handleCancel,
       handleSave,
       openFilePicker,
       handleFileChange,
-      headers,
-      data,
     };
   },
 });
