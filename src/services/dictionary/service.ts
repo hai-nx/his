@@ -1,4 +1,4 @@
-import { ApiResult, ServiceModel, ExecutionRoomModel } from '@/models'
+import { ApiResult, ServiceModel, ServiceImportModel } from '@/models'
 import request from '@/utils/request'
 
 const serviceService = {
@@ -14,6 +14,9 @@ const serviceService = {
     delete(id: string) {
         return request.delete<ApiResult<ServiceModel>>('api/SService/Delete?id=' + id);
     },
+    import(input: ServiceImportModel[]) {
+        return request.post<ApiResult<boolean>>('api/SService/Import', input);
+    }
 }
 
 export default serviceService

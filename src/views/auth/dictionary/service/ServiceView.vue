@@ -170,30 +170,16 @@ export default defineComponent({
     };
 
     // ẩn / hiện import excel
-    const handleToggleImportExcel = () => {
+    const handleToggleImportExcel = (result: boolean) => {
       visibleImportExcel.value = !visibleImportExcel.value;
+      if (result) {
+        record.value = undefined;
+        handleLoad();
+      }
     };
 
     const handleImportExcel = () => {
       showImportExcel(true);
-
-      // // Đường dẫn tới file Excel
-      // const filePath = "C:\\Users\\duyng\\Desktop\\ServiceTemplate.xlsx";
-
-      // // Đọc file Excel
-      // const workbook = XLSX.readFile(filePath);
-
-      // // Lấy danh sách tên các sheet trong file Excel
-      // const sheetNames = workbook.SheetNames;
-
-      // // Lấy dữ liệu từ sheet đầu tiên
-      // const firstSheetName = sheetNames[0];
-      // const worksheet = workbook.Sheets[firstSheetName];
-
-      // // Chuyển đổi dữ liệu sang định dạng JSON
-      // const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-      // console.log(jsonData);
     };
 
     const show = (v: boolean, r: ServiceModel | undefined) => {

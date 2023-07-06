@@ -370,13 +370,6 @@ export default defineComponent({
     const serviceUnits = ref<ServiceUnitModel[]>([]);
 
     const columns = reactive([
-      // {
-      //   title: "Mã",
-      //   key: "patientTypeCode",
-      //   dataIndex: "patientTypeCode",
-      //   width: 100,
-      //   className: "column-header-center",
-      // },
       {
         title: "Tên",
         key: "patientTypeName",

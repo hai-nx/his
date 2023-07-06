@@ -4,7 +4,7 @@
     :title="title"
     @cancel="handleCancel"
     :mask-closable="false"
-    width="1000px"
+    width="1200px"
     height="720px"
   >
     <div class="container">
@@ -38,7 +38,24 @@
       </div>
 
       <div class="row mt-2">
-        <input />
+        <a-table
+          class="ant-table-striped"
+          size="middle"
+          :columns="columns"
+          :data-source="datas"
+          bordered
+          :pagination="false"
+          :scroll="{ x: 500, y: 150 }"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'inactive'">
+              <a-checkbox
+                class="my-0 mx-0 w-100 centered-checkbox"
+                v-model:checked="record.inactive"
+              />
+            </template>
+          </template>
+        </a-table>
       </div>
     </div>
 
@@ -60,6 +77,8 @@
 import { defineComponent, ref, computed, watch, reactive } from "vue";
 import * as XLSX from "xlsx";
 import { ServiceImportModel } from "@/models";
+import dayjs from "dayjs";
+import { serviceService } from "@/services";
 
 export default defineComponent({
   name: "ServiceDetailImportView",
@@ -79,13 +98,142 @@ export default defineComponent({
     const fileInput = ref<HTMLInputElement | null>(null);
     const show = computed(() => props.visible);
     const datas = ref<ServiceImportModel[]>([]);
+    const columns = ref([
+      {
+        title: "Mã DV",
+        key: "code",
+        dataIndex: "code",
+        width: 100,
+        className: "column-header-center",
+      },
+      {
+        title: "Tên DV",
+        key: "name",
+        dataIndex: "name",
+        width: 250,
+        className: "column-header-center",
+      },
+      {
+        title: "Mã BH",
+        key: "heInCode",
+        dataIndex: "heInCode",
+        width: 100,
+        className: "column-header-center",
+      },
+      {
+        title: "Tên BH",
+        key: "heInName",
+        dataIndex: "heInName",
+        width: 250,
+        className: "column-header-center",
+      },
+      {
+        title: "Đơn vị tính",
+        key: "serviceUnitCode",
+        dataIndex: "serviceUnitCode",
+        width: 100,
+        className: "column-header-center",
+      },
+      {
+        title: "Nhóm BH",
+        key: "serviceGroupHeInCode",
+        dataIndex: "serviceGroupHeInCode",
+        width: 100,
+        className: "column-header-center",
+      },
+      {
+        title: "Nhóm DV",
+        key: "serviceGroupCode",
+        dataIndex: "serviceGroupCode",
+        width: 100,
+        className: "column-header-center",
+      },
+      {
+        title: "Loại PTTT",
+        key: "surgicalProcedureTypeCode",
+        dataIndex: "surgicalProcedureTypeCode",
+        width: 100,
+        className: "column-header-center",
+      },
+      {
+        title: "Giá BH",
+        key: "heInPrice",
+        dataIndex: "heInPrice",
+        width: 120,
+        className: "column-header-center",
+      },
+      {
+        title: "Giá DV",
+        key: "servicePrice",
+        dataIndex: "servicePrice",
+        width: 120,
+        className: "column-header-center",
+      },
+      {
+        title: "Giá VP",
+        key: "peoplePrice",
+        dataIndex: "peoplePrice",
+        width: 120,
+        className: "column-header-center",
+      },
+      {
+        title: "Tỷ lệ TT",
+        key: "paymentRate",
+        dataIndex: "paymentRate",
+        width: 120,
+        className: "column-header-center",
+      },
+      {
+        title: "Trần BH",
+        key: "ceilingPrice",
+        dataIndex: "ceilingPrice",
+        width: 120,
+        className: "column-header-center",
+      },
+      {
+        title: "Ngày áp dụng",
+        key: "executionTime",
+        dataIndex: "executionTime",
+        width: 120,
+        className: "column-header-center",
+      },
+      {
+        title: "Phòng thực hiện",
+        key: "executionRoomCode",
+        dataIndex: "executionRoomCode",
+        width: 120,
+        className: "column-header-center",
+      },
+      {
+        title: "Ngưng sử dụng",
+        key: "inactive",
+        dataIndex: "inactive",
+        width: 120,
+        className: "column-header-center",
+      },
+      {
+        title: "Thứ tự",
+        key: "softOrder",
+        dataIndex: "softOrder",
+        width: 120,
+        className: "column-header-center",
+      },
+    ]);
 
     const handleCancel = () => {
       toggle();
     };
 
-    const handleSave = () => {
-      toggle();
+    const handleSave = async () => {
+      let isImport = await serviceService.import(datas.value);
+      isResult.value = isImport.data.isSuccessed;
+
+      console.log("isSuccessed: " + isImport.data.isSuccessed);
+
+      if (isImport.data.isSuccessed) {
+        console.log("isSuccessed: " + isImport.data.isSuccessed);
+        toggle();
+      }
     };
 
     const openFilePicker = () => {
@@ -126,7 +274,7 @@ export default defineComponent({
                   name: row[1] == undefined ? "" : row[1].toString(),
                   heInCode: row[2] == undefined ? "" : row[2].toString(),
                   heInName: row[3] == undefined ? "" : row[3].toString(),
-                  softOrder:
+                  sortOrder:
                     row[4] === undefined ? 0 : parseInt(row[4].toString()),
                   inactive:
                     row[5] === undefined
@@ -151,12 +299,19 @@ export default defineComponent({
                     row[13] === undefined ? 0 : parseFloat(row[13].toString()),
                   ceilingPrice:
                     row[14] === undefined ? 0 : parseFloat(row[14].toString()),
+                  executionTime:
+                    row[15] === undefined
+                      ? null
+                      : dayjs(row[15].toString(), "DD-MM-YYYY HH:mm:ss"),
+                  executionRoomCode:
+                    row[16] === undefined ? "" : row[16].toString(),
                 };
 
                 datas.value?.push(excelData);
               });
 
-              console.log(datas.value);
+              console.log(dataExcels);
+              console.log(datas);
             }
           }
         };
@@ -184,6 +339,7 @@ export default defineComponent({
       selectedFileName,
       fileInput,
       datas,
+      columns,
       handleCancel,
       handleSave,
       openFilePicker,
@@ -192,3 +348,18 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+td.column-center,
+th.column-header-center {
+  text-align: center !important;
+}
+</style>
+
+<style scoped>
+.centered-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

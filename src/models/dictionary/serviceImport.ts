@@ -1,9 +1,11 @@
+import { Dayjs } from 'dayjs'
+
 export default interface ServiceImportModel {
     code: string,
     name: string
     heInCode: string,
     heInName: string
-    softOrder: Number,
+    sortOrder: Number,
     inactive: boolean,
     serviceUnitCode: string | undefined,
     serviceGroupHeInCode: string | undefined,
@@ -15,4 +17,7 @@ export default interface ServiceImportModel {
     peoplePrice: Number,
     paymentRate: Number,
     ceilingPrice: Number,
+    executionTime: Dayjs | null,
+
+    executionRoomCode: string
 }
