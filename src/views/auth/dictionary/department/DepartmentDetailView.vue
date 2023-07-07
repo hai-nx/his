@@ -170,7 +170,7 @@ export default defineComponent({
       code: "",
       name: "",
       mohCode: "",
-      departmentTypeId: "",
+      departmentTypeId: 0,
       branchId: "",
       inactive: false,
     });
@@ -236,7 +236,7 @@ export default defineComponent({
         code: "",
         mohCode: "",
         name: "",
-        departmentTypeId: "",
+        departmentTypeId: 0,
         branchId: "",
         description: "",
         inactive: false,
@@ -280,7 +280,11 @@ export default defineComponent({
             (x) => !x.inactive
           );
           if (departmentTypes.value.length > 0) {
-            item.value.departmentTypeId = departmentTypes.value[0].id!;
+            item.value.departmentTypeId =
+              departmentTypes.value[0].id != undefined &&
+              departmentTypes.value[0].id != ""
+                ? parseInt(departmentTypes.value[0].id)
+                : 0;
           }
         });
 

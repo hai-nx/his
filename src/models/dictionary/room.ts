@@ -2,7 +2,7 @@ import DictionaryBase from "./base";
 
 export default interface RoomModel extends DictionaryBase {
     mohCode?: string,
-    roomTypeId: string,
+    roomTypeId: number,
     roomTypeCode?: string,
     roomTypeName?: string,
     departmentId: string,

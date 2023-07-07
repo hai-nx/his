@@ -4,6 +4,8 @@
     :title="title"
     @cancel="handleCancel"
     :mask-closable="false"
+    max-height="720px"
+    max-width="1200px"
     width="1200px"
     height="720px"
   >
@@ -38,24 +40,35 @@
       </div>
 
       <div class="row mt-2">
-        <a-table
-          class="ant-table-striped"
-          size="middle"
-          :columns="columns"
-          :data-source="datas"
-          bordered
-          :pagination="false"
-          :scroll="{ x: 500, y: 150 }"
-        >
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'inactive'">
-              <a-checkbox
-                class="my-0 mx-0 w-100 centered-checkbox"
-                v-model:checked="record.inactive"
-              />
+        <div class="col-md-12 table-container">
+          <a-table
+            class="ant-table-striped"
+            size="middle"
+            bordered
+            :columns="columns"
+            :data-source="datas"
+            :pagination="false"
+            :scroll="{ y: 500 }"
+          >
+            <template #bodyCell="{ column, record }">
+              <template v-if="column.key === 'inactive'">
+                <a-checkbox
+                  class="my-0 mx-0 w-100 centered-checkbox"
+                  v-model:checked="record.inactive"
+                />
+              </template>
+              <template v-else-if="column.key === 'executionTime'">
+                <a-date-picker
+                  class="my-0 mx-0 w-100"
+                  placeholder="dd/MM/yyyy"
+                  format="DD/MM/YYYY"
+                  v-model:value="record.executionTime"
+                  disabled
+                />
+              </template>
             </template>
-          </template>
-        </a-table>
+          </a-table>
+        </div>
       </div>
     </div>
 
@@ -128,7 +141,7 @@ export default defineComponent({
         className: "column-header-center",
       },
       {
-        title: "Đơn vị tính",
+        title: "ĐVT",
         key: "serviceUnitCode",
         dataIndex: "serviceUnitCode",
         width: 100,
@@ -198,7 +211,7 @@ export default defineComponent({
         className: "column-header-center",
       },
       {
-        title: "Phòng thực hiện",
+        title: "Phòng TT",
         key: "executionRoomCode",
         dataIndex: "executionRoomCode",
         width: 120,
@@ -302,7 +315,7 @@ export default defineComponent({
                   executionTime:
                     row[15] === undefined
                       ? null
-                      : dayjs(row[15].toString(), "DD-MM-YYYY HH:mm:ss"),
+                      : dayjs(row[15].toString(), "DD-MM-YYYY"),
                   executionRoomCode:
                     row[16] === undefined ? "" : row[16].toString(),
                 };
