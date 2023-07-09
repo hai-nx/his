@@ -27,6 +27,7 @@ import ServiceGroupHeInModel from './dictionary/serviceGroupHeIn'
 import ServiceUnitModel from './dictionary/serviceUnit'
 import ExecutionRoomModel from './dictionary/executionRoom'
 import ServiceImportModel from './dictionary/serviceImport'
+import ServiceResultIndiceModel from './dictionary/serviceResultIndice'
 
 export {
     ApiResult,
@@ -58,5 +59,6 @@ export {
     ServicePricePolicyModel,
     SurgicalProcedureTypeModel,
     ExecutionRoomModel,
-    ServiceImportModel
+    ServiceImportModel,
+    ServiceResultIndiceModel
 }

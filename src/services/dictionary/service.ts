@@ -1,4 +1,4 @@
-import { ApiResult, ServiceModel, ServiceImportModel } from '@/models'
+import { ApiResult, ServiceModel, ServiceImportModel, ServiceResultIndiceModel } from '@/models'
 import request from '@/utils/request'
 
 const serviceService = {
@@ -16,6 +16,9 @@ const serviceService = {
     },
     import(input: ServiceImportModel[]) {
         return request.post<ApiResult<boolean>>('api/SService/Import', input);
+    },
+    importServiceResultIndexs(sServiceResultIndexs: ServiceResultIndiceModel[]) {
+        return request.post<ApiResult<boolean>>('api/SService/ImportServiceResultIndices', sServiceResultIndexs);
     }
 }
 

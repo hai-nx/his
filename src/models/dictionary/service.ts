@@ -1,6 +1,7 @@
 import DictionaryBase from './base'
 import ServicePricePolicyModel from './servicePricePolicy'
 import ExecutionRoomModel from './executionRoom'
+import ServiceResultIndiceModel from './serviceResultIndice'
 
 export default interface ServiceModel extends DictionaryBase {
     heInCode: string,
@@ -13,6 +14,7 @@ export default interface ServiceModel extends DictionaryBase {
     serviceUnitName: string,
     serviceGroupName: string,
 
-    servicePricePolicies: ServicePricePolicyModel[],
-    executionRooms: ExecutionRoomModel[]
+    sServicePricePolicies: ServicePricePolicyModel[],
+    sExecutionRooms: ExecutionRoomModel[],
+    sServiceResultIndices: ServiceResultIndiceModel[]
 }

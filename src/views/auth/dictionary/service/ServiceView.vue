@@ -7,11 +7,18 @@
         <a-button
           type="primary"
           style="margin-right: 10px"
-          @click="handleImportExcel"
+          @click="handleImportExcel(true)"
         >
-          Nhập từ Excel
+          Nhập dịch vụ từ Excel
         </a-button>
-        <input type="file" ref="fileInput" style="display: none" />
+
+        <a-button
+          type="primary"
+          style="margin-right: 10px"
+          @click="handleResultIndexImportExcel(true)"
+        >
+          Nhập kết quả từ Excel
+        </a-button>
 
         <a-button type="primary" @click="handleAdd">
           <i class="bi bi-plus-lg me-2"></i>
@@ -70,6 +77,10 @@
         :visible="visibleImportExcel"
         @toggle="handleToggleImportExcel"
       />
+      <ServiceDetailResultIndiceImportView
+        :visible="visibleResultIndexImportExcel"
+        @toggle="handleToggleResultIndexImportExcel"
+      />
     </teleport>
   </div>
 </template>
@@ -81,38 +92,61 @@ import { ServiceModel } from "@/models";
 import { serviceService } from "@/services";
 import ServiceDetailView from "./ServiceDetailView.vue";
 import ServiceDetailImportView from "./ServiceDetailImportView.vue";
-// import * as XLSX from "xlsx";
+import ServiceDetailResultIndiceImportView from "./ServiceDetailResultIndiceImportView.vue";
 
 export default defineComponent({
   name: "BranchView",
   setup() {
     const columns = ref([
-      { title: "Mã dịch vụ", key: "code", dataIndex: "code", width: 200 },
-      { title: "Tên dịch vụ", key: "name", dataIndex: "name", width: 500 },
+      {
+        title: "Mã dịch vụ",
+        key: "code",
+        dataIndex: "code",
+        width: 120,
+        className: "column-header-center",
+      },
+      {
+        title: "Tên dịch vụ",
+        key: "name",
+        dataIndex: "name",
+        width: 500,
+        className: "column-header-center",
+      },
       {
         title: "Đơn vị tính",
         key: "serviceUnitName",
         dataIndex: "serviceUnitName",
-        width: 500,
+        width: 100,
+        className: "column-header-center",
       },
       {
         title: "Nhóm dịch vụ",
         key: "serviceGroupName",
         dataIndex: "serviceGroupName",
-        width: 500,
+        width: 150,
+        className: "column-header-center",
       },
       {
         title: "Trạng thái",
         key: "inactive",
         dataIndex: "inactive",
-        width: 200,
+        width: 100,
+        className: "column-header-center",
+        align: "center",
       },
-      { title: "Xử lý", key: "action", width: 100 },
+      {
+        title: "Xử lý",
+        key: "action",
+        width: 100,
+        className: "column-header-center",
+        align: "center",
+      },
     ]);
     const items = ref<ServiceModel[]>([]);
     const record = ref<ServiceModel>();
     const visible = ref<boolean>(false);
     const visibleImportExcel = ref<boolean>(false);
+    const visibleResultIndexImportExcel = ref<boolean>(false);
 
     // lấy dữ liệu
     const handleLoad = () => {
@@ -178,18 +212,26 @@ export default defineComponent({
       }
     };
 
-    const handleImportExcel = () => {
-      showImportExcel(true);
+    const handleToggleResultIndexImportExcel = (result: boolean) => {
+      visibleResultIndexImportExcel.value =
+        !visibleResultIndexImportExcel.value;
+      if (result) {
+        record.value = undefined;
+        handleLoad();
+      }
+    };
+
+    const handleImportExcel = (v: boolean) => {
+      visibleImportExcel.value = v;
+    };
+
+    const handleResultIndexImportExcel = (v: boolean) => {
+      visibleResultIndexImportExcel.value = v;
     };
 
     const show = (v: boolean, r: ServiceModel | undefined) => {
       record.value = r;
       visible.value = v;
-    };
-
-    const showImportExcel = (v: boolean) => {
-      visibleImportExcel.value = v;
-      console.log(visibleImportExcel.value);
     };
 
     return {
@@ -198,13 +240,16 @@ export default defineComponent({
       columns,
       visible,
       visibleImportExcel,
+      visibleResultIndexImportExcel,
       handleAdd,
       handleDelete,
       handleEdit,
       handleLoad,
       handleToggle,
       handleImportExcel,
+      handleResultIndexImportExcel,
       handleToggleImportExcel,
+      handleToggleResultIndexImportExcel,
     };
   },
   mounted() {
@@ -213,6 +258,14 @@ export default defineComponent({
   components: {
     ServiceDetailView,
     ServiceDetailImportView,
+    ServiceDetailResultIndiceImportView,
   },
 });
 </script>
+
+<style>
+td.column-center,
+th.column-header-center {
+  text-align: center !important;
+}
+</style>

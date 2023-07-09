@@ -45,7 +45,7 @@
             class="ant-table-striped"
             size="middle"
             bordered
-            :columns="columnServices"
+            :columns="columnResultIndices"
             :data-source="datas"
             :pagination="false"
             :scroll="{ y: 500 }"
@@ -57,15 +57,6 @@
                   v-model:checked="record.inactive"
                 />
               </template>
-              <!-- <template v-else-if="column.key === 'executionTime'">
-                <a-date-picker
-                  class="my-0 mx-0 w-100"
-                  placeholder="dd/MM/yyyy"
-                  format="DD/MM/YYYY"
-                  v-model:value="record.executionTime"
-                  disabled
-                />
-              </template> -->
             </template>
           </a-table>
         </div>
@@ -89,7 +80,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, reactive } from "vue";
 import * as XLSX from "xlsx";
-import { ServiceImportModel } from "@/models";
+import { ServiceResultIndiceModel } from "@/models";
 import { serviceService } from "@/services";
 
 export default defineComponent({
@@ -105,130 +96,76 @@ export default defineComponent({
 
     const isResult = ref<boolean>(false);
     const loading = ref<boolean>(false);
-    const title = ref<string>("Nhập dữ liệu dịch vụ kỹ thuật từ file excel");
+    const title = ref<string>(
+      "Nhập dữ liệu kết quả dịch vụ kỹ thuật từ file excel"
+    );
     const selectedFileName = ref<string>();
     const fileInput = ref<HTMLInputElement | null>(null);
     const show = computed(() => props.visible);
-    const datas = ref<ServiceImportModel[]>([]);
+    const datas = ref<ServiceResultIndiceModel[]>([]);
 
-    const columnServices = ref([
+    const columnResultIndices = reactive([
       {
         title: "Mã DV",
+        key: "serviceCode",
+        dataIndex: "serviceCode",
+        width: 100,
+        className: "column-header-center",
+      },
+      {
+        title: "Mã chỉ số",
         key: "code",
         dataIndex: "code",
         width: 100,
         className: "column-header-center",
       },
       {
-        title: "Tên DV",
+        title: "Tên chỉ số",
         key: "name",
         dataIndex: "name",
         width: 250,
         className: "column-header-center",
       },
       {
-        title: "Mã BH",
-        key: "heInCode",
-        dataIndex: "heInCode",
+        title: "Đơn vị",
+        key: "unit",
+        dataIndex: "unit",
         width: 100,
         className: "column-header-center",
       },
       {
-        title: "Tên BH",
-        key: "heInName",
-        dataIndex: "heInName",
-        width: 250,
-        className: "column-header-center",
-      },
-      {
-        title: "ĐVT",
-        key: "serviceUnitCode",
-        dataIndex: "serviceUnitCode",
-        width: 100,
-        className: "column-header-center",
-      },
-      {
-        title: "Nhóm BH",
-        key: "serviceGroupHeInCode",
-        dataIndex: "serviceGroupHeInCode",
-        width: 100,
-        className: "column-header-center",
-      },
-      {
-        title: "Nhóm DV",
-        key: "serviceGroupCode",
-        dataIndex: "serviceGroupCode",
-        width: 100,
-        className: "column-header-center",
-      },
-      {
-        title: "Loại PTTT",
-        key: "surgicalProcedureTypeCode",
-        dataIndex: "surgicalProcedureTypeCode",
-        width: 100,
-        className: "column-header-center",
-      },
-      {
-        title: "Giá BH",
-        key: "heInPrice",
-        dataIndex: "heInPrice",
+        title: "TS nam từ",
+        key: "maleFrom",
+        dataIndex: "maleFrom",
         width: 120,
         className: "column-header-center",
       },
       {
-        title: "Giá DV",
-        key: "servicePrice",
-        dataIndex: "servicePrice",
+        title: "TS nam đến",
+        key: "maleTo",
+        dataIndex: "maleTo",
         width: 120,
         className: "column-header-center",
       },
       {
-        title: "Giá VP",
-        key: "peoplePrice",
-        dataIndex: "peoplePrice",
+        title: "TS nữ từ",
+        key: "femaleFrom",
+        dataIndex: "femaleFrom",
         width: 120,
         className: "column-header-center",
       },
       {
-        title: "Tỷ lệ TT",
-        key: "paymentRate",
-        dataIndex: "paymentRate",
-        width: 120,
-        className: "column-header-center",
-      },
-      {
-        title: "Trần BH",
-        key: "ceilingPrice",
-        dataIndex: "ceilingPrice",
-        width: 120,
-        className: "column-header-center",
-      },
-      {
-        title: "Ngày áp dụng",
-        key: "executionTimeString",
-        dataIndex: "executionTimeString",
-        width: 120,
-        className: "column-header-center",
-      },
-      {
-        title: "Phòng TT",
-        key: "executionRoomCode",
-        dataIndex: "executionRoomCode",
-        width: 120,
-        className: "column-header-center",
-      },
-      {
-        title: "Ngưng sử dụng",
-        key: "inactive",
-        dataIndex: "inactive",
+        title: "TS nữ đến",
+        key: "femaleTo",
+        dataIndex: "femaleTo",
         width: 120,
         className: "column-header-center",
       },
       {
         title: "Thứ tự",
-        key: "softOrder",
-        dataIndex: "softOrder",
-        width: 120,
+        key: "sortOrder",
+        dataIndex: "sortOrder",
+        width: 100,
         className: "column-header-center",
       },
     ]);
@@ -238,15 +175,18 @@ export default defineComponent({
     };
 
     const handleSave = async () => {
-      loading.value = true;
+      // loading.value = true;
 
-      let isImport = await serviceService.import(datas.value);
+      console.log(JSON.stringify(datas.value));
+
+      let isImport = await serviceService.importServiceResultIndexs(
+        datas.value
+      );
       isResult.value = isImport.data.isSuccessed;
 
-      loading.value = false;
+      // loading.value = false;
 
       if (isImport.data.isSuccessed) {
-        console.log("isSuccessed: " + isImport.data.isSuccessed);
         toggle();
       }
     };
@@ -288,44 +228,27 @@ export default defineComponent({
               let dataExcels = json.slice(2); // Lấy dữ liệu từ dòng thứ 3 trở đi
 
               dataExcels.forEach((row) => {
-                const excelData: ServiceImportModel = {
-                  code: row[0] == undefined ? "" : row[0].toString(),
-                  name: row[1] == undefined ? "" : row[1].toString(),
-                  heInCode: row[2] == undefined ? "" : row[2].toString(),
-                  heInName: row[3] == undefined ? "" : row[3].toString(),
+                const excelData: ServiceResultIndiceModel = {
+                  serviceCode: row[0] == undefined ? "" : row[0].toString(),
+                  code: row[1] == undefined ? "" : row[1].toString(),
+                  name: row[2] == undefined ? "" : row[2].toString(),
+                  unit: row[3] == undefined ? "" : row[3].toString(),
+                  maleFrom:
+                    row[4] === undefined ? 0 : parseFloat(row[4].toString()),
+                  maleTo:
+                    row[5] === undefined ? 0 : parseFloat(row[5].toString()),
+                  femaleFrom:
+                    row[6] === undefined ? 0 : parseFloat(row[6].toString()),
+                  femaleTo:
+                    row[7] === undefined ? 0 : parseFloat(row[7].toString()),
                   sortOrder:
-                    row[4] === undefined ? 0 : parseInt(row[4].toString()),
+                    row[8] === undefined ? 0 : parseInt(row[8].toString()),
                   inactive:
-                    row[5] === undefined
+                    row[9] === undefined
                       ? false
-                      : JSON.parse(row[5].toString()),
-                  serviceUnitCode: row[6] == undefined ? "" : row[6].toString(),
-                  serviceGroupCode:
-                    row[7] == undefined ? "" : row[7].toString(),
-                  serviceGroupHeInCode:
-                    row[8] == undefined ? "" : row[8].toString(),
-                  surgicalProcedureTypeCode:
-                    row[9] === null || row[9] === undefined
-                      ? ""
-                      : row[9].toString(),
-                  heInPrice:
-                    row[10] === undefined ? 0 : parseFloat(row[10].toString()),
-                  servicePrice:
-                    row[11] === undefined ? 0 : parseFloat(row[11].toString()),
-                  peoplePrice:
-                    row[12] === undefined ? 0 : parseFloat(row[12].toString()),
-                  paymentRate:
-                    row[13] === undefined ? 0 : parseFloat(row[13].toString()),
-                  ceilingPrice:
-                    row[14] === undefined ? 0 : parseFloat(row[14].toString()),
-                  // executionTime:
-                  //   row[15] === undefined
-                  //     ? null
-                  //     : dayjs(row[15].toString(), "DD-MM-YYYY HH:mm:ss"),
-                  executionTimeString:
-                    row[15] === undefined ? null : row[15].toString(),
-                  executionRoomCode:
-                    row[16] === undefined ? "" : row[16].toString(),
+                      : JSON.parse(row[9].toString()),
+                  serviceId: undefined,
+                  id: undefined,
                 };
 
                 datas.value?.push(excelData);
@@ -357,7 +280,7 @@ export default defineComponent({
       selectedFileName,
       fileInput,
       datas,
-      columnServices,
+      columnResultIndices,
       handleCancel,
       handleSave,
       openFilePicker,

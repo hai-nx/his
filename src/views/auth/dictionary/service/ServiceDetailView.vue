@@ -4,8 +4,9 @@
     :title="title"
     @cancel="handleCancel"
     :mask-closable="false"
-    width="1000px"
+    width="1200px"
     height="720px"
+    class="modal_container"
   >
     <div class="container">
       <div class="row mb-1">
@@ -175,6 +176,22 @@
           <div class="row">
             <div class="col-md-6">
               <div class="row">
+                <div class="col-md-4">
+                  <label>
+                    <span>Số thứ tự</span>
+                  </label>
+                </div>
+                <div class="col-md-8">
+                  <a-input-number
+                    class="my-0 mx-0 w-100"
+                    v-model:value="service.sortOrder"
+                    min="0"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-8">
                   <a-checkbox
@@ -185,7 +202,6 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6"></div>
           </div>
         </div>
       </div>
@@ -197,8 +213,8 @@
           bordered
           :pagination="false"
           :columns="columns"
-          :data-source="service.servicePricePolicies"
-          :scroll="{ y: 150 }"
+          :data-source="service.sServicePricePolicies"
+          :scroll="{ y: 130 }"
         >
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'patientTypeCode'">
@@ -262,10 +278,37 @@
           class="ant-table-striped my-2"
           size="middle"
           :columns="columnRoows"
-          :data-source="service.executionRooms"
+          :data-source="service.sExecutionRooms"
           bordered
           :pagination="false"
-          :scroll="{ y: 150 }"
+          :scroll="{ y: 100 }"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'isCheck'">
+              <a-checkbox
+                class="my-0 mx-0 w-100 centered-checkbox"
+                v-model:checked="record.isCheck"
+              />
+            </template>
+            <template v-else-if="column.key === 'isMain'">
+              <a-checkbox
+                class="my-0 mx-0 w-100 centered-checkbox"
+                v-model:checked="record.isMain"
+              />
+            </template>
+          </template>
+        </a-table>
+      </div>
+
+      <div class="row" v-if="isShowExecutionRooms">
+        <a-table
+          class="ant-table-striped my-2"
+          size="middle"
+          :columns="columnRoows"
+          :data-source="service.sExecutionRooms"
+          bordered
+          :pagination="false"
+          :scroll="{ y: 100 }"
         >
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'isCheck'">
@@ -325,6 +368,7 @@ import {
 import { Modal } from "ant-design-vue";
 // import moment from "moment";
 import dayjs from "dayjs";
+// import "dayjs/locale/vi";
 
 export default defineComponent({
   name: "ServiceDetailView",
@@ -358,8 +402,9 @@ export default defineComponent({
       surgicalProcedureTypeId: undefined,
       serviceUnitName: "",
       serviceGroupName: "",
-      servicePricePolicies: reactive([]),
-      executionRooms: reactive([]),
+      sServicePricePolicies: reactive([]),
+      sExecutionRooms: reactive([]),
+      sServiceResultIndices: reactive([]),
     });
 
     const erro = ref<string>();
@@ -492,6 +537,7 @@ export default defineComponent({
         service.heInCode = resultDto.data.result.heInCode;
         service.heInName = resultDto.data.result.heInName;
         service.inactive = resultDto.data.result.inactive;
+        service.sortOrder = resultDto.data.result.sortOrder;
         service.serviceUnitId = resultDto.data.result.serviceUnitId;
         service.serviceGroupHeInId = resultDto.data.result.serviceGroupHeInId;
         service.serviceGroupId = resultDto.data.result.serviceGroupId;
@@ -500,23 +546,31 @@ export default defineComponent({
         service.serviceUnitName = resultDto.data.result.serviceUnitName;
         service.serviceGroupName = resultDto.data.result.serviceGroupName;
 
+        service.sServicePricePolicies =
+          resultDto.data.result.sServicePricePolicies;
+        service.sExecutionRooms = resultDto.data.result.sExecutionRooms;
+        service.sServiceResultIndices =
+          resultDto.data.result.sServiceResultIndices;
+
         if (
-          resultDto.data.result.servicePricePolicies !== null &&
-          resultDto.data.result.servicePricePolicies.length > 0
+          resultDto.data.result.sServicePricePolicies &&
+          resultDto.data.result.sServicePricePolicies !== undefined &&
+          resultDto.data.result.sServicePricePolicies.length > 0
         ) {
-          resultDto.data.result.servicePricePolicies.forEach((element) => {
-            if (element.executionTime !== null) {
+          resultDto.data.result.sServicePricePolicies.forEach((element) => {
+            if (
+              element.executionTimeString !== null &&
+              element.executionTimeString !== ""
+            ) {
               element.executionTime = dayjs(
-                dayjs(element.executionTime).format("DD-MM-YYYY"),
+                element.executionTimeString,
                 "DD-MM-YYYY"
               );
+            } else {
+              element.executionTime = null;
             }
           });
         }
-
-        service.servicePricePolicies =
-          resultDto.data.result.servicePricePolicies;
-        service.executionRooms = resultDto.data.result.executionRooms;
 
         title.value = "Sửa dịch vụ kỹ thuật";
         loading.value = false;
@@ -584,9 +638,9 @@ export default defineComponent({
 
       if (
         serviceGroupHeIn !== null &&
-        (serviceGroupHeIn?.code === "1" ||
-          serviceGroupHeIn?.code === "2" ||
-          serviceGroupHeIn?.code === "3")
+        (serviceGroupHeIn?.code === "XN" ||
+          serviceGroupHeIn?.code === "CDHA" ||
+          serviceGroupHeIn?.code === "TDCN")
       ) {
         return true;
       } else return false;
@@ -602,6 +656,13 @@ export default defineComponent({
         loading.value = false;
         return;
       }
+
+      service.sServicePricePolicies.forEach((element) => {
+        if (element.executionTime !== null) {
+          element.executionTimeString =
+            element.executionTime.format("DD/MM/YYYY");
+        }
+      });
 
       let resultSave = await serviceService.createOrEdit(service);
       if (resultSave.data.isSuccessed) {
@@ -643,8 +704,10 @@ export default defineComponent({
       service.surgicalProcedureTypeId = undefined;
       service.serviceUnitName = "";
       service.serviceGroupName = "";
-      service.servicePricePolicies = reactive([]);
-      service.executionRooms = reactive([]);
+      service.sortOrder = 0;
+      service.sServicePricePolicies = reactive([]);
+      service.sExecutionRooms = reactive([]);
+      service.sServiceResultIndices = reactive([]);
     };
 
     const toggle = () => {
@@ -706,5 +769,12 @@ th.column-header-center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.modal_container {
+  width: 1200px;
+  height: 650px;
+  position: relative;
+  overflow: auto;
 }
 </style>

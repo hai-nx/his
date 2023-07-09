@@ -17,7 +17,8 @@ export default interface ServiceImportModel {
     peoplePrice: Number,
     paymentRate: Number,
     ceilingPrice: Number,
-    executionTime: Dayjs | null,
+    // executionTime: Dayjs | null,
+    executionTimeString: string | null,
 
     executionRoomCode: string
 }
