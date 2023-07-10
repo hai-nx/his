@@ -300,33 +300,73 @@
         </a-table>
       </div>
 
-      <div class="row" v-if="isShowExecutionRooms">
+      <div class="row">
+        <div class="col-md-10"></div>
+        <div class="col-md-2">
+          <a-button
+            class="w-100"
+            type="primary"
+            style="margin-right: 10px"
+            @click="handleAddResultIndice(true)"
+          >
+            Thêm kết quả
+          </a-button>
+        </div>
+      </div>
+
+      <div class="row">
         <a-table
           class="ant-table-striped my-2"
           size="middle"
-          :columns="columnRoows"
-          :data-source="service.sExecutionRooms"
+          :columns="columnResultIndices"
+          :data-source="service.sServiceResultIndices"
           bordered
           :pagination="false"
           :scroll="{ y: 100 }"
         >
           <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'isCheck'">
-              <a-checkbox
-                class="my-0 mx-0 w-100 centered-checkbox"
-                v-model:checked="record.isCheck"
-              />
+            <template v-if="column.key === 'inactive'">
+              <span>
+                <a-tag v-if="record.inactive" color="error">
+                  <span>Ngừng hoạt động</span>
+                </a-tag>
+                <a-tag v-else color="success">
+                  <span>Hoạt động</span>
+                </a-tag>
+              </span>
             </template>
-            <template v-else-if="column.key === 'isMain'">
-              <a-checkbox
-                class="my-0 mx-0 w-100 centered-checkbox"
-                v-model:checked="record.isMain"
-              />
+            <template v-else-if="column.key === 'action'">
+              <span>
+                <button
+                  class="btn btn-outline-primary border-0 btn-sm me-2"
+                  title="Sửa"
+                  @click="handleEditResultIndice(record)"
+                >
+                  <i class="bi bi-pen"></i>
+                </button>
+
+                <button
+                  class="btn btn-outline-danger border-0 btn-sm"
+                  title="Xóa"
+                  @click="handleDeleteResultIndice(record)"
+                >
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </span>
             </template>
           </template>
         </a-table>
       </div>
     </div>
+
+    <template to="body">
+      <ServiceDetaiResultIndiceView
+        :visible="visibleResultIndice"
+        :data="resultIndiceSelected"
+        @toggle="handleToggleResultIndice"
+        @handleSaveResultIndice="handleSaveResultIndice"
+      />
+    </template>
 
     <template #footer>
       <a-button
@@ -356,6 +396,7 @@ import {
   ServiceGroupModel,
   ServiceGroupHeInModel,
   ServiceUnitModel,
+  ServiceResultIndiceModel,
 } from "@/models";
 import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
 import {
@@ -366,9 +407,8 @@ import {
   serviceUnitService,
 } from "@/services";
 import { Modal } from "ant-design-vue";
-// import moment from "moment";
 import dayjs from "dayjs";
-// import "dayjs/locale/vi";
+import ServiceDetaiResultIndiceView from "./ServiceDetaiResultIndiceView.vue";
 
 export default defineComponent({
   name: "ServiceDetailView",
@@ -413,6 +453,9 @@ export default defineComponent({
     const serviceGroups = ref<ServiceGroupModel[]>([]);
     var serviceGroupHeIns = ref<ServiceGroupHeInModel[]>([]);
     const serviceUnits = ref<ServiceUnitModel[]>([]);
+
+    const visibleResultIndice = ref<boolean>(false);
+    const resultIndiceSelected = ref<ServiceResultIndiceModel>();
 
     const columns = reactive([
       {
@@ -491,6 +534,72 @@ export default defineComponent({
         width: 100,
         isEditing: true,
         className: "column-header-center",
+      },
+    ]);
+
+    const columnResultIndices = reactive([
+      {
+        title: "Mã chỉ số",
+        key: "code",
+        dataIndex: "code",
+        width: 100,
+        className: "column-header-center",
+      },
+      {
+        title: "Tên chỉ số",
+        key: "name",
+        dataIndex: "name",
+        width: 250,
+        className: "column-header-center",
+      },
+      {
+        title: "Đơn vị",
+        key: "unit",
+        dataIndex: "unit",
+        width: 100,
+        className: "column-header-center",
+      },
+      {
+        title: "TS nam từ",
+        key: "maleFrom",
+        dataIndex: "maleFrom",
+        width: 120,
+        className: "column-header-center",
+      },
+      {
+        title: "TS nam đến",
+        key: "maleTo",
+        dataIndex: "maleTo",
+        width: 120,
+        className: "column-header-center",
+      },
+      {
+        title: "TS nữ từ",
+        key: "femaleFrom",
+        dataIndex: "femaleFrom",
+        width: 120,
+        className: "column-header-center",
+      },
+      {
+        title: "TS nữ đến",
+        key: "femaleTo",
+        dataIndex: "femaleTo",
+        width: 120,
+        className: "column-header-center",
+      },
+      {
+        title: "Thứ tự",
+        key: "sortOrder",
+        dataIndex: "sortOrder",
+        width: 100,
+        className: "column-header-center",
+      },
+      {
+        title: "Xử lý",
+        key: "action",
+        width: 100,
+        className: "column-header-center",
+        align: "center",
       },
     ]);
 
@@ -710,6 +819,62 @@ export default defineComponent({
       service.sServiceResultIndices = reactive([]);
     };
 
+    const handleAddResultIndice = (visible: boolean) => {
+      visibleResultIndice.value = visible;
+      resultIndiceSelected.value = undefined;
+    };
+
+    const handleEditResultIndice = (record: ServiceResultIndiceModel) => {
+      visibleResultIndice.value = true;
+      resultIndiceSelected.value = record;
+    };
+
+    const handleSaveResultIndice = (record: ServiceResultIndiceModel) => {
+      const resultIndice = service.sServiceResultIndices.find(
+        (f) => f.code == record.code
+      );
+      if (resultIndice !== null && resultIndice != undefined) {
+        const index = service.sServiceResultIndices.indexOf(resultIndice);
+        service.sServiceResultIndices[index] = record;
+      } else {
+        service.sServiceResultIndices.push(record);
+      }
+      service.sServiceResultIndices = service.sServiceResultIndices.sort(
+        (a, b) => {
+          if (a.sortOrder && b.sortOrder) {
+            return a.sortOrder - b.sortOrder;
+          }
+          return 0;
+        }
+      );
+
+      resultIndiceSelected.value = undefined;
+    };
+
+    const handleDeleteResultIndice = (record: ServiceResultIndiceModel) => {
+      Modal.confirm({
+        content:
+          "Bạn có thực sự muốn xóa trị số [" + record.code + "] đã chọn không?",
+        okText: "Đồng ý",
+        cancelText: "Bỏ qua",
+        onOk() {
+          service.sServiceResultIndices = service.sServiceResultIndices.filter(
+            (f) => f.code != record.code
+          );
+        },
+        onCancel() {
+          Modal.destroyAll();
+        },
+      });
+    };
+
+    const handleToggleResultIndice = (result: boolean) => {
+      visibleResultIndice.value = !visibleResultIndice.value;
+      if (result) {
+        resultIndiceSelected.value = undefined;
+      }
+    };
+
     const toggle = () => {
       emit("toggle", result.value);
     };
@@ -746,10 +911,21 @@ export default defineComponent({
       serviceUnits,
       isShowExecutionRooms,
       erro,
+      columnResultIndices,
       handleSave,
       handleSaveAndAddNew,
       handleCancel,
+      visibleResultIndice,
+      resultIndiceSelected,
+      handleEditResultIndice,
+      handleDeleteResultIndice,
+      handleAddResultIndice,
+      handleToggleResultIndice,
+      handleSaveResultIndice,
     };
+  },
+  components: {
+    ServiceDetaiResultIndiceView,
   },
 });
 </script>

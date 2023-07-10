@@ -172,7 +172,7 @@ export default defineComponent({
         let id = item.id!;
         Modal.confirm({
           content:
-            "Bạn có thực sự muốn dịch vụ kỹ thuật <" +
+            "Bạn có thực sự muốn xóa dịch vụ kỹ thuật <" +
             item.code +
             "> đã chọn không?",
           okText: "Đồng ý",

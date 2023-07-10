@@ -8,5 +8,5 @@ export default interface ServiceResultIndiceModel extends DictionaryBase {
     femaleTo: number | null,
     serviceId: string | undefined,
 
-    serviceCode: string | undefined,
+    serviceCode: string | null,
 }
