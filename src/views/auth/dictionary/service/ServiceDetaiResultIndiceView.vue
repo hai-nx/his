@@ -146,7 +146,23 @@ export default defineComponent({
     const toggle = () => {
       emit("toggle", isResult.value);
     };
+
+    const reset = () => {
+      resultIndice.id = undefined;
+      resultIndice.code = "";
+      resultIndice.name = "";
+      resultIndice.unit = "";
+      resultIndice.maleFrom = 0;
+      resultIndice.maleTo = 0;
+      resultIndice.femaleFrom = 0;
+      resultIndice.femaleTo = 0;
+      resultIndice.serviceId = undefined;
+      resultIndice.serviceCode = null;
+      resultIndice.inactive = false;
+    };
+
     watch(show, (value) => {
+      reset();
       if (value) {
         console.log(props.data);
         if (props.data !== undefined) {
