@@ -16,7 +16,7 @@
               <label>Mã trị số</label>
             </div>
             <div class="col-md-9">
-              <a-input v-model="resultIndice.code" />
+              <a-input v-model:value="resultIndice.code" />
             </div>
           </div>
           <div class="row mt-1">
@@ -40,7 +40,10 @@
               <label>Thứ tự</label>
             </div>
             <div class="col-md-9">
-              <a-input-number class="w-100" :value="resultIndice.sortOrder" />
+              <a-input-number
+                class="w-100"
+                v-model:value="resultIndice.sortOrder"
+              />
             </div>
           </div>
         </div>
@@ -50,7 +53,10 @@
               <label>Trị số nam từ</label>
             </div>
             <div class="col-md-8">
-              <a-input-number class="w-100" :value="resultIndice.maleFrom" />
+              <a-input-number
+                class="w-100"
+                v-model:value="resultIndice.maleFrom"
+              />
             </div>
           </div>
           <div class="row mt-1">
@@ -58,7 +64,10 @@
               <label>Trị số nam đến</label>
             </div>
             <div class="col-md-8">
-              <a-input-number class="w-100" :value="resultIndice.maleFrom" />
+              <a-input-number
+                class="w-100"
+                v-model:value="resultIndice.maleTo"
+              />
             </div>
           </div>
           <div class="row mt-1">
@@ -69,7 +78,7 @@
               <a-input-number
                 class="w-100"
                 min="0"
-                :value="resultIndice.femaleFrom"
+                v-model:value="resultIndice.femaleFrom"
               />
             </div>
           </div>
@@ -81,7 +90,7 @@
               <a-input-number
                 class="w-100"
                 min="0"
-                :value="resultIndice.femaleTo"
+                v-model:value="resultIndice.femaleTo"
               />
             </div>
           </div>
@@ -121,10 +130,10 @@ export default defineComponent({
       code: "",
       name: "",
       unit: "",
-      maleFrom: 0,
-      maleTo: 0,
-      femaleFrom: 0,
-      femaleTo: 0,
+      maleFrom: null,
+      maleTo: null,
+      femaleFrom: null,
+      femaleTo: null,
       serviceId: undefined,
       serviceCode: null,
       inactive: false,
@@ -133,8 +142,6 @@ export default defineComponent({
     const show = computed(() => props.visible);
 
     const handleSave = () => {
-      console.log(resultIndice);
-
       emit("handleSaveResultIndice", resultIndice);
       emit("toggle", isResult.value);
     };
@@ -152,22 +159,35 @@ export default defineComponent({
       resultIndice.code = "";
       resultIndice.name = "";
       resultIndice.unit = "";
-      resultIndice.maleFrom = 0;
-      resultIndice.maleTo = 0;
-      resultIndice.femaleFrom = 0;
-      resultIndice.femaleTo = 0;
+      resultIndice.maleFrom = null;
+      resultIndice.maleTo = null;
+      resultIndice.femaleFrom = null;
+      resultIndice.femaleTo = null;
       resultIndice.serviceId = undefined;
       resultIndice.serviceCode = null;
+      resultIndice.sortOrder = undefined;
       resultIndice.inactive = false;
     };
 
+    const setData = (data: ServiceResultIndiceModel) => {
+      resultIndice.id = data.id;
+      resultIndice.code = data.code;
+      resultIndice.name = data.name;
+      resultIndice.unit = data.unit;
+      resultIndice.maleFrom = data.maleFrom;
+      resultIndice.maleTo = data.maleTo;
+      resultIndice.femaleFrom = data.femaleFrom;
+      resultIndice.femaleTo = data.femaleTo;
+      resultIndice.serviceId = data.serviceId;
+      resultIndice.serviceCode = data.serviceCode;
+      resultIndice.sortOrder = data.sortOrder;
+      resultIndice.inactive = data.inactive;
+    };
+
     watch(show, (value) => {
-      reset();
-      if (value) {
-        console.log(props.data);
-        if (props.data !== undefined) {
-          resultIndice = props.data;
-        }
+      if (value && props.data !== undefined) {
+        reset();
+        setData(props.data);
       }
     });
 

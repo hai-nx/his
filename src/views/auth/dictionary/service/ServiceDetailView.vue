@@ -398,7 +398,15 @@ import {
   ServiceUnitModel,
   ServiceResultIndiceModel,
 } from "@/models";
-import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  PropType,
+  reactive,
+  toRef,
+} from "vue";
 import {
   serviceService,
   surgicalProcedureTypeService,
@@ -442,9 +450,9 @@ export default defineComponent({
       surgicalProcedureTypeId: undefined,
       serviceUnitName: "",
       serviceGroupName: "",
-      sServicePricePolicies: reactive([]),
-      sExecutionRooms: reactive([]),
-      sServiceResultIndices: reactive([]),
+      sServicePricePolicies: [], // reactive([]),
+      sExecutionRooms: [], // reactive([]),
+      sServiceResultIndices: [], // reactive([]),
     });
 
     const erro = ref<string>();
@@ -455,7 +463,21 @@ export default defineComponent({
     const serviceUnits = ref<ServiceUnitModel[]>([]);
 
     const visibleResultIndice = ref<boolean>(false);
-    const resultIndiceSelected = ref<ServiceResultIndiceModel>();
+    // let resultIndiceSelected = ref<ServiceResultIndiceModel>();
+    let resultIndiceSelected = reactive<ServiceResultIndiceModel>({
+      id: undefined,
+      code: "",
+      name: "",
+      unit: "",
+      maleFrom: null,
+      maleTo: null,
+      femaleFrom: null,
+      femaleTo: null,
+      serviceId: undefined,
+      serviceCode: null,
+      sortOrder: undefined,
+      inactive: false,
+    });
 
     const columns = reactive([
       {
@@ -737,6 +759,71 @@ export default defineComponent({
         return isValid;
       }
 
+      // Ktra phòng thực hiện
+      const serviceGroupHeIn = serviceGroupHeIns.value.find(
+        (f) => f.id == service.serviceGroupId
+      );
+      if (
+        serviceGroupHeIn !== undefined &&
+        serviceGroupHeIn !== null &&
+        (serviceGroupHeIn.code === "XN" ||
+          serviceGroupHeIn.code === "CDHA" ||
+          serviceGroupHeIn.code === "TDCN")
+      ) {
+        const length = service.sExecutionRooms.filter(
+          (f) => f.isMain === true
+        ).length;
+        if (length > 1) {
+          strArr.push("Chỉ được phép chọn một Phòng thực hiện chính!");
+        }
+      }
+
+      // Ktra trị số
+      if (
+        service.sServiceResultIndices !== undefined &&
+        service.sServiceResultIndices !== null
+      ) {
+        service.sServiceResultIndices.forEach((element, index) => {
+          if (
+            element.maleFrom !== null &&
+            element.maleTo !== null &&
+            element.maleFrom > element.maleTo
+          ) {
+            strArr.push(
+              "[TS nam từ] phải nhỏ hơn [TS nam đến] tại dòng [" +
+                index +
+                1 +
+                "]!"
+            );
+          }
+
+          if (
+            element.femaleFrom !== null &&
+            element.femaleTo !== null &&
+            element.femaleFrom > element.femaleTo
+          ) {
+            strArr.push(
+              "[TS nữ từ] phải nhỏ hơn [TS nữ đến] tại dòng [" +
+                index +
+                1 +
+                "]! "
+            );
+          }
+        });
+      }
+
+      if (strArr.length > 0) {
+        erro.value = strArr.join("\n");
+        isValid = false;
+
+        Modal.error({
+          content: erro.value,
+          title: "Thông báo",
+          okText: "Đồng ý",
+        });
+        return isValid;
+      }
+
       return isValid;
     }
 
@@ -814,30 +901,35 @@ export default defineComponent({
       service.serviceUnitName = "";
       service.serviceGroupName = "";
       service.sortOrder = 0;
-      service.sServicePricePolicies = reactive([]);
-      service.sExecutionRooms = reactive([]);
-      service.sServiceResultIndices = reactive([]);
+      service.sServicePricePolicies = []; //reactive([]);
+      service.sExecutionRooms = []; //reactive([]);
+      service.sServiceResultIndices = []; //reactive([]);
     };
 
     const handleAddResultIndice = (visible: boolean) => {
       visibleResultIndice.value = visible;
-      resultIndiceSelected.value = undefined;
+      setDataResultIndice(undefined);
+      // resultIndiceSelected.value = undefined;
     };
 
     const handleEditResultIndice = (record: ServiceResultIndiceModel) => {
       visibleResultIndice.value = true;
-      resultIndiceSelected.value = record;
+      setDataResultIndice(record);
+      // resultIndiceSelected.value = record;
     };
 
     const handleSaveResultIndice = (record: ServiceResultIndiceModel) => {
       const resultIndice = service.sServiceResultIndices.find(
         (f) => f.code == record.code
       );
+
       if (resultIndice !== null && resultIndice != undefined) {
         const index = service.sServiceResultIndices.indexOf(resultIndice);
         service.sServiceResultIndices[index] = record;
+        setDataResultIndice(record);
       } else {
         service.sServiceResultIndices.push(record);
+        setDataResultIndice(record);
       }
       service.sServiceResultIndices = service.sServiceResultIndices.sort(
         (a, b) => {
@@ -847,8 +939,46 @@ export default defineComponent({
           return 0;
         }
       );
+    };
 
-      resultIndiceSelected.value = undefined;
+    const setDataResultIndice = (
+      record: ServiceResultIndiceModel | undefined
+    ) => {
+      if (record == undefined) {
+        // Sử dụng map để tạo vùng dữ liệu mới, khi thêm mới resultIndiceSelected sẽ ko trỏ đến địa chỉ service.sServiceResultIndices nữa.
+        // Chưa tìm được giải pháp thay thế khác !
+        service.sServiceResultIndices = service.sServiceResultIndices.map(
+          (obj) => ({ ...obj })
+        );
+
+        resultIndiceSelected = reactive<ServiceResultIndiceModel>({
+          id: undefined,
+          code: "",
+          name: "",
+          unit: "",
+          maleFrom: null,
+          maleTo: null,
+          femaleFrom: null,
+          femaleTo: null,
+          serviceId: undefined,
+          serviceCode: null,
+          sortOrder: undefined,
+          inactive: false,
+        });
+      } else {
+        resultIndiceSelected.id = record?.id;
+        resultIndiceSelected.code = record.code;
+        resultIndiceSelected.name = record.name;
+        resultIndiceSelected.unit = record.unit;
+        resultIndiceSelected.maleFrom = record.maleFrom;
+        resultIndiceSelected.maleTo = record.maleTo;
+        resultIndiceSelected.femaleFrom = record.femaleFrom;
+        resultIndiceSelected.femaleTo = record.femaleTo;
+        resultIndiceSelected.serviceId = record.serviceId;
+        resultIndiceSelected.serviceCode = record.serviceCode;
+        resultIndiceSelected.sortOrder = record.sortOrder;
+        resultIndiceSelected.inactive = record.inactive;
+      }
     };
 
     const handleDeleteResultIndice = (record: ServiceResultIndiceModel) => {
@@ -871,7 +1001,7 @@ export default defineComponent({
     const handleToggleResultIndice = (result: boolean) => {
       visibleResultIndice.value = !visibleResultIndice.value;
       if (result) {
-        resultIndiceSelected.value = undefined;
+        setDataResultIndice(undefined);
       }
     };
 
