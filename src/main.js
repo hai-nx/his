@@ -24,6 +24,8 @@ Vue.config.productionTip = false;
 
 import store from "./store/store";
 import "./Utils.js";
+
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faFileExcel, faList, faCogs } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'

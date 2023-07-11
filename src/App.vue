@@ -14,7 +14,6 @@
 
 <script>
 //import EventBus from "@/utils/eventBus";
-
 export default {
   name: "App",
   components: {},
@@ -35,19 +34,10 @@ export default {
   },
 };
 </script>
-
-<style src="./styles/styles.scss" lang="scss"></style>
 <style lang="scss">
-#app {
-  transition: 0.3s ease;
-  .content {
-    height: 100vh;
-  }
-}
-#app.collapsed {
-  padding-left: 50px;
-}
-#app.isClient {
-  padding-left: 0px !important;
-}
+@import "./styles/styles.scss";
+@import "./styles/custome_style.scss";
+</style>
+<style lang="scss">
+
 </style>

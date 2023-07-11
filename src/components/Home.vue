@@ -1,82 +1,42 @@
 <template>
-  <div class="page-trang-chu">
-    123
+  <div class="home-page">
+    <menu-top></menu-top>
+    <slider-top></slider-top>
+    <div class="content">
+      <Introduction></Introduction>
+      <Solution></Solution>
+      <Projects></Projects>
+    </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 //import Utils from "../Utils";
+import MenuTop from '@/components/MenuTop.vue'
+import SliderTop from '@/components/SliderTop.vue'
+import Introduction from '@/components/Introduction.vue'
+import Solution from '@/components/Solution.vue'
+import Projects from '@/components/Projects.vue'
+import Footer from '@/components/Footer.vue'
 export default {
   name: "Home",
   components: {
-    
+    'menu-top': MenuTop,
+    'slider-top': SliderTop,
+    Introduction,Solution,Projects,Footer
   },
   methods: {
-    submitForm(){}
+    submitForm() {},
   },
   computed: {},
-  mounted() {
-  },
+  mounted() {},
   data() {
     return {
-      
     };
   },
 };
 </script>
 
 <style lang="scss">
-.modal-content{
-    width: 335px;
-    height: 360px;
-  }
-.page-trang-chu {
-  padding: 5px;
-  .title {
-    font-weight: bold;
-    margin: 10px 0px 10px -10px;
-    color: #28a745;
-    font-size: 22px;
-    text-align: center;
-  }
-  .errr {
-    color: red;
-    font-style: italic;
-    font-size: 13px;
-  }
-  .note {
-    color: red;
-    text-align: justify;
-    text-align: center;
-    margin-bottom: 15px;
-  }
-  .item {
-  }
-  .req {
-    &::after {
-      content: "*";
-      color: red;
-    }
-  }
-  .bg_lead {
-    background: #ecf8ee;
-    padding: 10px;
-    margin: 10px 0px;
-    border-radius: 10px;
-  }
-  .box-tiepxuc {
-    border: 1px solid #5bb166;
-    padding: 10px;
-    border-radius: 5px;
-    background: #fff;
-  }
-  .div-continue {
-    text-align: center;
-    margin: 20px 0px;
-  }
-  .btnSubmit{
-    width: 100%;
-  }
-  
-}
 </style>
