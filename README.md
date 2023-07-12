@@ -45,3 +45,5 @@ npm install query-string
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+npm install uuid

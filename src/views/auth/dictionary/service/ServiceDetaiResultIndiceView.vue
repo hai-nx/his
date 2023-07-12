@@ -110,6 +110,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
 import { ServiceResultIndiceModel } from "@/models";
+import guidHelper from "@/utils/guidHelper";
 
 export default defineComponent({
   name: "ServiceDetaiResultIndiceView",
@@ -155,7 +156,7 @@ export default defineComponent({
     };
 
     const reset = () => {
-      resultIndice.id = undefined;
+      resultIndice.id = guidHelper.generateGUID();
       resultIndice.code = "";
       resultIndice.name = "";
       resultIndice.unit = "";
@@ -185,8 +186,8 @@ export default defineComponent({
     };
 
     watch(show, (value) => {
+      reset();
       if (value && props.data !== undefined) {
-        reset();
         setData(props.data);
       }
     });
