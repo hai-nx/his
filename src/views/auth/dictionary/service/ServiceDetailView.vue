@@ -398,15 +398,7 @@ import {
   ServiceUnitModel,
   ServiceResultIndiceModel,
 } from "@/models";
-import {
-  defineComponent,
-  ref,
-  computed,
-  watch,
-  PropType,
-  reactive,
-  toRef,
-} from "vue";
+import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
 import {
   serviceService,
   surgicalProcedureTypeService,
