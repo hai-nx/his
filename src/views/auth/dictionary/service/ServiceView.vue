@@ -68,13 +68,8 @@
     </a-table>
 
     <teleport to="body">
-      <ServiceDetailViews
-        :visible="visible"
-        :data="record"
-        @toggle="handleToggle"
-      />
       <ServiceDetailView
-        :visible="false"
+        :visible="visible"
         :data="record"
         @toggle="handleToggle"
       />
@@ -95,7 +90,6 @@ import { defineComponent, ref } from "vue";
 import { Modal } from "ant-design-vue";
 import { ServiceModel } from "@/models";
 import { serviceService } from "@/services";
-import ServiceDetailViews from "./ServiceDetailViews.vue";
 import ServiceDetailView from "./ServiceDetailView.vue";
 import ServiceDetailImportView from "./ServiceDetailImportView.vue";
 import ServiceDetailResultIndiceImportView from "./ServiceDetailResultIndiceImportView.vue";
@@ -263,7 +257,6 @@ export default defineComponent({
   },
   components: {
     ServiceDetailView,
-    ServiceDetailViews,
     ServiceDetailImportView,
     ServiceDetailResultIndiceImportView,
   },

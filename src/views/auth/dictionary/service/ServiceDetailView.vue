@@ -4,372 +4,491 @@
     :title="title"
     @cancel="handleCancel"
     :mask-closable="false"
-    width="1200px"
-    height="720px"
+    width="1000px"
+    height="700px"
     class="modal_container"
   >
-    <div class="container">
-      <div class="row mb-1">
-        <div class="col-md-4">
-          <div class="row">
-            <div class="col-md-4">
-              <label>
-                <span>Mã DV</span>
-                <span class="text-danger me-1">*</span>
-              </label>
-            </div>
-            <div class="col-md-8">
-              <a-input v-model:value="service.code" :disabled="loading" />
-            </div>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <div class="row">
-            <div class="col-md-2">
-              <label>
-                <span>Tên DV</span>
-                <span class="text-danger me-1">*</span>
-              </label>
-            </div>
-            <div class="col-md-10">
-              <a-input v-model:value="service.name" :disabled="loading" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row mb-1">
-        <div class="col-md-4">
-          <div class="row">
-            <div class="col-md-4">
-              <label>
-                <span>Mã BH</span>
-                <span class="text-danger me-1">*</span>
-              </label>
-            </div>
-            <div class="col-md-8">
-              <a-input v-model:value="service.heInCode" :disabled="loading" />
-            </div>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <div class="row">
-            <div class="col-md-2">
-              <label>
-                <span>Tên BH</span>
-                <span class="text-danger me-1">*</span>
-              </label>
-            </div>
-            <div class="col-md-10">
-              <a-input v-model:value="service.heInName" :disabled="loading" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row mb-1">
-        <div class="col-md-4">
-          <div class="row">
-            <div class="col-md-4">
-              <label>
-                <span>Đợn vị tính</span>
-                <span class="text-danger me-1">*</span>
-              </label>
-            </div>
-            <div class="col-md-8">
-              <a-select
-                v-model:value="service.serviceUnitId"
-                :options="serviceUnits"
-                :field-names="fields"
-                :disabled="loading"
-                class="w-100"
-              >
-                <template #option="{ name }">
-                  <div class="row">
-                    <span>{{ name }}</span>
+    <!-- Nội dung trong modal body -->
+    <div class="card-container">
+      <a-tabs v-model:activeKey="activeKey" type="card">
+        <a-tab-pane key="1" tab="Thông tin chung">
+          <div class="container">
+            <div class="row mb-1">
+              <div class="col-md-4">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>
+                      <span>Mã DV</span>
+                      <span class="text-danger me-1">*</span>
+                    </label>
                   </div>
-                </template>
-              </a-select>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-md-4">
-                  <label>
-                    <span>Nhóm BH</span>
-                    <span class="text-danger me-1">*</span>
-                  </label>
-                </div>
-                <div class="col-md-8">
-                  <a-select
-                    v-model:value="service.serviceGroupHeInId"
-                    :options="serviceGroupHeIns"
-                    :field-names="fields"
-                    :disabled="loading"
-                    class="w-100"
-                  >
-                    <template #option="{ name }">
-                      <div class="row">
-                        <span>{{ name }}</span>
-                      </div>
-                    </template>
-                  </a-select>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-md-4">
-                  <label>
-                    <span>Nhóm DV</span>
-                    <span class="text-danger me-1">*</span>
-                  </label>
-                </div>
-                <div class="col-md-8">
-                  <a-select
-                    v-model:value="service.serviceGroupId"
-                    :options="serviceGroups"
-                    :field-names="fields"
-                    :disabled="loading"
-                    class="w-100"
-                  >
-                    <template #option="{ name }">
-                      <div class="row">
-                        <span>{{ name }}</span>
-                      </div>
-                    </template>
-                  </a-select>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-4">
-          <div class="row">
-            <div class="col-md-4">
-              <label>Loại PPTT</label>
-            </div>
-            <div class="col-md-8">
-              <a-select
-                v-model:value="service.surgicalProcedureTypeId"
-                :options="surgicalProcedureTypes"
-                :field-names="fields"
-                :disabled="loading"
-                class="w-100"
-              >
-                <template #option="{ name }">
-                  <div class="row">
-                    <span>{{ name }}</span>
+                  <div class="col-md-8">
+                    <a-input v-model:value="service.code" :disabled="loading" />
                   </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-2">
+                    <label>
+                      <span>Tên DV</span>
+                      <span class="text-danger me-1">*</span>
+                    </label>
+                  </div>
+                  <div class="col-md-10">
+                    <a-input v-model:value="service.name" :disabled="loading" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-1">
+              <div class="col-md-4">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>
+                      <span>Mã BH</span>
+                      <span class="text-danger me-1">*</span>
+                    </label>
+                  </div>
+                  <div class="col-md-8">
+                    <a-input
+                      v-model:value="service.heInCode"
+                      :disabled="loading"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-2">
+                    <label>
+                      <span>Tên BH</span>
+                      <span class="text-danger me-1">*</span>
+                    </label>
+                  </div>
+                  <div class="col-md-10">
+                    <a-input
+                      v-model:value="service.heInName"
+                      :disabled="loading"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-1">
+              <div class="col-md-4">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>
+                      <span>Đợn vị tính</span>
+                      <span class="text-danger me-1">*</span>
+                    </label>
+                  </div>
+                  <div class="col-md-8">
+                    <a-select
+                      v-model:value="service.serviceUnitId"
+                      :options="serviceUnits"
+                      :field-names="fields"
+                      :disabled="loading"
+                      class="w-100"
+                    >
+                      <template #option="{ name }">
+                        <div class="row">
+                          <span>{{ name }}</span>
+                        </div>
+                      </template>
+                    </a-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label>
+                          <span>Nhóm BH</span>
+                          <span class="text-danger me-1">*</span>
+                        </label>
+                      </div>
+                      <div class="col-md-8">
+                        <a-select
+                          v-model:value="service.serviceGroupHeInId"
+                          :options="serviceGroupHeIns"
+                          :field-names="fields"
+                          :disabled="loading"
+                          class="w-100"
+                        >
+                          <template #option="{ name }">
+                            <div class="row">
+                              <span>{{ name }}</span>
+                            </div>
+                          </template>
+                        </a-select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label>
+                          <span>Nhóm DV</span>
+                          <span class="text-danger me-1">*</span>
+                        </label>
+                      </div>
+                      <div class="col-md-8">
+                        <a-select
+                          v-model:value="service.serviceGroupId"
+                          :options="serviceGroups"
+                          :field-names="fields"
+                          :disabled="loading"
+                          class="w-100"
+                        >
+                          <template #option="{ name }">
+                            <div class="row">
+                              <span>{{ name }}</span>
+                            </div>
+                          </template>
+                        </a-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Loại PPTT</label>
+                  </div>
+                  <div class="col-md-8">
+                    <a-select
+                      v-model:value="service.surgicalProcedureTypeId"
+                      :options="surgicalProcedureTypes"
+                      :field-names="fields"
+                      :disabled="loading"
+                      class="w-100"
+                    >
+                      <template #option="{ name }">
+                        <div class="row">
+                          <span>{{ name }}</span>
+                        </div>
+                      </template>
+                    </a-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label>
+                          <span>Số thứ tự</span>
+                        </label>
+                      </div>
+                      <div class="col-md-8">
+                        <a-input-number
+                          class="my-0 mx-0 w-100"
+                          v-model:value="service.sortOrder"
+                          min="0"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-4"></div>
+                      <div class="col-md-8">
+                        <a-checkbox
+                          v-model:checked="service.inactive"
+                          :disabled="loading"
+                          >Ngừng theo dõi</a-checkbox
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <a-table
+                class="ant-table-striped my-2"
+                size="middle"
+                bordered
+                :pagination="false"
+                :columns="columns"
+                :data-source="service.sServicePricePolicies"
+                :scroll="{ y: 130 }"
+              >
+                <template #bodyCell="{ column, record }">
+                  <template v-if="column.key === 'patientTypeCode'">
+                    <a-input
+                      class="my-0 mx-0 w-100"
+                      v-model:value="record.patientTypeCode"
+                      disabled
+                    />
+                  </template>
+                  <template v-else-if="column.key === 'patientTypeName'">
+                    <a-input
+                      class="my-0 mx-0 w-100"
+                      v-model:value="record.patientTypeName"
+                      disabled
+                    />
+                  </template>
+                  <template v-else-if="column.key === 'oldUnitPrice'">
+                    <a-input-number
+                      class="my-0 mx-0 w-100 text-align-right"
+                      v-model:value="record.oldUnitPrice"
+                      min="0"
+                    />
+                  </template>
+                  <template v-else-if="column.key === 'newUnitPrice'">
+                    <a-input-number
+                      class="my-0 mx-0 w-100"
+                      v-model:value="record.newUnitPrice"
+                      min="0"
+                    />
+                  </template>
+                  <template v-else-if="column.key === 'ceilingPrice'">
+                    <a-input-number
+                      class="my-0 mx-0 w-100"
+                      v-model:value="record.ceilingPrice"
+                      min="0"
+                      :disabled="!record.isHeIn"
+                    />
+                  </template>
+                  <template v-else-if="column.key === 'paymentRate'">
+                    <a-input-number
+                      class="my-0 mx-0 w-100"
+                      v-model:value="record.paymentRate"
+                      max="100"
+                      :disabled="!record.isHeIn"
+                    />
+                  </template>
+                  <template v-else-if="column.key === 'executionTime'">
+                    <a-date-picker
+                      class="my-0 mx-0 w-100"
+                      placeholder="dd/MM/yyyy"
+                      format="DD/MM/YYYY"
+                      v-model:value="record.executionTime"
+                    />
+                  </template>
                 </template>
-              </a-select>
+              </a-table>
             </div>
           </div>
-        </div>
-        <div class="col-md-8">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-md-4">
-                  <label>
-                    <span>Số thứ tự</span>
-                  </label>
+        </a-tab-pane>
+        <a-tab-pane key="2" tab="Phòng thực hiện" v-if="isShowExecutionRooms">
+          <div class="container">
+            <div class="row">
+              <a-table
+                class="ant-table-striped my-2"
+                size="middle"
+                :columns="columnRoows"
+                :data-source="service.sExecutionRooms"
+                bordered
+                :pagination="false"
+                :scroll="{ y: 600 }"
+              >
+                <template #bodyCell="{ column, record }">
+                  <template v-if="column.key === 'isCheck'">
+                    <a-checkbox
+                      class="my-0 mx-0 w-100 centered-checkbox"
+                      v-model:checked="record.isCheck"
+                    />
+                  </template>
+                  <template v-else-if="column.key === 'isMain'">
+                    <a-checkbox
+                      class="my-0 mx-0 w-100 centered-checkbox"
+                      v-model:checked="record.isMain"
+                    />
+                  </template>
+                </template>
+              </a-table>
+            </div>
+          </div>
+        </a-tab-pane>
+        <a-tab-pane key="3" tab="Trị số kết quả">
+          <div class="container">
+            <div class="row">
+              <div class="flex-container-resultIndice">
+                <a-button
+                  class="btn-item-resultIndice"
+                  type="primary"
+                  @click.prevent="handleAddResultIndice"
+                >
+                  Thêm mới</a-button
+                >
+                <a-button
+                  class="btn-item-resultIndice"
+                  type="primary"
+                  @click.prevent="handleSaveResultIndice(resultIndiceSelected)"
+                >
+                  Lưu KQ</a-button
+                >
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label>Mã trị số</label>
+                  </div>
+                  <div class="col-md-9">
+                    <a-input
+                      :disabled="!visibleResultIndice"
+                      v-model:value="resultIndiceSelected.code"
+                    />
+                  </div>
                 </div>
-                <div class="col-md-8">
-                  <a-input-number
-                    class="my-0 mx-0 w-100"
-                    v-model:value="service.sortOrder"
-                    min="0"
-                  />
+                <div class="row mt-1">
+                  <div class="col-md-3">
+                    <label>Tên trị số</label>
+                  </div>
+                  <div class="col-md-9">
+                    <a-input
+                      :disabled="!visibleResultIndice"
+                      v-model:value="resultIndiceSelected.name"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-1">
+                  <div class="col-md-3">
+                    <label>Đơn vị</label>
+                  </div>
+                  <div class="col-md-9">
+                    <a-input
+                      :disabled="!visibleResultIndice"
+                      v-model:value="resultIndiceSelected.unit"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-1">
+                  <div class="col-md-3">
+                    <label>Thứ tự</label>
+                  </div>
+                  <div class="col-md-9">
+                    <a-input-number
+                      class="w-100"
+                      :disabled="!visibleResultIndice"
+                      v-model:value="resultIndiceSelected.sortOrder"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Trị số nam từ</label>
+                  </div>
+                  <div class="col-md-8">
+                    <a-input-number
+                      class="w-100"
+                      :disabled="!visibleResultIndice"
+                      v-model:value="resultIndiceSelected.maleFrom"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-1">
+                  <div class="col-md-4">
+                    <label>Trị số nam đến</label>
+                  </div>
+                  <div class="col-md-8">
+                    <a-input-number
+                      class="w-100"
+                      :disabled="!visibleResultIndice"
+                      v-model:value="resultIndiceSelected.maleTo"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-1">
+                  <div class="col-md-4">
+                    <label>Trị số nữ từ</label>
+                  </div>
+                  <div class="col-md-8">
+                    <a-input-number
+                      class="w-100"
+                      min="0"
+                      :disabled="!visibleResultIndice"
+                      v-model:value="resultIndiceSelected.femaleFrom"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-1">
+                  <div class="col-md-4">
+                    <label>Trị số nữ đến</label>
+                  </div>
+                  <div class="col-md-8">
+                    <a-input-number
+                      class="w-100"
+                      min="0"
+                      :disabled="!visibleResultIndice"
+                      v-model:value="resultIndiceSelected.femaleTo"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-8">
-                  <a-checkbox
-                    v-model:checked="service.inactive"
-                    :disabled="loading"
-                    >Ngừng theo dõi</a-checkbox
-                  >
-                </div>
-              </div>
+
+            <div class="row">
+              <a-table
+                class="ant-table-striped my-2"
+                size="middle"
+                bordered
+                :customRow="handleRowClickResultIndice"
+                :columns="columnResultIndices"
+                :data-source="service.sServiceResultIndices"
+                :pagination="false"
+                :scroll="{ y: 600 }"
+              >
+                <template #bodyCell="{ column, record }">
+                  <template v-if="column.key === 'inactive'">
+                    <span>
+                      <a-tag v-if="record.inactive" color="error">
+                        <span>Ngừng hoạt động</span>
+                      </a-tag>
+                      <a-tag v-else color="success">
+                        <span>Hoạt động</span>
+                      </a-tag>
+                    </span>
+                  </template>
+                  <template v-else-if="column.key === 'action'">
+                    <span>
+                      <button
+                        class="btn btn-outline-primary border-0 btn-sm me-2"
+                        title="Sửa"
+                        @click="handleEditResultIndice(record)"
+                      >
+                        <i class="bi bi-pen"></i>
+                      </button>
+
+                      <button
+                        class="btn btn-outline-danger border-0 btn-sm"
+                        title="Xóa"
+                        @click="handleDeleteResultIndice(record)"
+                      >
+                        <i class="bi bi-x-lg"></i>
+                      </button>
+                    </span>
+                  </template>
+                </template>
+              </a-table>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <a-table
-          class="ant-table-striped my-2"
-          size="middle"
-          bordered
-          :pagination="false"
-          :columns="columns"
-          :data-source="service.sServicePricePolicies"
-          :scroll="{ y: 130 }"
-        >
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'patientTypeCode'">
-              <a-input
-                class="my-0 mx-0 w-100"
-                v-model:value="record.patientTypeCode"
-                disabled
-              />
-            </template>
-            <template v-else-if="column.key === 'patientTypeName'">
-              <a-input
-                class="my-0 mx-0 w-100"
-                v-model:value="record.patientTypeName"
-                disabled
-              />
-            </template>
-            <template v-else-if="column.key === 'oldUnitPrice'">
-              <a-input-number
-                class="my-0 mx-0 w-100 text-align-right"
-                v-model:value="record.oldUnitPrice"
-                min="0"
-              />
-            </template>
-            <template v-else-if="column.key === 'newUnitPrice'">
-              <a-input-number
-                class="my-0 mx-0 w-100"
-                v-model:value="record.newUnitPrice"
-                min="0"
-              />
-            </template>
-            <template v-else-if="column.key === 'ceilingPrice'">
-              <a-input-number
-                class="my-0 mx-0 w-100"
-                v-model:value="record.ceilingPrice"
-                min="0"
-                :disabled="!record.isHeIn"
-              />
-            </template>
-            <template v-else-if="column.key === 'paymentRate'">
-              <a-input-number
-                class="my-0 mx-0 w-100"
-                v-model:value="record.paymentRate"
-                max="100"
-                :disabled="!record.isHeIn"
-              />
-            </template>
-            <template v-else-if="column.key === 'executionTime'">
-              <a-date-picker
-                class="my-0 mx-0 w-100"
-                placeholder="dd/MM/yyyy"
-                format="DD/MM/YYYY"
-                v-model:value="record.executionTime"
-              />
-            </template>
-          </template>
-        </a-table>
-      </div>
-
-      <div class="row" v-if="isShowExecutionRooms">
-        <a-table
-          class="ant-table-striped my-2"
-          size="middle"
-          :columns="columnRoows"
-          :data-source="service.sExecutionRooms"
-          bordered
-          :pagination="false"
-          :scroll="{ y: 100 }"
-        >
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'isCheck'">
-              <a-checkbox
-                class="my-0 mx-0 w-100 centered-checkbox"
-                v-model:checked="record.isCheck"
-              />
-            </template>
-            <template v-else-if="column.key === 'isMain'">
-              <a-checkbox
-                class="my-0 mx-0 w-100 centered-checkbox"
-                v-model:checked="record.isMain"
-              />
-            </template>
-          </template>
-        </a-table>
-      </div>
-
-      <div class="row">
-        <div class="col-md-10"></div>
-        <div class="col-md-2">
-          <a-button
-            class="w-100"
-            type="primary"
-            style="margin-right: 10px"
-            @click="handleAddResultIndice(true)"
-          >
-            Thêm kết quả
-          </a-button>
-        </div>
-      </div>
-
-      <div class="row">
-        <a-table
-          class="ant-table-striped my-2"
-          size="middle"
-          :columns="columnResultIndices"
-          :data-source="service.sServiceResultIndices"
-          bordered
-          :pagination="false"
-          :scroll="{ y: 100 }"
-        >
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'inactive'">
-              <span>
-                <a-tag v-if="record.inactive" color="error">
-                  <span>Ngừng hoạt động</span>
-                </a-tag>
-                <a-tag v-else color="success">
-                  <span>Hoạt động</span>
-                </a-tag>
-              </span>
-            </template>
-            <template v-else-if="column.key === 'action'">
-              <span>
-                <button
-                  class="btn btn-outline-primary border-0 btn-sm me-2"
-                  title="Sửa"
-                  @click="handleEditResultIndice(record)"
-                >
-                  <i class="bi bi-pen"></i>
-                </button>
-
-                <button
-                  class="btn btn-outline-danger border-0 btn-sm"
-                  title="Xóa"
-                  @click="handleDeleteResultIndice(record)"
-                >
-                  <i class="bi bi-x-lg"></i>
-                </button>
-              </span>
-            </template>
-          </template>
-        </a-table>
-      </div>
+        </a-tab-pane>
+      </a-tabs>
     </div>
-
-    <template to="body">
-      <ServiceDetaiResultIndiceView
-        :visible="visibleResultIndice"
-        :data="resultIndiceSelected"
-        @toggle="handleToggleResultIndice"
-        @handleSaveResultIndice="handleSaveResultIndice"
-      />
-    </template>
 
     <template #footer>
       <a-button
+        class="btn-primary"
         key="submit"
         type="primary"
         :loading="loading"
@@ -378,13 +497,14 @@
         Lưu</a-button
       >
       <a-button
+        class="btn-primary-lg"
         type="primary"
         :loading="loading"
         @click.prevent="handleSaveAndAddNew"
       >
         Lưu và Thêm mới</a-button
       >
-      <a-button @click="handleCancel">Bỏ qua</a-button>
+      <a-button class="btn-primary" @click="handleCancel">Bỏ qua</a-button>
     </template>
   </a-modal>
 </template>
@@ -408,10 +528,10 @@ import {
 } from "@/services";
 import { Modal } from "ant-design-vue";
 import dayjs from "dayjs";
-import ServiceDetaiResultIndiceView from "./ServiceDetaiResultIndiceView.vue";
+import guidHelper from "@/utils/guidHelper";
 
 export default defineComponent({
-  name: "ServiceDetailView",
+  name: "ServiceDetailViews",
   props: {
     visible: {
       type: Boolean,
@@ -423,6 +543,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     //#region Khai báo biến
+    const activeKey = ref<string>("1");
 
     const loading = ref<boolean>(false);
     const fields = ref({ value: "id", label: "name" });
@@ -442,9 +563,9 @@ export default defineComponent({
       surgicalProcedureTypeId: undefined,
       serviceUnitName: "",
       serviceGroupName: "",
-      sServicePricePolicies: [], // reactive([]),
-      sExecutionRooms: [], // reactive([]),
-      sServiceResultIndices: [], // reactive([]),
+      sServicePricePolicies: [],
+      sExecutionRooms: [],
+      sServiceResultIndices: [],
     });
 
     const erro = ref<string>();
@@ -453,9 +574,20 @@ export default defineComponent({
     const serviceGroups = ref<ServiceGroupModel[]>([]);
     var serviceGroupHeIns = ref<ServiceGroupHeInModel[]>([]);
     const serviceUnits = ref<ServiceUnitModel[]>([]);
-
     const visibleResultIndice = ref<boolean>(false);
-    const resultIndiceSelected = ref<ServiceResultIndiceModel>();
+    let resultIndiceSelected = reactive<ServiceResultIndiceModel>({
+      id: undefined,
+      code: "",
+      name: "",
+      unit: "",
+      maleFrom: null,
+      maleTo: null,
+      femaleFrom: null,
+      femaleTo: null,
+      serviceId: undefined,
+      serviceCode: null,
+      inactive: false,
+    });
 
     const columns = reactive([
       {
@@ -539,6 +671,13 @@ export default defineComponent({
 
     const columnResultIndices = reactive([
       {
+        title: "Xử lý",
+        key: "action",
+        width: 100,
+        className: "column-header-center",
+        align: "center",
+      },
+      {
         title: "Mã chỉ số",
         key: "code",
         dataIndex: "code",
@@ -595,8 +734,9 @@ export default defineComponent({
         className: "column-header-center",
       },
       {
-        title: "Xử lý",
-        key: "action",
+        title: "Trạng thái",
+        key: "inactive",
+        dataIndex: "inactive",
         width: 100,
         className: "column-header-center",
         align: "center",
@@ -879,13 +1019,21 @@ export default defineComponent({
       service.serviceUnitName = "";
       service.serviceGroupName = "";
       service.sortOrder = 0;
-      service.sServicePricePolicies = []; //reactive([]);
-      service.sExecutionRooms = []; //reactive([]);
-      service.sServiceResultIndices = []; //reactive([]);
+      service.sServicePricePolicies = [];
+      service.sExecutionRooms = [];
+      service.sServiceResultIndices = [];
     };
 
-    const handleAddResultIndice = (visible: boolean) => {
-      visibleResultIndice.value = visible;
+    const handleRowClickResultIndice = (record: ServiceResultIndiceModel) => {
+      return {
+        onClick: () => {
+          setDataResultIndice(record);
+        },
+      };
+    };
+
+    const handleAddResultIndice = () => {
+      visibleResultIndice.value = true;
       setDataResultIndice(undefined);
     };
 
@@ -913,18 +1061,45 @@ export default defineComponent({
           return 0;
         }
       );
+
+      visibleResultIndice.value = false;
+    };
+
+    const resetResultIndice = () => {
+      resultIndiceSelected.id = guidHelper.generateGUID();
+      resultIndiceSelected.code = "";
+      resultIndiceSelected.name = "";
+      resultIndiceSelected.unit = "";
+      resultIndiceSelected.maleFrom = null;
+      resultIndiceSelected.maleTo = null;
+      resultIndiceSelected.femaleFrom = null;
+      resultIndiceSelected.femaleTo = null;
+      resultIndiceSelected.serviceId = undefined;
+      resultIndiceSelected.serviceCode = null;
+      resultIndiceSelected.sortOrder = undefined;
+      resultIndiceSelected.inactive = false;
     };
 
     const setDataResultIndice = (
-      record: ServiceResultIndiceModel | undefined
+      data: ServiceResultIndiceModel | undefined
     ) => {
-      if (record == undefined) {
-        resultIndiceSelected.value = record;
-      } else {
-        resultIndiceSelected.value = { ...record };
-      }
+      resetResultIndice();
+      if (data !== undefined) {
+        const dataCopy = { ...data };
 
-      console.log(resultIndiceSelected.value);
+        resultIndiceSelected.id = dataCopy.id;
+        resultIndiceSelected.code = dataCopy.code;
+        resultIndiceSelected.name = dataCopy.name;
+        resultIndiceSelected.unit = dataCopy.unit;
+        resultIndiceSelected.maleFrom = dataCopy.maleFrom;
+        resultIndiceSelected.maleTo = dataCopy.maleTo;
+        resultIndiceSelected.femaleFrom = dataCopy.femaleFrom;
+        resultIndiceSelected.femaleTo = dataCopy.femaleTo;
+        resultIndiceSelected.serviceId = dataCopy.serviceId;
+        resultIndiceSelected.serviceCode = dataCopy.serviceCode;
+        resultIndiceSelected.sortOrder = dataCopy.sortOrder;
+        resultIndiceSelected.inactive = dataCopy.inactive;
+      }
     };
 
     const handleDeleteResultIndice = (record: ServiceResultIndiceModel) => {
@@ -935,17 +1110,13 @@ export default defineComponent({
         cancelText: "Bỏ qua",
         onOk() {
           service.sServiceResultIndices = service.sServiceResultIndices.filter(
-            (f) => f.code != record.code
+            (f) => f.id != record.id
           );
         },
         onCancel() {
           Modal.destroyAll();
         },
       });
-    };
-
-    const handleToggleResultIndice = (result: boolean) => {
-      visibleResultIndice.value = !visibleResultIndice.value;
     };
 
     const toggle = () => {
@@ -970,6 +1141,7 @@ export default defineComponent({
     });
 
     return {
+      activeKey,
       title,
       service,
       columns,
@@ -988,25 +1160,19 @@ export default defineComponent({
       handleSave,
       handleSaveAndAddNew,
       handleCancel,
-      visibleResultIndice,
       resultIndiceSelected,
+      visibleResultIndice,
+      handleRowClickResultIndice,
       handleEditResultIndice,
       handleDeleteResultIndice,
       handleAddResultIndice,
-      handleToggleResultIndice,
       handleSaveResultIndice,
     };
-  },
-  components: {
-    ServiceDetaiResultIndiceView,
   },
 });
 </script>
 
 <style>
-/* .ant-table.ant-table-middle .ant-table-tbody > tr > td {
-  padding: 5px 5px !important;
-} */
 td.column-center,
 th.column-header-center {
   text-align: center !important;
@@ -1021,9 +1187,39 @@ th.column-header-center {
 }
 
 .modal_container {
-  width: 1200px;
-  height: 650px;
   position: relative;
   overflow: auto;
+}
+
+.ant-modal-body {
+  padding: 0px;
+}
+
+.custom-modal-body {
+  padding: 0px;
+}
+
+.card-container {
+  margin: -24px;
+  height: 650px;
+}
+
+.flex-container-resultIndice {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.btn-item-resultIndice {
+  margin: 0px 0px 10px 10px;
+  width: 100px;
+}
+
+.btn-primary {
+  width: 100px;
+}
+
+.btn-primary-lg {
+  width: 150px;
 }
 </style>
