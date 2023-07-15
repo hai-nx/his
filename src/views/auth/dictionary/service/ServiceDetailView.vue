@@ -1022,6 +1022,8 @@ export default defineComponent({
       service.sServicePricePolicies = [];
       service.sExecutionRooms = [];
       service.sServiceResultIndices = [];
+
+      resetResultIndice();
     };
 
     const handleRowClickResultIndice = (record: ServiceResultIndiceModel) => {
