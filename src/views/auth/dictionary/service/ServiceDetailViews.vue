@@ -321,17 +321,16 @@
                 <a-button
                   class="btn-item-resultIndice"
                   type="primary"
-                  :row-selection="resultIndiceSelected"
-                  @click.prevent="handleAddResultIndice(true)"
+                  @click.prevent="handleAddResultIndice"
                 >
                   Thêm mới</a-button
                 >
                 <a-button
                   class="btn-item-resultIndice"
                   type="primary"
-                  @click.prevent="handleAddResultIndice(true)"
+                  @click.prevent="handleSaveResultIndice(resultIndiceSelected)"
                 >
-                  Lưu</a-button
+                  Lưu KQ</a-button
                 >
               </div>
             </div>
@@ -343,7 +342,10 @@
                     <label>Mã trị số</label>
                   </div>
                   <div class="col-md-9">
-                    <a-input v-model:value="resultIndiceSelected.code" />
+                    <a-input
+                      :disabled="!visibleResultIndice"
+                      v-model:value="resultIndiceSelected.code"
+                    />
                   </div>
                 </div>
                 <div class="row mt-1">
@@ -351,7 +353,10 @@
                     <label>Tên trị số</label>
                   </div>
                   <div class="col-md-9">
-                    <a-input v-model:value="resultIndiceSelected.name" />
+                    <a-input
+                      :disabled="!visibleResultIndice"
+                      v-model:value="resultIndiceSelected.name"
+                    />
                   </div>
                 </div>
                 <div class="row mt-1">
@@ -359,7 +364,10 @@
                     <label>Đơn vị</label>
                   </div>
                   <div class="col-md-9">
-                    <a-input v-model:value="resultIndiceSelected.unit" />
+                    <a-input
+                      :disabled="!visibleResultIndice"
+                      v-model:value="resultIndiceSelected.unit"
+                    />
                   </div>
                 </div>
                 <div class="row mt-1">
@@ -369,6 +377,7 @@
                   <div class="col-md-9">
                     <a-input-number
                       class="w-100"
+                      :disabled="!visibleResultIndice"
                       v-model:value="resultIndiceSelected.sortOrder"
                     />
                   </div>
@@ -382,6 +391,7 @@
                   <div class="col-md-8">
                     <a-input-number
                       class="w-100"
+                      :disabled="!visibleResultIndice"
                       v-model:value="resultIndiceSelected.maleFrom"
                     />
                   </div>
@@ -393,6 +403,7 @@
                   <div class="col-md-8">
                     <a-input-number
                       class="w-100"
+                      :disabled="!visibleResultIndice"
                       v-model:value="resultIndiceSelected.maleTo"
                     />
                   </div>
@@ -405,6 +416,7 @@
                     <a-input-number
                       class="w-100"
                       min="0"
+                      :disabled="!visibleResultIndice"
                       v-model:value="resultIndiceSelected.femaleFrom"
                     />
                   </div>
@@ -417,6 +429,7 @@
                     <a-input-number
                       class="w-100"
                       min="0"
+                      :disabled="!visibleResultIndice"
                       v-model:value="resultIndiceSelected.femaleTo"
                     />
                   </div>
@@ -428,9 +441,10 @@
               <a-table
                 class="ant-table-striped my-2"
                 size="middle"
+                bordered
+                :customRow="handleRowClickResultIndice"
                 :columns="columnResultIndices"
                 :data-source="service.sServiceResultIndices"
-                bordered
                 :pagination="false"
                 :scroll="{ y: 600 }"
               >
@@ -474,6 +488,7 @@
 
     <template #footer>
       <a-button
+        class="btn-primary"
         key="submit"
         type="primary"
         :loading="loading"
@@ -482,13 +497,14 @@
         Lưu</a-button
       >
       <a-button
+        class="btn-primary-lg"
         type="primary"
         :loading="loading"
         @click.prevent="handleSaveAndAddNew"
       >
         Lưu và Thêm mới</a-button
       >
-      <a-button @click="handleCancel">Bỏ qua</a-button>
+      <a-button class="btn-primary" @click="handleCancel">Bỏ qua</a-button>
     </template>
   </a-modal>
 </template>
@@ -512,6 +528,7 @@ import {
 } from "@/services";
 import { Modal } from "ant-design-vue";
 import dayjs from "dayjs";
+import guidHelper from "@/utils/guidHelper";
 
 export default defineComponent({
   name: "ServiceDetailViews",
@@ -557,7 +574,8 @@ export default defineComponent({
     const serviceGroups = ref<ServiceGroupModel[]>([]);
     var serviceGroupHeIns = ref<ServiceGroupHeInModel[]>([]);
     const serviceUnits = ref<ServiceUnitModel[]>([]);
-    const resultIndiceSelected = reactive<ServiceResultIndiceModel>({
+    const visibleResultIndice = ref<boolean>(false);
+    let resultIndiceSelected = reactive<ServiceResultIndiceModel>({
       id: undefined,
       code: "",
       name: "",
@@ -1006,11 +1024,21 @@ export default defineComponent({
       service.sServiceResultIndices = [];
     };
 
+    const handleRowClickResultIndice = (record: ServiceResultIndiceModel) => {
+      return {
+        onClick: () => {
+          setDataResultIndice(record);
+        },
+      };
+    };
+
     const handleAddResultIndice = () => {
+      visibleResultIndice.value = true;
       setDataResultIndice(undefined);
     };
 
     const handleEditResultIndice = (record: ServiceResultIndiceModel) => {
+      visibleResultIndice.value = true;
       setDataResultIndice(record);
     };
 
@@ -1033,15 +1061,44 @@ export default defineComponent({
           return 0;
         }
       );
+
+      visibleResultIndice.value = false;
+    };
+
+    const resetResultIndice = () => {
+      resultIndiceSelected.id = guidHelper.generateGUID();
+      resultIndiceSelected.code = "";
+      resultIndiceSelected.name = "";
+      resultIndiceSelected.unit = "";
+      resultIndiceSelected.maleFrom = null;
+      resultIndiceSelected.maleTo = null;
+      resultIndiceSelected.femaleFrom = null;
+      resultIndiceSelected.femaleTo = null;
+      resultIndiceSelected.serviceId = undefined;
+      resultIndiceSelected.serviceCode = null;
+      resultIndiceSelected.sortOrder = undefined;
+      resultIndiceSelected.inactive = false;
     };
 
     const setDataResultIndice = (
-      record: ServiceResultIndiceModel | undefined
+      data: ServiceResultIndiceModel | undefined
     ) => {
-      if (record == undefined) {
-        // resultIndiceSelected.value = record;
-      } else {
-        // resultIndiceSelected.value = { ...record };
+      resetResultIndice();
+      if (data !== undefined) {
+        const dataCopy = { ...data };
+
+        resultIndiceSelected.id = dataCopy.id;
+        resultIndiceSelected.code = dataCopy.code;
+        resultIndiceSelected.name = dataCopy.name;
+        resultIndiceSelected.unit = dataCopy.unit;
+        resultIndiceSelected.maleFrom = dataCopy.maleFrom;
+        resultIndiceSelected.maleTo = dataCopy.maleTo;
+        resultIndiceSelected.femaleFrom = dataCopy.femaleFrom;
+        resultIndiceSelected.femaleTo = dataCopy.femaleTo;
+        resultIndiceSelected.serviceId = dataCopy.serviceId;
+        resultIndiceSelected.serviceCode = dataCopy.serviceCode;
+        resultIndiceSelected.sortOrder = dataCopy.sortOrder;
+        resultIndiceSelected.inactive = dataCopy.inactive;
       }
     };
 
@@ -1053,7 +1110,7 @@ export default defineComponent({
         cancelText: "Bỏ qua",
         onOk() {
           service.sServiceResultIndices = service.sServiceResultIndices.filter(
-            (f) => f.code != record.code
+            (f) => f.id != record.id
           );
         },
         onCancel() {
@@ -1104,6 +1161,8 @@ export default defineComponent({
       handleSaveAndAddNew,
       handleCancel,
       resultIndiceSelected,
+      visibleResultIndice,
+      handleRowClickResultIndice,
       handleEditResultIndice,
       handleDeleteResultIndice,
       handleAddResultIndice,
@@ -1154,5 +1213,13 @@ th.column-header-center {
 .btn-item-resultIndice {
   margin: 0px 0px 10px 10px;
   width: 100px;
+}
+
+.btn-primary {
+  width: 100px;
+}
+
+.btn-primary-lg {
+  width: 150px;
 }
 </style>
