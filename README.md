@@ -43,7 +43,8 @@ npm install axios
 npm install query-string
 ```
 
+### xlsx
+npm install xlsx
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
-
-npm install uuid
