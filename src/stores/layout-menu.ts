@@ -4,7 +4,7 @@ export const useLayoutMenu = defineStore('layoutMenu', {
     state: () => ({
         collapsed: false as boolean,
         selectedKeys: [] as string[],
-        openKeys: [] as string[],  
+        openKeys: [] as string[],
         items: [
             { key: 'dashboard', title: 'Trang chủ', icon: 'bi-house', router: 'dashboard' },
 
@@ -12,7 +12,8 @@ export const useLayoutMenu = defineStore('layoutMenu', {
             { key: 'treatment', title: 'Đón tiếp', icon: 'bi-house', router: 'treatment' },
             { key: 'exam', title: 'Khám bệnh', icon: 'bi-house', router: 'exam' },
 
-            { key: 'dictionary', title: 'Danh mục', icon: 'bi-collection', router: '', 
+            {
+                key: 'dictionary', title: 'Danh mục', icon: 'bi-collection', router: '',
                 children: [
                     { key: 'branch', title: 'Chi nhánh', router: 'branch' },
                     { key: 'department-type', title: 'Loại khoa', router: 'department-type' },
@@ -31,17 +32,25 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                     { key: 'ward', title: 'Xã, phường', router: 'ward' },
                     { key: 'service', title: 'Dịch vụ', router: 'service' },
 
+                    {
+                        key: 'medicines', title: 'Thuốc', router: '',
+                        children: [
+                            { key: 'medicineGroup', title: 'Nhóm thuốc', router: 'medicineGroup' },
+                        ]
+                    },
+
                     { key: 'other', title: 'Khác', router: 'dictionary' },
                 ]
             },
-            
-            { key: 'system', title: 'Hệ thống', icon: 'bi-gear', router: 'system',
+
+            {
+                key: 'system', title: 'Hệ thống', icon: 'bi-gear', router: 'system',
                 children: [
                     { key: 'role', title: 'Vai trò và quyền hạn', router: 'role' },
                     { key: 'user', title: 'Người dùng', router: 'user' },
                 ]
             }
-        ] 
+        ]
     }),
     actions: {
         toggleCollapsed() {

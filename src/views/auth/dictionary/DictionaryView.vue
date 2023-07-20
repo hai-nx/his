@@ -3,16 +3,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
 export default defineComponent({
-    name: 'DictionaryView',
+    name: "DictionaryView",
     setup() {
-
-
-        return {
-
-        }
-    }
+        return {};
+    },
 });
 </script>

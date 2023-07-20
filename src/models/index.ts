@@ -28,6 +28,7 @@ import ServiceUnitModel from './dictionary/serviceUnit'
 import ExecutionRoomModel from './dictionary/executionRoom'
 import ServiceImportModel from './dictionary/serviceImport'
 import ServiceResultIndiceModel from './dictionary/serviceResultIndice'
+import MedicineGroupModel from './dictionary/medicineGroup'
 
 export {
     ApiResult,
@@ -52,6 +53,7 @@ export {
     RoomModel,
     RoomTypeModel,
     WardModel,
+
     ServiceModel,
     ServiceUnitModel,
     ServiceGroupModel,
@@ -60,5 +62,7 @@ export {
     SurgicalProcedureTypeModel,
     ExecutionRoomModel,
     ServiceImportModel,
-    ServiceResultIndiceModel
+    ServiceResultIndiceModel,
+
+    MedicineGroupModel
 }

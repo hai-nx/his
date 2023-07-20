@@ -26,6 +26,7 @@ import roomTypeView from '@/views/auth/dictionary/room-type/RoomTypeView.vue'
 import wardView from '@/views/auth/dictionary/ward/WardView.vue'
 import dictionaryView from '@/views/auth/dictionary/DictionaryView.vue'
 import serviceView from '@/views/auth/dictionary/service/ServiceView.vue'
+import medicineGroupView from '@/views/auth/dictionary/medicineGroup/MedicineGroupView.vue'
 
 import admissionView from '@/views/auth/admission/AdmissionView.vue'
 
@@ -42,7 +43,6 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/dashboard', name: 'dashboard', component: dashboardView, meta: { layout: LAYOUT_AUTH } },
     { path: '/option', name: 'option', component: optionView, meta: { layout: LAYOUT_AUTH } },
     { path: '/workplace-option', name: 'workplace-option', component: workplaceOptionView, meta: { layout: LAYOUT_AUTH } },
-
 
     { path: '/dictionary', name: 'dictionary', component: dictionaryView, meta: { layout: LAYOUT_AUTH } },
     { path: '/branch', name: 'branch', component: branchView, meta: { layout: LAYOUT_AUTH } },
@@ -61,6 +61,9 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/room-type', name: 'room-type', component: roomTypeView, meta: { layout: LAYOUT_AUTH } },
     { path: '/ward', name: 'ward', component: wardView, meta: { layout: LAYOUT_AUTH } },
     { path: '/service', name: 'service', component: serviceView, meta: { layout: LAYOUT_AUTH } },
+
+    { path: '/medicines', name: 'medicines', component: dictionaryView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/medicineGroup', name: 'medicineGroup', component: medicineGroupView, meta: { layout: LAYOUT_AUTH } },
 
     { path: '/admission', name: 'admission', component: admissionView, meta: { layout: LAYOUT_AUTH } },
 

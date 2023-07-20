@@ -15,6 +15,7 @@ import provinceService from './dictionary/province'
 import roomService from './dictionary/room'
 import roomTypeService from './dictionary/room-type'
 import wardService from './dictionary/ward'
+
 import serviceService from './dictionary/service'
 import servicePricePolicyService from './dictionary/servicePricePolicy'
 import surgicalProcedureTypeService from './dictionary/surgicalProcedureType'
@@ -22,8 +23,9 @@ import serviceGroupService from './dictionary/serviceGroup'
 import serviceGroupHeInService from './dictionary/serviceGroupHeIn'
 import serviceUnitService from './dictionary/serviceUnit'
 
-import patientService from './business/patient'
+import medicineGroupService from './dictionary/medicineGroup'
 
+import patientService from './business/patient'
 
 export {
     authService,
@@ -43,12 +45,15 @@ export {
     roomService,
     roomTypeService,
     wardService,
+
     serviceService,
     servicePricePolicyService,
     surgicalProcedureTypeService,
     serviceGroupService,
     serviceGroupHeInService,
     serviceUnitService,
+
+    medicineGroupService,
 
     patientService
 }
