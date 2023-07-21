@@ -31,13 +31,7 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                     { key: 'district', title: 'Quận, huyện', router: 'district' },
                     { key: 'ward', title: 'Xã, phường', router: 'ward' },
                     { key: 'service', title: 'Dịch vụ', router: 'service' },
-
-                    {
-                        key: 'medicines', title: 'Thuốc', router: '',
-                        children: [
-                            { key: 'medicineGroup', title: 'Nhóm thuốc', router: 'medicineGroup' },
-                        ]
-                    },
+                    { key: 'medicineGroup', title: 'Nhóm thuốc', router: 'medicineGroup' },
 
                     { key: 'other', title: 'Khác', router: 'dictionary' },
                 ]

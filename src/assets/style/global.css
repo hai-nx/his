@@ -12,3 +12,15 @@ body,
 .ant-table.ant-table-middle .ant-table-thead>tr>th {
     padding: 6px 3px !important;
 }
+
+.btn-save {
+    width: 100px;
+}
+
+.btn-cancel {
+    width: 100px;
+}
+
+.btn-save-new {
+    width: 150px;
+}

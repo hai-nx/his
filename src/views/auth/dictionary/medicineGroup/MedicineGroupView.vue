@@ -69,7 +69,7 @@ import { medicineGroupService } from "@/services";
 import MedicineGroupDetailView from "./MedicineGroupDetailView.vue";
 
 export default defineComponent({
-    name: "MedicineGroupDetailView",
+    name: "MedicineGroupView",
     setup() {
         const columns = ref([
             {
@@ -77,20 +77,24 @@ export default defineComponent({
                 key: "code",
                 dataIndex: "code",
                 width: 200,
+                className: "column-header-center",
             },
             {
                 title: "Tên nhóm",
                 key: "name",
                 dataIndex: "name",
                 width: 500,
+                className: "column-header-center",
             },
             {
                 title: "Ngưng sử dụng",
                 key: "inactive",
                 dataIndex: "inactive",
                 width: 200,
+                className: "column-header-center",
+                align: "center",
             },
-            { title: "Xử lý", key: "action", width: 100 },
+            { title: "Xử lý", key: "action", width: 100, align: "center" },
         ]);
         const items = ref<MedicineGroupModel[]>([]);
         const record = ref<MedicineGroupModel>();

@@ -12,7 +12,7 @@ const medicineGroupService = {
         return request.post<ApiResult<MedicineGroupModel>>('api/SMedicineGroup/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post('api/SMedicineGroup/Delete', id);
+        return request.delete('api/SMedicineGroup/Delete?id=' + id);
     }
 }
 

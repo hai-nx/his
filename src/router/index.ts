@@ -62,7 +62,6 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/ward', name: 'ward', component: wardView, meta: { layout: LAYOUT_AUTH } },
     { path: '/service', name: 'service', component: serviceView, meta: { layout: LAYOUT_AUTH } },
 
-    { path: '/medicines', name: 'medicines', component: dictionaryView, meta: { layout: LAYOUT_AUTH } },
     { path: '/medicineGroup', name: 'medicineGroup', component: medicineGroupView, meta: { layout: LAYOUT_AUTH } },
 
     { path: '/admission', name: 'admission', component: admissionView, meta: { layout: LAYOUT_AUTH } },

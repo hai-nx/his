@@ -1,623 +1,648 @@
 <template>
-    <a-modal
-        :visible="show"
-        :title="title"
-        @cancel="handleCancel"
-        :mask-closable="false"
-        width="1000px"
-        height="700px"
-        class="modal_container"
-    >
-        <!-- Nội dung trong modal body -->
-        <div class="card-container">
-            <a-tabs v-model:activeKey="activeKey" type="card">
-                <a-tab-pane key="1" tab="Thông tin chung">
-                    <div class="container">
-                        <div class="row mb-1">
-                            <div class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>
-                                            <span>Mã DV</span>
-                                            <span class="text-danger me-1"
-                                                >*</span
-                                            >
-                                        </label>
+    <form>
+        <a-modal
+            :visible="show"
+            :title="title"
+            @cancel="handleCancel"
+            :mask-closable="false"
+            width="1000px"
+            height="700px"
+            class="modal_container"
+        >
+            <!-- Nội dung trong modal body -->
+            <div class="card-container">
+                <a-tabs v-model:activeKey="activeKey" type="card">
+                    <a-tab-pane key="1" tab="Thông tin chung">
+                        <div class="container">
+                            <div class="row mb-1">
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>
+                                                <span>Mã DV</span>
+                                                <span class="text-danger me-1"
+                                                    >*</span
+                                                >
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <a-input
+                                                v-model:value="service.code"
+                                                :disabled="loading"
+                                            />
+                                        </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <a-input
-                                            v-model:value="service.code"
-                                            :disabled="loading"
-                                        />
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label>
+                                                <span>Tên DV</span>
+                                                <span class="text-danger me-1"
+                                                    >*</span
+                                                >
+                                            </label>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <a-input
+                                                v-model:value="service.name"
+                                                :disabled="loading"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <label>
-                                            <span>Tên DV</span>
-                                            <span class="text-danger me-1"
-                                                >*</span
-                                            >
-                                        </label>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <a-input
-                                            v-model:value="service.name"
-                                            :disabled="loading"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row mb-1">
-                            <div class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>
-                                            <span>Mã BH</span>
-                                            <span class="text-danger me-1"
-                                                >*</span
-                                            >
-                                        </label>
+                            <div class="row mb-1">
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>
+                                                <span>Mã BH</span>
+                                                <span class="text-danger me-1"
+                                                    >*</span
+                                                >
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <a-input
+                                                v-model:value="service.heInCode"
+                                                :disabled="loading"
+                                            />
+                                        </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <a-input
-                                            v-model:value="service.heInCode"
-                                            :disabled="loading"
-                                        />
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label>
+                                                <span>Tên BH</span>
+                                                <span class="text-danger me-1"
+                                                    >*</span
+                                                >
+                                            </label>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <a-input
+                                                v-model:value="service.heInName"
+                                                :disabled="loading"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <label>
-                                            <span>Tên BH</span>
-                                            <span class="text-danger me-1"
-                                                >*</span
-                                            >
-                                        </label>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <a-input
-                                            v-model:value="service.heInName"
-                                            :disabled="loading"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row mb-1">
-                            <div class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>
-                                            <span>Đợn vị tính</span>
-                                            <span class="text-danger me-1"
-                                                >*</span
+                            <div class="row mb-1">
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>
+                                                <span>Đợn vị tính</span>
+                                                <span class="text-danger me-1"
+                                                    >*</span
+                                                >
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <a-select
+                                                v-model:value="
+                                                    service.serviceUnitId
+                                                "
+                                                :options="serviceUnits"
+                                                :field-names="fields"
+                                                :disabled="loading"
+                                                class="w-100"
                                             >
-                                        </label>
+                                                <template #option="{ name }">
+                                                    <div class="row">
+                                                        <span>{{ name }}</span>
+                                                    </div>
+                                                </template>
+                                            </a-select>
+                                        </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <a-select
-                                            v-model:value="
-                                                service.serviceUnitId
-                                            "
-                                            :options="serviceUnits"
-                                            :field-names="fields"
-                                            :disabled="loading"
-                                            class="w-100"
-                                        >
-                                            <template #option="{ name }">
-                                                <div class="row">
-                                                    <span>{{ name }}</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        <span>Nhóm BH</span>
+                                                        <span
+                                                            class="text-danger me-1"
+                                                            >*</span
+                                                        >
+                                                    </label>
                                                 </div>
-                                            </template>
-                                        </a-select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label>
-                                                    <span>Nhóm BH</span>
-                                                    <span
-                                                        class="text-danger me-1"
-                                                        >*</span
+                                                <div class="col-md-8">
+                                                    <a-select
+                                                        v-model:value="
+                                                            service.serviceGroupHeInId
+                                                        "
+                                                        :options="
+                                                            serviceGroupHeIns
+                                                        "
+                                                        :field-names="fields"
+                                                        :disabled="loading"
+                                                        class="w-100"
                                                     >
-                                                </label>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <a-select
-                                                    v-model:value="
-                                                        service.serviceGroupHeInId
-                                                    "
-                                                    :options="serviceGroupHeIns"
-                                                    :field-names="fields"
-                                                    :disabled="loading"
-                                                    class="w-100"
-                                                >
-                                                    <template
-                                                        #option="{ name }"
-                                                    >
-                                                        <div class="row">
-                                                            <span>{{
-                                                                name
-                                                            }}</span>
-                                                        </div>
-                                                    </template>
-                                                </a-select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label>
-                                                    <span>Nhóm DV</span>
-                                                    <span
-                                                        class="text-danger me-1"
-                                                        >*</span
-                                                    >
-                                                </label>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <a-select
-                                                    v-model:value="
-                                                        service.serviceGroupId
-                                                    "
-                                                    :options="serviceGroups"
-                                                    :field-names="fields"
-                                                    :disabled="loading"
-                                                    class="w-100"
-                                                >
-                                                    <template
-                                                        #option="{ name }"
-                                                    >
-                                                        <div class="row">
-                                                            <span>{{
-                                                                name
-                                                            }}</span>
-                                                        </div>
-                                                    </template>
-                                                </a-select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>Loại PPTT</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <a-select
-                                            v-model:value="
-                                                service.surgicalProcedureTypeId
-                                            "
-                                            :options="surgicalProcedureTypes"
-                                            :field-names="fields"
-                                            :disabled="loading"
-                                            class="w-100"
-                                        >
-                                            <template #option="{ name }">
-                                                <div class="row">
-                                                    <span>{{ name }}</span>
+                                                        <template
+                                                            #option="{ name }"
+                                                        >
+                                                            <div class="row">
+                                                                <span>{{
+                                                                    name
+                                                                }}</span>
+                                                            </div>
+                                                        </template>
+                                                    </a-select>
                                                 </div>
-                                            </template>
-                                        </a-select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label>
-                                                    <span>Số thứ tự</span>
-                                                </label>
                                             </div>
-                                            <div class="col-md-8">
-                                                <a-input-number
-                                                    class="my-0 mx-0 w-100"
-                                                    v-model:value="
-                                                        service.sortOrder
-                                                    "
-                                                    min="0"
-                                                />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        <span>Nhóm DV</span>
+                                                        <span
+                                                            class="text-danger me-1"
+                                                            >*</span
+                                                        >
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <a-select
+                                                        v-model:value="
+                                                            service.serviceGroupId
+                                                        "
+                                                        :options="serviceGroups"
+                                                        :field-names="fields"
+                                                        :disabled="loading"
+                                                        class="w-100"
+                                                    >
+                                                        <template
+                                                            #option="{ name }"
+                                                        >
+                                                            <div class="row">
+                                                                <span>{{
+                                                                    name
+                                                                }}</span>
+                                                            </div>
+                                                        </template>
+                                                    </a-select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-4"></div>
-                                            <div class="col-md-8">
-                                                <a-checkbox
-                                                    v-model:checked="
-                                                        service.inactive
-                                                    "
-                                                    :disabled="loading"
-                                                    >Ngừng theo dõi</a-checkbox
-                                                >
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <a-table
-                                class="ant-table-striped my-2"
-                                size="middle"
-                                bordered
-                                :pagination="false"
-                                :columns="columns"
-                                :data-source="service.sServicePricePolicies"
-                                :scroll="{ y: 130 }"
-                            >
-                                <template #bodyCell="{ column, record }">
-                                    <template
-                                        v-if="column.key === 'patientTypeCode'"
-                                    >
-                                        <a-input
-                                            class="my-0 mx-0 w-100"
-                                            v-model:value="
-                                                record.patientTypeCode
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>Loại PPTT</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <a-select
+                                                v-model:value="
+                                                    service.surgicalProcedureTypeId
+                                                "
+                                                :options="
+                                                    surgicalProcedureTypes
+                                                "
+                                                :field-names="fields"
+                                                :disabled="loading"
+                                                class="w-100"
+                                            >
+                                                <template #option="{ name }">
+                                                    <div class="row">
+                                                        <span>{{ name }}</span>
+                                                    </div>
+                                                </template>
+                                            </a-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        <span>Số thứ tự</span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <a-input-number
+                                                        class="my-0 mx-0 w-100"
+                                                        v-model:value="
+                                                            service.sortOrder
+                                                        "
+                                                        min="0"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-4"></div>
+                                                <div class="col-md-8">
+                                                    <a-checkbox
+                                                        v-model:checked="
+                                                            service.inactive
+                                                        "
+                                                        :disabled="loading"
+                                                        >Ngừng theo
+                                                        dõi</a-checkbox
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <a-table
+                                    class="ant-table-striped my-2"
+                                    size="middle"
+                                    bordered
+                                    :pagination="false"
+                                    :columns="columns"
+                                    :data-source="service.sServicePricePolicies"
+                                    :scroll="{ y: 130 }"
+                                >
+                                    <template #bodyCell="{ column, record }">
+                                        <template
+                                            v-if="
+                                                column.key === 'patientTypeCode'
                                             "
-                                            disabled
-                                        />
-                                    </template>
-                                    <template
-                                        v-else-if="
-                                            column.key === 'patientTypeName'
-                                        "
-                                    >
-                                        <a-input
-                                            class="my-0 mx-0 w-100"
-                                            v-model:value="
-                                                record.patientTypeName
+                                        >
+                                            <a-input
+                                                class="my-0 mx-0 w-100"
+                                                v-model:value="
+                                                    record.patientTypeCode
+                                                "
+                                                disabled
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="
+                                                column.key === 'patientTypeName'
                                             "
-                                            disabled
-                                        />
+                                        >
+                                            <a-input
+                                                class="my-0 mx-0 w-100"
+                                                v-model:value="
+                                                    record.patientTypeName
+                                                "
+                                                disabled
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="
+                                                column.key === 'oldUnitPrice'
+                                            "
+                                        >
+                                            <a-input-number
+                                                class="my-0 mx-0 w-100 text-align-right"
+                                                v-model:value="
+                                                    record.oldUnitPrice
+                                                "
+                                                min="0"
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="
+                                                column.key === 'newUnitPrice'
+                                            "
+                                        >
+                                            <a-input-number
+                                                class="my-0 mx-0 w-100"
+                                                v-model:value="
+                                                    record.newUnitPrice
+                                                "
+                                                min="0"
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="
+                                                column.key === 'ceilingPrice'
+                                            "
+                                        >
+                                            <a-input-number
+                                                class="my-0 mx-0 w-100"
+                                                v-model:value="
+                                                    record.ceilingPrice
+                                                "
+                                                min="0"
+                                                :disabled="!record.isHeIn"
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="
+                                                column.key === 'paymentRate'
+                                            "
+                                        >
+                                            <a-input-number
+                                                class="my-0 mx-0 w-100"
+                                                v-model:value="
+                                                    record.paymentRate
+                                                "
+                                                max="100"
+                                                :disabled="!record.isHeIn"
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="
+                                                column.key === 'executionTime'
+                                            "
+                                        >
+                                            <a-date-picker
+                                                class="my-0 mx-0 w-100"
+                                                placeholder="dd/MM/yyyy"
+                                                format="DD/MM/YYYY"
+                                                v-model:value="
+                                                    record.executionTime
+                                                "
+                                            />
+                                        </template>
                                     </template>
-                                    <template
-                                        v-else-if="
-                                            column.key === 'oldUnitPrice'
-                                        "
-                                    >
-                                        <a-input-number
-                                            class="my-0 mx-0 w-100 text-align-right"
-                                            v-model:value="record.oldUnitPrice"
-                                            min="0"
-                                        />
-                                    </template>
-                                    <template
-                                        v-else-if="
-                                            column.key === 'newUnitPrice'
-                                        "
-                                    >
-                                        <a-input-number
-                                            class="my-0 mx-0 w-100"
-                                            v-model:value="record.newUnitPrice"
-                                            min="0"
-                                        />
-                                    </template>
-                                    <template
-                                        v-else-if="
-                                            column.key === 'ceilingPrice'
-                                        "
-                                    >
-                                        <a-input-number
-                                            class="my-0 mx-0 w-100"
-                                            v-model:value="record.ceilingPrice"
-                                            min="0"
-                                            :disabled="!record.isHeIn"
-                                        />
-                                    </template>
-                                    <template
-                                        v-else-if="column.key === 'paymentRate'"
-                                    >
-                                        <a-input-number
-                                            class="my-0 mx-0 w-100"
-                                            v-model:value="record.paymentRate"
-                                            max="100"
-                                            :disabled="!record.isHeIn"
-                                        />
-                                    </template>
-                                    <template
-                                        v-else-if="
-                                            column.key === 'executionTime'
-                                        "
-                                    >
-                                        <a-date-picker
-                                            class="my-0 mx-0 w-100"
-                                            placeholder="dd/MM/yyyy"
-                                            format="DD/MM/YYYY"
-                                            v-model:value="record.executionTime"
-                                        />
-                                    </template>
-                                </template>
-                            </a-table>
+                                </a-table>
+                            </div>
                         </div>
-                    </div>
-                </a-tab-pane>
-                <a-tab-pane
-                    key="2"
-                    tab="Phòng thực hiện"
-                    v-if="isShowExecutionRooms"
+                    </a-tab-pane>
+                    <a-tab-pane
+                        key="2"
+                        tab="Phòng thực hiện"
+                        v-if="isShowExecutionRooms"
+                    >
+                        <div class="container">
+                            <div class="row">
+                                <a-table
+                                    class="ant-table-striped my-2"
+                                    size="middle"
+                                    :columns="columnRoows"
+                                    :data-source="service.sExecutionRooms"
+                                    bordered
+                                    :pagination="false"
+                                    :scroll="{ y: 600 }"
+                                >
+                                    <template #bodyCell="{ column, record }">
+                                        <template
+                                            v-if="column.key === 'isCheck'"
+                                        >
+                                            <a-checkbox
+                                                class="my-0 mx-0 w-100 centered-checkbox"
+                                                v-model:checked="record.isCheck"
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="column.key === 'isMain'"
+                                        >
+                                            <a-checkbox
+                                                class="my-0 mx-0 w-100 centered-checkbox"
+                                                v-model:checked="record.isMain"
+                                            />
+                                        </template>
+                                    </template>
+                                </a-table>
+                            </div>
+                        </div>
+                    </a-tab-pane>
+                    <a-tab-pane key="3" tab="Trị số kết quả">
+                        <div class="container">
+                            <div class="row">
+                                <div class="flex-container-resultIndice">
+                                    <a-button
+                                        class="btn-item-resultIndice"
+                                        type="primary"
+                                        @click.prevent="handleAddResultIndice"
+                                    >
+                                        Thêm mới</a-button
+                                    >
+                                    <a-button
+                                        class="btn-item-resultIndice"
+                                        type="primary"
+                                        @click.prevent="
+                                            handleSaveResultIndice(
+                                                resultIndiceSelected
+                                            )
+                                        "
+                                    >
+                                        Lưu KQ</a-button
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label>Mã trị số</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <a-input
+                                                :disabled="!visibleResultIndice"
+                                                v-model:value="
+                                                    resultIndiceSelected.code
+                                                "
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-3">
+                                            <label>Tên trị số</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <a-input
+                                                :disabled="!visibleResultIndice"
+                                                v-model:value="
+                                                    resultIndiceSelected.name
+                                                "
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-3">
+                                            <label>Đơn vị</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <a-input
+                                                :disabled="!visibleResultIndice"
+                                                v-model:value="
+                                                    resultIndiceSelected.unit
+                                                "
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-3">
+                                            <label>Thứ tự</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <a-input-number
+                                                class="w-100"
+                                                :disabled="!visibleResultIndice"
+                                                v-model:value="
+                                                    resultIndiceSelected.sortOrder
+                                                "
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>Trị số nam từ</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <a-input-number
+                                                class="w-100"
+                                                :disabled="!visibleResultIndice"
+                                                v-model:value="
+                                                    resultIndiceSelected.maleFrom
+                                                "
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-4">
+                                            <label>Trị số nam đến</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <a-input-number
+                                                class="w-100"
+                                                :disabled="!visibleResultIndice"
+                                                v-model:value="
+                                                    resultIndiceSelected.maleTo
+                                                "
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-4">
+                                            <label>Trị số nữ từ</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <a-input-number
+                                                class="w-100"
+                                                min="0"
+                                                :disabled="!visibleResultIndice"
+                                                v-model:value="
+                                                    resultIndiceSelected.femaleFrom
+                                                "
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-4">
+                                            <label>Trị số nữ đến</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <a-input-number
+                                                class="w-100"
+                                                min="0"
+                                                :disabled="!visibleResultIndice"
+                                                v-model:value="
+                                                    resultIndiceSelected.femaleTo
+                                                "
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <a-table
+                                    class="ant-table-striped my-2"
+                                    size="middle"
+                                    bordered
+                                    :customRow="handleRowClickResultIndice"
+                                    :columns="columnResultIndices"
+                                    :data-source="service.sServiceResultIndices"
+                                    :pagination="false"
+                                    :scroll="{ y: 600 }"
+                                >
+                                    <template #bodyCell="{ column, record }">
+                                        <template
+                                            v-if="column.key === 'inactive'"
+                                        >
+                                            <span>
+                                                <a-tag
+                                                    v-if="record.inactive"
+                                                    color="error"
+                                                >
+                                                    <span>Ngừng hoạt động</span>
+                                                </a-tag>
+                                                <a-tag v-else color="success">
+                                                    <span>Hoạt động</span>
+                                                </a-tag>
+                                            </span>
+                                        </template>
+                                        <template
+                                            v-else-if="column.key === 'action'"
+                                        >
+                                            <span>
+                                                <button
+                                                    class="btn btn-outline-primary border-0 btn-sm me-2"
+                                                    title="Sửa"
+                                                    @click="
+                                                        handleEditResultIndice(
+                                                            record
+                                                        )
+                                                    "
+                                                >
+                                                    <i class="bi bi-pen"></i>
+                                                </button>
+
+                                                <button
+                                                    class="btn btn-outline-danger border-0 btn-sm"
+                                                    title="Xóa"
+                                                    @click="
+                                                        handleDeleteResultIndice(
+                                                            record
+                                                        )
+                                                    "
+                                                >
+                                                    <i class="bi bi-x-lg"></i>
+                                                </button>
+                                            </span>
+                                        </template>
+                                    </template>
+                                </a-table>
+                            </div>
+                        </div>
+                    </a-tab-pane>
+                </a-tabs>
+            </div>
+
+            <template #footer>
+                <a-button
+                    class="btn-save"
+                    key="submit"
+                    type="primary"
+                    :loading="loading"
+                    @click.prevent="handleSave"
                 >
-                    <div class="container">
-                        <div class="row">
-                            <a-table
-                                class="ant-table-striped my-2"
-                                size="middle"
-                                :columns="columnRoows"
-                                :data-source="service.sExecutionRooms"
-                                bordered
-                                :pagination="false"
-                                :scroll="{ y: 600 }"
-                            >
-                                <template #bodyCell="{ column, record }">
-                                    <template v-if="column.key === 'isCheck'">
-                                        <a-checkbox
-                                            class="my-0 mx-0 w-100 centered-checkbox"
-                                            v-model:checked="record.isCheck"
-                                        />
-                                    </template>
-                                    <template
-                                        v-else-if="column.key === 'isMain'"
-                                    >
-                                        <a-checkbox
-                                            class="my-0 mx-0 w-100 centered-checkbox"
-                                            v-model:checked="record.isMain"
-                                        />
-                                    </template>
-                                </template>
-                            </a-table>
-                        </div>
-                    </div>
-                </a-tab-pane>
-                <a-tab-pane key="3" tab="Trị số kết quả">
-                    <div class="container">
-                        <div class="row">
-                            <div class="flex-container-resultIndice">
-                                <a-button
-                                    class="btn-item-resultIndice"
-                                    type="primary"
-                                    @click.prevent="handleAddResultIndice"
-                                >
-                                    Thêm mới</a-button
-                                >
-                                <a-button
-                                    class="btn-item-resultIndice"
-                                    type="primary"
-                                    @click.prevent="
-                                        handleSaveResultIndice(
-                                            resultIndiceSelected
-                                        )
-                                    "
-                                >
-                                    Lưu KQ</a-button
-                                >
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <label>Mã trị số</label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <a-input
-                                            :disabled="!visibleResultIndice"
-                                            v-model:value="
-                                                resultIndiceSelected.code
-                                            "
-                                        />
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-3">
-                                        <label>Tên trị số</label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <a-input
-                                            :disabled="!visibleResultIndice"
-                                            v-model:value="
-                                                resultIndiceSelected.name
-                                            "
-                                        />
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-3">
-                                        <label>Đơn vị</label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <a-input
-                                            :disabled="!visibleResultIndice"
-                                            v-model:value="
-                                                resultIndiceSelected.unit
-                                            "
-                                        />
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-3">
-                                        <label>Thứ tự</label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <a-input-number
-                                            class="w-100"
-                                            :disabled="!visibleResultIndice"
-                                            v-model:value="
-                                                resultIndiceSelected.sortOrder
-                                            "
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>Trị số nam từ</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <a-input-number
-                                            class="w-100"
-                                            :disabled="!visibleResultIndice"
-                                            v-model:value="
-                                                resultIndiceSelected.maleFrom
-                                            "
-                                        />
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-4">
-                                        <label>Trị số nam đến</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <a-input-number
-                                            class="w-100"
-                                            :disabled="!visibleResultIndice"
-                                            v-model:value="
-                                                resultIndiceSelected.maleTo
-                                            "
-                                        />
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-4">
-                                        <label>Trị số nữ từ</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <a-input-number
-                                            class="w-100"
-                                            min="0"
-                                            :disabled="!visibleResultIndice"
-                                            v-model:value="
-                                                resultIndiceSelected.femaleFrom
-                                            "
-                                        />
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-4">
-                                        <label>Trị số nữ đến</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <a-input-number
-                                            class="w-100"
-                                            min="0"
-                                            :disabled="!visibleResultIndice"
-                                            v-model:value="
-                                                resultIndiceSelected.femaleTo
-                                            "
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <a-table
-                                class="ant-table-striped my-2"
-                                size="middle"
-                                bordered
-                                :customRow="handleRowClickResultIndice"
-                                :columns="columnResultIndices"
-                                :data-source="service.sServiceResultIndices"
-                                :pagination="false"
-                                :scroll="{ y: 600 }"
-                            >
-                                <template #bodyCell="{ column, record }">
-                                    <template v-if="column.key === 'inactive'">
-                                        <span>
-                                            <a-tag
-                                                v-if="record.inactive"
-                                                color="error"
-                                            >
-                                                <span>Ngừng hoạt động</span>
-                                            </a-tag>
-                                            <a-tag v-else color="success">
-                                                <span>Hoạt động</span>
-                                            </a-tag>
-                                        </span>
-                                    </template>
-                                    <template
-                                        v-else-if="column.key === 'action'"
-                                    >
-                                        <span>
-                                            <button
-                                                class="btn btn-outline-primary border-0 btn-sm me-2"
-                                                title="Sửa"
-                                                @click="
-                                                    handleEditResultIndice(
-                                                        record
-                                                    )
-                                                "
-                                            >
-                                                <i class="bi bi-pen"></i>
-                                            </button>
-
-                                            <button
-                                                class="btn btn-outline-danger border-0 btn-sm"
-                                                title="Xóa"
-                                                @click="
-                                                    handleDeleteResultIndice(
-                                                        record
-                                                    )
-                                                "
-                                            >
-                                                <i class="bi bi-x-lg"></i>
-                                            </button>
-                                        </span>
-                                    </template>
-                                </template>
-                            </a-table>
-                        </div>
-                    </div>
-                </a-tab-pane>
-            </a-tabs>
-        </div>
-
-        <template #footer>
-            <a-button
-                class="btn-primary"
-                key="submit"
-                type="primary"
-                :loading="loading"
-                @click.prevent="handleSave"
-            >
-                Lưu</a-button
-            >
-            <a-button
-                class="btn-primary-lg"
-                type="primary"
-                :loading="loading"
-                @click.prevent="handleSaveAndAddNew"
-            >
-                Lưu và Thêm mới</a-button
-            >
-            <a-button class="btn-primary" @click="handleCancel"
-                >Bỏ qua</a-button
-            >
-        </template>
-    </a-modal>
+                    Lưu</a-button
+                >
+                <a-button
+                    class="btn-save-new"
+                    type="primary"
+                    :loading="loading"
+                    @click.prevent="handleSaveAndAddNew"
+                >
+                    Lưu và Thêm mới</a-button
+                >
+                <a-button class="btn-cancel" @click="handleCancel"
+                    >Bỏ qua</a-button
+                >
+            </template>
+        </a-modal>
+    </form>
 </template>
 
 <script lang="ts">
@@ -1346,13 +1371,5 @@ th.column-header-center {
 .btn-item-resultIndice {
     margin: 0px 0px 10px 10px;
     width: 100px;
-}
-
-.btn-primary {
-    width: 100px;
-}
-
-.btn-primary-lg {
-    width: 150px;
 }
 </style>

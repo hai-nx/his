@@ -5,90 +5,41 @@
             :title="title"
             @cancel="handleCancel"
             :mask-closable="false"
+            height="500px"
         >
-            <!-- <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span class="text-danger me-1">*</span>
-                        <span>Mã chi nhánh</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input
-                        v-model:value="item.code"
-                        :disabled="loading"
-                        :class="{
-                            'input-danger': errors.code,
-                        }"
-                    />
-                </div>
+            <div class="container">
+                <label>
+                    <span>Mã nhóm</span>
+                    <span class="text-danger me-1">*</span>
+                </label>
+                <a-input v-model:value="item.code" :disabled="loading" />
+
+                <label>
+                    <span>Tên nhóm</span>
+                    <span class="text-danger me-1">*</span>
+                </label>
+                <a-input v-model:value="item.name" :disabled="loading" />
+
+                <label>
+                    <span>Số thứ tự</span>
+                </label>
+                <a-input-number
+                    v-model:value="item.sortOrder"
+                    :disabled="loading"
+                    class="w-100"
+                />
+
+                <a-checkbox
+                    class="a-checkbox-inactive"
+                    v-model:checked="item.inactive"
+                    :disabled="loading"
+                    >Ngừng theo dõi</a-checkbox
+                >
             </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span class="text-danger me-1">*</span>
-                        <span>Tên chi nhánh</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input
-                        v-model:value="item.name"
-                        :disabled="loading"
-                        :class="{
-                            'input-danger': errors.name,
-                        }"
-                    />
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span>Địa chỉ</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.address" :disabled="loading" />
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span>Mô tả</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-textarea
-                        v-model:value="item.description"
-                        :disabled="loading"
-                    />
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-4 text-start text-md-end">
-                    <label>
-                        <span>Số thứ tự</span>
-                    </label>
-                </div>
-                <div class="col-12 col-md-8">
-                    <a-input-number
-                        v-model:value="item.sortOrder"
-                        :disabled="loading"
-                        class="w-100"
-                    />
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12 col-md-8 offset-md-4">
-                    <a-checkbox
-                        v-model:checked="item.inactive"
-                        :disabled="loading"
-                        >Ngừng theo dõi</a-checkbox
-                    >
-                </div>
-            </div> -->
 
             <template #footer>
                 <a-button
+                    class="btn-save"
                     key="submit"
                     type="primary"
                     :loading="loading"
@@ -96,12 +47,15 @@
                     >Lưu</a-button
                 >
                 <a-button
+                    class="btn-save-new"
                     type="primary"
                     :loading="loading"
                     @click.prevent="handleSaveAndAddNew"
                     >Lưu và Thêm mới</a-button
                 >
-                <a-button @click="handleCancel">Bỏ qua</a-button>
+                <a-button @click="handleCancel" class="btn-cancel"
+                    >Bỏ qua</a-button
+                >
             </template>
         </a-modal>
     </form>
@@ -111,10 +65,10 @@
 import { defineComponent, ref, computed, watch, PropType } from "vue";
 import { Modal } from "ant-design-vue";
 import { MedicineGroupModel } from "@/models";
-import { medicineGroupService, serviceGroupService } from "@/services";
+import { medicineGroupService } from "@/services";
 
 export default defineComponent({
-    name: "BranchDetailView",
+    name: "MedicineGroupDetailView",
     props: {
         visible: {
             type: Boolean,
@@ -130,44 +84,56 @@ export default defineComponent({
             id: undefined,
             code: "",
             name: "",
-            description: "",
+            sortOrder: undefined,
             inactive: false,
         });
         const errors = ref({ code: "", name: "" });
         const loading = ref<boolean>(false);
+        const result = ref<boolean>(false);
 
-        let result = false;
-
-        const handleSave = function () {
+        const handleSave = async function () {
             loading.value = true;
-            medicineGroupService
-                .createOrEdit(item.value)
-                .then((res) => {
-                    if (res) {
-                        result = true;
-                        toggle();
-                    } else {
-                        Modal.error({ content: res, okText: "Đồng ý" });
-                    }
-                })
-                .catch((error) => {
-                    Modal.error({ content: error.message, okText: "Đồng ý" });
-                    //errors.value = error.response.data.errors;
-                })
-                .finally(() => {
-                    loading.value = false;
+            let resultSave = await medicineGroupService.createOrEdit(
+                item.value
+            );
+            if (resultSave.data.isSuccessed) {
+                result.value = true;
+                toggle();
+            } else {
+                Modal.error({
+                    content: resultSave.data.message,
+                    okText: "Đồng ý",
                 });
+                loading.value = false;
+            }
+
+            // medicineGroupService
+            //     .createOrEdit(item.value)
+            //     .then((res) => {
+            //         if (res) {
+            //             result.value = true;
+            //             toggle();
+            //         } else {
+            //             Modal.error({ content: res, okText: "Đồng ý" });
+            //         }
+            //     })
+            //     .catch((error) => {
+            //         Modal.error({ content: error.message, okText: "Đồng ý" });
+            //     })
+            //     .finally(() => {
+            //         loading.value = false;
+            //     });
         };
 
         const handleSaveAndAddNew = function () {
             loading.value = true;
-            result = true;
+            result.value = true;
 
             medicineGroupService
                 .createOrEdit(item.value)
                 .then((res) => {
                     if (res) {
-                        result = true;
+                        result.value = true;
                     } else {
                         Modal.error({ content: res, okText: "Đồng ý" });
                     }
@@ -192,6 +158,7 @@ export default defineComponent({
                 id: undefined,
                 code: "",
                 name: "",
+                sortOrder: undefined,
                 inactive: false,
             };
         };
@@ -204,14 +171,20 @@ export default defineComponent({
 
         watch(show, (value) => {
             if (value) {
-                result = false;
+                result.value = false;
                 loading.value = true;
 
                 reset();
 
-                if (props.data !== null && props.data?.id !== undefined) {
+                console.log("ádasd", props.data);
+
+                if (
+                    props.data !== null &&
+                    props.data?.id !== null &&
+                    props.data?.id !== undefined
+                ) {
                     let data = props.data!;
-                    serviceGroupService
+                    medicineGroupService
                         .getById(data.id!)
                         .then((res) => {
                             item.value = res.data.result;
@@ -228,6 +201,8 @@ export default defineComponent({
                 } else {
                     loading.value = false;
                 }
+
+                loading.value = false;
             }
         });
 
@@ -244,3 +219,18 @@ export default defineComponent({
     },
 });
 </script>
+
+<style scoped>
+.container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-row-gap: 5px;
+    grid-column-gap: 10px;
+    align-items: center;
+}
+
+.a-checkbox-inactive {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+</style>
