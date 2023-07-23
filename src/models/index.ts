@@ -30,6 +30,7 @@ import ServiceImportModel from './dictionary/serviceImport'
 import ServiceResultIndiceModel from './dictionary/serviceResultIndice'
 import MedicineGroupModel from './dictionary/medicineGroup'
 import MedicineTypeModel from './dictionary/medicineType'
+import MedicineLineModel from './dictionary/medicineLine';
 
 export {
     ApiResult,
@@ -65,6 +66,7 @@ export {
     ServiceImportModel,
     ServiceResultIndiceModel,
 
+    MedicineLineModel,
     MedicineGroupModel,
-    MedicineTypeModel
+    MedicineTypeModel,
 }
