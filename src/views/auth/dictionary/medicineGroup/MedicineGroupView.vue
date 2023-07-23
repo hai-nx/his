@@ -29,9 +29,20 @@
                         </a-tag>
                     </span>
                 </template>
+                <template v-if="column.key === 'isSystem'">
+                    <span>
+                        <a-tag v-if="record.isSystem" color="error">
+                            <span>Hệ thống</span>
+                        </a-tag>
+                        <a-tag v-else color="success">
+                            <span>Người dùng</span>
+                        </a-tag>
+                    </span>
+                </template>
                 <template v-else-if="column.key === 'action'">
                     <span>
                         <button
+                            :disabled="record.isSystem"
                             class="btn btn-outline-primary border-0 btn-sm me-2"
                             title="Sửa"
                             @click="handleEdit(record)"
@@ -40,6 +51,7 @@
                         </button>
 
                         <button
+                            :disabled="!record.isSystem"
                             class="btn btn-outline-danger border-0 btn-sm"
                             title="Xóa"
                             @click="handleDelete(record)"
@@ -85,6 +97,14 @@ export default defineComponent({
                 dataIndex: "name",
                 width: 500,
                 className: "column-header-center",
+            },
+            {
+                title: "Dữ liệu gốc",
+                key: "isSystem",
+                dataIndex: "isSystem",
+                width: 200,
+                className: "column-header-center",
+                align: "center",
             },
             {
                 title: "Ngưng sử dụng",
