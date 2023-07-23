@@ -24,6 +24,7 @@ import serviceGroupHeInService from './dictionary/serviceGroupHeIn'
 import serviceUnitService from './dictionary/serviceUnit'
 
 import medicineGroupService from './dictionary/medicineGroup'
+import medicineTypeService from './dictionary/medicineType'
 
 import patientService from './business/patient'
 
@@ -54,6 +55,7 @@ export {
     serviceUnitService,
 
     medicineGroupService,
+    medicineTypeService,
 
     patientService
 }

@@ -106,45 +106,24 @@ export default defineComponent({
                 });
                 loading.value = false;
             }
-
-            // medicineGroupService
-            //     .createOrEdit(item.value)
-            //     .then((res) => {
-            //         if (res) {
-            //             result.value = true;
-            //             toggle();
-            //         } else {
-            //             Modal.error({ content: res, okText: "Đồng ý" });
-            //         }
-            //     })
-            //     .catch((error) => {
-            //         Modal.error({ content: error.message, okText: "Đồng ý" });
-            //     })
-            //     .finally(() => {
-            //         loading.value = false;
-            //     });
         };
 
-        const handleSaveAndAddNew = function () {
+        const handleSaveAndAddNew = async function () {
             loading.value = true;
             result.value = true;
 
-            medicineGroupService
-                .createOrEdit(item.value)
-                .then((res) => {
-                    if (res) {
-                        result.value = true;
-                    } else {
-                        Modal.error({ content: res, okText: "Đồng ý" });
-                    }
-                })
-                .catch((error) => {
-                    Modal.error({ content: error.message, okText: "Đồng ý" });
-                    //errors.value = error.response.data.errors;
-                })
-                .finally(() => {
-                    loading.value = false;
+            let resultSave = await medicineGroupService.createOrEdit(
+                item.value
+            );
+            if (resultSave.data.isSuccessed) {
+                result.value = true;
+            } else {
+                Modal.error({
+                    content: resultSave.data.message,
+                    okText: "Đồng ý",
                 });
+                loading.value = false;
+            }
 
             reset();
         };

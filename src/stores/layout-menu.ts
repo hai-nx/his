@@ -32,6 +32,7 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                     { key: 'ward', title: 'Xã, phường', router: 'ward' },
                     { key: 'service', title: 'Dịch vụ', router: 'service' },
                     { key: 'medicineGroup', title: 'Nhóm thuốc', router: 'medicineGroup' },
+                    { key: 'medicineType', title: 'Thuốc', router: 'medicineType' },
 
                     { key: 'other', title: 'Khác', router: 'dictionary' },
                 ]

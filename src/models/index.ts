@@ -29,6 +29,7 @@ import ExecutionRoomModel from './dictionary/executionRoom'
 import ServiceImportModel from './dictionary/serviceImport'
 import ServiceResultIndiceModel from './dictionary/serviceResultIndice'
 import MedicineGroupModel from './dictionary/medicineGroup'
+import MedicineTypeModel from './dictionary/medicineType'
 
 export {
     ApiResult,
@@ -64,5 +65,6 @@ export {
     ServiceImportModel,
     ServiceResultIndiceModel,
 
-    MedicineGroupModel
+    MedicineGroupModel,
+    MedicineTypeModel
 }

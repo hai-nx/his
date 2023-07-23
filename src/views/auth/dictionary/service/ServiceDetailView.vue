@@ -6,12 +6,13 @@
             @cancel="handleCancel"
             :mask-closable="false"
             width="1000px"
-            height="700px"
-            class="modal_container"
         >
-            <!-- Nội dung trong modal body -->
-            <div class="card-container">
-                <a-tabs v-model:activeKey="activeKey" type="card">
+            <div class="container">
+                <a-tabs
+                    v-model:activeKey="activeKey"
+                    type="card"
+                    class="card-container"
+                >
                     <a-tab-pane key="1" tab="Thông tin chung">
                         <div class="container">
                             <div class="row mb-1">
@@ -1344,11 +1345,6 @@ th.column-header-center {
     align-items: center;
 }
 
-.modal_container {
-    position: relative;
-    overflow: auto;
-}
-
 .ant-modal-body {
     padding: 0px;
 }
@@ -1360,6 +1356,9 @@ th.column-header-center {
 .card-container {
     margin: -24px;
     height: 650px;
+    max-height: 650px;
+    height: 650px;
+    overflow-y: auto;
 }
 
 .flex-container-resultIndice {
