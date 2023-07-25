@@ -17,16 +17,16 @@
                         <div class="container">
                             <div class="container-general">
                                 <label class="grid-column-1">
-                                    <span>Mã thuốc</span>
+                                    <span>Mã thuốc:</span>
                                     <span class="text-danger me-1">*</span>
                                 </label>
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.Code"
                                     :disabled="loading"
                                 />
                                 <label class="grid-column-3">
-                                    <span>Tên thuốc</span>
+                                    <span>Tên thuốc:</span>
                                     <span class="text-danger me-1">*</span>
                                 </label>
                                 <a-input
@@ -36,175 +36,288 @@
                                 />
 
                                 <label class="grid-column-1">
-                                    <span>Mã BHYT</span>
-                                    <span class="text-danger me-1">*</span>
+                                    <span>Mã BHYT:</span>
+                                    <span class="text-danger me-1"></span>
                                 </label>
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.heInCode"
                                     :disabled="loading"
                                 />
                                 <label class="grid-column-3">
-                                    <span>Nhóm BHYT</span>
+                                    <span>Nhóm BHYT:</span>
                                     <span class="text-danger me-1">*</span>
                                 </label>
-                                <a-input
+                                <a-select
                                     class="grid-column-4"
-                                    v-model:value="item.code"
+                                    v-model:value="item.serviceGroupId"
+                                    :options="serviceGroups"
+                                    :field-names="fields"
                                     :disabled="loading"
-                                />
+                                >
+                                    <template #option="{ name }">
+                                        <div class="row">
+                                            <span>{{ name }}</span>
+                                        </div>
+                                    </template>
+                                </a-select>
                                 <label class="grid-column-5">
-                                    <span>Nhóm thuốc</span>
+                                    <span>Nhóm thuốc:</span>
                                     <span class="text-danger me-1">*</span>
                                 </label>
-                                <a-input
+                                <a-select
                                     class="grid-column-6"
-                                    v-model:value="item.code"
+                                    v-model:value="item.medicineGroupId"
+                                    :options="medicineGroups"
+                                    :field-names="fields"
                                     :disabled="loading"
-                                />
+                                >
+                                    <template #option="{ name }">
+                                        <div class="row">
+                                            <span>{{ name }}</span>
+                                        </div>
+                                    </template>
+                                </a-select>
 
                                 <label class="grid-column-1">
-                                    <span>Đơn vị tính</span>
+                                    <span>Đơn vị tính:</span>
                                     <span class="text-danger me-1">*</span>
                                 </label>
-                                <a-input
+                                <a-select
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.unitId"
+                                    :options="units"
+                                    :field-names="fields"
                                     :disabled="loading"
-                                />
+                                >
+                                    <template #option="{ name }">
+                                        <div class="row">
+                                            <span>{{ name }}</span>
+                                        </div>
+                                    </template>
+                                </a-select>
                                 <label class="grid-column-3">
-                                    <span>Đường dùng</span>
+                                    <span>Đường dùng:</span>
                                     <span class="text-danger me-1">*</span>
                                 </label>
-                                <a-input
+                                <a-select
                                     class="grid-column-4"
-                                    v-model:value="item.code"
+                                    v-model:value="item.medicineLineId"
+                                    :options="medicineLines"
+                                    :field-names="fields"
                                     :disabled="loading"
-                                />
-                                <label class="grid-column-5">Hoạt chất</label>
+                                >
+                                    <template #option="{ name }">
+                                        <div class="row">
+                                            <span>{{ name }}</span>
+                                        </div>
+                                    </template>
+                                </a-select>
+                                <label class="grid-column-5">Hoạt chất:</label>
                                 <a-input
                                     class="grid-column-6"
-                                    v-model:value="item.code"
+                                    v-model:value="item.activeSubstance"
                                     :disabled="loading"
                                 />
 
-                                <label class="grid-column-1">Hàm lượng</label>
+                                <label class="grid-column-1">Hàm lượng:</label>
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.Content"
                                     :disabled="loading"
                                 />
-                                <label class="grid-column-3">Nồng độ</label>
+                                <label class="grid-column-3">Nồng độ:</label>
                                 <a-input
                                     class="grid-column-4"
-                                    v-model:value="item.code"
+                                    v-model:value="item.concentration"
                                     :disabled="loading"
                                 />
-                                <label class="grid-column-5">Đóng gói</label>
+                                <label class="grid-column-5">Đóng gói:</label>
                                 <a-input
                                     class="grid-column-6"
-                                    v-model:value="item.code"
+                                    v-model:value="item.packagingSpecifications"
                                     :disabled="loading"
                                 />
 
-                                <label class="grid-column-1">Hướng dẫn</label>
+                                <label class="grid-column-1">Hướng dẫn:</label>
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.tutorial"
                                     :disabled="loading"
                                 />
                                 <label class="grid-column-3"
-                                    >Hãng sản xuất</label
+                                    >Hãng sản xuất:</label
                                 >
                                 <a-input
                                     class="grid-column-4"
-                                    v-model:value="item.code"
+                                    v-model:value="item.manufacturer"
                                     :disabled="loading"
                                 />
                                 <label class="grid-column-5"
-                                    >Nước sản xuất</label
+                                    >Nước sản xuất:</label
                                 >
-                                <a-input
+                                <a-select
                                     class="grid-column-6"
-                                    v-model:value="item.code"
+                                    v-model:value="item.countryId"
+                                    :options="countries"
+                                    :field-names="fields"
                                     :disabled="loading"
-                                />
+                                >
+                                    <template #option="{ name }">
+                                        <div class="row">
+                                            <span>{{ name }}</span>
+                                        </div>
+                                    </template>
+                                </a-select>
 
-                                <label class="grid-column-1">Giá nhập</label>
-                                <a-input
-                                    class="grid-column-2"
-                                    v-model:value="item.code"
+                                <label class="grid-column-1">Giá nhập:</label>
+                                <a-input-number
+                                    class="grid-column-2 w-100"
+                                    v-model:value="item.impPrice"
                                     :disabled="loading"
+                                    min="0"
                                 />
-                                <label class="grid-column-3">VAT nhập(%)</label>
-                                <a-input
-                                    class="grid-column-4"
-                                    v-model:value="item.code"
+                                <label class="grid-column-3"
+                                    >VAT nhập(%):</label
+                                >
+                                <a-input-number
+                                    class="grid-column-4 w-100"
+                                    v-model:value="item.impVatRate"
                                     :disabled="loading"
+                                    min="0"
+                                    max="100"
                                 />
                                 <label class="grid-column-5"
-                                    >Thuế nhập(%)</label
+                                    >Thuế nhập(%):</label
                                 >
-                                <a-input
-                                    class="grid-column-6"
-                                    v-model:value="item.code"
+                                <a-input-number
+                                    class="grid-column-6 w-100"
+                                    v-model:value="item.taxRate"
                                     :disabled="loading"
+                                    min="0"
+                                    max="100"
                                 />
 
-                                <label class="grid-column-1">Ghi chú</label>
+                                <label class="grid-column-1">Ghi chú:</label>
                                 <a-input
                                     class="grid-column-columnspan-2-7"
-                                    v-model:value="item.code"
+                                    v-model:value="item.description"
                                     :disabled="loading"
                                 />
 
-                                <label class="grid-column-1">Số thứ tự</label>
-                                <a-input
-                                    class="grid-column-2"
-                                    v-model:value="item.code"
+                                <label class="grid-column-1">Số thứ tự:</label>
+                                <a-input-number
+                                    class="grid-column-2 w-100"
+                                    v-model:value="item.SortOrder"
                                     :disabled="loading"
+                                    min="0"
                                 />
-                                <a-checkbox class="grid-column-6"
-                                    >Ngưng sử dụng</a-checkbox
+                                <a-checkbox
+                                    class="grid-column-6"
+                                    v-model:checked="item.inactive"
+                                    :disabled="loading"
+                                    >Ngừng sử dụng</a-checkbox
                                 >
                             </div>
 
                             <div class="container-general-other mt-4">
                                 <div class="checkbox-wrapper">
-                                    <a-checkbox>Nghiệp vụ 1</a-checkbox>
+                                    <a-checkbox
+                                        v-model:checked="item.isAntibiotics"
+                                        :disabled="loading"
+                                        >Thuốc kháng sinh</a-checkbox
+                                    >
                                 </div>
                                 <div class="checkbox-wrapper">
-                                    <a-checkbox>Nghiệp vụ 2</a-checkbox>
+                                    <a-checkbox
+                                        v-model:checked="item.isNewDrug"
+                                        :disabled="loading"
+                                        >Thuốc tân dược</a-checkbox
+                                    >
                                 </div>
                                 <div class="checkbox-wrapper">
-                                    <a-checkbox>Nghiệp vụ 3</a-checkbox>
+                                    <a-checkbox
+                                        v-model:checked="
+                                            item.isPrescriptionDrug
+                                        "
+                                        :disabled="loading"
+                                        >Thuốc kê đơn</a-checkbox
+                                    >
                                 </div>
                                 <div class="checkbox-wrapper">
-                                    <a-checkbox>Nghiệp vụ 4</a-checkbox>
+                                    <a-checkbox
+                                        v-model:checked="item.isNutraceutical"
+                                        :disabled="loading"
+                                        >Dược phẩm chức năng</a-checkbox
+                                    >
                                 </div>
                                 <div class="checkbox-wrapper">
-                                    <a-checkbox>Nghiệp vụ 5</a-checkbox>
+                                    <a-checkbox
+                                        v-model:checked="item.isSponsoredDrug"
+                                        :disabled="loading"
+                                        >Thuốc tài trợ</a-checkbox
+                                    >
                                 </div>
                                 <div class="checkbox-wrapper">
-                                    <a-checkbox>Nghiệp vụ 6</a-checkbox>
+                                    <a-checkbox
+                                        v-model:checked="item.isInhalantDrug"
+                                        :disabled="loading"
+                                        >Thuốc khí dung</a-checkbox
+                                    >
                                 </div>
                                 <div class="checkbox-wrapper">
-                                    <a-checkbox>Nghiệp vụ 7</a-checkbox>
+                                    <a-checkbox
+                                        v-model:checked="
+                                            item.isPrescriptionDrugForChildren
+                                        "
+                                        :disabled="loading"
+                                        >Thuốc kê đơn trẻ em</a-checkbox
+                                    >
                                 </div>
                                 <div class="checkbox-wrapper">
-                                    <a-checkbox>Nghiệp vụ 8</a-checkbox>
+                                    <a-checkbox
+                                        v-model:checked="
+                                            item.isTraditionalHerbalDrug
+                                        "
+                                        :disabled="loading"
+                                        >Vị thuốc YHCT</a-checkbox
+                                    >
                                 </div>
                                 <div class="checkbox-wrapper">
-                                    <a-checkbox>Nghiệp vụ 9</a-checkbox>
+                                    <a-checkbox
+                                        v-model:checked="
+                                            item.isTraditionalDrugFormulation
+                                        "
+                                        :disabled="loading"
+                                        >Chế phẩm YHCT</a-checkbox
+                                    >
                                 </div>
                                 <div class="checkbox-wrapper">
-                                    <a-checkbox>Nghiệp vụ 10</a-checkbox>
+                                    <a-checkbox
+                                        v-model:checked="
+                                            item.isDrugContainerReturnRequest
+                                        "
+                                        :disabled="loading"
+                                        >Yêu cầu trả vỏ thuốc</a-checkbox
+                                    >
                                 </div>
                                 <div class="checkbox-wrapper">
-                                    <a-checkbox>Nghiệp vụ 11</a-checkbox>
+                                    <a-checkbox
+                                        v-model:checked="
+                                            item.isAllowZeroQuantity
+                                        "
+                                        :disabled="loading"
+                                        >Cho phép kê SL bằng 0</a-checkbox
+                                    >
                                 </div>
                                 <div class="checkbox-wrapper">
-                                    <a-checkbox>Nghiệp vụ 12</a-checkbox>
+                                    <a-checkbox
+                                        v-model:checked="
+                                            item.isRadiolabeledDrug
+                                        "
+                                        :disabled="loading"
+                                        >Thuốc phóng xạ</a-checkbox
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -218,14 +331,16 @@
                                 <a-select
                                     class="grid-column-2"
                                     :options="optionPharmaceuticalFormulations"
-                                    v-model:value="item.code"
+                                    v-model:value="
+                                        item.pharmaceuticalFormulation
+                                    "
                                     :disabled="loading"
                                 />
 
                                 <label class="grid-column-1">Nguồn gốc:</label>
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.origin"
                                     :disabled="loading"
                                 />
 
@@ -234,7 +349,7 @@
                                 >
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.scientificName"
                                     :disabled="loading"
                                 />
 
@@ -243,7 +358,7 @@
                                 >
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.scientificNameChildren"
                                     :disabled="loading"
                                 />
 
@@ -252,7 +367,7 @@
                                 >
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.dugStatus"
                                     :disabled="loading"
                                 />
 
@@ -261,7 +376,7 @@
                                 >
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.requirementUseDug"
                                     :disabled="loading"
                                 />
 
@@ -270,7 +385,7 @@
                                 >
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.pharmaceuticalDivision"
                                     :disabled="loading"
                                 />
 
@@ -279,7 +394,7 @@
                                 >
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.processingLossRate"
                                     :disabled="loading"
                                 />
 
@@ -288,7 +403,7 @@
                                 >
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.otherExpenses"
                                     :disabled="loading"
                                 />
 
@@ -297,8 +412,8 @@
                                 >
                                 <a-select
                                     class="grid-column-2"
-                                    :options="preparationMethod"
-                                    v-model:value="item.code"
+                                    :options="preparationMethods"
+                                    v-model:value="item.preparationMethod"
                                     :disabled="loading"
                                 />
 
@@ -307,7 +422,7 @@
                                 >
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.code"
+                                    v-model:value="item.qualityStandards"
                                     :disabled="loading"
                                 />
                             </div>
@@ -398,12 +513,14 @@ export default defineComponent({
         ]);
 
         // Phương pháp chế biến
-        const preparationMethod = reactive<{ value: string; label: string }[]>([
-            { value: "", label: "-- Chọn --" },
-            { value: "Sơ chế", label: "Sơ chế" },
-            { value: "Phức chế", label: "Phức chế" },
-            { value: "Khác", label: "Khác" },
-        ]);
+        const preparationMethods = reactive<{ value: string; label: string }[]>(
+            [
+                { value: "", label: "-- Chọn --" },
+                { value: "Sơ chế", label: "Sơ chế" },
+                { value: "Phức chế", label: "Phức chế" },
+                { value: "Khác", label: "Khác" },
+            ]
+        );
 
         // const inItData = function () {};
 
@@ -505,7 +622,7 @@ export default defineComponent({
             loading,
             activeKey,
             optionPharmaceuticalFormulations,
-            preparationMethod,
+            preparationMethods,
             handleSave,
             handleSaveAndAddNew,
             handleCancel,

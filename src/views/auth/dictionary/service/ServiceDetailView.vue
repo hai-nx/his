@@ -255,8 +255,8 @@
                                                             service.inactive
                                                         "
                                                         :disabled="loading"
-                                                        >Ngừng theo
-                                                        dõi</a-checkbox
+                                                        >Ngừng sử
+                                                        dụng</a-checkbox
                                                     >
                                                 </div>
                                             </div>
