@@ -6,12 +6,12 @@ import ServiceResultIndiceModel from './serviceResultIndice'
 export default interface ServiceModel extends DictionaryBase {
     heInCode: string,
     heInName: string
-    serviceUnitId: string | undefined,
+    unitId: string | undefined,
     serviceGroupHeInId: string | undefined,
     serviceGroupId: string | undefined,
     surgicalProcedureTypeId: string | undefined
 
-    serviceUnitName: string,
+    unitName: string,
     serviceGroupName: string,
 
     sServicePricePolicies: ServicePricePolicyModel[],

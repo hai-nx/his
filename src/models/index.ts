@@ -24,7 +24,7 @@ import ServicePricePolicyModel from './dictionary/servicePricePolicy'
 import SurgicalProcedureTypeModel from './dictionary/surgicalProcedureType'
 import ServiceGroupModel from './dictionary/serviceGroup'
 import ServiceGroupHeInModel from './dictionary/serviceGroupHeIn'
-import ServiceUnitModel from './dictionary/serviceUnit'
+import UnitModel from './dictionary/unit'
 import ExecutionRoomModel from './dictionary/executionRoom'
 import ServiceImportModel from './dictionary/serviceImport'
 import ServiceResultIndiceModel from './dictionary/serviceResultIndice'
@@ -57,7 +57,7 @@ export {
     WardModel,
 
     ServiceModel,
-    ServiceUnitModel,
+    UnitModel,
     ServiceGroupModel,
     ServiceGroupHeInModel,
     ServicePricePolicyModel,

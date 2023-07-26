@@ -4,8 +4,8 @@
             :visible="show"
             :title="title"
             @cancel="handleCancel"
-            :mask-closable="false"
             width="1000px"
+            :mask-closable="false"
         >
             <div class="container">
                 <a-tabs
@@ -22,7 +22,7 @@
                                 </label>
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.Code"
+                                    v-model:value="item.code"
                                     :disabled="loading"
                                 />
                                 <label class="grid-column-3">
@@ -50,8 +50,8 @@
                                 </label>
                                 <a-select
                                     class="grid-column-4"
-                                    v-model:value="item.serviceGroupId"
-                                    :options="serviceGroups"
+                                    v-model:value="item.serviceGroupHeInId"
+                                    :options="serviceGroupHeIns"
                                     :field-names="fields"
                                     :disabled="loading"
                                 >
@@ -123,7 +123,7 @@
                                 <label class="grid-column-1">Hàm lượng:</label>
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.Content"
+                                    v-model:value="item.content"
                                     :disabled="loading"
                                 />
                                 <label class="grid-column-3">Nồng độ:</label>
@@ -208,7 +208,7 @@
                                 <label class="grid-column-1">Số thứ tự:</label>
                                 <a-input-number
                                     class="grid-column-2 w-100"
-                                    v-model:value="item.SortOrder"
+                                    v-model:value="item.sortOrder"
                                     :disabled="loading"
                                     min="0"
                                 />
@@ -221,21 +221,21 @@
                             </div>
 
                             <div class="container-general-other mt-4">
-                                <div class="checkbox-wrapper">
+                                <div class="checkbox-wrapper grid-column-1">
                                     <a-checkbox
                                         v-model:checked="item.isAntibiotics"
                                         :disabled="loading"
                                         >Thuốc kháng sinh</a-checkbox
                                     >
                                 </div>
-                                <div class="checkbox-wrapper">
+                                <div class="checkbox-wrapper grid-column-2">
                                     <a-checkbox
                                         v-model:checked="item.isNewDrug"
                                         :disabled="loading"
                                         >Thuốc tân dược</a-checkbox
                                     >
                                 </div>
-                                <div class="checkbox-wrapper">
+                                <div class="checkbox-wrapper grid-column-3">
                                     <a-checkbox
                                         v-model:checked="
                                             item.isPrescriptionDrug
@@ -244,28 +244,28 @@
                                         >Thuốc kê đơn</a-checkbox
                                     >
                                 </div>
-                                <div class="checkbox-wrapper">
+                                <div class="checkbox-wrapper grid-column-4">
                                     <a-checkbox
                                         v-model:checked="item.isNutraceutical"
                                         :disabled="loading"
                                         >Dược phẩm chức năng</a-checkbox
                                     >
                                 </div>
-                                <div class="checkbox-wrapper">
+                                <div class="checkbox-wrapper grid-column-1">
                                     <a-checkbox
                                         v-model:checked="item.isSponsoredDrug"
                                         :disabled="loading"
                                         >Thuốc tài trợ</a-checkbox
                                     >
                                 </div>
-                                <div class="checkbox-wrapper">
+                                <div class="checkbox-wrapper grid-column-2">
                                     <a-checkbox
                                         v-model:checked="item.isInhalantDrug"
                                         :disabled="loading"
                                         >Thuốc khí dung</a-checkbox
                                     >
                                 </div>
-                                <div class="checkbox-wrapper">
+                                <div class="checkbox-wrapper grid-column-3">
                                     <a-checkbox
                                         v-model:checked="
                                             item.isPrescriptionDrugForChildren
@@ -274,7 +274,7 @@
                                         >Thuốc kê đơn trẻ em</a-checkbox
                                     >
                                 </div>
-                                <div class="checkbox-wrapper">
+                                <div class="checkbox-wrapper grid-column-4">
                                     <a-checkbox
                                         v-model:checked="
                                             item.isTraditionalHerbalDrug
@@ -283,7 +283,7 @@
                                         >Vị thuốc YHCT</a-checkbox
                                     >
                                 </div>
-                                <div class="checkbox-wrapper">
+                                <div class="checkbox-wrapper grid-column-1">
                                     <a-checkbox
                                         v-model:checked="
                                             item.isTraditionalDrugFormulation
@@ -292,7 +292,7 @@
                                         >Chế phẩm YHCT</a-checkbox
                                     >
                                 </div>
-                                <div class="checkbox-wrapper">
+                                <div class="checkbox-wrapper grid-column-2">
                                     <a-checkbox
                                         v-model:checked="
                                             item.isDrugContainerReturnRequest
@@ -301,7 +301,7 @@
                                         >Yêu cầu trả vỏ thuốc</a-checkbox
                                     >
                                 </div>
-                                <div class="checkbox-wrapper">
+                                <div class="checkbox-wrapper grid-column-3">
                                     <a-checkbox
                                         v-model:checked="
                                             item.isAllowZeroQuantity
@@ -310,7 +310,7 @@
                                         >Cho phép kê SL bằng 0</a-checkbox
                                     >
                                 </div>
-                                <div class="checkbox-wrapper">
+                                <div class="checkbox-wrapper grid-column-4">
                                     <a-checkbox
                                         v-model:checked="
                                             item.isRadiolabeledDrug
@@ -401,10 +401,11 @@
                                 <label class="grid-column-1"
                                     >Chi phí khác:</label
                                 >
-                                <a-input
-                                    class="grid-column-2"
+                                <a-input-number
+                                    class="grid-column-2 w-100"
                                     v-model:value="item.otherExpenses"
                                     :disabled="loading"
+                                    min="0"
                                 />
 
                                 <label class="grid-column-1">
@@ -458,8 +459,22 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
 import { Modal } from "ant-design-vue";
-import { MedicineTypeModel } from "@/models";
-import { medicineTypeService } from "@/services";
+import {
+    MedicineTypeModel,
+    UnitModel,
+    ServiceGroupHeInModel,
+    MedicineGroupModel,
+    MedicineLineModel,
+    CountryModel,
+} from "@/models";
+import {
+    medicineTypeService,
+    unitService,
+    serviceGroupHeInService,
+    medicineGroupService,
+    medicineLineService,
+    countryService,
+} from "@/services";
 
 export default defineComponent({
     name: "MedicineGroupDetailView",
@@ -476,15 +491,63 @@ export default defineComponent({
         const title = ref<string>("Thêm mới nhóm thuốc");
         const item = ref<MedicineTypeModel>({
             id: undefined,
-            code: "",
-            name: "",
+            code: null,
+            heInCode: null,
+            name: null,
             sortOrder: undefined,
+            description: undefined,
             inactive: false,
+            medicineLineId: null, //Đường dùng thuốc
+            medicineGroupId: null, // Nhóm thuốc
+            unitId: null, // Đơn vị tính
+            tutorial: null, // Hướng dẫn
+            activeSubstance: null, // Hoạt chất
+            concentration: null, // Nồng độ
+            content: null, // Hàm lượng
+            countryId: null, // Nước sản xuất
+            manufacturer: null, // Hãng sản xuất
+            packagingSpecifications: null, // Quy cách đóng gói
+            impPrice: null, // Giá nhập
+            impVatRate: null, // Phần trăm vat giá nhập
+            taxRate: null, // Phần trăm thuế
+            isAntibiotics: false, // Thuốc kháng sinh
+            isNewDrug: false, // Thuốc tân dược
+            isPrescriptionDrug: false, // Thuốc kê đơn
+            isNutraceutical: false, // Dược phẩm chức năng
+            isSponsoredDrug: false, // Thuốc Tài trợ
+            isInhalantDrug: false, // Thuốc khí dung
+            isPrescriptionDrugForChildren: false, // Thuốc kê đơn trẻ em
+            isTraditionalHerbalDrug: false, // Vị thuốc YHCT
+            isTraditionalDrugFormulation: false, // Chế phẩm YHCT
+            isDrugContainerReturnRequest: false, // YC trả lại vỏ thuốc
+            isAllowZeroQuantity: false, // Cho phép kê SL bằng 0
+            isRadiolabeledDrug: false, // Thuốc phóng xạ
+
+            // Thông tin khác
+            pharmaceuticalFormulation: null, // Dạng bào chế
+            origin: null, // Nguồn gốc
+            scientificName: null, // Tên khoa học vị thuốc
+            scientificNameChildren: null, // Tên KH của cây con, khoáng vật
+            dugStatus: null, // Tình trạng dược liệu
+            requirementUseDug: null, // Yêu cầu sử dụng dược liệu
+            pharmaceuticalDivision: null, // Bộ phận dược liệu sử dụng
+            processingLossRate: null, // Tỷ lệ hao hụt chế biến
+            otherExpenses: null, // Chi phí khác
+            preparationMethod: null, // Phương pháp chế biến
+            qualityStandards: null, // Tiêu chuẩn chất lượng
         });
         const errors = ref({ code: "", name: "" });
         const loading = ref<boolean>(false);
         const result = ref<boolean>(false);
         const activeKey = ref<string>("1");
+
+        const units = ref<UnitModel[]>([]);
+        const serviceGroupHeIns = ref<ServiceGroupHeInModel[]>([]);
+        const medicineGroups = ref<MedicineGroupModel[]>([]);
+        const medicineLines = ref<MedicineLineModel[]>([]);
+        const countries = ref<CountryModel[]>([]);
+
+        const fields = ref({ value: "id", label: "name" });
 
         // Dạng bào chế
         const optionPharmaceuticalFormulations = reactive<
@@ -522,7 +585,35 @@ export default defineComponent({
             ]
         );
 
-        // const inItData = function () {};
+        async function inItData() {
+            units.value = await getUnits();
+            serviceGroupHeIns.value = await getServiceGroupHeIns();
+            medicineGroups.value = await getMedicineGroups();
+            medicineLines.value = await getMedicineLines();
+            countries.value = await getCountries();
+        }
+
+        async function getUnits(): Promise<UnitModel[]> {
+            return (await unitService.getAll()).data.result;
+        }
+
+        async function getServiceGroupHeIns(): Promise<
+            ServiceGroupHeInModel[]
+        > {
+            return (await serviceGroupHeInService.getAll()).data.result;
+        }
+
+        async function getMedicineGroups(): Promise<MedicineGroupModel[]> {
+            return (await medicineGroupService.getAll()).data.result;
+        }
+
+        async function getMedicineLines(): Promise<MedicineLineModel[]> {
+            return (await medicineLineService.getAll()).data.result;
+        }
+
+        async function getCountries(): Promise<CountryModel[]> {
+            return (await countryService.getAll()).data.result;
+        }
 
         const handleSave = async function () {
             loading.value = true;
@@ -564,10 +655,50 @@ export default defineComponent({
         const reset = function () {
             item.value = {
                 id: undefined,
-                code: "",
-                name: "",
+                code: null,
+                heInCode: null,
+                name: null,
                 sortOrder: undefined,
+                description: undefined,
                 inactive: false,
+                medicineLineId: null, //Đường dùng thuốc
+                medicineGroupId: null, // Nhóm thuốc
+                unitId: null, // Đơn vị tính
+                tutorial: null, // Hướng dẫn
+                activeSubstance: null, // Hoạt chất
+                concentration: null, // Nồng độ
+                content: null, // Hàm lượng
+                countryId: null, // Nước sản xuất
+                manufacturer: null, // Hãng sản xuất
+                packagingSpecifications: null, // Quy cách đóng gói
+                impPrice: null, // Giá nhập
+                impVatRate: null, // Phần trăm vat giá nhập
+                taxRate: null, // Phần trăm thuế
+                isAntibiotics: false, // Thuốc kháng sinh
+                isNewDrug: false, // Thuốc tân dược
+                isPrescriptionDrug: false, // Thuốc kê đơn
+                isNutraceutical: false, // Dược phẩm chức năng
+                isSponsoredDrug: false, // Thuốc Tài trợ
+                isInhalantDrug: false, // Thuốc khí dung
+                isPrescriptionDrugForChildren: false, // Thuốc kê đơn trẻ em
+                isTraditionalHerbalDrug: false, // Vị thuốc YHCT
+                isTraditionalDrugFormulation: false, // Chế phẩm YHCT
+                isDrugContainerReturnRequest: false, // YC trả lại vỏ thuốc
+                isAllowZeroQuantity: false, // Cho phép kê SL bằng 0
+                isRadiolabeledDrug: false, // Thuốc phóng xạ
+
+                // Thông tin khác
+                pharmaceuticalFormulation: null, // Dạng bào chế
+                origin: null, // Nguồn gốc
+                scientificName: null, // Tên khoa học vị thuốc
+                scientificNameChildren: null, // Tên KH của cây con, khoáng vật
+                dugStatus: null, // Tình trạng dược liệu
+                requirementUseDug: null, // Yêu cầu sử dụng dược liệu
+                pharmaceuticalDivision: null, // Bộ phận dược liệu sử dụng
+                processingLossRate: null, // Tỷ lệ hao hụt chế biến
+                otherExpenses: null, // Chi phí khác
+                preparationMethod: null, // Phương pháp chế biến
+                qualityStandards: null, // Tiêu chuẩn chất lượng
             };
         };
 
@@ -582,6 +713,7 @@ export default defineComponent({
                 result.value = false;
                 loading.value = true;
 
+                inItData();
                 reset();
 
                 console.log("ádasd", props.data);
@@ -621,6 +753,12 @@ export default defineComponent({
             show,
             loading,
             activeKey,
+            fields,
+            units,
+            serviceGroupHeIns,
+            medicineGroups,
+            medicineLines,
+            countries,
             optionPharmaceuticalFormulations,
             preparationMethods,
             handleSave,
@@ -641,7 +779,7 @@ export default defineComponent({
 
 .container-general {
     display: grid;
-    grid-template-columns: repeat(3, auto 1fr);
+    grid-template-columns: repeat(3, auto 210px);
     grid-row-gap: 5px;
     grid-column-gap: 10px;
     align-items: center;

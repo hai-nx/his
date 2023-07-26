@@ -21,7 +21,7 @@ import servicePricePolicyService from './dictionary/servicePricePolicy'
 import surgicalProcedureTypeService from './dictionary/surgicalProcedureType'
 import serviceGroupService from './dictionary/serviceGroup'
 import serviceGroupHeInService from './dictionary/serviceGroupHeIn'
-import serviceUnitService from './dictionary/serviceUnit'
+import unitService from './dictionary/unit'
 
 import medicineGroupService from './dictionary/medicineGroup'
 import medicineTypeService from './dictionary/medicineType'
@@ -53,7 +53,7 @@ export {
     surgicalProcedureTypeService,
     serviceGroupService,
     serviceGroupHeInService,
-    serviceUnitService,
+    unitService,
 
     medicineGroupService,
     medicineTypeService,

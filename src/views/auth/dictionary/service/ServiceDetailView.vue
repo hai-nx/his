@@ -106,10 +106,8 @@
                                         </div>
                                         <div class="col-md-8">
                                             <a-select
-                                                v-model:value="
-                                                    service.serviceUnitId
-                                                "
-                                                :options="serviceUnits"
+                                                v-model:value="service.unitId"
+                                                :options="units"
                                                 :field-names="fields"
                                                 :disabled="loading"
                                                 class="w-100"
@@ -652,7 +650,7 @@ import {
     SurgicalProcedureTypeModel,
     ServiceGroupModel,
     ServiceGroupHeInModel,
-    ServiceUnitModel,
+    UnitModel,
     ServiceResultIndiceModel,
 } from "@/models";
 import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
@@ -661,7 +659,7 @@ import {
     surgicalProcedureTypeService,
     serviceGroupService,
     serviceGroupHeInService,
-    serviceUnitService,
+    unitService,
 } from "@/services";
 import { Modal } from "ant-design-vue";
 import dayjs from "dayjs";
@@ -694,11 +692,11 @@ export default defineComponent({
             heInCode: "",
             heInName: "",
             inactive: false,
-            serviceUnitId: undefined,
+            unitId: undefined,
             serviceGroupId: undefined,
             serviceGroupHeInId: undefined,
             surgicalProcedureTypeId: undefined,
-            serviceUnitName: "",
+            unitName: "",
             serviceGroupName: "",
             sServicePricePolicies: [],
             sExecutionRooms: [],
@@ -709,8 +707,8 @@ export default defineComponent({
 
         const surgicalProcedureTypes = ref<SurgicalProcedureTypeModel[]>([]);
         const serviceGroups = ref<ServiceGroupModel[]>([]);
-        var serviceGroupHeIns = ref<ServiceGroupHeInModel[]>([]);
-        const serviceUnits = ref<ServiceUnitModel[]>([]);
+        const serviceGroupHeIns = ref<ServiceGroupHeInModel[]>([]);
+        const units = ref<UnitModel[]>([]);
         const visibleResultIndice = ref<boolean>(false);
         let resultIndiceSelected = reactive<ServiceResultIndiceModel>({
             id: undefined,
@@ -888,7 +886,7 @@ export default defineComponent({
             surgicalProcedureTypes.value = await getSurgicalProcedureTypes();
             serviceGroups.value = await getServiceGroups();
             serviceGroupHeIns.value = await getServiceGroupHeIns();
-            serviceUnits.value = await getServiceUnits();
+            units.value = await getServiceUnits();
         }
 
         async function getSurgicalProcedureTypes(): Promise<
@@ -903,8 +901,8 @@ export default defineComponent({
             return res.data.result;
         }
 
-        async function getServiceUnits(): Promise<ServiceUnitModel[]> {
-            var res = await serviceUnitService.getAll();
+        async function getServiceUnits(): Promise<UnitModel[]> {
+            var res = await unitService.getAll();
             return res.data.result;
         }
 
@@ -926,13 +924,13 @@ export default defineComponent({
                 service.heInName = resultDto.data.result.heInName;
                 service.inactive = resultDto.data.result.inactive;
                 service.sortOrder = resultDto.data.result.sortOrder;
-                service.serviceUnitId = resultDto.data.result.serviceUnitId;
+                service.unitId = resultDto.data.result.unitId;
                 service.serviceGroupHeInId =
                     resultDto.data.result.serviceGroupHeInId;
                 service.serviceGroupId = resultDto.data.result.serviceGroupId;
                 service.surgicalProcedureTypeId =
                     resultDto.data.result.surgicalProcedureTypeId;
-                service.serviceUnitName = resultDto.data.result.serviceUnitName;
+                service.unitName = resultDto.data.result.unitName;
                 service.serviceGroupName =
                     resultDto.data.result.serviceGroupName;
 
@@ -992,10 +990,7 @@ export default defineComponent({
             if (service.heInName === null || service.heInName === "") {
                 strArr.push("Tên BH");
             }
-            if (
-                service.serviceUnitId === null ||
-                service.serviceUnitId === undefined
-            ) {
+            if (service.unitId === null || service.unitId === undefined) {
                 strArr.push("Đơn vị tính");
             }
             if (
@@ -1163,11 +1158,11 @@ export default defineComponent({
             service.heInCode = "";
             service.heInName = "";
             service.inactive = false;
-            service.serviceUnitId = undefined;
+            service.unitId = undefined;
             service.serviceGroupHeInId = undefined;
             service.serviceGroupId = undefined;
             service.surgicalProcedureTypeId = undefined;
-            service.serviceUnitName = "";
+            service.unitName = "";
             service.serviceGroupName = "";
             service.sortOrder = 0;
             service.sServicePricePolicies = [];
@@ -1312,7 +1307,7 @@ export default defineComponent({
             surgicalProcedureTypes,
             serviceGroups,
             serviceGroupHeIns,
-            serviceUnits,
+            units,
             isShowExecutionRooms,
             erro,
             columnResultIndices,
