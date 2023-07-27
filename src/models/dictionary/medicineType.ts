@@ -10,6 +10,8 @@ export default interface MedicineTypeModel extends DictionaryBase {
     concentration: string | null, // Nồng độ
     content: string | null, // Hàm lượng
     countryId: string | null, // Nước sản xuất
+    registrationNumber: string | null, // Số đăng ký
+    proprietaryDrug: string | null, // Biệt dược
     manufacturer: string | null, // Hãng sản xuất
     packagingSpecifications: string | null, // Quy cách đóng gói
     impPrice: number | null, // Giá nhập
