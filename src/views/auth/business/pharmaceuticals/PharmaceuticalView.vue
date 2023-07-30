@@ -62,8 +62,6 @@
                         </div>
                     </a-button>
                 </a-dropdown>
-
-                <a-button type="primary"> Button </a-button>
             </div>
 
             <div class="search grid-col-3">
