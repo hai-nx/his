@@ -142,12 +142,15 @@ export default defineComponent({
     margin: 16px;
     background: rgba(255, 255, 255, 0.3);
 }
+
 .site-layout .site-layout-background {
     background: #fff;
 }
+
 [data-theme='dark'] .site-layout .site-layout-background {
     background: #141414;
 }
+
 .logo {
     height: 32px;
     background: rgba(255, 255, 255, 0.3);
@@ -157,15 +160,18 @@ export default defineComponent({
 .site-layout .site-layout-background {
     background: #fff;
 }
+
 .his-layout-header {
     background: #fff;
     display: flex;
     justify-content: space-between;
     padding: 0px;
 }
+
 .his-layout-header__extra {
     padding: 0 24px;
 }
+
 .trigger {
     font-size: 18px;
     line-height: 64px;
@@ -173,6 +179,7 @@ export default defineComponent({
     cursor: pointer;
     transition: color 0.3s;
 }
+
 .trigger:hover {
     color: #1890ff;
 }
