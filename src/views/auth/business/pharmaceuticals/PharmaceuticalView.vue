@@ -4,7 +4,7 @@
             <div class="function grid-col-1">
                 <a-dropdown>
                     <template #overlay>
-                        <a-menu @click="handleMenuClick">
+                        <a-menu @click="handlGegenerateDocumentClick">
                             <a-menu-item key="1">
                                 Nhập hàng hóa từ nhà cung cấp
                             </a-menu-item>
@@ -57,8 +57,8 @@
                     </template>
                     <a-button type="primary" class="btn-list">
                         <div class="btn btn-list-dropdown">
-                            <PlusOutlined />
-                            <span>Tạo phiếu</span>
+                            <PlusOutlined class="text-white" />
+                            <span class="text-white">Tạo phiếu</span>
                         </div>
                     </a-button>
                 </a-dropdown>
@@ -110,11 +110,10 @@
         </a-table>
 
         <teleport to="body">
-            <!-- <MedicineTypeDetailView
+            <PharmaceuticalProcureFromSupplierView
                 :visible="visible"
-                :data="record"
                 @toggle="handleToggle"
-            /> -->
+            />
         </teleport>
     </div>
 </template>
@@ -123,6 +122,7 @@
 import { defineComponent, ref } from "vue";
 import { Modal } from "ant-design-vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
+import PharmaceuticalProcureFromSupplierView from "./PharmaceuticalProcureFromSupplierView.vue";
 
 export default defineComponent({
     name: "PharmaceuticalView",
@@ -153,12 +153,28 @@ export default defineComponent({
             { title: "Xử lý", key: "action", width: 100, align: "center" },
         ]);
 
+        const visible = ref<boolean>(false);
+
+        // ẩn / hiện chi tiết
+        const handleToggle = (result: boolean) => {
+            visible.value = !visible.value;
+        };
+
+        const handlGegenerateDocumentClick = (e: Event) => {
+            console.log("click left button", e);
+            handleToggle(false);
+        };
+
         return {
             columns,
+            visible,
+            handleToggle,
+            handlGegenerateDocumentClick,
         };
     },
     components: {
         PlusOutlined,
+        PharmaceuticalProcureFromSupplierView,
     },
 });
 </script>

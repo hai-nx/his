@@ -732,8 +732,6 @@ export default defineComponent({
                 inItData();
                 reset();
 
-                console.log("ádasd", props.data);
-
                 if (
                     props.data !== null &&
                     props.data?.id !== null &&
