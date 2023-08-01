@@ -73,7 +73,6 @@
             class="ant-table-striped"
             size="middle"
             :columns="columns"
-            :data-source="items"
             bordered
         >
             <template #bodyCell="{ column, record }">
