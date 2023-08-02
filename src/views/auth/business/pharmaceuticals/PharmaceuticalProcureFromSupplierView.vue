@@ -22,7 +22,8 @@
                             <a-select
                                 class="grid-column-columnspan-2-5"
                                 :field-names="fields"
-                                :value="souce.imStockId"
+                                :options="sStocks"
+                                v-model:value="souce.imStockId"
                                 :disabled="loading"
                             >
                                 <template #option="{ name }">
@@ -49,18 +50,18 @@
                                 class="grid-column-8"
                                 placeholder="dd/MM/yyyy"
                                 format="DD/MM/YYYY"
-                                v-model:value="souce.impTime"
+                                v-model:value="souce.invTime"
                             />
                             <label class="grid-column-9"> Số HĐ: </label>
                             <a-input
                                 class="grid-column-10"
-                                v-model:value="souce.name"
+                                v-model:value="souce.invNo"
                                 :disabled="loading"
                             />
                             <label class="grid-column-11"> Mã phiếu: </label>
                             <a-input
                                 class="grid-column-12"
-                                v-model:value="souce.name"
+                                v-model:value="souce.code"
                                 :disabled="loading"
                             />
 
@@ -71,7 +72,8 @@
                             <a-select
                                 class="grid-column-columnspan-2-5"
                                 :field-names="fields"
-                                :value="souce.imStockId"
+                                :options="sSuppliers"
+                                v-model:value="souce.supplierId"
                                 :disabled="loading"
                             >
                                 <template #option="{ name }">
@@ -83,7 +85,7 @@
                             <label class="grid-column-5"> Địa chỉ: </label>
                             <a-input
                                 class="grid-column-columnspan-6-9"
-                                v-model:value="souce.name"
+                                v-model:value="souce.supplierAddress"
                                 :disabled="false"
                             />
                             <label class="grid-column-9"> Mã số thuế: </label>
@@ -130,7 +132,7 @@
                             <a-select
                                 class="grid-column-columnspan-2-7"
                                 :field-names="fields"
-                                :value="souce.imStockId"
+                                :value="impMestMedicineSelected.medicineTypeId"
                                 :disabled="loading"
                             >
                                 <template #option="{ name }">
@@ -142,61 +144,82 @@
                             <label class="grid-column-7"> Mã hàng: </label>
                             <a-input
                                 class="grid-column-8"
-                                v-model:value="souce.name"
+                                v-model:value="impMestMedicineSelected.code"
                                 :disabled="false"
                             />
                             <label class="grid-column-9"> Nồng độ: </label>
                             <a-input
                                 class="grid-column-10"
-                                v-model:value="souce.name"
+                                v-model:value="
+                                    impMestMedicineSelected.concentration
+                                "
                                 :disabled="false"
                             />
                             <label class="grid-column-11"> Hàm lượng: </label>
                             <a-input
                                 class="grid-column-12"
-                                v-model:value="souce.name"
+                                v-model:value="impMestMedicineSelected.content"
                                 :disabled="false"
                             />
 
                             <label class="grid-column-1"> Nước SX: </label>
-                            <a-input
+                            <a-select
                                 class="grid-column-2"
-                                v-model:value="souce.name"
+                                :field-names="fields"
+                                :value="impMestMedicineSelected.countryId"
                                 :disabled="false"
-                            />
+                            >
+                                <template #option="{ name }">
+                                    <div class="row">
+                                        <span>{{ name }}</span>
+                                    </div>
+                                </template>
+                            </a-select>
+
                             <label class="grid-column-3"> Hãng SX: </label>
                             <a-input
                                 class="grid-column-4"
-                                v-model:value="souce.name"
+                                v-model:value="
+                                    impMestMedicineSelected.manufacturer
+                                "
                                 :disabled="false"
                             />
                             <label class="grid-column-5"> Đơn vị tính: </label>
-                            <a-input
+                            <a-select
                                 class="grid-column-6"
-                                v-model:value="souce.name"
+                                :field-names="fields"
+                                :value="impMestMedicineSelected.unitId"
                                 :disabled="false"
-                            />
+                            >
+                                <template #option="{ name }">
+                                    <div class="row">
+                                        <span>{{ name }}</span>
+                                    </div>
+                                </template>
+                            </a-select>
                             <label class="grid-column-7">Giá nhập: </label>
                             <a-input-number
                                 class="grid-column-8 w-100"
-                                v-model:value="souce.impPrice"
+                                v-model:value="impMestMedicineSelected.impPrice"
                                 :disabled="loading"
                                 min="0"
                             />
                             <label class="grid-column-9">VAT nhập (%): </label>
                             <a-input-number
                                 class="grid-column-10 w-100"
-                                v-model:value="souce.impPrice"
+                                v-model:value="
+                                    impMestMedicineSelected.impVatRate
+                                "
                                 :disabled="loading"
                                 min="0"
                                 max="100"
                             />
-                            <label class="grid-column-11"
-                                >Chiết khấu (%):
-                            </label>
+                            <label class="grid-column-11">Số đăng ký: </label>
                             <a-input-number
                                 class="grid-column-12 w-100"
-                                v-model:value="souce.impPrice"
+                                v-model:value="
+                                    impMestMedicineSelected.registrationNumber
+                                "
                                 :disabled="loading"
                                 min="0"
                                 max="100"
@@ -205,58 +228,66 @@
                             <label class="grid-column-1">Thành tiền: </label>
                             <a-input-number
                                 class="grid-column-2 w-100"
-                                v-model:value="souce.impPrice"
+                                v-model:value="impMestMedicineSelected.impPrice"
                                 :disabled="loading"
                                 min="0"
                             />
                             <label class="grid-column-3">QĐ thầu: </label>
                             <a-input
                                 class="grid-column-4"
-                                v-model:value="souce.name"
+                                v-model:value="
+                                    impMestMedicineSelected.tenderDecision
+                                "
                                 :disabled="false"
                             />
                             <label class="grid-column-5">Gói thầu: </label>
                             <a-input
                                 class="grid-column-6"
-                                v-model:value="souce.name"
+                                v-model:value="
+                                    impMestMedicineSelected.tenderPackage
+                                "
                                 :disabled="false"
                             />
                             <label class="grid-column-7">Năm thầu: </label>
                             <a-input-number
                                 class="grid-column-8 w-100"
-                                v-model:value="souce.impPrice"
+                                v-model:value="
+                                    impMestMedicineSelected.tenderYear
+                                "
                                 :disabled="loading"
                                 min="0"
                             />
-                            <label class="grid-column-9">Số ĐK: </label>
+                            <label class="grid-column-9">Số Lô: </label>
                             <a-input
                                 class="grid-column-10"
-                                v-model:value="souce.name"
-                                :disabled="false"
-                            />
-                            <label class="grid-column-11">Số Lô: </label>
-                            <a-input
-                                class="grid-column-12"
-                                v-model:value="souce.name"
+                                v-model:value="impMestMedicineSelected.lot"
                                 :disabled="false"
                             />
 
-                            <label class="grid-column-1">Hạn dùng: </label>
+                            <label class="grid-column-11">Hạn dùng: </label>
                             <a-date-picker
-                                class="grid-column-2"
+                                class="grid-column-12"
                                 placeholder="dd/MM/yyyy"
                                 format="DD/MM/YYYY"
-                                v-model:value="souce.impTime"
+                                v-model:value="impMestMedicineSelected.dueDate"
                             />
 
-                            <!-- <a-table
-                                class="ant-table-striped grid-column-columnspan-1-13"
+                            <a-button
+                                type="primary"
+                                class="grid-column-columnspan-11-13"
+                            >
+                                Cập nhật (Ctl + A)
+                            </a-button>
+
+                            <a-table
+                                class="ant-table-striped grid-column-columnspan-1-13 mt-3 h-100"
                                 size="middle"
-                                :columns="columnRoows"
-                                :data-source="service.sExecutionRooms"
+                                :customRow="handleRowClickImpMestMedicine"
+                                :columns="impMestMedicineColumns"
+                                :data-source="souce.dImpMestMedicines"
                                 bordered
                                 :pagination="false"
-                                :scroll="{ y: 600 }"
+                                :scroll="{ y: 350 }"
                             >
                                 <template #bodyCell="{ column, record }">
                                     <template v-if="column.key === 'isCheck'">
@@ -274,7 +305,7 @@
                                         />
                                     </template>
                                 </template>
-                            </a-table> -->
+                            </a-table>
                         </div>
                     </a-tab-pane>
                     <a-tab-pane key="2" tab="Chính sách giá thuốc"></a-tab-pane>
@@ -308,7 +339,14 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, reactive } from "vue";
-import { ImpMestModel } from "@/models";
+import {
+    DImpMestModel,
+    DImpMestMedicineModel,
+    SupplierModel,
+    MedicineTypeModel,
+    RoomModel,
+} from "@/models";
+import { roomService, supplierService } from "@/services";
 
 export default defineComponent({
     name: "PharmaceuticalProcureFromSupplierView",
@@ -327,10 +365,14 @@ export default defineComponent({
         const result = ref<boolean>(false);
         const activeKey = ref<string>("1");
         const fields = ref({ value: "id", label: "name" });
-        const souce = reactive<ImpMestModel>({
+
+        const sSuppliers = ref<SupplierModel[]>([]);
+        const sMedicineTypes = ref<MedicineTypeModel[]>([]);
+        const sStocks = ref<RoomModel[]>([]);
+
+        const souce = reactive<DImpMestModel>({
             id: null,
             code: null,
-            name: null,
             imMestStatus: 0,
             imStockId: null, // Kho nhập
             exStockId: null, // Kho xuất
@@ -345,11 +387,180 @@ export default defineComponent({
             treatmentId: null, /// Id điều trị
             patientId: null, /// Id Bệnh nhân
             supplierId: null, /// Nhà cung cấp
+            supplierAddress: null, /// Địa chỉ cấp
             invTime: null, /// Ngày hóa đơn
+            invNo: null, /// Số hóa đơn
             deliverer: null, /// NGười giao
+            dImpMestMedicines: [],
         });
 
+        const impMestMedicineSelected = ref<DImpMestMedicineModel>({
+            id: null,
+            // Mã thuốc
+            code: null,
+            // Mã BH
+            heInCode: null,
+            // Tên thuốc
+            name: null,
+            // Thứ tự sắp xếp
+            sortOrder: null,
+            // Đường dùng thuốc
+            medicineLineId: null,
+            // Nhóm thuốc
+            medicineGroupId: null,
+            // Nhóm thuốc
+            medicineTypeId: null,
+            // Thuốc
+            medicineId: null,
+            // Đơn vị tính
+            unitId: null,
+            // Hướng dẫn
+            tutorial: null,
+            // Nước sản xuất
+            countryId: null,
+            // Giá nhập
+            impPrice: null,
+            // Số lượng nhập
+            impQuantity: null,
+            // Phần trăm vat giá nhập
+            impVatRate: null,
+            // Phần trăm thuế
+            taxRate: null,
+            // Phần trăm thuế
+            impAmount: null,
+            // Diễn giải
+            description: null,
+            // Hoạt chất
+            activeSubstance: null,
+            // Nồng độ
+            concentration: null,
+            // Hàm lượng
+            content: null,
+            // Hãng sản xuất
+            manufacturer: null,
+            // Quy cách đóng gói
+            packagingSpecifications: null,
+            // Số đk
+            registrationNumber: null,
+            // Lô
+            lot: null,
+            // Hạn dùng
+            dueDate: null,
+            // Quyệt định thầu
+            tenderDecision: null,
+            // Gói thầu
+            tenderPackage: null,
+            // Nhóm thầu
+            tenderGroup: null,
+            // Năm thầu
+            tenderYear: null,
+        });
+
+        const impMestMedicineColumns = reactive([
+            {
+                title: "Mã thuốc",
+                key: "code",
+                dataIndex: "code",
+                width: 120,
+                className: "column-header-center",
+            },
+            {
+                title: "Tên thuốc",
+                key: "name",
+                dataIndex: "name",
+                width: 500,
+                className: "column-header-center",
+            },
+            {
+                title: "ĐVT",
+                key: "unitId",
+                dataIndex: "unitId",
+                width: 120,
+                className: "column-header-center",
+                align: "center",
+            },
+            {
+                title: "Giá nhập",
+                key: "impPrice",
+                dataIndex: "impPrice",
+                width: 150,
+                className: "column-header-center",
+                align: "center",
+            },
+            {
+                title: "Số lượng",
+                key: "impQuantity",
+                dataIndex: "impQuantity",
+                width: 100,
+                className: "column-header-center",
+                align: "center",
+            },
+            {
+                title: "VAT(%)",
+                key: "impVatRate",
+                dataIndex: "impVatRate",
+                width: 100,
+                className: "column-header-center",
+                align: "center",
+            },
+            {
+                title: "Thành tiền",
+                key: "impAmount",
+                dataIndex: "impAmount",
+                width: 150,
+                className: "column-header-center",
+                align: "center",
+            },
+            {
+                title: "Số lô",
+                key: "lot",
+                dataIndex: "lot",
+                width: 150,
+                className: "column-header-center",
+                align: "center",
+            },
+            {
+                title: "Hạn dùng",
+                key: "dueDate",
+                dataIndex: "dueDate",
+                width: 150,
+                className: "column-header-center",
+                align: "center",
+            },
+        ]);
+
         const show = computed(() => props.visible);
+
+        watch(show, (value) => {
+            inItData();
+
+            if (value) {
+                result.value = false;
+                loading.value = true;
+                loading.value = false;
+            }
+        });
+
+        //#region Function
+        async function inItData() {
+            sSuppliers.value = await getSuppliers();
+        }
+
+        async function getSuppliers(): Promise<SupplierModel[]> {
+            return (await supplierService.getAll()).data.result;
+        }
+
+        const setImpMestMedicine = (
+            data: DImpMestMedicineModel | undefined
+        ) => {
+            if (data !== undefined) {
+                const dataCopy = { ...data };
+                impMestMedicineSelected.value = dataCopy;
+            }
+        };
+        //#endregion
+
+        //#region Event
         const toggle = function () {
             emit("toggle", result);
         };
@@ -358,13 +569,16 @@ export default defineComponent({
             toggle();
         };
 
-        watch(show, (value) => {
-            if (value) {
-                result.value = false;
-                loading.value = true;
-                loading.value = false;
-            }
-        });
+        const handleRowClickImpMestMedicine = (
+            record: DImpMestMedicineModel
+        ) => {
+            return {
+                onClick: () => {
+                    setImpMestMedicine(record);
+                },
+            };
+        };
+        //#endregion
 
         return {
             title,
@@ -374,6 +588,11 @@ export default defineComponent({
             show,
             fields,
             souce,
+            sSuppliers,
+            sStocks,
+            impMestMedicineColumns,
+            impMestMedicineSelected,
+            handleRowClickImpMestMedicine,
             handleCancel,
         };
     },
@@ -414,6 +633,10 @@ export default defineComponent({
 
 .grid-column-columnspan-10-13 {
     grid-column: 10/13;
+}
+
+.grid-column-columnspan-11-13 {
+    grid-column: 11/13;
 }
 
 .grid-column-1 {
