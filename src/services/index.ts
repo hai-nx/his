@@ -30,6 +30,8 @@ import medicineLineService from './dictionary/medicineLine'
 
 import patientService from './business/patient'
 
+import impMestService from './business/imMest'
+
 export {
     authService,
 
@@ -61,5 +63,6 @@ export {
     medicineTypeService,
     medicineLineService,
 
-    patientService
+    patientService,
+    impMestService
 }

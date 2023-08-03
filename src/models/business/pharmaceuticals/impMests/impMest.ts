@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs'
-import { DImpMestMedicineModel } from '@/models'
+import { DImpMestMedicineModel, MedicineModel } from '@/models'
 
 export default interface DImpMestModel {
     id: string | null,
@@ -43,5 +43,6 @@ export default interface DImpMestModel {
     deliverer: string | null,
 
     dImpMestMedicines: DImpMestMedicineModel[]
+    medicine: MedicineModel[]
 }
 

@@ -1,29 +1,13 @@
-import { Dayjs } from 'dayjs'
+import { MedicineModel } from '@/models'
 
 export default interface DImpMestMedicineModel {
     id: string | null,
-    // Mã thuốc
-    code: string | null,
-    // Mã BH
-    heInCode: string | null,
-    // Tên thuốc
-    name: string | null,
+    imMestId: string | null,
+
     // Thứ tự sắp xếp
     sortOrder: number | null,
-    // Đường dùng thuốc
-    medicineLineId: string | null,
-    // Nhóm thuốc
-    medicineGroupId: string | null,
-    // Nhóm thuốc
-    medicineTypeId: string | null,
     // Thuốc
     medicineId: string | null,
-    // Đơn vị tính
-    unitId: string | null,
-    // Hướng dẫn
-    tutorial: string | null,
-    // Nước sản xuất
-    countryId: string | null,
     // Giá nhập
     impPrice: number | null,
     // Số lượng nhập
@@ -32,32 +16,8 @@ export default interface DImpMestMedicineModel {
     impVatRate: number | null,
     // Phần trăm thuế
     taxRate: number | null,
-    // Phần trăm thuế
+    // Thành tiền
     impAmount: number | null,
-    // Diễn giải
-    description: string | null,
-    // Hoạt chất
-    activeSubstance: string | null,
-    // Nồng độ
-    concentration: string | null,
-    // Hàm lượng
-    content: string | null,
-    // Hãng sản xuất
-    manufacturer: string | null,
-    // Quy cách đóng gói
-    packagingSpecifications: string | null,
-    // Số ĐK
-    registrationNumber: string | null,
-    // Lô
-    lot: string | null,
-    // Hạn dùng
-    dueDate: Dayjs | null,
-    // Quyệt định thầu
-    tenderDecision: string | null,
-    // Gói thầu
-    tenderPackage: string | null,
-    // Nhóm thầu
-    tenderGroup: string | null,
-    // Năm thầu
-    tenderYear: number | null,
+
+    medicine: MedicineModel | null
 }

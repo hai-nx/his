@@ -19,6 +19,8 @@ import ProvinceModel from './dictionary/province'
 import RoomModel from './dictionary/room'
 import RoomTypeModel from './dictionary/room-type'
 import WardModel from './dictionary/ward'
+import SupplierModel from './dictionary/supplier';
+
 import ServiceModel from './dictionary/service'
 import ServicePricePolicyModel from './dictionary/servicePricePolicy'
 import SurgicalProcedureTypeModel from './dictionary/surgicalProcedureType'
@@ -28,14 +30,14 @@ import UnitModel from './dictionary/unit'
 import ExecutionRoomModel from './dictionary/executionRoom'
 import ServiceImportModel from './dictionary/serviceImport'
 import ServiceResultIndiceModel from './dictionary/serviceResultIndice'
+
 import MedicineGroupModel from './dictionary/medicineGroup'
 import MedicineTypeModel from './dictionary/medicineType'
 import MedicineLineModel from './dictionary/medicineLine';
-import SupplierModel from './dictionary/supplier';
+import MedicineModel from './dictionary/medicine';
 
 import DImpMestModel from './business/pharmaceuticals/impMests/impMest';
 import DImpMestMedicineModel from './business/pharmaceuticals/impMests/imMestMedicine';
-
 
 export {
     ApiResult,
@@ -60,6 +62,7 @@ export {
     RoomModel,
     RoomTypeModel,
     WardModel,
+    SupplierModel,
 
     ServiceModel,
     UnitModel,
@@ -74,7 +77,7 @@ export {
     MedicineLineModel,
     MedicineGroupModel,
     MedicineTypeModel,
-    SupplierModel,
+    MedicineModel,
 
     DImpMestModel,
     DImpMestMedicineModel

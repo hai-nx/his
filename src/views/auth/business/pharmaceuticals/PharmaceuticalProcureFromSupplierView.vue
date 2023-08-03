@@ -132,6 +132,7 @@
                             <a-select
                                 class="grid-column-columnspan-2-7"
                                 :field-names="fields"
+                                :options="sMedicineTypes"
                                 :value="impMestMedicineSelected.medicineTypeId"
                                 :disabled="loading"
                             >
@@ -346,7 +347,7 @@ import {
     MedicineTypeModel,
     RoomModel,
 } from "@/models";
-import { roomService, supplierService } from "@/services";
+import { medicineTypeService, roomService, supplierService } from "@/services";
 
 export default defineComponent({
     name: "PharmaceuticalProcureFromSupplierView",
@@ -392,32 +393,14 @@ export default defineComponent({
             invNo: null, /// Số hóa đơn
             deliverer: null, /// NGười giao
             dImpMestMedicines: [],
+            medicine: [],
         });
 
         const impMestMedicineSelected = ref<DImpMestMedicineModel>({
             id: null,
-            // Mã thuốc
-            code: null,
-            // Mã BH
-            heInCode: null,
-            // Tên thuốc
-            name: null,
-            // Thứ tự sắp xếp
-            sortOrder: null,
-            // Đường dùng thuốc
-            medicineLineId: null,
-            // Nhóm thuốc
-            medicineGroupId: null,
-            // Nhóm thuốc
-            medicineTypeId: null,
-            // Thuốc
+            imMestId: null,
             medicineId: null,
-            // Đơn vị tính
-            unitId: null,
-            // Hướng dẫn
-            tutorial: null,
-            // Nước sản xuất
-            countryId: null,
+            sortOrder: null,
             // Giá nhập
             impPrice: null,
             // Số lượng nhập
@@ -428,32 +411,7 @@ export default defineComponent({
             taxRate: null,
             // Phần trăm thuế
             impAmount: null,
-            // Diễn giải
-            description: null,
-            // Hoạt chất
-            activeSubstance: null,
-            // Nồng độ
-            concentration: null,
-            // Hàm lượng
-            content: null,
-            // Hãng sản xuất
-            manufacturer: null,
-            // Quy cách đóng gói
-            packagingSpecifications: null,
-            // Số đk
-            registrationNumber: null,
-            // Lô
-            lot: null,
-            // Hạn dùng
-            dueDate: null,
-            // Quyệt định thầu
-            tenderDecision: null,
-            // Gói thầu
-            tenderPackage: null,
-            // Nhóm thầu
-            tenderGroup: null,
-            // Năm thầu
-            tenderYear: null,
+            medicine: null,
         });
 
         const impMestMedicineColumns = reactive([
@@ -532,9 +490,9 @@ export default defineComponent({
         const show = computed(() => props.visible);
 
         watch(show, (value) => {
-            inItData();
-
             if (value) {
+                inItData();
+
                 result.value = false;
                 loading.value = true;
                 loading.value = false;
@@ -544,10 +502,20 @@ export default defineComponent({
         //#region Function
         async function inItData() {
             sSuppliers.value = await getSuppliers();
+            sMedicineTypes.value = await getMedicineTypes();
+            sStocks.value = await getStocks();
         }
 
         async function getSuppliers(): Promise<SupplierModel[]> {
             return (await supplierService.getAll()).data.result;
+        }
+
+        async function getMedicineTypes(): Promise<MedicineTypeModel[]> {
+            return (await medicineTypeService.getAll()).data.result;
+        }
+
+        async function getStocks(): Promise<RoomModel[]> {
+            return (await roomService.getByStocks()).data.result;
         }
 
         const setImpMestMedicine = (
@@ -589,6 +557,7 @@ export default defineComponent({
             fields,
             souce,
             sSuppliers,
+            sMedicineTypes,
             sStocks,
             impMestMedicineColumns,
             impMestMedicineSelected,
