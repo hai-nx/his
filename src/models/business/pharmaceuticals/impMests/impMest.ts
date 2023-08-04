@@ -41,8 +41,9 @@ export default interface DImpMestModel {
     invNo: string | null,
     /// NGười giao
     deliverer: string | null,
+    /// Người lập
+    createdBy: string | null,
 
     dImpMestMedicines: DImpMestMedicineModel[]
-    medicine: MedicineModel[]
 }
 

@@ -32,6 +32,8 @@ import patientService from './business/patient'
 
 import impMestService from './business/imMest'
 
+import userService from './system/user'
+
 export {
     authService,
 
@@ -64,5 +66,7 @@ export {
     medicineLineService,
 
     patientService,
-    impMestService
+    impMestService,
+
+    userService,
 }

@@ -3,53 +3,53 @@ import { Dayjs } from 'dayjs'
 
 export default interface MedicineModel extends DictionaryBase {
     // Mã BH
-    heInCode: string | null,
+    heInCode?: string,
     // Đường dùng thuốc
-    medicineLineId: string | null,
+    medicineLineId?: string,
     // Nhóm thuốc
-    medicineGroupId: string | null,
+    medicineGroupId?: string,
     // Nhóm thuốc
-    medicineTypeId: string | null,
+    medicineTypeId?: string,
     // Thuốc
-    medicineId: string | null,
+    medicineId?: string,
     // Đơn vị tính
-    unitId: string | null,
+    unitId?: string,
     // Hướng dẫn
-    tutorial: string | null,
+    tutorial?: string,
     // Nước sản xuất
-    countryId: string | null,
+    countryId?: string,
     // Giá nhập
-    impPrice: number | null,
+    impPrice?: number,
     // Số lượng nhập
-    impQuantity: number | null,
+    impQuantity?: number,
     // Phần trăm vat giá nhập
-    impVatRate: number | null,
+    impVatRate?: number,
     // Phần trăm thuế
-    taxRate: number | null,
+    taxRate?: number,
     // Phần trăm thuế
-    impAmount: number | null,
+    impAmount?: number,
     // Hoạt chất
-    activeSubstance: string | null,
+    activeSubstance?: string,
     // Nồng độ
-    concentration: string | null,
+    concentration?: string,
     // Hàm lượng
-    content: string | null,
+    content?: string,
     // Hãng sản xuất
-    manufacturer: string | null,
+    manufacturer?: string,
     // Quy cách đóng gói
-    packagingSpecifications: string | null,
+    packagingSpecifications?: string,
     // Số ĐK
-    registrationNumber: string | null,
+    registrationNumber?: string,
     // Lô
-    lot: string | null,
+    lot?: string,
     // Hạn dùng
-    dueDate: Dayjs | null,
+    dueDate?: Dayjs,
     // Quyệt định thầu
-    tenderDecision: string | null,
+    tenderDecision?: string,
     // Gói thầu
-    tenderPackage: string | null,
+    tenderPackage?: string,
     // Nhóm thầu
-    tenderGroup: string | null,
+    tenderGroup?: string,
     // Năm thầu
-    tenderYear: number | null,
+    tenderYear?: number,
 }
