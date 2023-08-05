@@ -160,7 +160,6 @@ export default defineComponent({
         };
 
         const handlGegenerateDocumentClick = (e: Event) => {
-            console.log("click left button", e);
             handleToggle(false);
         };
 

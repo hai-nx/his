@@ -23,14 +23,10 @@
                                 class="grid-column-columnspan-2-5"
                                 :field-names="fields"
                                 :options="sStocks"
+                                showSearch
                                 v-model:value="souce.imStockId"
                                 :disabled="loading"
                             >
-                                <template #option="{ name }">
-                                    <div class="row">
-                                        <span>{{ name }}</span>
-                                    </div>
-                                </template>
                             </a-select>
                             <label class="grid-column-5">
                                 <span>Ngày lập:</span>
@@ -41,6 +37,7 @@
                                 placeholder="dd/MM/yyyy"
                                 format="DD/MM/YYYY"
                                 v-model:value="souce.impTime"
+                                :disabled="loading"
                             />
                             <label class="grid-column-7">
                                 <span>Ngày HĐ:</span>
@@ -51,6 +48,7 @@
                                 placeholder="dd/MM/yyyy"
                                 format="DD/MM/YYYY"
                                 v-model:value="souce.invTime"
+                                :disabled="loading"
                             />
                             <label class="grid-column-9"> Số HĐ: </label>
                             <a-input
@@ -71,7 +69,10 @@
                             </label>
                             <a-select
                                 class="grid-column-columnspan-2-5"
+                                showSearch
                                 :options="sSuppliers"
+                                :field-names="fields"
+                                @change="handleSupplierChanged"
                                 v-model:value="souce.supplierId"
                                 :disabled="loading"
                             >
@@ -80,25 +81,26 @@
                             <a-input
                                 class="grid-column-columnspan-6-9"
                                 v-model:value="supplierSelected.address"
-                                :disabled="false"
+                                :disabled="loading"
                             />
                             <label class="grid-column-9"> Mã số thuế: </label>
                             <a-input
                                 class="grid-column-10"
                                 v-model:value="supplierSelected.taxtCode"
-                                :disabled="false"
+                                :disabled="loading"
                             />
                             <label class="grid-column-11"> Nội dung: </label>
                             <a-input
                                 class="grid-column-12"
                                 v-model:value="souce.description"
-                                :disabled="false"
+                                :disabled="loading"
                             />
 
                             <label class="grid-column-1"> Người lập: </label>
                             <a-select
                                 class="grid-column-columnspan-2-5"
                                 :options="sUsers"
+                                :field-names="userColumns"
                                 show-search
                                 v-model:value="souce.createdBy"
                                 :disabled="loading"
@@ -109,12 +111,13 @@
                             <a-input
                                 class="grid-column-columnspan-6-9"
                                 v-model:value="souce.deliverer"
-                                :disabled="false"
+                                :disabled="loading"
                             />
                             <label class="grid-column-9"> Người nhận: </label>
                             <a-select
                                 class="grid-column-columnspan-10-13"
                                 :options="sUsers"
+                                :field-names="userColumns"
                                 show-search
                                 v-model:value="souce.receiverUserId"
                                 :disabled="loading"
@@ -132,24 +135,20 @@
                             </label>
                             <a-select
                                 class="grid-column-columnspan-2-7"
+                                showSearch
                                 :field-names="fields"
                                 :options="sMedicineTypes"
+                                @change="handleMedicineTypeChanged"
                                 v-model:value="
                                     dImpMestMedicineSelected.medicineTypeId
                                 "
                                 :disabled="loading"
-                            >
-                                <template #option="{ name }">
-                                    <div class="row">
-                                        <span>{{ name }}</span>
-                                    </div>
-                                </template>
-                            </a-select>
+                            />
                             <label class="grid-column-7"> Mã hàng: </label>
                             <a-input
                                 class="grid-column-8"
                                 v-model:value="dImpMestMedicineSelected.code"
-                                :disabled="false"
+                                :disabled="loading"
                             />
                             <label class="grid-column-9"> Nồng độ: </label>
                             <a-input
@@ -157,13 +156,13 @@
                                 v-model:value="
                                     dImpMestMedicineSelected.concentration
                                 "
-                                :disabled="false"
+                                disabled
                             />
                             <label class="grid-column-11"> Hàm lượng: </label>
                             <a-input
                                 class="grid-column-12"
                                 v-model:value="dImpMestMedicineSelected.content"
-                                :disabled="false"
+                                disabled
                             />
 
                             <label class="grid-column-1"> Nước SX: </label>
@@ -172,14 +171,8 @@
                                 :field-names="fields"
                                 :options="sCountries"
                                 :value="dImpMestMedicineSelected.countryId"
-                                :disabled="false"
-                            >
-                                <template #option="{ name }">
-                                    <div class="row">
-                                        <span>{{ name }}</span>
-                                    </div>
-                                </template>
-                            </a-select>
+                                disabled
+                            />
 
                             <label class="grid-column-3"> Hãng SX: </label>
                             <a-input
@@ -187,7 +180,7 @@
                                 v-model:value="
                                     dImpMestMedicineSelected.manufacturer
                                 "
-                                :disabled="false"
+                                disabled
                             />
                             <label class="grid-column-5"> Đơn vị tính: </label>
                             <a-select
@@ -195,14 +188,8 @@
                                 :field-names="fields"
                                 :options="sUnits"
                                 :value="dImpMestMedicineSelected.unitId"
-                                :disabled="false"
-                            >
-                                <template #option="{ name }">
-                                    <div class="row">
-                                        <span>{{ name }}</span>
-                                    </div>
-                                </template>
-                            </a-select>
+                                disabled
+                            />
                             <label class="grid-column-7">Giá nhập: </label>
                             <a-input-number
                                 class="grid-column-8 w-100"
@@ -228,7 +215,7 @@
                                 v-model:value="
                                     dImpMestMedicineSelected.registrationNumber
                                 "
-                                :disabled="loading"
+                                disabled
                                 min="0"
                                 max="100"
                             />
@@ -271,7 +258,7 @@
                             <a-input
                                 class="grid-column-10"
                                 v-model:value="dImpMestMedicineSelected.lot"
-                                :disabled="false"
+                                :disabled="loading"
                             />
 
                             <label class="grid-column-11">Hạn dùng: </label>
@@ -280,6 +267,7 @@
                                 placeholder="dd/MM/yyyy"
                                 format="DD/MM/YYYY"
                                 v-model:value="dImpMestMedicineSelected.dueDate"
+                                :disabled="loading"
                             />
 
                             <a-button
@@ -323,26 +311,22 @@
                     <a-tab-pane key="3" tab="Hóa đơn"></a-tab-pane>
                 </a-tabs>
 
-                <!-- <template #footer>
+                <template #footer>
                     <a-button
                         class="btn-save"
-                        key="submit"
-                        type="primary"
                         :loading="loading"
                         @click.prevent="handleSave"
-                        >Lưu</a-button
+                        >Lưu tạm</a-button
                     >
                     <a-button
-                        class="btn-save-new"
+                        @click="handleCancel"
+                        key="submit"
                         type="primary"
-                        :loading="loading"
-                        @click.prevent="handleSaveAndAddNew"
-                        >Lưu và Thêm mới</a-button
+                        class="btn-save"
+                        @click.prevent="handleStockIn"
+                        >Nhận kho</a-button
                     >
-                    <a-button @click="handleCancel" class="btn-cancel"
-                        >Bỏ qua</a-button
-                    >
-                </template> -->
+                </template>
             </a-modal>
         </div>
     </form>
@@ -386,7 +370,7 @@ export default defineComponent({
         const result = ref<boolean>(false);
         const activeKey = ref<string>("1");
         const fields = ref({ value: "id", label: "name" });
-        const userColumn = ref({ value: "id", label: "userName" });
+        const userColumns = ref({ value: "id", label: "userName" });
 
         const sSuppliers = ref<SupplierModel[]>([]);
         const sMedicineTypes = ref<MedicineTypeModel[]>([]);
@@ -420,8 +404,60 @@ export default defineComponent({
             createdBy: null,
         });
 
-        const dImpMestMedicineSelected = ref<DImpMestMedicineModel>({});
-
+        const dImpMestMedicineSelected = ref<DImpMestMedicineModel>({
+            code: null,
+            // Mã BH
+            heInCode: null,
+            // Đường dùng thuốc
+            medicineLineId: null,
+            // Nhóm thuốc
+            medicineGroupId: null,
+            // Nhóm thuốc
+            medicineTypeId: null,
+            // Thuốc
+            medicineId: null,
+            // Đơn vị tính
+            unitId: null,
+            // Hướng dẫn
+            tutorial: null,
+            // Nước sản xuất
+            countryId: null,
+            // Giá nhập
+            impPrice: 0,
+            // Số lượng nhập
+            impQuantity: 0,
+            // Phần trăm vat giá nhập
+            impVatRate: 0,
+            // Phần trăm thuế
+            taxRate: 0,
+            // Phần trăm thuế
+            impAmount: 0,
+            // Hoạt chất
+            activeSubstance: null,
+            // Nồng độ
+            concentration: null,
+            // Hàm lượng
+            content: null,
+            // Hãng sản xuất
+            manufacturer: null,
+            // Quy cách đóng gói
+            packagingSpecifications: null,
+            // Số ĐK
+            registrationNumber: null,
+            // Lô
+            lot: null,
+            // Hạn dùng
+            dueDate: null,
+            // Quyệt định thầu
+            tenderDecision: null,
+            // Gói thầu
+            tenderPackage: null,
+            // Nhóm thầu
+            tenderGroup: null,
+            // Năm thầu
+            tenderYear: 0,
+        });
+        const sMedicineTypeSelected = ref<MedicineTypeModel>();
         const supplierSelected = ref<SupplierModel>({
             id: undefined,
             code: null,
@@ -593,6 +629,43 @@ export default defineComponent({
             }
         };
 
+        const handleSupplierChanged = (value: string) => {
+            if (value !== null) {
+                let supplier = sSuppliers.value.find((f) => f.id === value);
+                if (supplier !== undefined && supplier !== null) {
+                    supplierSelected.value = { ...supplier };
+                }
+            }
+        };
+
+        const handleMedicineTypeChanged = (value: string) => {
+            if (value !== null) {
+                let sMedicineType = sMedicineTypes.value.find(
+                    (f) => f.id === value
+                );
+                if (sMedicineType !== undefined && sMedicineType !== null) {
+                    sMedicineTypeSelected.value = { ...sMedicineType };
+
+                    if (dImpMestMedicineSelected !== undefined) {
+                        dImpMestMedicineSelected.value.code =
+                            sMedicineTypeSelected.value.code;
+                        dImpMestMedicineSelected.value.code =
+                            sMedicineTypeSelected.value.code;
+                        dImpMestMedicineSelected.value.code =
+                            sMedicineTypeSelected.value.code;
+                    }
+                }
+            }
+        };
+
+        const handleSave = () => {
+            console.log("handleSave");
+        };
+
+        const handleStockIn = () => {
+            console.log("handleStockIn");
+        };
+
         //#endregion
 
         return {
@@ -602,7 +675,7 @@ export default defineComponent({
             activeKey,
             show,
             fields,
-            userColumn,
+            userColumns,
             souce,
             sSuppliers,
             sMedicineTypes,
@@ -613,9 +686,14 @@ export default defineComponent({
             impMestMedicineColumns,
             supplierSelected,
             dImpMestMedicineSelected,
+            sMedicineTypeSelected,
             handleUpdateImMest,
+            handleSupplierChanged,
+            handleMedicineTypeChanged,
             handleRowClickImpMestMedicine,
             handleCancel,
+            handleSave,
+            handleStockIn,
         };
     },
 });
