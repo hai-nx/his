@@ -564,21 +564,21 @@ export default defineComponent({
 
         watch(
             souce,
-            (newValue) => {
-                if (newValue.impTime) {
-                    souce.impTimeString = dayjs(newValue.impTime).format(
+            (newVal, oldVal) => {
+                if (newVal.impTime && newVal.impTime !== oldVal.invTime) {
+                    souce.impTimeString = dayjs(newVal.impTime).format(
                         "DD/MM/YYYY"
                     );
                 }
 
-                if (newValue.approverTime) {
+                if (newVal.approverTime) {
                     souce.approverTimeString = dayjs(
-                        newValue.approverTime
+                        newVal.approverTime
                     ).format("DD/MM/YYYY");
                 }
 
-                if (newValue.invTime) {
-                    souce.invTimeString = dayjs(newValue.invTime).format(
+                if (newVal.invTime) {
+                    souce.invTimeString = dayjs(newVal.invTime).format(
                         "DD/MM/YYYY"
                     );
                 }

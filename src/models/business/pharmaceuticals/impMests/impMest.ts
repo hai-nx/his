@@ -18,7 +18,7 @@ export default interface DImpMestModel {
     /// NGười duyệt
     approverUserId: string | null,
     /// Thời gian nhập, ngày tạo phiếu nhập
-    impTime: Dayjs | null,
+    impTime: Dayjs | null | string,
     impTimeString?: string,
     /// Ngày duyệt, ngày nhập kho
     approverTime: Dayjs | null,
