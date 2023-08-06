@@ -4,6 +4,8 @@ export default interface DImpMestMedicineModel {
     code: string | null | null,
     // Mã BH
     heInCode: string | null,
+    // Tên
+    name: string | null
     // Đường dùng thuốc
     medicineLineId: string | null,
     // Nhóm thuốc
@@ -14,6 +16,8 @@ export default interface DImpMestMedicineModel {
     medicineId: string | null,
     // Đơn vị tính
     unitId: string | null,
+    unitCode?: string,
+    unitName?: string,
     // Hướng dẫn
     tutorial: string | null,
     // Nước sản xuất
@@ -26,7 +30,7 @@ export default interface DImpMestMedicineModel {
     impVatRate: number | null,
     // Phần trăm thuế
     taxRate: number | null,
-    // Phần trăm thuế
+    // Thanh tien
     impAmount: number | null,
     // Hoạt chất
     activeSubstance: string | null,
@@ -44,6 +48,7 @@ export default interface DImpMestMedicineModel {
     lot: string | null,
     // Hạn dùng
     dueDate: Dayjs | null,
+    dueDateString?: string,
     // Quyệt định thầu
     tenderDecision: string | null,
     // Gói thầu

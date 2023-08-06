@@ -1,12 +1,12 @@
 import { Dayjs } from 'dayjs'
-import { DImpMestMedicineModel, MedicineModel } from '@/models'
+import { DImpMestMedicineModel } from '@/models'
 
 export default interface DImpMestModel {
     id: string | null,
     /// Mã phiếu
     code: string | null,
     /// Trạng thái
-    imMestStatus: number,
+    impMestStatus: number,
     /// Kho nhập
     imStockId: string | null,
     /// Kho xuất
@@ -19,8 +19,10 @@ export default interface DImpMestModel {
     approverUserId: string | null,
     /// Thời gian nhập, ngày tạo phiếu nhập
     impTime: Dayjs | null,
+    impTimeString?: string,
     /// Ngày duyệt, ngày nhập kho
     approverTime: Dayjs | null,
+    approverTimeString?: string,
     /// Nội dung
     description: string | null,
     /// Phòng yêu cầu
@@ -37,12 +39,13 @@ export default interface DImpMestModel {
     supplierAddress: string | null,
     /// Ngày hóa đơn
     invTime: Dayjs | null,
+    invTimeString?: string,
     /// Số hóa đơn
     invNo: string | null,
-    /// NGười giao
+    /// Người giao
     deliverer: string | null,
     /// Người lập
-    createdBy: string | null,
+    createdUserId: string | null,
 
     dImpMestMedicines: DImpMestMedicineModel[]
 }

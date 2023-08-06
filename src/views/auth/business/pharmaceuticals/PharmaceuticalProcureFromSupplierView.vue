@@ -102,7 +102,7 @@
                                 :options="sUsers"
                                 :field-names="userColumns"
                                 show-search
-                                v-model:value="souce.createdBy"
+                                v-model:value="souce.createdUserId"
                                 :disabled="loading"
                             >
                             </a-select>
@@ -170,7 +170,10 @@
                                 class="grid-column-2"
                                 :field-names="fields"
                                 :options="sCountries"
-                                :value="dImpMestMedicineSelected.countryId"
+                                showSearch
+                                v-model:value="
+                                    dImpMestMedicineSelected.countryId
+                                "
                                 disabled
                             />
 
@@ -192,6 +195,7 @@
                             />
                             <label class="grid-column-7">Giá nhập: </label>
                             <a-input-number
+                                @input="calculateTotalAmout"
                                 class="grid-column-8 w-100"
                                 v-model:value="
                                     dImpMestMedicineSelected.impPrice
@@ -201,6 +205,7 @@
                             />
                             <label class="grid-column-9">VAT nhập (%): </label>
                             <a-input-number
+                                @input="calculateTotalAmout"
                                 class="grid-column-10 w-100"
                                 v-model:value="
                                     dImpMestMedicineSelected.impVatRate
@@ -209,61 +214,81 @@
                                 min="0"
                                 max="100"
                             />
-                            <label class="grid-column-11">Số đăng ký: </label>
+
+                            <label class="grid-column-11"
+                                >Thuế nhập (%):
+                            </label>
                             <a-input-number
+                                @input="calculateTotalAmout"
                                 class="grid-column-12 w-100"
-                                v-model:value="
-                                    dImpMestMedicineSelected.registrationNumber
-                                "
-                                disabled
+                                v-model:value="dImpMestMedicineSelected.taxRate"
+                                :disabled="loading"
                                 min="0"
                                 max="100"
                             />
 
-                            <label class="grid-column-1">Thành tiền: </label>
+                            <label class="grid-column-1">Số lượng: </label>
                             <a-input-number
+                                @input="calculateTotalAmout"
                                 class="grid-column-2 w-100"
                                 v-model:value="
-                                    dImpMestMedicineSelected.impPrice
+                                    dImpMestMedicineSelected.impQuantity
                                 "
                                 :disabled="loading"
                                 min="0"
                             />
-                            <label class="grid-column-3">QĐ thầu: </label>
+                            <label class="grid-column-3">Thành tiền: </label>
+                            <a-input-number
+                                class="grid-column-4 w-100"
+                                v-model:value="
+                                    dImpMestMedicineSelected.impAmount
+                                "
+                                :disabled="loading"
+                                min="0"
+                            />
+                            <label class="grid-column-5">QĐ thầu: </label>
                             <a-input
-                                class="grid-column-4"
+                                class="grid-column-6"
                                 v-model:value="
                                     dImpMestMedicineSelected.tenderDecision
                                 "
                                 :disabled="false"
                             />
-                            <label class="grid-column-5">Gói thầu: </label>
+                            <label class="grid-column-7">Gói thầu: </label>
                             <a-input
-                                class="grid-column-6"
+                                class="grid-column-8"
                                 v-model:value="
                                     dImpMestMedicineSelected.tenderPackage
                                 "
                                 :disabled="false"
                             />
-                            <label class="grid-column-7">Năm thầu: </label>
+                            <label class="grid-column-9">Năm thầu: </label>
                             <a-input-number
-                                class="grid-column-8 w-100"
+                                class="grid-column-10 w-100"
                                 v-model:value="
                                     dImpMestMedicineSelected.tenderYear
                                 "
                                 :disabled="loading"
                                 min="0"
                             />
-                            <label class="grid-column-9">Số Lô: </label>
+                            <label class="grid-column-11">Số đăng ký: </label>
                             <a-input
-                                class="grid-column-10"
-                                v-model:value="dImpMestMedicineSelected.lot"
+                                class="grid-column-12"
+                                v-model:value="
+                                    dImpMestMedicineSelected.registrationNumber
+                                "
                                 :disabled="loading"
                             />
 
-                            <label class="grid-column-11">Hạn dùng: </label>
+                            <label class="grid-column-1">Số Lô: </label>
+                            <a-input
+                                class="grid-column-2"
+                                v-model:value="dImpMestMedicineSelected.lot"
+                                :disabled="loading"
+                            />
+                            <label class="grid-column-3">Hạn dùng: </label>
                             <a-date-picker
-                                class="grid-column-12"
+                                class="grid-column-4"
                                 placeholder="dd/MM/yyyy"
                                 format="DD/MM/YYYY"
                                 v-model:value="dImpMestMedicineSelected.dueDate"
@@ -320,7 +345,6 @@
                     >
                     <a-button
                         @click="handleCancel"
-                        key="submit"
                         type="primary"
                         class="btn-save"
                         @click.prevent="handleStockIn"
@@ -333,6 +357,7 @@
 </template>
 
 <script lang="ts">
+import dayjs from "dayjs";
 import { defineComponent, ref, computed, watch, reactive } from "vue";
 import {
     DImpMestModel,
@@ -351,6 +376,7 @@ import {
     countryService,
     unitService,
     userService,
+    impMestService,
 } from "@/services";
 
 export default defineComponent({
@@ -382,7 +408,7 @@ export default defineComponent({
         const souce = reactive<DImpMestModel>({
             id: null,
             code: null,
-            imMestStatus: 0,
+            impMestStatus: 0,
             imStockId: null, // Kho nhập
             exStockId: null, // Kho xuất
             imExMestTypeId: 0, // Loại phiếu nhập, xuất
@@ -401,60 +427,37 @@ export default defineComponent({
             invNo: null, /// Số hóa đơn
             deliverer: null, /// NGười giao
             dImpMestMedicines: [],
-            createdBy: null,
+            createdUserId: null,
         });
 
         const dImpMestMedicineSelected = ref<DImpMestMedicineModel>({
             code: null,
-            // Mã BH
             heInCode: null,
-            // Đường dùng thuốc
+            name: null,
             medicineLineId: null,
-            // Nhóm thuốc
             medicineGroupId: null,
-            // Nhóm thuốc
             medicineTypeId: null,
-            // Thuốc
             medicineId: null,
-            // Đơn vị tính
             unitId: null,
-            // Hướng dẫn
             tutorial: null,
-            // Nước sản xuất
             countryId: null,
-            // Giá nhập
             impPrice: 0,
-            // Số lượng nhập
             impQuantity: 0,
-            // Phần trăm vat giá nhập
             impVatRate: 0,
-            // Phần trăm thuế
             taxRate: 0,
-            // Phần trăm thuế
             impAmount: 0,
-            // Hoạt chất
             activeSubstance: null,
-            // Nồng độ
             concentration: null,
-            // Hàm lượng
             content: null,
-            // Hãng sản xuất
             manufacturer: null,
-            // Quy cách đóng gói
             packagingSpecifications: null,
-            // Số ĐK
             registrationNumber: null,
-            // Lô
             lot: null,
-            // Hạn dùng
             dueDate: null,
-            // Quyệt định thầu
+            dueDateString: undefined,
             tenderDecision: null,
-            // Gói thầu
             tenderPackage: null,
-            // Nhóm thầu
             tenderGroup: null,
-            // Năm thầu
             tenderYear: 0,
         });
         const sMedicineTypeSelected = ref<MedicineTypeModel>();
@@ -482,11 +485,10 @@ export default defineComponent({
             },
             {
                 title: "ĐVT",
-                key: "unitId",
-                dataIndex: "unitId",
+                key: "unitName",
+                dataIndex: "unitName",
                 width: 120,
                 className: "column-header-center",
-                align: "center",
             },
             {
                 title: "Giá nhập",
@@ -494,7 +496,7 @@ export default defineComponent({
                 dataIndex: "impPrice",
                 width: 150,
                 className: "column-header-center",
-                align: "center",
+                align: "right",
             },
             {
                 title: "Số lượng",
@@ -502,7 +504,7 @@ export default defineComponent({
                 dataIndex: "impQuantity",
                 width: 100,
                 className: "column-header-center",
-                align: "center",
+                align: "right",
             },
             {
                 title: "VAT(%)",
@@ -510,7 +512,7 @@ export default defineComponent({
                 dataIndex: "impVatRate",
                 width: 100,
                 className: "column-header-center",
-                align: "center",
+                align: "right",
             },
             {
                 title: "Thành tiền",
@@ -518,7 +520,7 @@ export default defineComponent({
                 dataIndex: "impAmount",
                 width: 150,
                 className: "column-header-center",
-                align: "center",
+                align: "right",
             },
             {
                 title: "Số lô",
@@ -526,15 +528,13 @@ export default defineComponent({
                 dataIndex: "lot",
                 width: 150,
                 className: "column-header-center",
-                align: "center",
             },
             {
                 title: "Hạn dùng",
-                key: "dueDate",
-                dataIndex: "dueDate",
+                key: "dueDateString",
+                dataIndex: "dueDateString",
                 width: 150,
                 className: "column-header-center",
-                align: "center",
             },
         ]);
 
@@ -549,6 +549,42 @@ export default defineComponent({
                 loading.value = false;
             }
         });
+
+        watch(
+            dImpMestMedicineSelected,
+            (newValue) => {
+                if (newValue.dueDate) {
+                    dImpMestMedicineSelected.value.dueDateString = dayjs(
+                        newValue.dueDate
+                    ).format("DD/MM/YYYY");
+                }
+            },
+            { deep: true }
+        );
+
+        watch(
+            souce,
+            (newValue) => {
+                if (newValue.impTime) {
+                    souce.impTimeString = dayjs(newValue.impTime).format(
+                        "DD/MM/YYYY"
+                    );
+                }
+
+                if (newValue.approverTime) {
+                    souce.approverTimeString = dayjs(
+                        newValue.approverTime
+                    ).format("DD/MM/YYYY");
+                }
+
+                if (newValue.invTime) {
+                    souce.invTimeString = dayjs(newValue.invTime).format(
+                        "DD/MM/YYYY"
+                    );
+                }
+            },
+            { deep: true }
+        );
 
         //#region Function
         async function inItData() {
@@ -592,6 +628,25 @@ export default defineComponent({
                 dImpMestMedicineSelected.value = dataCopy;
             }
         };
+
+        const calculateTotalAmout = () => {
+            if (
+                dImpMestMedicineSelected.value.impQuantity &&
+                dImpMestMedicineSelected.value.impVatRate &&
+                dImpMestMedicineSelected.value.impPrice &&
+                dImpMestMedicineSelected.value.taxRate
+            ) {
+                let vatRate = dImpMestMedicineSelected.value.impVatRate / 100;
+                let taxRate = dImpMestMedicineSelected.value.taxRate / 100;
+                let impAmount =
+                    dImpMestMedicineSelected.value.impQuantity *
+                    dImpMestMedicineSelected.value.impPrice;
+
+                dImpMestMedicineSelected.value.impAmount =
+                    impAmount + impAmount * vatRate + impAmount * taxRate;
+            }
+        };
+
         //#endregion
 
         //#region Event
@@ -646,24 +701,68 @@ export default defineComponent({
                 if (sMedicineType !== undefined && sMedicineType !== null) {
                     sMedicineTypeSelected.value = { ...sMedicineType };
 
-                    if (dImpMestMedicineSelected !== undefined) {
+                    if (dImpMestMedicineSelected.value !== undefined) {
                         dImpMestMedicineSelected.value.code =
                             sMedicineTypeSelected.value.code;
-                        dImpMestMedicineSelected.value.code =
-                            sMedicineTypeSelected.value.code;
-                        dImpMestMedicineSelected.value.code =
-                            sMedicineTypeSelected.value.code;
+                        dImpMestMedicineSelected.value.heInCode =
+                            sMedicineTypeSelected.value.heInCode;
+                        dImpMestMedicineSelected.value.name =
+                            sMedicineTypeSelected.value.name;
+                        dImpMestMedicineSelected.value.medicineLineId =
+                            sMedicineTypeSelected.value.medicineLineId;
+                        dImpMestMedicineSelected.value.medicineGroupId =
+                            sMedicineTypeSelected.value.medicineGroupId;
+                        dImpMestMedicineSelected.value.medicineTypeId =
+                            sMedicineTypeSelected.value.id !== undefined
+                                ? sMedicineTypeSelected.value.id
+                                : null;
+                        dImpMestMedicineSelected.value.unitId =
+                            sMedicineTypeSelected.value.unitId;
+                        dImpMestMedicineSelected.value.unitCode =
+                            sMedicineTypeSelected.value.unitCode;
+                        dImpMestMedicineSelected.value.unitName =
+                            sMedicineTypeSelected.value.unitName;
+                        dImpMestMedicineSelected.value.tutorial =
+                            sMedicineTypeSelected.value.tutorial;
+                        dImpMestMedicineSelected.value.countryId =
+                            sMedicineTypeSelected.value.countryId;
+                        dImpMestMedicineSelected.value.impPrice =
+                            sMedicineTypeSelected.value.impPrice;
+                        dImpMestMedicineSelected.value.activeSubstance =
+                            sMedicineTypeSelected.value.activeSubstance;
+                        dImpMestMedicineSelected.value.concentration =
+                            sMedicineTypeSelected.value.concentration;
+                        dImpMestMedicineSelected.value.impVatRate =
+                            sMedicineTypeSelected.value.impVatRate;
+                        dImpMestMedicineSelected.value.taxRate =
+                            sMedicineTypeSelected.value.taxRate;
+                        dImpMestMedicineSelected.value.activeSubstance =
+                            sMedicineTypeSelected.value.activeSubstance;
+                        dImpMestMedicineSelected.value.concentration =
+                            sMedicineTypeSelected.value.concentration;
+                        dImpMestMedicineSelected.value.content =
+                            sMedicineTypeSelected.value.content;
+                        dImpMestMedicineSelected.value.manufacturer =
+                            sMedicineTypeSelected.value.manufacturer;
+                        dImpMestMedicineSelected.value.packagingSpecifications =
+                            sMedicineTypeSelected.value.packagingSpecifications;
+                        dImpMestMedicineSelected.value.registrationNumber =
+                            sMedicineTypeSelected.value.registrationNumber;
                     }
                 }
             }
         };
 
         const handleSave = () => {
-            console.log("handleSave");
+            result.value = true;
+            impMestService.createOrEdit(souce);
         };
 
         const handleStockIn = () => {
-            console.log("handleStockIn");
+            result.value = true;
+            souce.imExMestTypeId = 1;
+            impMestService.createOrEdit(souce);
+            toggle();
         };
 
         //#endregion
@@ -687,6 +786,7 @@ export default defineComponent({
             supplierSelected,
             dImpMestMedicineSelected,
             sMedicineTypeSelected,
+            calculateTotalAmout,
             handleUpdateImMest,
             handleSupplierChanged,
             handleMedicineTypeChanged,
