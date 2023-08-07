@@ -102,7 +102,7 @@
                                 :options="sUsers"
                                 :field-names="userColumns"
                                 show-search
-                                v-model:value="souce.createdUserId"
+                                v-model:value="souce.impUserId"
                                 :disabled="loading"
                             >
                             </a-select>
@@ -407,58 +407,108 @@ export default defineComponent({
 
         const souce = reactive<DImpMestModel>({
             id: null,
+            /// Mã phiếu
             code: null,
+            /// Trạng thái
             impMestStatus: 0,
-            imStockId: null, // Kho nhập
-            exStockId: null, // Kho xuất
-            imExMestTypeId: 0, // Loại phiếu nhập, xuất
-            receiverUserId: null, /// Người nhận, người nhập
-            approverUserId: null, /// NGười duyệt
-            impTime: null, /// Thời gian nhập, ngày tạo phiếu nhập
-            approverTime: null, /// Ngày duyệt, ngày nhập kho
+            /// Kho nhập
+            imStockId: null,
+            /// Kho xuất
+            exStockId: null,
+            /// Loại phiếu nhập, xuất
+            imExMestTypeId: 0,
+            /// Người nhận
+            receiverUserId: null,
+            /// Thời gian nhập
+            impTime: null,
+            /// Người lập
+            impUserId: null,
+            /// Ngày duyệt
+            approverTime: null,
+            /// NGười duyệt
+            approverUserId: null,
+            /// Nội dung
             description: null,
-            reqRoomId: null, /// Phòng yêu cầu
-            reqDepartmentId: null, /// Khoa yêu cầu
-            treatmentId: null, /// Id điều trị
-            patientId: null, /// Id Bệnh nhân
-            supplierId: null, /// Nhà cung cấp
-            supplierAddress: null, /// Địa chỉ cấp
-            invTime: null, /// Ngày hóa đơn
-            invNo: null, /// Số hóa đơn
-            deliverer: null, /// NGười giao
+            /// Phòng yêu cầu
+            reqRoomId: null,
+            /// Khoa yêu cầu
+            reqDepartmentId: null,
+            /// Id điều trị
+            treatmentId: null,
+            /// Id Bệnh nhân
+            patientId: null,
+            /// Nhà cung cấp
+            supplierId: null,
+            /// Nhà cung cấp
+            supplierAddress: null,
+            /// Ngày hóa đơn
+            invTime: null,
+            /// Số hóa đơn
+            invNo: null,
+            /// Người giao
+            deliverer: null,
+            /// Ngày nhập kho
+            stockReceiptTime: null,
+            /// Người nhập kho
+            stockReceiptUserId: null,
             dImpMestMedicines: [],
-            createdUserId: null,
         });
 
         const dImpMestMedicineSelected = ref<DImpMestMedicineModel>({
+            id: null,
             code: null,
+            // Mã BH
             heInCode: null,
+            // Tên
             name: null,
+            // Đường dùng thuốc
             medicineLineId: null,
+            // Nhóm thuốc
             medicineGroupId: null,
+            // Nhóm thuốc
             medicineTypeId: null,
+            // Thuốc
             medicineId: null,
+            // Đơn vị tính
             unitId: null,
+            // Hướng dẫn
             tutorial: null,
+            // Nước sản xuất
             countryId: null,
-            impPrice: 0,
-            impQuantity: 0,
-            impVatRate: 0,
-            taxRate: 0,
-            impAmount: 0,
+            // Giá nhập
+            impPrice: null,
+            // Số lượng nhập
+            impQuantity: null,
+            // Phần trăm vat giá nhập
+            impVatRate: null,
+            // Phần trăm thuế
+            taxRate: null,
+            // Thanh tien
+            impAmount: null,
+            // Hoạt chất
             activeSubstance: null,
+            // Nồng độ
             concentration: null,
+            // Hàm lượng
             content: null,
+            // Hãng sản xuất
             manufacturer: null,
+            // Quy cách đóng gói
             packagingSpecifications: null,
+            // Số ĐK
             registrationNumber: null,
+            // Lô
             lot: null,
+            // Hạn dùng
             dueDate: null,
-            dueDateString: undefined,
+            // Quyệt định thầu
             tenderDecision: null,
+            // Gói thầu
             tenderPackage: null,
+            // Nhóm thầu
             tenderGroup: null,
-            tenderYear: 0,
+            // Năm thầu
+            tenderYear: null,
         });
         const sMedicineTypeSelected = ref<MedicineTypeModel>();
         const supplierSelected = ref<SupplierModel>({
@@ -550,41 +600,41 @@ export default defineComponent({
             }
         });
 
-        watch(
-            dImpMestMedicineSelected,
-            (newValue) => {
-                if (newValue.dueDate) {
-                    dImpMestMedicineSelected.value.dueDateString = dayjs(
-                        newValue.dueDate
-                    ).format("DD/MM/YYYY");
-                }
-            },
-            { deep: true }
-        );
+        // watch(
+        //     dImpMestMedicineSelected,
+        //     (newValue) => {
+        //         if (newValue.dueDate) {
+        //             dImpMestMedicineSelected.value.dueDateString = dayjs(
+        //                 newValue.dueDate
+        //             ).format("DD/MM/YYYY");
+        //         }
+        //     },
+        //     { deep: true }
+        // );
 
-        watch(
-            souce,
-            (newVal, oldVal) => {
-                if (newVal.impTime && newVal.impTime !== oldVal.invTime) {
-                    souce.impTimeString = dayjs(newVal.impTime).format(
-                        "DD/MM/YYYY"
-                    );
-                }
+        // watch(
+        //     souce,
+        //     (newVal, oldVal) => {
+        //         if (newVal.impTime && newVal.impTime !== oldVal.invTime) {
+        //             souce.impTimeString = dayjs(newVal.impTime).format(
+        //                 "DD/MM/YYYY"
+        //             );
+        //         }
 
-                if (newVal.approverTime) {
-                    souce.approverTimeString = dayjs(
-                        newVal.approverTime
-                    ).format("DD/MM/YYYY");
-                }
+        //         if (newVal.approverTime) {
+        //             souce.approverTimeString = dayjs(
+        //                 newVal.approverTime
+        //             ).format("DD/MM/YYYY");
+        //         }
 
-                if (newVal.invTime) {
-                    souce.invTimeString = dayjs(newVal.invTime).format(
-                        "DD/MM/YYYY"
-                    );
-                }
-            },
-            { deep: true }
-        );
+        //         if (newVal.invTime) {
+        //             souce.invTimeString = dayjs(newVal.invTime).format(
+        //                 "DD/MM/YYYY"
+        //             );
+        //         }
+        //     },
+        //     { deep: true }
+        // );
 
         //#region Function
         async function inItData() {

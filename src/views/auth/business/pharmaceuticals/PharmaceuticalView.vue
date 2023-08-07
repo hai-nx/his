@@ -143,6 +143,21 @@
                         </a-tag>
                     </span>
                 </template>
+                <template v-if="column.key === 'impTime'">
+                    <span>{{
+                        record.impTime === null
+                            ? record.impTime
+                            : new Date(record.impTime).toLocaleString()
+                    }}</span>
+                </template>
+                <template v-if="column.key === 'stockReceiptTime'">
+                    <span>{{
+                        record.stockReceiptTime === null
+                            ? record.stockReceiptTime
+                            : new Date(record.stockReceiptTime).toLocaleString()
+                    }}</span>
+                </template>
+
                 <template v-else-if="column.key === 'action'">
                     <span>
                         <button
@@ -188,27 +203,41 @@ export default defineComponent({
     setup() {
         const columns = ref([
             {
-                title: "Mã thuốc",
+                title: "Trạng thái phiếu",
+                key: "impMestStatus",
+                dataIndex: "impMestStatus",
+                width: 100,
+                className: "column-header-center",
+            },
+            {
+                title: "Mã phiếu",
                 key: "code",
                 dataIndex: "code",
                 width: 200,
                 className: "column-header-center",
             },
             {
-                title: "Tên thuốc",
-                key: "name",
-                dataIndex: "name",
-                width: 500,
+                title: "Loại phiếu",
+                key: "imExMestTypeName",
+                dataIndex: "imExMestTypeName",
+                width: 250,
                 className: "column-header-center",
             },
             {
-                title: "Trạng thái phiếu",
-                key: "impMestStatus",
-                dataIndex: "impMestStatus",
-                width: 200,
+                title: "Ngày tạo",
+                key: "impTime",
+                dataIndex: "impTime",
+                width: 70,
                 className: "column-header-center",
-                align: "center",
             },
+            {
+                title: "Ngày nhập kho",
+                key: "stockReceiptTime",
+                dataIndex: "stockReceiptTime",
+                width: 70,
+                className: "column-header-center",
+            },
+
             { title: "Xử lý", key: "action", width: 100, align: "center" },
         ]);
 
@@ -238,8 +267,6 @@ export default defineComponent({
             let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
             let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
 
-            console.log(fromDateString, toDateString);
-
             itemSources.value = (
                 await impMestService.getByStock(
                     sStockId.value,
@@ -247,6 +274,8 @@ export default defineComponent({
                     toDateString
                 )
             ).data.result;
+
+            console.log(itemSources.value);
         };
 
         // ẩn / hiện chi tiết
@@ -352,7 +381,7 @@ export default defineComponent({
 
 .search {
     display: grid;
-    grid-template-columns: auto 160px auto 160px 100px;
+    grid-template-columns: auto 170px auto 170px 100px;
     grid-column-gap: 5px;
     grid-row-gap: 5px;
     margin-bottom: 10px;
