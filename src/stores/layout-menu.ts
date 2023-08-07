@@ -31,12 +31,15 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                     { key: 'district', title: 'Quận, huyện', router: 'district' },
                     { key: 'ward', title: 'Xã, phường', router: 'ward' },
                     { key: 'service', title: 'Dịch vụ', router: 'service' },
-                    { key: 'medicineGroup', title: 'Nhóm thuốc', router: 'medicineGroup' },
-                    { key: 'medicineType', title: 'Thuốc', router: 'medicineType' },
+
+                    { key: 'medicine-group', title: 'Nhóm thuốc', router: 'medicine-group' },
+                    { key: 'medicine-type', title: 'Thuốc', router: 'medicine-type' },
 
                     { key: 'other', title: 'Khác', router: 'dictionary' },
                 ]
             },
+
+            { key: 'pharmaceutical', title: 'Dược', icon: 'bi-capsule', router: 'pharmaceutical', },
 
             {
                 key: 'system', title: 'Hệ thống', icon: 'bi-gear', router: 'system',

@@ -1,7 +1,8 @@
-import DictionaryBase from "./base";
+import { MedicineModel } from '@/models'
 import { Dayjs } from 'dayjs'
 
-export default interface MedicineModel extends DictionaryBase {
+export default interface DImpMestMedicineModel {
+    code?: string,
     // Mã BH
     heInCode?: string,
     // Đường dùng thuốc
