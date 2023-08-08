@@ -38,6 +38,7 @@ import MedicineModel from './dictionary/medicine';
 
 import DImpMestModel from './business/pharmaceuticals/impMests/impMest';
 import DImpMestMedicineModel from './business/pharmaceuticals/impMests/imMestMedicine';
+import DImpExpMestTypeModel from './business/pharmaceuticals/impMests/imEmpMestType';
 
 import UserModel from './system/user'
 
@@ -81,6 +82,7 @@ export {
     MedicineTypeModel,
     MedicineModel,
 
+    DImpExpMestTypeModel,
     DImpMestModel,
     DImpMestMedicineModel,
 

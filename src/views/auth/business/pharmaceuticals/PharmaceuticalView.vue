@@ -5,7 +5,13 @@
                 <a-dropdown>
                     <template #overlay>
                         <a-menu @click="handlGegenerateDocumentClick">
-                            <a-menu-item key="1">
+                            <a-menu-item
+                                v-for="menuItem in dImpExpMestTypes"
+                                :key="menuItem.id"
+                            >
+                                {{ menuItem.name }}
+                            </a-menu-item>
+                            <!-- <a-menu-item key="1">
                                 Nhập hàng hóa từ nhà cung cấp
                             </a-menu-item>
                             <a-menu-item key="2">
@@ -52,7 +58,7 @@
                             <a-menu-item key="8">
                                 Nhập trả từ khách hàng</a-menu-item
                             >
-                            <a-menu-item key="9"> Xuất khác </a-menu-item>
+                            <a-menu-item key="9"> Xuất khác </a-menu-item> -->
                         </a-menu>
                     </template>
                     <a-button type="primary" class="btn-list">
@@ -193,8 +199,8 @@
 import { defineComponent, ref } from "vue";
 import { Modal } from "ant-design-vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
-import { RoomModel, DImpMestModel } from "@/models";
-import { roomService, impMestService } from "@/services";
+import { RoomModel, DImpMestModel, DImpExpMestTypeModel } from "@/models";
+import { roomService, impMestService, impExpMestTypeService } from "@/services";
 import dayjs, { Dayjs } from "dayjs";
 import PharmaceuticalProcureFromSupplierView from "./PharmaceuticalProcureFromSupplierView.vue";
 
@@ -245,6 +251,7 @@ export default defineComponent({
         const fields = ref({ value: "id", label: "name" });
         const sStocks = ref<RoomModel[]>([]);
         const itemSources = ref<DImpMestModel[]>([]);
+        const dImpExpMestTypes = ref<DImpExpMestTypeModel[]>([]);
         const sStockId = ref<string>("");
         const fromDate = ref<Dayjs>(
             dayjs().set("hour", 0).set("minute", 0).set("second", 0)
@@ -256,10 +263,15 @@ export default defineComponent({
         //#region Function
         async function inItData() {
             sStocks.value = await getStocks();
+            dImpExpMestTypes.value = await getImpExpMestTypes();
         }
 
         async function getStocks(): Promise<RoomModel[]> {
             return (await roomService.getByStocks()).data.result;
+        }
+
+        async function getImpExpMestTypes(): Promise<DImpExpMestTypeModel[]> {
+            return (await impExpMestTypeService.getAll()).data.result;
         }
 
         // lấy dữ liệu
@@ -301,6 +313,7 @@ export default defineComponent({
             visible,
             fields,
             sStocks,
+            dImpExpMestTypes,
             itemSources,
             sStockId,
             handleLoad,

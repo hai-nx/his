@@ -1,6 +1,5 @@
-import { ApiResult, DImpMestModel, DImpMestMedicineModel } from '@/models'
+import { ApiResult, DImpMestModel } from '@/models'
 import request from '@/utils/request'
-import dayjs, { Dayjs } from "dayjs";
 
 const impMestService = {
     getAll() {
