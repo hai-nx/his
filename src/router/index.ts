@@ -26,10 +26,9 @@ import roomTypeView from '@/views/auth/dictionary/room-type/RoomTypeView.vue'
 import wardView from '@/views/auth/dictionary/ward/WardView.vue'
 import dictionaryView from '@/views/auth/dictionary/DictionaryView.vue'
 import serviceView from '@/views/auth/dictionary/service/ServiceView.vue'
-
+import chapterView from '@/views/auth/dictionary/chapter/ChapterView.vue'
 import medicineGroupView from '@/views/auth/dictionary/medicineGroup/MedicineGroupView.vue'
 import medicineTypeView from '@/views/auth/dictionary/medicineType/MedicineTypeView.vue'
-
 import admissionView from '@/views/auth/admission/AdmissionView.vue'
 
 import treatmentView from '@/views/auth/business/out/TreatmentView.vue'
@@ -63,6 +62,7 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/room-type', name: 'room-type', component: roomTypeView, meta: { layout: LAYOUT_AUTH } },
     { path: '/ward', name: 'ward', component: wardView, meta: { layout: LAYOUT_AUTH } },
     { path: '/service', name: 'service', component: serviceView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/chapter', name: 'chapter', component: chapterView, meta: { layout: LAYOUT_AUTH } },
 
     { path: '/medicineGroup', name: 'medicineGroup', component: medicineGroupView, meta: { layout: LAYOUT_AUTH } },
     { path: '/medicineType', name: 'medicineType', component: medicineTypeView, meta: { layout: LAYOUT_AUTH } },

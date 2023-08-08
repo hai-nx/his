@@ -20,6 +20,7 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                     { key: 'department', title: 'Khoa', router: 'department' },
                     { key: 'room-type', title: 'Loại phòng', router: 'room-type' },
                     { key: 'room', title: 'Phòng', router: 'room' },
+                    { key: 'chapter', title: 'Chương ICD-10', router: 'chapter' },
                     { key: 'icd', title: 'ICD', router: 'icd' },
                     { key: 'career', title: 'Nghề nghiệp', router: 'career' },
                     { key: 'hospital', title: 'Bệnh viện', router: 'hospital' },
