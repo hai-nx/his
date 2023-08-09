@@ -3,11 +3,17 @@
         <div class="d-flex justify-content-between align-items-center">
             <h3>Danh mục chương</h3>
 
-            <div>
-                <a-button type="primary" @click="handleAdd">
-                    <i class="bi bi-plus-lg me-2"></i>
-                    <span>Thêm chương</span>
-                </a-button>
+            <div >
+                
+                    <a-button style="margin: 5px 5px 5px 5px;" type="primary" @click="handleAdd">
+                        Thêm chương
+                    </a-button>
+
+                    <a-button style="margin: 5px 5px 5px 5px;" type="primary" @click="handleOrder">
+                        Sắp xếp
+                    </a-button>
+                
+                
             </div>
         </div>
 
@@ -138,6 +144,11 @@ export default defineComponent({
             show(true, item);
         };
 
+        //sắp xếp
+        const handleOrder = (item: ChapterModel) => {
+            order(item);
+        };
+
         // xóa
         const handleDelete = (item: ChapterModel) => {
             if (item.id !== undefined) {
@@ -183,12 +194,17 @@ export default defineComponent({
             visible.value = v;
         };
 
+        const order = (r: ChapterModel | undefined) => {            
+            record.value = r;            
+        };
+
         return {
             items,
             record,
             columns,
             visible,
             handleAdd,
+            handleOrder,
             handleDelete,
             handleEdit,
             handleLoad,
