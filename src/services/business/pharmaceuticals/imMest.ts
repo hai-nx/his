@@ -1,9 +1,12 @@
-import { ApiResult, DImpMestModel, DImpMestMedicineModel } from '@/models'
+import { ApiResult, DImpMestModel } from '@/models'
 import request from '@/utils/request'
 
 const impMestService = {
     getAll() {
         return request.get<ApiResult<DImpMestModel[]>>('api/DImpMest/GetAll');
+    },
+    getByStock(stockId: string, fromDate: string, toDate: string) {
+        return request.get<ApiResult<DImpMestModel[]>>("api/DImpMest/GetByStock?stockId=" + stockId + "&fromDate=" + fromDate + "&toDate=" + toDate);
     },
     getById(id: string) {
         return request.get<ApiResult<DImpMestModel>>('api/DImpMest/GetById?id=' + id);

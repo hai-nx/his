@@ -1,56 +1,87 @@
-import { MedicineModel } from '@/models'
 import { Dayjs } from 'dayjs'
 
 export default interface DImpMestMedicineModel {
-    code?: string,
+    id: string | null,
+
+    code: string | null,
+
     // Mã BH
-    heInCode?: string,
+    heInCode: string | null,
+
+    // Tên
+    name: string | null
+
     // Đường dùng thuốc
-    medicineLineId?: string,
+    medicineLineId: string | null,
+
     // Nhóm thuốc
-    medicineGroupId?: string,
+    medicineGroupId: string | null,
+
     // Nhóm thuốc
-    medicineTypeId?: string,
+    medicineTypeId: string | null,
+
     // Thuốc
-    medicineId?: string,
+    medicineId: string | null,
+
     // Đơn vị tính
-    unitId?: string,
+    unitId: string | null,
+    unitCode?: string,
+    unitName?: string,
+
     // Hướng dẫn
-    tutorial?: string,
+    tutorial: string | null,
+
     // Nước sản xuất
-    countryId?: string,
+    countryId: string | null,
+
     // Giá nhập
-    impPrice?: number,
+    impPrice: number | null,
+
     // Số lượng nhập
-    impQuantity?: number,
+    impQuantity: number | null,
+
     // Phần trăm vat giá nhập
-    impVatRate?: number,
+    impVatRate: number | null,
+
     // Phần trăm thuế
-    taxRate?: number,
-    // Phần trăm thuế
-    impAmount?: number,
+    taxRate: number | null,
+
+    // Thanh tien
+    impAmount: number | null,
+
     // Hoạt chất
-    activeSubstance?: string,
+    activeSubstance: string | null,
+
     // Nồng độ
-    concentration?: string,
+    concentration: string | null,
+
     // Hàm lượng
-    content?: string,
+    content: string | null,
+
     // Hãng sản xuất
-    manufacturer?: string,
+    manufacturer: string | null,
+
     // Quy cách đóng gói
-    packagingSpecifications?: string,
+    packagingSpecifications: string | null,
+
     // Số ĐK
-    registrationNumber?: string,
+    registrationNumber: string | null,
+
     // Lô
-    lot?: string,
+    lot: string | null,
+
     // Hạn dùng
-    dueDate?: Dayjs,
+    dueDate: Dayjs | string | null,
+
     // Quyệt định thầu
-    tenderDecision?: string,
+    tenderDecision: string | null,
+
     // Gói thầu
-    tenderPackage?: string,
+    tenderPackage: string | null,
+
     // Nhóm thầu
-    tenderGroup?: string,
+    tenderGroup: string | null,
+
     // Năm thầu
-    tenderYear?: number,
+    tenderYear: number | null,
 }

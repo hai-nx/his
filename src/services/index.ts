@@ -30,7 +30,8 @@ import medicineLineService from './dictionary/medicineLine'
 
 import patientService from './business/patient'
 
-import impMestService from './business/imMest'
+import impMestService from './business/pharmaceuticals/imMest'
+import impExpMestTypeService from './business/pharmaceuticals/impExpMestType'
 
 import userService from './system/user'
 
@@ -67,6 +68,7 @@ export {
 
     patientService,
     impMestService,
+    impExpMestTypeService,
 
     userService,
 }

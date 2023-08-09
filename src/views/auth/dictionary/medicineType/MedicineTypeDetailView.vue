@@ -632,6 +632,8 @@ export default defineComponent({
         const handleSave = async function () {
             loading.value = true;
             let resultSave = await medicineTypeService.createOrEdit(item.value);
+            console.log(resultSave);
+
             if (resultSave.data.isSuccessed) {
                 result.value = true;
                 toggle();
