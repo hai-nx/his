@@ -1,3 +1,7 @@
+:root {
+    --x-layout-header-height: 40px;
+}
+
 html,
 body,
 #app {
