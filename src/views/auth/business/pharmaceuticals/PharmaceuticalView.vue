@@ -11,54 +11,6 @@
                             >
                                 {{ menuItem.name }}
                             </a-menu-item>
-                            <!-- <a-menu-item key="1">
-                                Nhập hàng hóa từ nhà cung cấp
-                            </a-menu-item>
-                            <a-menu-item key="2">
-                                Xuất hàng hóa trả nhà cung cấp
-                            </a-menu-item>
-                            <a-menu-item key="3">
-                                Nhập từ kho khác
-                            </a-menu-item>
-                            <a-menu-item key="4">
-                                Xuất trả kho khác
-                            </a-menu-item>
-                            <a-menu-item key="5"> Nhập bù </a-menu-item>
-                            <a-menu-item key="6"> Xuất thanh lý </a-menu-item>
-                            <a-menu-item key="7">
-                                Xuất kiểm nghiệm
-                            </a-menu-item>
-                            <a-menu-item key="8">
-                                Xuất hủy (Mất, hỏng, võ)</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Xuất hao phí phòng khám</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Xuất sử dụng phòng</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Xuất sử dụng khoa</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Nhập bù cơ số tủ trực</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Xuất bù cơ số tủ trực</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Bổ sung cơ số tủ trực</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Hoàn trả cơ số tủ trực</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Xuất bản cho khách hàng</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Nhập trả từ khách hàng</a-menu-item
-                            >
-                            <a-menu-item key="9"> Xuất khác </a-menu-item> -->
                         </a-menu>
                     </template>
                     <a-button type="primary" class="btn-list">

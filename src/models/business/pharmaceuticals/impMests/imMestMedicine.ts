@@ -1,4 +1,5 @@
 import { Dayjs } from 'dayjs'
+import { MedicinePricePolicy } from "@/models"
 
 export default interface DImpMestMedicineModel {
     id: string | null,
@@ -84,4 +85,6 @@ export default interface DImpMestMedicineModel {
 
     // Năm thầu
     tenderYear: number | null,
+
+    sMedicinePricePolicies: MedicinePricePolicy[] | null
 }

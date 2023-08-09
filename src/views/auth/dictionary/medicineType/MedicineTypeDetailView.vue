@@ -511,6 +511,7 @@ export default defineComponent({
             inactive: false,
             registrationNumber: null, // Số đăng ký
             proprietaryDrug: null, // Biệt dược
+            serviceGroupHeInId: null,
             medicineLineId: null, //Đường dùng thuốc
             medicineGroupId: null, // Nhóm thuốc
             unitId: null, // Đơn vị tính
@@ -679,6 +680,7 @@ export default defineComponent({
                 inactive: false,
                 registrationNumber: null, // Số đăng ký
                 proprietaryDrug: null, // Biệt dược
+                serviceGroupHeInId: null,
                 medicineLineId: null, //Đường dùng thuốc
                 medicineGroupId: null, // Nhóm thuốc
                 unitId: null, // Đơn vị tính

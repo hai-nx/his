@@ -1,317 +1,388 @@
 <template>
     <form>
-        <div class="container">
-            <a-modal
-                :visible="show"
-                :title="title"
-                @cancel="handleCancel"
-                width="1280px"
-                :mask-closable="false"
-            >
+        <a-modal
+            :visible="show"
+            :title="title"
+            @cancel="handleCancel"
+            width="1280px"
+            :mask-closable="false"
+        >
+            <div class="container">
                 <a-tabs
                     class="medicine-card-body"
                     v-model:activeKey="activeKey"
                     type="card"
                 >
                     <a-tab-pane key="1" tab="Thông tin chung">
-                        <div class="container grid-genaral">
-                            <label class="grid-column-1">
-                                <span>Kho nhập:</span>
-                                <span class="text-danger me-1">*</span>
-                            </label>
-                            <a-select
-                                class="grid-column-columnspan-2-5"
-                                :field-names="fields"
-                                :options="sStocks"
-                                showSearch
-                                v-model:value="souce.imStockId"
-                                :disabled="loading"
+                        <div class="container">
+                            <div class="grid-genaral">
+                                <label class="grid-column-1">
+                                    <span>Kho nhập:</span>
+                                    <span class="text-danger me-1">*</span>
+                                </label>
+                                <a-select
+                                    class="grid-column-columnspan-2-5"
+                                    :field-names="fields"
+                                    :options="sStocks"
+                                    showSearch
+                                    v-model:value="souce.imStockId"
+                                    :disabled="loading"
+                                >
+                                </a-select>
+                                <label class="grid-column-5">
+                                    <span>Ngày lập:</span>
+                                    <span class="text-danger me-1">*</span>
+                                </label>
+                                <a-date-picker
+                                    class="grid-column-6"
+                                    placeholder="dd/MM/yyyy"
+                                    format="DD/MM/YYYY"
+                                    v-model:value="souce.impTime"
+                                    :disabled="loading"
+                                />
+                                <label class="grid-column-7">
+                                    <span>Ngày HĐ:</span>
+                                    <span class="text-danger me-1">*</span>
+                                </label>
+                                <a-date-picker
+                                    class="grid-column-8"
+                                    placeholder="dd/MM/yyyy"
+                                    format="DD/MM/YYYY"
+                                    v-model:value="souce.invTime"
+                                    :disabled="loading"
+                                />
+                                <label class="grid-column-9"> Số HĐ: </label>
+                                <a-input
+                                    class="grid-column-10"
+                                    v-model:value="souce.invNo"
+                                    :disabled="loading"
+                                />
+                                <label class="grid-column-11">
+                                    Mã phiếu:
+                                </label>
+                                <a-input
+                                    class="grid-column-12"
+                                    v-model:value="souce.code"
+                                    :disabled="loading"
+                                />
+
+                                <label class="grid-column-1">
+                                    <span>Tên NCC:</span>
+                                    <span class="text-danger me-1">*</span>
+                                </label>
+                                <a-select
+                                    class="grid-column-columnspan-2-5"
+                                    showSearch
+                                    :options="sSuppliers"
+                                    :field-names="fields"
+                                    @change="handleSupplierChanged"
+                                    v-model:value="souce.supplierId"
+                                    :disabled="loading"
+                                >
+                                </a-select>
+                                <label class="grid-column-5"> Địa chỉ: </label>
+                                <a-input
+                                    class="grid-column-columnspan-6-9"
+                                    v-model:value="supplierSelected.address"
+                                    :disabled="loading"
+                                />
+                                <label class="grid-column-9">
+                                    Mã số thuế:
+                                </label>
+                                <a-input
+                                    class="grid-column-10"
+                                    v-model:value="supplierSelected.taxtCode"
+                                    :disabled="loading"
+                                />
+                                <label class="grid-column-11">
+                                    Nội dung:
+                                </label>
+                                <a-input
+                                    class="grid-column-12"
+                                    v-model:value="souce.description"
+                                    :disabled="loading"
+                                />
+
+                                <label class="grid-column-1">
+                                    Người lập:
+                                </label>
+                                <a-select
+                                    class="grid-column-columnspan-2-5"
+                                    :options="sUsers"
+                                    :field-names="userColumns"
+                                    show-search
+                                    v-model:value="souce.impUserId"
+                                    :disabled="loading"
+                                >
+                                </a-select>
+
+                                <label class="grid-column-5">
+                                    Người giao:
+                                </label>
+                                <a-input
+                                    class="grid-column-columnspan-6-9"
+                                    v-model:value="souce.deliverer"
+                                    :disabled="loading"
+                                />
+                                <label class="grid-column-9">
+                                    Người nhận:
+                                </label>
+                                <a-select
+                                    class="grid-column-columnspan-10-13"
+                                    :options="sUsers"
+                                    :field-names="userColumns"
+                                    show-search
+                                    v-model:value="souce.receiverUserId"
+                                    :disabled="loading"
+                                >
+                                </a-select>
+
+                                <a-divider
+                                    class="grid-column-columnspan-1-13"
+                                    style="
+                                        height: 1px;
+                                        background-color: #f8f8f8;
+                                    "
+                                />
+
+                                <label class="grid-column-1">
+                                    <span>Tên hàng:</span>
+                                    <span class="text-danger me-1">*</span>
+                                </label>
+                                <a-select
+                                    class="grid-column-columnspan-2-7"
+                                    showSearch
+                                    :field-names="fields"
+                                    :options="sMedicineTypes"
+                                    @change="handleMedicineTypeChanged"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.medicineTypeId
+                                    "
+                                    :disabled="loading"
+                                />
+                                <label class="grid-column-7"> Mã hàng: </label>
+                                <a-input
+                                    class="grid-column-8"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.code
+                                    "
+                                    :disabled="loading"
+                                />
+                                <label class="grid-column-9"> Nồng độ: </label>
+                                <a-input
+                                    class="grid-column-10"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.concentration
+                                    "
+                                    disabled
+                                />
+                                <label class="grid-column-11">
+                                    Hàm lượng:
+                                </label>
+                                <a-input
+                                    class="grid-column-12"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.content
+                                    "
+                                    disabled
+                                />
+
+                                <label class="grid-column-1"> Nước SX: </label>
+                                <a-select
+                                    class="grid-column-2"
+                                    :field-names="fields"
+                                    :options="sCountries"
+                                    showSearch
+                                    v-model:value="
+                                        dImpMestMedicineSelected.countryId
+                                    "
+                                    disabled
+                                />
+
+                                <label class="grid-column-3"> Hãng SX: </label>
+                                <a-input
+                                    class="grid-column-4"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.manufacturer
+                                    "
+                                    disabled
+                                />
+                                <label class="grid-column-5">
+                                    Đơn vị tính:
+                                </label>
+                                <a-select
+                                    class="grid-column-6"
+                                    :field-names="fields"
+                                    :options="sUnits"
+                                    :value="dImpMestMedicineSelected.unitId"
+                                    disabled
+                                />
+                                <label class="grid-column-7">Giá nhập: </label>
+                                <a-input-number
+                                    @input="calculateTotalAmout"
+                                    class="grid-column-8 w-100"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.impPrice
+                                    "
+                                    :disabled="loading"
+                                    min="0"
+                                />
+                                <label class="grid-column-9"
+                                    >VAT nhập (%):
+                                </label>
+                                <a-input-number
+                                    @input="calculateTotalAmout"
+                                    class="grid-column-10 w-100"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.impVatRate
+                                    "
+                                    :disabled="loading"
+                                    min="0"
+                                    max="100"
+                                />
+
+                                <label class="grid-column-11"
+                                    >Thuế nhập (%):
+                                </label>
+                                <a-input-number
+                                    @input="calculateTotalAmout"
+                                    class="grid-column-12 w-100"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.taxRate
+                                    "
+                                    :disabled="loading"
+                                    min="0"
+                                    max="100"
+                                />
+
+                                <label class="grid-column-1">Số lượng: </label>
+                                <a-input-number
+                                    @input="calculateTotalAmout"
+                                    class="grid-column-2 w-100"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.impQuantity
+                                    "
+                                    :disabled="loading"
+                                    min="0"
+                                />
+                                <label class="grid-column-3"
+                                    >Thành tiền:
+                                </label>
+                                <a-input-number
+                                    class="grid-column-4 w-100"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.impAmount
+                                    "
+                                    :disabled="loading"
+                                    min="0"
+                                />
+                                <label class="grid-column-5">QĐ thầu: </label>
+                                <a-input
+                                    class="grid-column-6"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.tenderDecision
+                                    "
+                                    :disabled="false"
+                                />
+                                <label class="grid-column-7">Gói thầu: </label>
+                                <a-input
+                                    class="grid-column-8"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.tenderPackage
+                                    "
+                                    :disabled="false"
+                                />
+                                <label class="grid-column-9">Năm thầu: </label>
+                                <a-input-number
+                                    class="grid-column-10 w-100"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.tenderYear
+                                    "
+                                    :disabled="loading"
+                                    min="0"
+                                />
+                                <label class="grid-column-11"
+                                    >Số đăng ký:
+                                </label>
+                                <a-input
+                                    class="grid-column-12"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.registrationNumber
+                                    "
+                                    :disabled="loading"
+                                />
+
+                                <label class="grid-column-1">Số Lô: </label>
+                                <a-input
+                                    class="grid-column-2"
+                                    v-model:value="dImpMestMedicineSelected.lot"
+                                    :disabled="loading"
+                                />
+                                <label class="grid-column-3">Hạn dùng: </label>
+                                <a-date-picker
+                                    class="grid-column-4"
+                                    placeholder="dd/MM/yyyy"
+                                    format="DD/MM/YYYY"
+                                    v-model:value="
+                                        dImpMestMedicineSelected.dueDate
+                                    "
+                                    :disabled="loading"
+                                />
+
+                                <a-button
+                                    type="primary"
+                                    class="grid-column-columnspan-11-13"
+                                    @click="handleUpdateImMest()"
+                                >
+                                    Cập nhật (Ctl + A)
+                                </a-button>
+
+                                <a-table
+                                    class="ant-table-striped grid-column-columnspan-1-13 mt-3 table-overflow-x"
+                                    size="middle"
+                                    :customRow="handleRowClickImpMestMedicine"
+                                    :columns="impMestMedicineColumns"
+                                    :data-source="souce.dImpMestMedicines"
+                                    bordered
+                                    :pagination="false"
+                                    :scroll="{ y: 200 }"
+                                >
+                                    <template #bodyCell="{ column, record }">
+                                        <template
+                                            v-if="column.key === 'isCheck'"
+                                        >
+                                            <a-checkbox
+                                                class="my-0 mx-0 w-100 centered-checkbox"
+                                                v-model:checked="record.isCheck"
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="column.key === 'isMain'"
+                                        >
+                                            <a-checkbox
+                                                class="my-0 mx-0 w-100 centered-checkbox"
+                                                v-model:checked="record.isMain"
+                                            />
+                                        </template>
+                                    </template>
+                                </a-table>
+                            </div>
+                        </div>
+                    </a-tab-pane>
+                    <a-tab-pane key="2" tab="Chính sách giá thuốc">
+                        <div class="container grid-pricePolicy">
+                            <span style="font-weight: bold"
+                                >Danh sách thuốc nhập</span
                             >
-                            </a-select>
-                            <label class="grid-column-5">
-                                <span>Ngày lập:</span>
-                                <span class="text-danger me-1">*</span>
-                            </label>
-                            <a-date-picker
-                                class="grid-column-6"
-                                placeholder="dd/MM/yyyy"
-                                format="DD/MM/YYYY"
-                                v-model:value="souce.impTime"
-                                :disabled="loading"
-                            />
-                            <label class="grid-column-7">
-                                <span>Ngày HĐ:</span>
-                                <span class="text-danger me-1">*</span>
-                            </label>
-                            <a-date-picker
-                                class="grid-column-8"
-                                placeholder="dd/MM/yyyy"
-                                format="DD/MM/YYYY"
-                                v-model:value="souce.invTime"
-                                :disabled="loading"
-                            />
-                            <label class="grid-column-9"> Số HĐ: </label>
-                            <a-input
-                                class="grid-column-10"
-                                v-model:value="souce.invNo"
-                                :disabled="loading"
-                            />
-                            <label class="grid-column-11"> Mã phiếu: </label>
-                            <a-input
-                                class="grid-column-12"
-                                v-model:value="souce.code"
-                                :disabled="loading"
-                            />
-
-                            <label class="grid-column-1">
-                                <span>Tên NCC:</span>
-                                <span class="text-danger me-1">*</span>
-                            </label>
-                            <a-select
-                                class="grid-column-columnspan-2-5"
-                                showSearch
-                                :options="sSuppliers"
-                                :field-names="fields"
-                                @change="handleSupplierChanged"
-                                v-model:value="souce.supplierId"
-                                :disabled="loading"
-                            >
-                            </a-select>
-                            <label class="grid-column-5"> Địa chỉ: </label>
-                            <a-input
-                                class="grid-column-columnspan-6-9"
-                                v-model:value="supplierSelected.address"
-                                :disabled="loading"
-                            />
-                            <label class="grid-column-9"> Mã số thuế: </label>
-                            <a-input
-                                class="grid-column-10"
-                                v-model:value="supplierSelected.taxtCode"
-                                :disabled="loading"
-                            />
-                            <label class="grid-column-11"> Nội dung: </label>
-                            <a-input
-                                class="grid-column-12"
-                                v-model:value="souce.description"
-                                :disabled="loading"
-                            />
-
-                            <label class="grid-column-1"> Người lập: </label>
-                            <a-select
-                                class="grid-column-columnspan-2-5"
-                                :options="sUsers"
-                                :field-names="userColumns"
-                                show-search
-                                v-model:value="souce.impUserId"
-                                :disabled="loading"
-                            >
-                            </a-select>
-
-                            <label class="grid-column-5"> Người giao: </label>
-                            <a-input
-                                class="grid-column-columnspan-6-9"
-                                v-model:value="souce.deliverer"
-                                :disabled="loading"
-                            />
-                            <label class="grid-column-9"> Người nhận: </label>
-                            <a-select
-                                class="grid-column-columnspan-10-13"
-                                :options="sUsers"
-                                :field-names="userColumns"
-                                show-search
-                                v-model:value="souce.receiverUserId"
-                                :disabled="loading"
-                            >
-                            </a-select>
-
-                            <a-divider
-                                class="grid-column-columnspan-1-13"
-                                style="height: 1px; background-color: #f8f8f8"
-                            />
-
-                            <label class="grid-column-1">
-                                <span>Tên hàng:</span>
-                                <span class="text-danger me-1">*</span>
-                            </label>
-                            <a-select
-                                class="grid-column-columnspan-2-7"
-                                showSearch
-                                :field-names="fields"
-                                :options="sMedicineTypes"
-                                @change="handleMedicineTypeChanged"
-                                v-model:value="
-                                    dImpMestMedicineSelected.medicineTypeId
-                                "
-                                :disabled="loading"
-                            />
-                            <label class="grid-column-7"> Mã hàng: </label>
-                            <a-input
-                                class="grid-column-8"
-                                v-model:value="dImpMestMedicineSelected.code"
-                                :disabled="loading"
-                            />
-                            <label class="grid-column-9"> Nồng độ: </label>
-                            <a-input
-                                class="grid-column-10"
-                                v-model:value="
-                                    dImpMestMedicineSelected.concentration
-                                "
-                                disabled
-                            />
-                            <label class="grid-column-11"> Hàm lượng: </label>
-                            <a-input
-                                class="grid-column-12"
-                                v-model:value="dImpMestMedicineSelected.content"
-                                disabled
-                            />
-
-                            <label class="grid-column-1"> Nước SX: </label>
-                            <a-select
-                                class="grid-column-2"
-                                :field-names="fields"
-                                :options="sCountries"
-                                showSearch
-                                v-model:value="
-                                    dImpMestMedicineSelected.countryId
-                                "
-                                disabled
-                            />
-
-                            <label class="grid-column-3"> Hãng SX: </label>
-                            <a-input
-                                class="grid-column-4"
-                                v-model:value="
-                                    dImpMestMedicineSelected.manufacturer
-                                "
-                                disabled
-                            />
-                            <label class="grid-column-5"> Đơn vị tính: </label>
-                            <a-select
-                                class="grid-column-6"
-                                :field-names="fields"
-                                :options="sUnits"
-                                :value="dImpMestMedicineSelected.unitId"
-                                disabled
-                            />
-                            <label class="grid-column-7">Giá nhập: </label>
-                            <a-input-number
-                                @input="calculateTotalAmout"
-                                class="grid-column-8 w-100"
-                                v-model:value="
-                                    dImpMestMedicineSelected.impPrice
-                                "
-                                :disabled="loading"
-                                min="0"
-                            />
-                            <label class="grid-column-9">VAT nhập (%): </label>
-                            <a-input-number
-                                @input="calculateTotalAmout"
-                                class="grid-column-10 w-100"
-                                v-model:value="
-                                    dImpMestMedicineSelected.impVatRate
-                                "
-                                :disabled="loading"
-                                min="0"
-                                max="100"
-                            />
-
-                            <label class="grid-column-11"
-                                >Thuế nhập (%):
-                            </label>
-                            <a-input-number
-                                @input="calculateTotalAmout"
-                                class="grid-column-12 w-100"
-                                v-model:value="dImpMestMedicineSelected.taxRate"
-                                :disabled="loading"
-                                min="0"
-                                max="100"
-                            />
-
-                            <label class="grid-column-1">Số lượng: </label>
-                            <a-input-number
-                                @input="calculateTotalAmout"
-                                class="grid-column-2 w-100"
-                                v-model:value="
-                                    dImpMestMedicineSelected.impQuantity
-                                "
-                                :disabled="loading"
-                                min="0"
-                            />
-                            <label class="grid-column-3">Thành tiền: </label>
-                            <a-input-number
-                                class="grid-column-4 w-100"
-                                v-model:value="
-                                    dImpMestMedicineSelected.impAmount
-                                "
-                                :disabled="loading"
-                                min="0"
-                            />
-                            <label class="grid-column-5">QĐ thầu: </label>
-                            <a-input
-                                class="grid-column-6"
-                                v-model:value="
-                                    dImpMestMedicineSelected.tenderDecision
-                                "
-                                :disabled="false"
-                            />
-                            <label class="grid-column-7">Gói thầu: </label>
-                            <a-input
-                                class="grid-column-8"
-                                v-model:value="
-                                    dImpMestMedicineSelected.tenderPackage
-                                "
-                                :disabled="false"
-                            />
-                            <label class="grid-column-9">Năm thầu: </label>
-                            <a-input-number
-                                class="grid-column-10 w-100"
-                                v-model:value="
-                                    dImpMestMedicineSelected.tenderYear
-                                "
-                                :disabled="loading"
-                                min="0"
-                            />
-                            <label class="grid-column-11">Số đăng ký: </label>
-                            <a-input
-                                class="grid-column-12"
-                                v-model:value="
-                                    dImpMestMedicineSelected.registrationNumber
-                                "
-                                :disabled="loading"
-                            />
-
-                            <label class="grid-column-1">Số Lô: </label>
-                            <a-input
-                                class="grid-column-2"
-                                v-model:value="dImpMestMedicineSelected.lot"
-                                :disabled="loading"
-                            />
-                            <label class="grid-column-3">Hạn dùng: </label>
-                            <a-date-picker
-                                class="grid-column-4"
-                                placeholder="dd/MM/yyyy"
-                                format="DD/MM/YYYY"
-                                v-model:value="dImpMestMedicineSelected.dueDate"
-                                :disabled="loading"
-                            />
-
-                            <a-button
-                                type="primary"
-                                class="grid-column-columnspan-11-13"
-                                @click="handleUpdateImMest()"
-                            >
-                                Cập nhật (Ctl + A)
-                            </a-button>
-
                             <a-table
-                                class="ant-table-striped grid-column-columnspan-1-13 mt-3 h-100"
+                                class="ant-table-striped table-overflow-x"
                                 size="middle"
                                 :customRow="handleRowClickImpMestMedicine"
                                 :columns="impMestMedicineColumns"
                                 :data-source="souce.dImpMestMedicines"
                                 bordered
                                 :pagination="false"
-                                :scroll="{ y: 350 }"
+                                :scroll="{ y: 200 }"
                             >
                                 <template #bodyCell="{ column, record }">
                                     <template v-if="column.key === 'isCheck'">
@@ -330,29 +401,125 @@
                                     </template>
                                 </template>
                             </a-table>
+
+                            <span style="font-weight: bold" class="mt-3"
+                                >Chính sách giá thuốc</span
+                            >
+                            <a-table
+                                class="ant-table-striped table-overflow-x mt-0"
+                                size="middle"
+                                bordered
+                                :scroll="{ y: 200 }"
+                                :pagination="false"
+                                :columns="pricePolicyColumns"
+                                :data-source="
+                                    dImpMestMedicineSelected.sMedicinePricePolicies
+                                "
+                            >
+                                <template #bodyCell="{ column, record }">
+                                    <template
+                                        v-if="column.key === 'patientTypeCode'"
+                                    >
+                                        <a-input
+                                            class="my-0 mx-0 w-100"
+                                            v-model:value="
+                                                record.patientTypeCode
+                                            "
+                                            disabled
+                                        />
+                                    </template>
+                                    <template
+                                        v-else-if="
+                                            column.key === 'patientTypeName'
+                                        "
+                                    >
+                                        <a-input
+                                            class="my-0 mx-0 w-100"
+                                            v-model:value="
+                                                record.patientTypeName
+                                            "
+                                            disabled
+                                        />
+                                    </template>
+                                    <template
+                                        v-else-if="
+                                            column.key === 'oldUnitPrice'
+                                        "
+                                    >
+                                        <a-input-number
+                                            class="my-0 mx-0 w-100 text-align-right"
+                                            v-model:value="record.oldUnitPrice"
+                                            min="0"
+                                        />
+                                    </template>
+                                    <template
+                                        v-else-if="
+                                            column.key === 'newUnitPrice'
+                                        "
+                                    >
+                                        <a-input-number
+                                            class="my-0 mx-0 w-100"
+                                            v-model:value="record.newUnitPrice"
+                                            min="0"
+                                        />
+                                    </template>
+                                    <template
+                                        v-else-if="
+                                            column.key === 'ceilingPrice'
+                                        "
+                                    >
+                                        <a-input-number
+                                            class="my-0 mx-0 w-100"
+                                            v-model:value="record.ceilingPrice"
+                                            min="0"
+                                            :disabled="!record.isHeIn"
+                                        />
+                                    </template>
+                                    <template
+                                        v-else-if="column.key === 'paymentRate'"
+                                    >
+                                        <a-input-number
+                                            class="my-0 mx-0 w-100"
+                                            v-model:value="record.paymentRate"
+                                            max="100"
+                                            :disabled="!record.isHeIn"
+                                        />
+                                    </template>
+                                    <template
+                                        v-else-if="
+                                            column.key === 'executionTime'
+                                        "
+                                    >
+                                        <a-date-picker
+                                            class="my-0 mx-0 w-100"
+                                            placeholder="dd/MM/yyyy"
+                                            format="DD/MM/YYYY"
+                                            v-model:value="record.executionTime"
+                                        />
+                                    </template>
+                                </template>
+                            </a-table>
                         </div>
                     </a-tab-pane>
-                    <a-tab-pane key="2" tab="Chính sách giá thuốc"></a-tab-pane>
                     <a-tab-pane key="3" tab="Hóa đơn"></a-tab-pane>
                 </a-tabs>
-
-                <template #footer>
-                    <a-button
-                        class="btn-save"
-                        :loading="loading"
-                        @click.prevent="handleSave"
-                        >Lưu tạm</a-button
-                    >
-                    <a-button
-                        @click="handleCancel"
-                        type="primary"
-                        class="btn-save"
-                        @click.prevent="handleStockIn"
-                        >Nhận kho</a-button
-                    >
-                </template>
-            </a-modal>
-        </div>
+            </div>
+            <template #footer>
+                <a-button
+                    class="btn-save"
+                    :loading="loading"
+                    @click.prevent="handleSave"
+                    >Lưu tạm</a-button
+                >
+                <a-button
+                    @click="handleCancel"
+                    type="primary"
+                    class="btn-save"
+                    @click.prevent="handleStockIn"
+                    >Nhận kho</a-button
+                >
+            </template>
+        </a-modal>
     </form>
 </template>
 
@@ -509,6 +676,7 @@ export default defineComponent({
             tenderGroup: null,
             // Năm thầu
             tenderYear: null,
+            sMedicinePricePolicies: [],
         });
         const sMedicineTypeSelected = ref<MedicineTypeModel>();
         const supplierSelected = ref<SupplierModel>({
@@ -523,21 +691,21 @@ export default defineComponent({
                 title: "Mã thuốc",
                 key: "code",
                 dataIndex: "code",
-                width: 120,
+                width: 100,
                 className: "column-header-center",
             },
             {
                 title: "Tên thuốc",
                 key: "name",
                 dataIndex: "name",
-                width: 500,
+                width: 250,
                 className: "column-header-center",
             },
             {
                 title: "ĐVT",
                 key: "unitName",
                 dataIndex: "unitName",
-                width: 120,
+                width: 100,
                 className: "column-header-center",
             },
             {
@@ -588,6 +756,54 @@ export default defineComponent({
             },
         ]);
 
+        const pricePolicyColumns = reactive([
+            {
+                title: "Tên",
+                key: "patientTypeName",
+                dataIndex: "patientTypeName",
+                width: 200,
+                className: "column-header-center",
+            },
+            {
+                title: "Giá cũ",
+                key: "oldUnitPrice",
+                dataIndex: "oldUnitPrice",
+                width: 120,
+                isEditing: true,
+                className: "column-header-center",
+            },
+            {
+                title: "Giá mới",
+                key: "newUnitPrice",
+                dataIndex: "newUnitPrice",
+                width: 120,
+                isEditing: true,
+                className: "column-header-center",
+            },
+            {
+                title: "Tỷ lệ TT",
+                key: "paymentRate",
+                dataIndex: "paymentRate",
+                width: 120,
+                isEditing: true,
+                className: "column-header-center",
+            },
+            {
+                title: "Trần BH",
+                key: "ceilingPrice",
+                dataIndex: "ceilingPrice",
+                width: 120,
+                className: "column-header-center",
+            },
+            {
+                title: "Ngày áp dụng",
+                key: "executionTime",
+                dataIndex: "executionTime",
+                width: 120,
+                className: "column-header-center",
+            },
+        ]);
+
         const show = computed(() => props.visible);
 
         watch(show, (value) => {
@@ -599,42 +815,6 @@ export default defineComponent({
                 loading.value = false;
             }
         });
-
-        // watch(
-        //     dImpMestMedicineSelected,
-        //     (newValue) => {
-        //         if (newValue.dueDate) {
-        //             dImpMestMedicineSelected.value.dueDateString = dayjs(
-        //                 newValue.dueDate
-        //             ).format("DD/MM/YYYY");
-        //         }
-        //     },
-        //     { deep: true }
-        // );
-
-        // watch(
-        //     souce,
-        //     (newVal, oldVal) => {
-        //         if (newVal.impTime && newVal.impTime !== oldVal.invTime) {
-        //             souce.impTimeString = dayjs(newVal.impTime).format(
-        //                 "DD/MM/YYYY"
-        //             );
-        //         }
-
-        //         if (newVal.approverTime) {
-        //             souce.approverTimeString = dayjs(
-        //                 newVal.approverTime
-        //             ).format("DD/MM/YYYY");
-        //         }
-
-        //         if (newVal.invTime) {
-        //             souce.invTimeString = dayjs(newVal.invTime).format(
-        //                 "DD/MM/YYYY"
-        //             );
-        //         }
-        //     },
-        //     { deep: true }
-        // );
 
         //#region Function
         async function inItData() {
@@ -836,6 +1016,7 @@ export default defineComponent({
             supplierSelected,
             dImpMestMedicineSelected,
             sMedicineTypeSelected,
+            pricePolicyColumns,
             calculateTotalAmout,
             handleUpdateImMest,
             handleSupplierChanged,
@@ -939,5 +1120,95 @@ export default defineComponent({
 
 .ant-divider-horizontal {
     margin: 5px 0;
+}
+
+@media (max-width: 768px) {
+    .grid-genaral {
+        grid-template-columns: 1fr;
+    }
+    .grid-column-columnspan-1-13 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-columnspan-2-5 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-columnspan-2-7 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-columnspan-6-9 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-columnspan-10-13 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-columnspan-11-13 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-1 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-2 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-3 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-4 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-5 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-6 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-7 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-8 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-9 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-10 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-11 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-12 {
+        grid-column: 1/1;
+    }
+}
+
+.table-overflow-x {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.grid-pricePolicy {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto 1fr;
+    grid-row-gap: 5px;
+    align-items: center;
 }
 </style>
