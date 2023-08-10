@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs'
 
-export default interface MedicinePricePolicy {
+export default interface MedicinePricePolicyModel {
     id: string | undefined,
     medicineId: string | undefined,
     patientTypeId: string | undefined,

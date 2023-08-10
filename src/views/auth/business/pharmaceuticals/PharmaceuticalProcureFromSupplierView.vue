@@ -338,6 +338,115 @@
                                 </a-button>
 
                                 <a-table
+                                    class="ant-table-striped grid-column-columnspan-1-13 table-overflow-x"
+                                    size="middle"
+                                    bordered
+                                    :scroll="{ y: 200 }"
+                                    :pagination="false"
+                                    :columns="pricePolicyColumns"
+                                    :data-source="
+                                        dImpMestMedicineSelected.sMedicinePricePolicies
+                                    "
+                                >
+                                    <template #bodyCell="{ column, record }">
+                                        <template
+                                            v-if="
+                                                column.key === 'patientTypeCode'
+                                            "
+                                        >
+                                            <a-input
+                                                class="my-0 mx-0 w-100"
+                                                v-model:value="
+                                                    record.patientTypeCode
+                                                "
+                                                disabled
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="
+                                                column.key === 'patientTypeName'
+                                            "
+                                        >
+                                            <a-input
+                                                class="my-0 mx-0 w-100"
+                                                v-model:value="
+                                                    record.patientTypeName
+                                                "
+                                                disabled
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="
+                                                column.key === 'oldUnitPrice'
+                                            "
+                                        >
+                                            <a-input-number
+                                                class="my-0 mx-0 w-100 text-align-right"
+                                                v-model:value="
+                                                    record.oldUnitPrice
+                                                "
+                                                min="0"
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="
+                                                column.key === 'newUnitPrice'
+                                            "
+                                        >
+                                            <a-input-number
+                                                class="my-0 mx-0 w-100"
+                                                v-model:value="
+                                                    record.newUnitPrice
+                                                "
+                                                min="0"
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="
+                                                column.key === 'ceilingPrice'
+                                            "
+                                        >
+                                            <a-input-number
+                                                class="my-0 mx-0 w-100"
+                                                v-model:value="
+                                                    record.ceilingPrice
+                                                "
+                                                min="0"
+                                                :disabled="!record.isHeIn"
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="
+                                                column.key === 'paymentRate'
+                                            "
+                                        >
+                                            <a-input-number
+                                                class="my-0 mx-0 w-100"
+                                                v-model:value="
+                                                    record.paymentRate
+                                                "
+                                                max="100"
+                                                :disabled="!record.isHeIn"
+                                            />
+                                        </template>
+                                        <template
+                                            v-else-if="
+                                                column.key === 'executionTime'
+                                            "
+                                        >
+                                            <a-date-picker
+                                                class="my-0 mx-0 w-100"
+                                                placeholder="dd/MM/yyyy"
+                                                format="DD/MM/YYYY"
+                                                v-model:value="
+                                                    record.executionTime
+                                                "
+                                            />
+                                        </template>
+                                    </template>
+                                </a-table>
+
+                                <a-table
                                     class="ant-table-striped grid-column-columnspan-1-13 mt-3 table-overflow-x"
                                     size="middle"
                                     :customRow="handleRowClickImpMestMedicine"
@@ -345,163 +454,25 @@
                                     :data-source="souce.dImpMestMedicines"
                                     bordered
                                     :pagination="false"
-                                    :scroll="{ y: 200 }"
                                 >
                                     <template #bodyCell="{ column, record }">
                                         <template
-                                            v-if="column.key === 'isCheck'"
+                                            v-if="column.key === 'dueDate'"
                                         >
-                                            <a-checkbox
-                                                class="my-0 mx-0 w-100 centered-checkbox"
-                                                v-model:checked="record.isCheck"
-                                            />
-                                        </template>
-                                        <template
-                                            v-else-if="column.key === 'isMain'"
-                                        >
-                                            <a-checkbox
-                                                class="my-0 mx-0 w-100 centered-checkbox"
-                                                v-model:checked="record.isMain"
-                                            />
+                                            <span>{{
+                                                record.dueDate === null
+                                                    ? record.dueDate
+                                                    : record.dueDate.format(
+                                                          "DD/MM/YYYY"
+                                                      )
+                                            }}</span>
                                         </template>
                                     </template>
                                 </a-table>
                             </div>
                         </div>
                     </a-tab-pane>
-                    <a-tab-pane key="2" tab="Chính sách giá thuốc">
-                        <div class="container grid-pricePolicy">
-                            <span style="font-weight: bold"
-                                >Danh sách thuốc nhập</span
-                            >
-                            <a-table
-                                class="ant-table-striped table-overflow-x"
-                                size="middle"
-                                :customRow="handleRowClickImpMestMedicine"
-                                :columns="impMestMedicineColumns"
-                                :data-source="souce.dImpMestMedicines"
-                                bordered
-                                :pagination="false"
-                                :scroll="{ y: 200 }"
-                            >
-                                <template #bodyCell="{ column, record }">
-                                    <template v-if="column.key === 'isCheck'">
-                                        <a-checkbox
-                                            class="my-0 mx-0 w-100 centered-checkbox"
-                                            v-model:checked="record.isCheck"
-                                        />
-                                    </template>
-                                    <template
-                                        v-else-if="column.key === 'isMain'"
-                                    >
-                                        <a-checkbox
-                                            class="my-0 mx-0 w-100 centered-checkbox"
-                                            v-model:checked="record.isMain"
-                                        />
-                                    </template>
-                                </template>
-                            </a-table>
-
-                            <span style="font-weight: bold" class="mt-3"
-                                >Chính sách giá thuốc</span
-                            >
-                            <a-table
-                                class="ant-table-striped table-overflow-x mt-0"
-                                size="middle"
-                                bordered
-                                :scroll="{ y: 200 }"
-                                :pagination="false"
-                                :columns="pricePolicyColumns"
-                                :data-source="
-                                    dImpMestMedicineSelected.sMedicinePricePolicies
-                                "
-                            >
-                                <template #bodyCell="{ column, record }">
-                                    <template
-                                        v-if="column.key === 'patientTypeCode'"
-                                    >
-                                        <a-input
-                                            class="my-0 mx-0 w-100"
-                                            v-model:value="
-                                                record.patientTypeCode
-                                            "
-                                            disabled
-                                        />
-                                    </template>
-                                    <template
-                                        v-else-if="
-                                            column.key === 'patientTypeName'
-                                        "
-                                    >
-                                        <a-input
-                                            class="my-0 mx-0 w-100"
-                                            v-model:value="
-                                                record.patientTypeName
-                                            "
-                                            disabled
-                                        />
-                                    </template>
-                                    <template
-                                        v-else-if="
-                                            column.key === 'oldUnitPrice'
-                                        "
-                                    >
-                                        <a-input-number
-                                            class="my-0 mx-0 w-100 text-align-right"
-                                            v-model:value="record.oldUnitPrice"
-                                            min="0"
-                                        />
-                                    </template>
-                                    <template
-                                        v-else-if="
-                                            column.key === 'newUnitPrice'
-                                        "
-                                    >
-                                        <a-input-number
-                                            class="my-0 mx-0 w-100"
-                                            v-model:value="record.newUnitPrice"
-                                            min="0"
-                                        />
-                                    </template>
-                                    <template
-                                        v-else-if="
-                                            column.key === 'ceilingPrice'
-                                        "
-                                    >
-                                        <a-input-number
-                                            class="my-0 mx-0 w-100"
-                                            v-model:value="record.ceilingPrice"
-                                            min="0"
-                                            :disabled="!record.isHeIn"
-                                        />
-                                    </template>
-                                    <template
-                                        v-else-if="column.key === 'paymentRate'"
-                                    >
-                                        <a-input-number
-                                            class="my-0 mx-0 w-100"
-                                            v-model:value="record.paymentRate"
-                                            max="100"
-                                            :disabled="!record.isHeIn"
-                                        />
-                                    </template>
-                                    <template
-                                        v-else-if="
-                                            column.key === 'executionTime'
-                                        "
-                                    >
-                                        <a-date-picker
-                                            class="my-0 mx-0 w-100"
-                                            placeholder="dd/MM/yyyy"
-                                            format="DD/MM/YYYY"
-                                            v-model:value="record.executionTime"
-                                        />
-                                    </template>
-                                </template>
-                            </a-table>
-                        </div>
-                    </a-tab-pane>
-                    <a-tab-pane key="3" tab="Hóa đơn"></a-tab-pane>
+                    <a-tab-pane key="2" tab="Hóa đơn"></a-tab-pane>
                 </a-tabs>
             </div>
             <template #footer>
@@ -535,6 +506,7 @@ import {
     CountryModel,
     UnitModel,
     UserModel,
+    MedicinePricePolicyModel,
 } from "@/models";
 import {
     medicineTypeService,
@@ -544,6 +516,7 @@ import {
     unitService,
     userService,
     impMestService,
+    medicinePricePolicyService,
 } from "@/services";
 
 export default defineComponent({
@@ -571,6 +544,7 @@ export default defineComponent({
         const sCountries = ref<CountryModel[]>([]);
         const sUnits = ref<UnitModel[]>([]);
         const sUsers = ref<UserModel[]>([]);
+        const sMedicinePricePolicies = ref<MedicinePricePolicyModel[]>([]);
 
         const souce = reactive<DImpMestModel>({
             id: null,
@@ -749,9 +723,9 @@ export default defineComponent({
             },
             {
                 title: "Hạn dùng",
-                key: "dueDateString",
-                dataIndex: "dueDateString",
-                width: 150,
+                key: "dueDate",
+                dataIndex: "dueDate",
+                width: 120,
                 className: "column-header-center",
             },
         ]);
@@ -824,6 +798,7 @@ export default defineComponent({
             sCountries.value = await getCountries();
             sUnits.value = await getUnits();
             sUsers.value = await getUsers();
+            sMedicinePricePolicies.value = await getMedicinePricePolicies();
         }
 
         async function getSuppliers(): Promise<SupplierModel[]> {
@@ -848,6 +823,12 @@ export default defineComponent({
 
         async function getUsers(): Promise<UserModel[]> {
             return (await userService.getAll()).data.result;
+        }
+
+        async function getMedicinePricePolicies(): Promise<
+            MedicinePricePolicyModel[]
+        > {
+            return (await medicinePricePolicyService.getAll()).data.result;
         }
 
         const setImpMestMedicine = (
@@ -978,6 +959,10 @@ export default defineComponent({
                             sMedicineTypeSelected.value.packagingSpecifications;
                         dImpMestMedicineSelected.value.registrationNumber =
                             sMedicineTypeSelected.value.registrationNumber;
+                        dImpMestMedicineSelected.value.sMedicinePricePolicies =
+                            JSON.parse(
+                                JSON.stringify(sMedicinePricePolicies.value)
+                            );
                     }
                 }
             }
@@ -1209,6 +1194,6 @@ export default defineComponent({
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto 1fr;
     grid-row-gap: 5px;
-    align-items: center;
+    align-items: top;
 }
 </style>

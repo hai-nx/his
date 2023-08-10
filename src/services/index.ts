@@ -27,6 +27,7 @@ import supplierService from './dictionary/supplier'
 import medicineGroupService from './dictionary/medicineGroup'
 import medicineTypeService from './dictionary/medicineType'
 import medicineLineService from './dictionary/medicineLine'
+import medicinePricePolicyService from './dictionary/medicinePricePolicy'
 
 import patientService from './business/patient'
 
@@ -65,6 +66,7 @@ export {
     medicineGroupService,
     medicineTypeService,
     medicineLineService,
+    medicinePricePolicyService,
 
     patientService,
     impMestService,
