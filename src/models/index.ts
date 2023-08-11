@@ -38,8 +38,9 @@ import MedicineModel from './dictionary/medicine';
 import MedicinePricePolicyModel from './dictionary/medicinePricePolicy'
 
 import DImpMestModel from './business/pharmaceuticals/impMests/impMest';
-import DImpMestMedicineModel from './business/pharmaceuticals/impMests/imMestMedicine';
-import DImpExpMestTypeModel from './business/pharmaceuticals/impMests/imEmpMestType';
+import DImpMestMedicineModel from './business/pharmaceuticals/impMests/impMestMedicine';
+import DImpExpMestTypeModel from './business/pharmaceuticals/impMests/impEmpMestType';
+import DMedicineStockModel from './business/pharmaceuticals/medicineStock';
 
 import UserModel from './system/user'
 
@@ -87,6 +88,7 @@ export {
     DImpExpMestTypeModel,
     DImpMestModel,
     DImpMestMedicineModel,
+    DMedicineStockModel,
 
     UserModel
 }

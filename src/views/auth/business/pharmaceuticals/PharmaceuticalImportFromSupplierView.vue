@@ -26,7 +26,7 @@
                                     :options="sStocks"
                                     showSearch
                                     v-model:value="souce.imStockId"
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 >
                                 </a-select>
                                 <label class="grid-column-5">
@@ -38,7 +38,7 @@
                                     placeholder="dd/MM/yyyy"
                                     format="DD/MM/YYYY"
                                     v-model:value="souce.impTime"
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 />
                                 <label class="grid-column-7">
                                     <span>Ngày HĐ:</span>
@@ -49,13 +49,13 @@
                                     placeholder="dd/MM/yyyy"
                                     format="DD/MM/YYYY"
                                     v-model:value="souce.invTime"
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 />
                                 <label class="grid-column-9"> Số HĐ: </label>
                                 <a-input
                                     class="grid-column-10"
                                     v-model:value="souce.invNo"
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 />
                                 <label class="grid-column-11">
                                     Mã phiếu:
@@ -63,7 +63,7 @@
                                 <a-input
                                     class="grid-column-12"
                                     v-model:value="souce.code"
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 />
 
                                 <label class="grid-column-1">
@@ -77,14 +77,14 @@
                                     :field-names="fields"
                                     @change="handleSupplierChanged"
                                     v-model:value="souce.supplierId"
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 >
                                 </a-select>
                                 <label class="grid-column-5"> Địa chỉ: </label>
                                 <a-input
                                     class="grid-column-columnspan-6-9"
                                     v-model:value="supplierSelected.address"
-                                    :disabled="loading"
+                                    disabled
                                 />
                                 <label class="grid-column-9">
                                     Mã số thuế:
@@ -92,7 +92,7 @@
                                 <a-input
                                     class="grid-column-10"
                                     v-model:value="supplierSelected.taxtCode"
-                                    :disabled="loading"
+                                    disabled
                                 />
                                 <label class="grid-column-11">
                                     Nội dung:
@@ -100,7 +100,7 @@
                                 <a-input
                                     class="grid-column-12"
                                     v-model:value="souce.description"
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 />
 
                                 <label class="grid-column-1">
@@ -112,7 +112,7 @@
                                     :field-names="userColumns"
                                     show-search
                                     v-model:value="souce.impUserId"
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 >
                                 </a-select>
 
@@ -122,7 +122,7 @@
                                 <a-input
                                     class="grid-column-columnspan-6-9"
                                     v-model:value="souce.deliverer"
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 />
                                 <label class="grid-column-9">
                                     Người nhận:
@@ -133,7 +133,7 @@
                                     :field-names="userColumns"
                                     show-search
                                     v-model:value="souce.receiverUserId"
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 >
                                 </a-select>
 
@@ -158,7 +158,7 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.medicineTypeId
                                     "
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 />
                                 <label class="grid-column-7"> Mã hàng: </label>
                                 <a-input
@@ -166,7 +166,7 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.code
                                     "
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 />
                                 <label class="grid-column-9"> Nồng độ: </label>
                                 <a-input
@@ -224,7 +224,7 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.impPrice
                                     "
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                     min="0"
                                 />
                                 <label class="grid-column-9"
@@ -236,7 +236,7 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.impVatRate
                                     "
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                     min="0"
                                     max="100"
                                 />
@@ -250,7 +250,7 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.taxRate
                                     "
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                     min="0"
                                     max="100"
                                 />
@@ -262,7 +262,7 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.impQuantity
                                     "
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                     min="0"
                                 />
                                 <label class="grid-column-3"
@@ -273,7 +273,7 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.impAmount
                                     "
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                     min="0"
                                 />
                                 <label class="grid-column-5">QĐ thầu: </label>
@@ -282,7 +282,7 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.tenderDecision
                                     "
-                                    :disabled="false"
+                                    :disabled="loading && isDisabled"
                                 />
                                 <label class="grid-column-7">Gói thầu: </label>
                                 <a-input
@@ -290,7 +290,7 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.tenderPackage
                                     "
-                                    :disabled="false"
+                                    :disabled="loading && isDisabled"
                                 />
                                 <label class="grid-column-9">Năm thầu: </label>
                                 <a-input-number
@@ -298,7 +298,7 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.tenderYear
                                     "
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                     min="0"
                                 />
                                 <label class="grid-column-11"
@@ -309,14 +309,14 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.registrationNumber
                                     "
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 />
 
                                 <label class="grid-column-1">Số Lô: </label>
                                 <a-input
                                     class="grid-column-2"
                                     v-model:value="dImpMestMedicineSelected.lot"
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 />
                                 <label class="grid-column-3">Hạn dùng: </label>
                                 <a-date-picker
@@ -326,7 +326,7 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.dueDate
                                     "
-                                    :disabled="loading"
+                                    :disabled="loading && isDisabled"
                                 />
 
                                 <a-button
@@ -483,7 +483,13 @@
                     >Lưu tạm</a-button
                 >
                 <a-button
-                    @click="handleCancel"
+                    v-if="isDisabledEdit"
+                    class="btn-save"
+                    :loading="loading"
+                    @click.prevent="handleSave"
+                    >Sửa</a-button
+                >
+                <a-button
                     type="primary"
                     class="btn-save"
                     @click.prevent="handleStockIn"
@@ -496,7 +502,7 @@
 
 <script lang="ts">
 import dayjs from "dayjs";
-import { defineComponent, ref, computed, watch, reactive } from "vue";
+import { defineComponent, ref, computed, watch, reactive, PropType } from "vue";
 import {
     DImpMestModel,
     DImpMestMedicineModel,
@@ -526,11 +532,17 @@ export default defineComponent({
             type: Boolean,
             required: true,
         },
-        // data: {
-        //     type: Object as PropType<MedicineTypeModel>,
-        // },
+        imExMestTypeId: {
+            type: Number,
+            required: true,
+        },
+        data: {
+            type: Object as PropType<DImpMestModel>,
+        },
     },
     setup(props, { emit }) {
+        const isDisabled = ref<boolean>(false);
+
         const title = ref<string>("Nhập thuốc từ nhà cung cấp");
         const loading = ref<boolean>(false);
         const result = ref<boolean>(false);
@@ -557,7 +569,7 @@ export default defineComponent({
             /// Kho xuất
             exStockId: null,
             /// Loại phiếu nhập, xuất
-            imExMestTypeId: 0,
+            impExMestTypeId: 0,
             /// Người nhận
             receiverUserId: null,
             /// Thời gian nhập
@@ -779,6 +791,13 @@ export default defineComponent({
         ]);
 
         const show = computed(() => props.visible);
+        const isDisabledEdit = computed(() => {
+            if (props.data !== undefined && props.data !== null) {
+                return props.data.id !== null && props.data.impMestStatus === 0;
+            }
+
+            return false;
+        });
 
         watch(show, (value) => {
             if (value) {
@@ -786,6 +805,18 @@ export default defineComponent({
 
                 result.value = false;
                 loading.value = true;
+                isDisabled.value = true;
+
+                if (
+                    props.data !== null &&
+                    props.data?.id !== null &&
+                    props.data?.id !== undefined
+                ) {
+                    isDisabled.value = true;
+                } else {
+                    isDisabled.value = false;
+                }
+
                 loading.value = false;
             }
         });
@@ -975,7 +1006,8 @@ export default defineComponent({
 
         const handleStockIn = () => {
             result.value = true;
-            souce.imExMestTypeId = 1;
+            souce.impExMestTypeId = props.imExMestTypeId;
+            souce.impMestStatus = 3;
             impMestService.createOrEdit(souce);
             toggle();
         };
@@ -983,6 +1015,8 @@ export default defineComponent({
         //#endregion
 
         return {
+            isDisabled,
+            isDisabledEdit,
             title,
             loading,
             result,

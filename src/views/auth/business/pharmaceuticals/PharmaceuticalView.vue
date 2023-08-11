@@ -4,10 +4,12 @@
             <div class="function grid-col-1">
                 <a-dropdown>
                     <template #overlay>
-                        <a-menu @click="handlGegenerateDocumentClick">
+                        <a-menu>
                             <a-menu-item
+                                @click="handlGegenerateDocumentClick(menuItem)"
                                 v-for="menuItem in dImpExpMestTypes"
                                 :key="menuItem.id"
+                                :data-item="menuItem"
                             >
                                 {{ menuItem.name }}
                             </a-menu-item>
@@ -125,22 +127,15 @@
                         >
                             <i class="bi bi-pen"></i>
                         </button>
-
-                        <button
-                            class="btn btn-outline-danger border-0 btn-sm"
-                            title="Xóa"
-                            @click="handleDelete(record)"
-                        >
-                            <i class="bi bi-x-lg"></i>
-                        </button>
                     </span>
                 </template>
             </template>
         </a-table>
 
         <teleport to="body">
-            <PharmaceuticalProcureFromSupplierView
+            <PharmaceuticalImportFromSupplierView
                 :visible="visible"
+                :imExMestTypeId="imExMestTypeId"
                 @toggle="handleToggle"
             />
         </teleport>
@@ -154,7 +149,7 @@ import { PlusOutlined } from "@ant-design/icons-vue";
 import { RoomModel, DImpMestModel, DImpExpMestTypeModel } from "@/models";
 import { roomService, impMestService, impExpMestTypeService } from "@/services";
 import dayjs, { Dayjs } from "dayjs";
-import PharmaceuticalProcureFromSupplierView from "./PharmaceuticalProcureFromSupplierView.vue";
+import PharmaceuticalImportFromSupplierView from "./PharmaceuticalImportFromSupplierView.vue";
 
 export default defineComponent({
     name: "PharmaceuticalView",
@@ -200,6 +195,7 @@ export default defineComponent({
         ]);
 
         const visible = ref<boolean>(false);
+        const source = ref<DImpMestModel>();
         const fields = ref({ value: "id", label: "name" });
         const sStocks = ref<RoomModel[]>([]);
         const itemSources = ref<DImpMestModel[]>([]);
@@ -211,6 +207,7 @@ export default defineComponent({
         const toDate = ref<Dayjs>(
             dayjs().set("hour", 23).set("minute", 59).set("second", 59)
         );
+        const imExMestTypeId = ref<number>(0);
 
         //#region Function
         async function inItData() {
@@ -242,9 +239,18 @@ export default defineComponent({
             console.log(itemSources.value);
         };
 
+        // sửa
+        const handleEdit = (item: DImpMestModel) => {
+            show(true, item);
+        };
+
         // ẩn / hiện chi tiết
         const handleToggle = (result: boolean) => {
             visible.value = !visible.value;
+
+            if (result) {
+                handleLoad();
+            }
         };
         //#endregion
 
@@ -254,8 +260,14 @@ export default defineComponent({
         };
         //#endregion
 
-        const handlGegenerateDocumentClick = (e: Event) => {
+        const handlGegenerateDocumentClick = (type: DImpExpMestTypeModel) => {
+            imExMestTypeId.value = type.id;
             handleToggle(false);
+        };
+
+        const show = (v: boolean, r: DImpMestModel | undefined) => {
+            source.value = r;
+            visible.value = v;
         };
 
         return {
@@ -267,8 +279,11 @@ export default defineComponent({
             sStocks,
             dImpExpMestTypes,
             itemSources,
+            source,
             sStockId,
+            imExMestTypeId,
             handleLoad,
+            handleEdit,
             inItData,
             handleToggle,
             handleStocksChanged,
@@ -280,7 +295,7 @@ export default defineComponent({
     },
     components: {
         PlusOutlined,
-        PharmaceuticalProcureFromSupplierView,
+        PharmaceuticalImportFromSupplierView,
     },
 });
 </script>

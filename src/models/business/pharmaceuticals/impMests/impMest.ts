@@ -16,8 +16,8 @@ export default interface DImpMestModel {
     exStockId: string | null,
 
     /// Loại phiếu nhập, xuất
-    imExMestTypeId: number,
-    imExMestTypeName?: string | null
+    impExMestTypeId: number,
+    impExMestTypeName?: string | null
 
     /// Người nhận
     receiverUserId: string | null,

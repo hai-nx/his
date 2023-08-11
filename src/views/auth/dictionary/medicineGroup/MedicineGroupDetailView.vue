@@ -157,8 +157,6 @@ export default defineComponent({
 
                 reset();
 
-                console.log("ádasd", props.data);
-
                 if (
                     props.data !== null &&
                     props.data?.id !== null &&
