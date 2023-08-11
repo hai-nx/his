@@ -1,6 +1,14 @@
 <template>
     <div>
-        
+        <div class="x-page-top">
+
+        </div>
+        <div class="x-page-filter">
+            
+        </div>
+        <div class="x-page-content">
+
+        </div>
     </div>
 </template>
 
