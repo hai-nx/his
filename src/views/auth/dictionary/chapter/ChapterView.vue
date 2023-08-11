@@ -35,16 +35,6 @@
                         </a-tag>
                     </span>
                 </template>
-                <template v-if="column.key === 'isSystem'">
-                    <span>
-                        <a-tag v-if="record.isSystem" color="error">
-                            <span>Hệ thống</span>
-                        </a-tag>
-                        <a-tag v-else color="success">
-                            <span>Người dùng</span>
-                        </a-tag>
-                    </span>
-                </template>
                 <template v-else-if="column.key === 'action'">
                     <span>
                         <button
@@ -91,23 +81,23 @@ export default defineComponent({
     setup() {
         const columns = ref([
             {
-                title: "Mã nhóm",
+                title: "ID",
                 key: "code",
                 dataIndex: "code",
                 width: 200,
                 className: "column-header-center",
             },
             {
-                title: "Tên nhóm",
+                title: "Tên chương ICD10",
                 key: "name",
                 dataIndex: "name",
                 width: 500,
                 className: "column-header-center",
             },
             {
-                title: "Dữ liệu gốc",
-                key: "isSystem",
-                dataIndex: "isSystem",
+                title: "Số thứ tự",
+                key: "sortOrder",
+                dataIndex: "sortOrder",
                 width: 200,
                 className: "column-header-center",
                 align: "center",
@@ -129,9 +119,9 @@ export default defineComponent({
          // lấy dữ liệu
          const handleLoad = () => {
             items.value = [];
-            // chapterService.getAll().then((res) => {
-            //      items.value = res.data.result;
-            // });
+            chapterService.getAll().then((res) => {
+                items.value = res.data.result;
+            });
         };
 
         // thêm mới

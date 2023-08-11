@@ -9,13 +9,13 @@
         >
             <div class="container">
                 <label>
-                    <span>Mã nhóm</span>
+                    <span>ID</span>
                     <span class="text-danger me-1">*</span>
                 </label>
                 <a-input v-model:value="item.code" :disabled="loading" />
 
                 <label>
-                    <span>Tên nhóm</span>
+                    <span>Mã chương</span>
                     <span class="text-danger me-1">*</span>
                 </label>
                 <a-input v-model:value="item.name" :disabled="loading" />
@@ -79,7 +79,7 @@ export default defineComponent({
         },
     },
     setup(props, { emit }) {
-        const title = ref<string>("Thêm mới nhóm thuốc");
+        const title = ref<string>("Thêm mới chương ICD10");
         const item = ref<ChapterModel>({
             id: undefined,
             code: "",
