@@ -198,9 +198,15 @@
                                     max="100"
                                 />
 
-                                <label class="grid-column-1">Ghi chú:</label>
+                                <label class="grid-column-1">Số đăng ký:</label>
                                 <a-input
-                                    class="grid-column-columnspan-2-7"
+                                    class="grid-column-2"
+                                    v-model:value="item.registrationNumber"
+                                    :disabled="loading"
+                                />
+                                <label class="grid-column-3">Ghi chú:</label>
+                                <a-input
+                                    class="grid-column-columnspan-4-7"
                                     v-model:value="item.description"
                                     :disabled="loading"
                                 />
@@ -211,6 +217,12 @@
                                     v-model:value="item.sortOrder"
                                     :disabled="loading"
                                     min="0"
+                                />
+                                <label class="grid-column-3">Biệt dược:</label>
+                                <a-input
+                                    class="grid-column-4"
+                                    v-model:value="item.proprietaryDrug"
+                                    :disabled="loading"
                                 />
                                 <a-checkbox
                                     class="grid-column-6"
@@ -497,6 +509,8 @@ export default defineComponent({
             sortOrder: undefined,
             description: undefined,
             inactive: false,
+            registrationNumber: null, // Số đăng ký
+            proprietaryDrug: null, // Biệt dược
             medicineLineId: null, //Đường dùng thuốc
             medicineGroupId: null, // Nhóm thuốc
             unitId: null, // Đơn vị tính
@@ -618,6 +632,8 @@ export default defineComponent({
         const handleSave = async function () {
             loading.value = true;
             let resultSave = await medicineTypeService.createOrEdit(item.value);
+            console.log(resultSave);
+
             if (resultSave.data.isSuccessed) {
                 result.value = true;
                 toggle();
@@ -661,6 +677,8 @@ export default defineComponent({
                 sortOrder: undefined,
                 description: undefined,
                 inactive: false,
+                registrationNumber: null, // Số đăng ký
+                proprietaryDrug: null, // Biệt dược
                 medicineLineId: null, //Đường dùng thuốc
                 medicineGroupId: null, // Nhóm thuốc
                 unitId: null, // Đơn vị tính
@@ -715,8 +733,6 @@ export default defineComponent({
 
                 inItData();
                 reset();
-
-                console.log("ádasd", props.data);
 
                 if (
                     props.data !== null &&
@@ -779,7 +795,7 @@ export default defineComponent({
 
 .container-general {
     display: grid;
-    grid-template-columns: repeat(3, auto 210px);
+    grid-template-columns: repeat(3, auto minmax(150px, 1fr));
     grid-row-gap: 5px;
     grid-column-gap: 10px;
     align-items: center;

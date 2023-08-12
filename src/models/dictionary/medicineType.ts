@@ -5,11 +5,15 @@ export default interface MedicineTypeModel extends DictionaryBase {
     medicineLineId: string | null, //Đường dùng thuốc
     medicineGroupId: string | null, // Nhóm thuốc
     unitId: string | null, // Đơn vị tính
+    unitCode?: string, // Đơn vị tính
+    unitName?: string, // Đơn vị tính
     tutorial: string | null, // Hướng dẫn
     activeSubstance: string | null, // Hoạt chất
     concentration: string | null, // Nồng độ
     content: string | null, // Hàm lượng
     countryId: string | null, // Nước sản xuất
+    registrationNumber: string | null, // Số đăng ký
+    proprietaryDrug: string | null, // Biệt dược
     manufacturer: string | null, // Hãng sản xuất
     packagingSpecifications: string | null, // Quy cách đóng gói
     impPrice: number | null, // Giá nhập

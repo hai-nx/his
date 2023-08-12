@@ -23,12 +23,18 @@ import surgicalProcedureTypeService from './dictionary/surgicalProcedureType'
 import serviceGroupService from './dictionary/serviceGroup'
 import serviceGroupHeInService from './dictionary/serviceGroupHeIn'
 import unitService from './dictionary/unit'
+import supplierService from './dictionary/supplier'
 
 import medicineGroupService from './dictionary/medicineGroup'
 import medicineTypeService from './dictionary/medicineType'
 import medicineLineService from './dictionary/medicineLine'
 
 import patientService from './business/patient'
+
+import impMestService from './business/pharmaceuticals/imMest'
+import impExpMestTypeService from './business/pharmaceuticals/impExpMestType'
+
+import userService from './system/user'
 
 export {
     authService,
@@ -56,10 +62,15 @@ export {
     serviceGroupService,
     serviceGroupHeInService,
     unitService,
+    supplierService,
 
     medicineGroupService,
     medicineTypeService,
     medicineLineService,
 
-    patientService
+    patientService,
+    impMestService,
+    impExpMestTypeService,
+
+    userService,
 }

@@ -1,3 +1,13 @@
+:root {
+    --x-layout-header-height: 40px;
+
+    --app-nav-background-color: #333;
+    --app-nav-color: #eee;
+    --app-nav-background-color-active: #333;
+    --app-nav-color-active: #fff;
+    --app-nav-height: 40px;
+}
+
 html,
 body,
 #app {

@@ -556,14 +556,14 @@
 
                             <div class="row">
                                 <a-table
-                                    class="ant-table-striped my-2"
+                                    class="ant-table-striped my-2 h-100"
                                     size="middle"
                                     bordered
                                     :customRow="handleRowClickResultIndice"
                                     :columns="columnResultIndices"
                                     :data-source="service.sServiceResultIndices"
                                     :pagination="false"
-                                    :scroll="{ y: 600 }"
+                                    :scroll="{ y: 360 }"
                                 >
                                     <template #bodyCell="{ column, record }">
                                         <template

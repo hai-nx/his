@@ -36,6 +36,8 @@ import examView from '@/views/auth/business/out/ExamView.vue'
 
 import errorView from '@/views/public/error.vue'
 
+import pharmaceuticalView from '@/views/auth/business/pharmaceuticals/PharmaceuticalView.vue'
+
 
 const routes: Array<RouteRecordRaw> = [
     { path: '/', name: 'home', component: homeView, meta: { layout: LAYOUT_DEFAULT } },
@@ -64,15 +66,18 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/service', name: 'service', component: serviceView, meta: { layout: LAYOUT_AUTH } },
     { path: '/chapter', name: 'chapter', component: chapterView, meta: { layout: LAYOUT_AUTH } },
 
-    { path: '/medicineGroup', name: 'medicineGroup', component: medicineGroupView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/medicineType', name: 'medicineType', component: medicineTypeView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/medicine-group', name: 'medicine-group', component: medicineGroupView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/medicine-type', name: 'medicine-type', component: medicineTypeView, meta: { layout: LAYOUT_AUTH } },
 
     { path: '/admission', name: 'admission', component: admissionView, meta: { layout: LAYOUT_AUTH } },
 
     { path: '/treatment', name: 'treatment', component: treatmentView, meta: { layout: LAYOUT_AUTH } },
     { path: '/exam', name: 'exam', component: examView, meta: { layout: LAYOUT_AUTH } },
 
-    { path: '/error', name: 'error', component: errorView, meta: { layout: LAYOUT_DEFAULT } }
+    { path: '/error', name: 'error', component: errorView, meta: { layout: LAYOUT_DEFAULT } },
+
+    // Dược
+    { path: '/pharmaceutical', name: 'pharmaceutical', component: pharmaceuticalView, meta: { layout: LAYOUT_AUTH } },
 ]
 
 const router = createRouter({

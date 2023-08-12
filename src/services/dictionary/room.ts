@@ -14,6 +14,9 @@ const roomService = {
     },
     delete(id: string) {
         return request.post('api/SRoom/Delete', id);
+    },
+    getByStocks() {
+        return request.get<ApiResult<RoomModel[]>>('api/SRoom/GetByStocks')
     }
 }
 

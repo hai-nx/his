@@ -1,6 +1,99 @@
 <template>
     <a-layout class="h-100">
-        <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
+        <a-layout-header class="x-layout-header">
+            <div class="logo">
+
+            </div>
+            <a-menu theme="dark" mode="horizontal" :trigger="null" collapsible>
+                <template v-for="item in items" :key="item.key">
+                    <template v-if="item.children">
+                        <a-sub-menu :key="item.key">
+                            <template #icon>
+                                <i class="bi" :class="item.icon"></i>
+                            </template>
+                            <template #title>
+                                <span>{{ item.title }}</span>
+                            </template>
+                            <template v-for="sub in item.children" :key="sub.key">
+                                <!-- <a-menu-item @click.stop="handleClick(sub.router)">{{ sub.title }}</a-menu-item> -->
+                                <!--
+                                    chỗ này đáng ra là để đệ quy control nhưng mà để sau :D
+                                    giờ làm tạm 2 bậc
+                                -->
+                                <template v-if="sub.children">
+                                    <a-sub-menu :key="sub.key">
+                                        <template #icon>
+                                            <i class="bi" :class="sub.icon"></i>
+                                        </template>
+                                        <template #title>
+                                            <span>{{ sub.title }}</span>
+                                        </template>
+                                        <template v-for="sub2 in sub.children" :key="sub2.key">
+                                            <a-menu-item @click.stop="handleClick(sub2.router)">{{ sub2.title
+                                            }}</a-menu-item>
+                                        </template>
+                                    </a-sub-menu>
+                                </template>
+                                <template v-else>
+                                    <a-menu-item :key="sub.key" @click="handleClick(sub.router)">
+                                        <template #icon>
+                                            <i class="bi" :class="sub.icon"></i>
+                                        </template>
+                                        <span>{{ sub.title }}</span>
+                                    </a-menu-item>
+                                </template>
+                            </template>
+                        </a-sub-menu>
+                    </template>
+                    <template v-else>
+                        <a-menu-item :key="item.key" @click="handleClick(item.router)">
+                            <template #icon>
+                                <i class="bi" :class="item.icon"></i>
+                            </template>
+                            <span>{{ item.title }}</span>
+                        </a-menu-item>
+                    </template>
+                </template>
+            </a-menu>
+
+            <div class="extra">
+                <a-dropdown>
+                    <a-button type="text">
+                        <h6 class="text-white">{{ user.username }}</h6>
+                    </a-button>
+                    <template #overlay>
+                        <a-menu @click="handleMenuClick">
+                            <a-menu-item key="1">
+                                <template #icon>
+                                    <desktop-outlined />
+                                </template>
+                                Chọn đơn vị làm việc
+                            </a-menu-item>
+                            <a-menu-item key="2">
+                                <template #icon>
+                                    <user-outlined />
+                                </template>
+                                Tài khoản
+                            </a-menu-item>
+                            <a-menu-divider />
+                            <a-menu-item key="3" danger>
+                                <template #icon>
+                                    <logout-outlined />
+                                </template>
+                                Đăng xuất
+                            </a-menu-item>
+                        </a-menu>
+                    </template>
+                </a-dropdown>
+            </div>
+
+        </a-layout-header>
+
+        <a-layout-content class="x-layout-content">
+            <slot></slot>
+        </a-layout-content>
+
+        <!-- <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
 
             <div class="logo"></div>
 
@@ -29,9 +122,9 @@
                     </template>
                 </template>
             </a-menu>
-        </a-layout-sider>
+        </a-layout-sider> -->
 
-        <a-layout>
+        <!-- <a-layout>
             <a-layout-header class="his-layout-header">
                 <div class="trigger" @click="toggleCollapsed">
                     <menu-unfold-outlined v-if="collapsed" />
@@ -73,7 +166,7 @@
             <a-layout-content class="px-3 py-2">
                 <slot></slot>
             </a-layout-content>
-        </a-layout>
+        </a-layout> -->
     </a-layout>
 </template>
 
@@ -84,8 +177,8 @@ import { storeToRefs } from 'pinia'
 import { useAuth } from '@/stores/auth'
 import { useLayoutMenu } from '@/stores/layout-menu'
 import type { MenuProps } from 'ant-design-vue';
-import { MenuUnfoldOutlined, MenuFoldOutlined, LogoutOutlined, UserOutlined, DesktopOutlined } from '@ant-design/icons-vue';
-
+//import { MenuUnfoldOutlined, MenuFoldOutlined, LogoutOutlined, UserOutlined, DesktopOutlined } from '@ant-design/icons-vue';
+import { LogoutOutlined, UserOutlined, DesktopOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({
     name: 'AuthLayout',
@@ -127,8 +220,8 @@ export default defineComponent({
         }
     },
     components: {
-        MenuUnfoldOutlined,
-        MenuFoldOutlined,
+        // MenuUnfoldOutlined,
+        // MenuFoldOutlined,
         LogoutOutlined,
         UserOutlined,
         DesktopOutlined
@@ -137,43 +230,28 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.logo {
-    height: 32px;
-    margin: 16px;
-    background: rgba(255, 255, 255, 0.3);
-}
-.site-layout .site-layout-background {
-    background: #fff;
-}
-[data-theme='dark'] .site-layout .site-layout-background {
-    background: #141414;
-}
-.logo {
-    height: 32px;
-    background: rgba(255, 255, 255, 0.3);
-    margin: 16px;
+.x-layout-header {
+    position: fixed;
+    display: grid;
+    grid-template-columns: max-content 1fr max-content;
+    height: var(--x-layout-header-height);
+    line-height: var(--x-layout-header-height);
+    width: 100%;
+    padding: 0;
+    z-index: 1;
 }
 
-.site-layout .site-layout-background {
-    background: #fff;
+.x-layout-header .ant-menu {
+    margin-left: 10px;
+    /* line-height: var(--x-layout-header-height); */
 }
-.his-layout-header {
-    background: #fff;
-    display: flex;
-    justify-content: space-between;
-    padding: 0px;
+
+.x-layout-header .extra {
+    margin-right: 10px;
 }
-.his-layout-header__extra {
-    padding: 0 24px;
-}
-.trigger {
-    font-size: 18px;
-    line-height: 64px;
-    padding: 0 24px;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-.trigger:hover {
-    color: #1890ff;
+
+.x-layout-content {
+    margin-top: var(--x-layout-header-height);
+    padding: 1rem 1rem;
 }
 </style>
