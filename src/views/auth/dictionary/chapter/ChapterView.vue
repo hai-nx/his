@@ -3,18 +3,12 @@
         <div class="d-flex justify-content-between align-items-center">
             <h3>Danh mục chương</h3>
 
-            <div >
-                
-                    <a-button style="margin: 5px 5px 5px 5px;" type="primary" @click="handleAdd">
-                        Thêm chương
-                    </a-button>
-
-                    <a-button style="margin: 5px 5px 5px 5px;" type="primary" @click="handleOrder">
-                        Sắp xếp
-                    </a-button>
-                
-                
-            </div>
+            <div>
+                <a-button type="primary" @click="handleAdd">
+                    <i class="bi bi-plus-lg me-2"></i>
+                    <span>Thêm chương</span>
+                </a-button>
+            </div>            
         </div>
 
         <a-table
