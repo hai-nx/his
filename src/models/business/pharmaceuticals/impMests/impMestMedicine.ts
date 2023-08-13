@@ -72,7 +72,7 @@ export default interface DImpMestMedicineModel {
     lot: string | null,
 
     // Hạn dùng
-    dueDate: Dayjs | string | null,
+    dueDate: string | null,
 
     // Quyệt định thầu
     tenderDecision: string | null,

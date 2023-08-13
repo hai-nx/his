@@ -25,7 +25,7 @@
                                     :field-names="fields"
                                     :options="sStocks"
                                     showSearch
-                                    v-model:value="souce.imStockId"
+                                    v-model:value="source.imStockId"
                                     :disabled="loading && isDisabled"
                                 >
                                 </a-select>
@@ -33,28 +33,33 @@
                                     <span>Ngày lập:</span>
                                     <span class="text-danger me-1">*</span>
                                 </label>
-                                <a-date-picker
-                                    class="grid-column-6"
-                                    placeholder="dd/MM/yyyy"
-                                    format="DD/MM/YYYY"
-                                    v-model:value="souce.impTime"
-                                    :disabled="loading && isDisabled"
+                                <input
+                                    class="datetime grid-column-6"
+                                    type="date"
+                                    v-model="source.impTime"
                                 />
+
                                 <label class="grid-column-7">
                                     <span>Ngày HĐ:</span>
                                     <span class="text-danger me-1">*</span>
                                 </label>
-                                <a-date-picker
+                                <!-- <a-date-picker
                                     class="grid-column-8"
                                     placeholder="dd/MM/yyyy"
-                                    format="DD/MM/YYYY"
-                                    v-model:value="souce.invTime"
+                                    format="DD/MM/YYYY HH:mm:ss"
+                                    v-model:value="source.invTimeClient"
                                     :disabled="loading && isDisabled"
+                                /> -->
+                                <input
+                                    class="datetime rid-column-8"
+                                    type="date"
+                                    v-model="source.invTime"
                                 />
+
                                 <label class="grid-column-9"> Số HĐ: </label>
                                 <a-input
                                     class="grid-column-10"
-                                    v-model:value="souce.invNo"
+                                    v-model:value="source.invNo"
                                     :disabled="loading && isDisabled"
                                 />
                                 <label class="grid-column-11">
@@ -62,7 +67,7 @@
                                 </label>
                                 <a-input
                                     class="grid-column-12"
-                                    v-model:value="souce.code"
+                                    v-model:value="source.code"
                                     :disabled="loading && isDisabled"
                                 />
 
@@ -76,7 +81,7 @@
                                     :options="sSuppliers"
                                     :field-names="fields"
                                     @change="handleSupplierChanged"
-                                    v-model:value="souce.supplierId"
+                                    v-model:value="source.supplierId"
                                     :disabled="loading && isDisabled"
                                 >
                                 </a-select>
@@ -99,7 +104,7 @@
                                 </label>
                                 <a-input
                                     class="grid-column-12"
-                                    v-model:value="souce.description"
+                                    v-model:value="source.description"
                                     :disabled="loading && isDisabled"
                                 />
 
@@ -111,7 +116,7 @@
                                     :options="sUsers"
                                     :field-names="userColumns"
                                     show-search
-                                    v-model:value="souce.impUserId"
+                                    v-model:value="source.impUserId"
                                     :disabled="loading && isDisabled"
                                 >
                                 </a-select>
@@ -121,7 +126,7 @@
                                 </label>
                                 <a-input
                                     class="grid-column-columnspan-6-9"
-                                    v-model:value="souce.deliverer"
+                                    v-model:value="source.deliverer"
                                     :disabled="loading && isDisabled"
                                 />
                                 <label class="grid-column-9">
@@ -132,7 +137,7 @@
                                     :options="sUsers"
                                     :field-names="userColumns"
                                     show-search
-                                    v-model:value="souce.receiverUserId"
+                                    v-model:value="source.receiverUserId"
                                     :disabled="loading && isDisabled"
                                 >
                                 </a-select>
@@ -319,7 +324,7 @@
                                     :disabled="loading && isDisabled"
                                 />
                                 <label class="grid-column-3">Hạn dùng: </label>
-                                <a-date-picker
+                                <!-- <a-date-picker
                                     class="grid-column-4"
                                     placeholder="dd/MM/yyyy"
                                     format="DD/MM/YYYY"
@@ -327,6 +332,11 @@
                                         dImpMestMedicineSelected.dueDate
                                     "
                                     :disabled="loading && isDisabled"
+                                /> -->
+                                <input
+                                    class="datetime grid-column-4"
+                                    type="date"
+                                    v-model="dImpMestMedicineSelected.dueDate"
                                 />
 
                                 <a-button
@@ -434,13 +444,10 @@
                                                 column.key === 'executionTime'
                                             "
                                         >
-                                            <a-date-picker
-                                                class="my-0 mx-0 w-100"
-                                                placeholder="dd/MM/yyyy"
-                                                format="DD/MM/YYYY"
-                                                v-model:value="
-                                                    record.executionTime
-                                                "
+                                            <input
+                                                class="datetime my-0 mx-0 w-100"
+                                                type="date"
+                                                v-model="record.executionTime"
                                             />
                                         </template>
                                     </template>
@@ -451,7 +458,7 @@
                                     size="middle"
                                     :customRow="handleRowClickImpMestMedicine"
                                     :columns="impMestMedicineColumns"
-                                    :data-source="souce.dImpMestMedicines"
+                                    :data-source="source.dImpMestMedicines"
                                     bordered
                                     :pagination="false"
                                 >
@@ -462,10 +469,26 @@
                                             <span>{{
                                                 record.dueDate === null
                                                     ? record.dueDate
-                                                    : record.dueDate.format(
-                                                          "DD/MM/YYYY"
-                                                      )
+                                                    : new Date(
+                                                          record.dueDate
+                                                      ).toLocaleDateString()
                                             }}</span>
+                                        </template>
+                                        <template
+                                            v-if="column.key === 'unitId'"
+                                        >
+                                            <a-select
+                                                class="w-100"
+                                                style="
+                                                     {
+                                                        padding: 0px;
+                                                    }
+                                                "
+                                                v-model:value="record.unitId"
+                                                :field-names="fields"
+                                                :options="sUnits"
+                                                disabled
+                                            />
                                         </template>
                                     </template>
                                 </a-table>
@@ -501,6 +524,7 @@
 </template>
 
 <script lang="ts">
+import { Modal } from "ant-design-vue";
 import dayjs from "dayjs";
 import { defineComponent, ref, computed, watch, reactive, PropType } from "vue";
 import {
@@ -532,7 +556,7 @@ export default defineComponent({
             type: Boolean,
             required: true,
         },
-        imExMestTypeId: {
+        impExMestTypeId: {
             type: Number,
             required: true,
         },
@@ -558,7 +582,7 @@ export default defineComponent({
         const sUsers = ref<UserModel[]>([]);
         const sMedicinePricePolicies = ref<MedicinePricePolicyModel[]>([]);
 
-        const souce = reactive<DImpMestModel>({
+        const source = ref<DImpMestModel>({
             id: null,
             /// Mã phiếu
             code: null,
@@ -569,7 +593,7 @@ export default defineComponent({
             /// Kho xuất
             exStockId: null,
             /// Loại phiếu nhập, xuất
-            impExMestTypeId: 0,
+            impExpMestTypeId: 0,
             /// Người nhận
             receiverUserId: null,
             /// Thời gian nhập
@@ -689,8 +713,8 @@ export default defineComponent({
             },
             {
                 title: "ĐVT",
-                key: "unitName",
-                dataIndex: "unitName",
+                key: "unitId",
+                dataIndex: "unitId",
                 width: 100,
                 className: "column-header-center",
             },
@@ -799,7 +823,7 @@ export default defineComponent({
             return false;
         });
 
-        watch(show, (value) => {
+        watch(show, async (value) => {
             if (value) {
                 inItData();
 
@@ -813,6 +837,76 @@ export default defineComponent({
                     props.data?.id !== undefined
                 ) {
                     isDisabled.value = true;
+                    reset();
+
+                    var resultDto = await impMestService.getById(props.data.id);
+                    if (resultDto.data.isSuccessed) {
+                        title.value = "Nhập thuốc từ nhà cung cấp";
+                        source.value = resultDto.data.result;
+
+                        if (source.value.impTime !== null) {
+                            source.value.impTime =
+                                source.value.impTime.split("T")[0];
+                        }
+                        if (source.value.invTime !== null) {
+                            source.value.invTime =
+                                source.value.invTime.split("T")[0];
+                        }
+                        if (source.value.approverTime !== null) {
+                            source.value.approverTime =
+                                source.value.approverTime.split("T")[0];
+                        }
+                        if (source.value.stockReceiptTime !== null) {
+                            source.value.stockReceiptTime =
+                                source.value.stockReceiptTime.split("T")[0];
+                        }
+
+                        if (
+                            source.value.dImpMestMedicines !== null &&
+                            source.value.dImpMestMedicines
+                        ) {
+                            source.value.dImpMestMedicines.forEach(
+                                (dImpMestMedicine) => {
+                                    if (dImpMestMedicine.dueDate !== null) {
+                                        dImpMestMedicine.dueDate =
+                                            dImpMestMedicine.dueDate.split(
+                                                "T"
+                                            )[0];
+                                    }
+
+                                    if (
+                                        dImpMestMedicine.sMedicinePricePolicies &&
+                                        dImpMestMedicine.sMedicinePricePolicies !==
+                                            null
+                                    ) {
+                                        dImpMestMedicine.sMedicinePricePolicies.forEach(
+                                            (price) => {
+                                                if (
+                                                    price.executionTime !== null
+                                                ) {
+                                                    price.executionTime =
+                                                        price.executionTime.split(
+                                                            "T"
+                                                        )[0];
+                                                }
+                                            }
+                                        );
+                                    }
+                                }
+                            );
+                        }
+
+                        dImpMestMedicineSelected.value =
+                            source.value.dImpMestMedicines[0];
+                    } else {
+                        Modal.error({
+                            content: resultDto.data.message,
+                            okText: "Đồng ý",
+                        });
+                        toggle();
+                    }
+
+                    loading.value = false;
                 } else {
                     isDisabled.value = false;
                 }
@@ -861,6 +955,57 @@ export default defineComponent({
         > {
             return (await medicinePricePolicyService.getAll()).data.result;
         }
+
+        const reset = () => {
+            source.value = {
+                id: null,
+                /// Mã phiếu
+                code: null,
+                /// Trạng thái
+                impMestStatus: 0,
+                /// Kho nhập
+                imStockId: null,
+                /// Kho xuất
+                exStockId: null,
+                /// Loại phiếu nhập, xuất
+                impExpMestTypeId: 0,
+                /// Người nhận
+                receiverUserId: null,
+                /// Thời gian nhập
+                impTime: null,
+                /// Người lập
+                impUserId: null,
+                /// Ngày duyệt
+                approverTime: null,
+                /// NGười duyệt
+                approverUserId: null,
+                /// Nội dung
+                description: null,
+                /// Phòng yêu cầu
+                reqRoomId: null,
+                /// Khoa yêu cầu
+                reqDepartmentId: null,
+                /// Id điều trị
+                treatmentId: null,
+                /// Id Bệnh nhân
+                patientId: null,
+                /// Nhà cung cấp
+                supplierId: null,
+                /// Nhà cung cấp
+                supplierAddress: null,
+                /// Ngày hóa đơn
+                invTime: null,
+                /// Số hóa đơn
+                invNo: null,
+                /// Người giao
+                deliverer: null,
+                /// Ngày nhập kho
+                stockReceiptTime: null,
+                /// Người nhập kho
+                stockReceiptUserId: null,
+                dImpMestMedicines: [],
+            };
+        };
 
         const setImpMestMedicine = (
             data: DImpMestMedicineModel | undefined
@@ -911,16 +1056,17 @@ export default defineComponent({
         };
 
         const handleUpdateImMest = () => {
-            let dImpMestMedicine = souce.dImpMestMedicines.find(
+            let dImpMestMedicine = source.value.dImpMestMedicines.find(
                 (f) => f.code == dImpMestMedicineSelected.value.code
             );
             if (dImpMestMedicine !== null && dImpMestMedicine != undefined) {
-                const index = souce.dImpMestMedicines.indexOf(dImpMestMedicine);
-                souce.dImpMestMedicines[index] = {
+                const index =
+                    source.value.dImpMestMedicines.indexOf(dImpMestMedicine);
+                source.value.dImpMestMedicines[index] = {
                     ...dImpMestMedicineSelected.value,
                 };
             } else {
-                souce.dImpMestMedicines.push({
+                source.value.dImpMestMedicines.push({
                     ...dImpMestMedicineSelected.value,
                 });
             }
@@ -1001,20 +1147,25 @@ export default defineComponent({
 
         const handleSave = () => {
             result.value = true;
-            impMestService.createOrEdit(souce);
+            impMestService.createOrEdit(source.value);
         };
 
-        const handleStockIn = () => {
+        const handleStockIn = async () => {
             result.value = true;
-            souce.impExMestTypeId = props.imExMestTypeId;
-            souce.impMestStatus = 3;
-            impMestService.createOrEdit(souce);
+            loading.value = true;
+
+            source.value.impExpMestTypeId = 1;
+            source.value.impMestStatus = 3;
+            await impMestService.createOrEdit(source.value);
+
+            loading.value = false;
             toggle();
         };
 
         //#endregion
 
         return {
+            selectedDate: dayjs("2023-08-13T11:29:12.966"),
             isDisabled,
             isDisabledEdit,
             title,
@@ -1024,7 +1175,7 @@ export default defineComponent({
             show,
             fields,
             userColumns,
-            souce,
+            source,
             sSuppliers,
             sMedicineTypes,
             sStocks,

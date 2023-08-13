@@ -8,7 +8,7 @@ export default interface MedicinePricePolicyModel {
     newUnitPrice: number,
     ceilingPrice: number,
     paymentRate: number,
-    executionTime: Dayjs | null,
+    executionTime: string | null,
 
     isHeIn: boolean,
     patientTypeCode: string,

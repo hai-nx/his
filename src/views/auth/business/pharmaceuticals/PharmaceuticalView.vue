@@ -135,7 +135,8 @@
         <teleport to="body">
             <PharmaceuticalImportFromSupplierView
                 :visible="visible"
-                :imExMestTypeId="imExMestTypeId"
+                :impExMestTypeId="impExMestTypeId"
+                :data="source"
                 @toggle="handleToggle"
             />
         </teleport>
@@ -171,8 +172,8 @@ export default defineComponent({
             },
             {
                 title: "Loại phiếu",
-                key: "imExMestTypeName",
-                dataIndex: "imExMestTypeName",
+                key: "impExpMestTypeName",
+                dataIndex: "impExpMestTypeName",
                 width: 250,
                 className: "column-header-center",
             },
@@ -207,7 +208,7 @@ export default defineComponent({
         const toDate = ref<Dayjs>(
             dayjs().set("hour", 23).set("minute", 59).set("second", 59)
         );
-        const imExMestTypeId = ref<number>(0);
+        const impExMestTypeId = ref<number>(0);
 
         //#region Function
         async function inItData() {
@@ -235,8 +236,6 @@ export default defineComponent({
                     toDateString
                 )
             ).data.result;
-
-            console.log(itemSources.value);
         };
 
         // sửa
@@ -261,13 +260,20 @@ export default defineComponent({
         //#endregion
 
         const handlGegenerateDocumentClick = (type: DImpExpMestTypeModel) => {
-            imExMestTypeId.value = type.id;
-            handleToggle(false);
+            impExMestTypeId.value = type.id;
+            visible.value = true;
+            show(true, undefined);
         };
 
-        const show = (v: boolean, r: DImpMestModel | undefined) => {
-            source.value = r;
-            visible.value = v;
+        const show = (v: boolean, s: DImpMestModel | undefined) => {
+            if (
+                (s !== undefined && s.impExpMestTypeId === 1) ||
+                impExMestTypeId.value === 1
+            ) {
+                visible.value = v;
+            }
+
+            source.value = s;
         };
 
         return {
@@ -281,7 +287,7 @@ export default defineComponent({
             itemSources,
             source,
             sStockId,
-            imExMestTypeId,
+            impExMestTypeId,
             handleLoad,
             handleEdit,
             inItData,
