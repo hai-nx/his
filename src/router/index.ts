@@ -30,11 +30,6 @@ import serviceView from '@/views/auth/dictionary/service/ServiceView.vue'
 import medicineGroupView from '@/views/auth/dictionary/medicineGroup/MedicineGroupView.vue'
 import medicineTypeView from '@/views/auth/dictionary/medicineType/MedicineTypeView.vue'
 
-import admissionView from '@/views/auth/admission/AdmissionView.vue'
-
-import treatmentView from '@/views/auth/business/out/TreatmentView.vue'
-import examView from '@/views/auth/business/out/ExamView.vue'
-
 import errorView from '@/views/public/error.vue'
 
 import pharmaceuticalView from '@/views/auth/business/pharmaceuticals/PharmaceuticalView.vue'
@@ -69,10 +64,8 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/medicine-group', name: 'medicine-group', component: medicineGroupView, meta: { layout: LAYOUT_AUTH } },
     { path: '/medicine-type', name: 'medicine-type', component: medicineTypeView, meta: { layout: LAYOUT_AUTH } },
 
-    { path: '/admission', name: 'admission', component: admissionView, meta: { layout: LAYOUT_AUTH } },
-
-    { path: '/treatment', name: 'treatment', component: treatmentView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/exam', name: 'exam', component: examView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/admission', name: 'admission', component: () => import('@/views/auth/business/patient/admission/AdmissionView.vue'), meta: { layout: LAYOUT_AUTH } },
+    { path: '/admission/register', name: 'admissionRegister', component: () => import('@/views/auth/business/patient/admission/AdmissionRegistrationPatientView.vue'), meta: { layout: LAYOUT_AUTH } },
 
     { path: '/error', name: 'error', component: errorView, meta: { layout: LAYOUT_DEFAULT } },
 

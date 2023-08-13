@@ -1,5 +1,5 @@
 <template>
-    <a-layout class="h-100">
+    <a-layout class="app-layout">
         <a-layout-header class="x-layout-header">
             <div class="logo">
 
@@ -89,84 +89,9 @@
 
         </a-layout-header>
 
-        <a-layout-content class="x-layout-content">
+        <a-layout-content class="app-layout-content">
             <slot></slot>
         </a-layout-content>
-
-        <!-- <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
-
-            <div class="logo"></div>
-
-            <a-menu theme="dark" mode="inline" v-model:openKeys="openKeys" v-model:selectedKeys="selectedKeys">
-                <template v-for="item in items" :key="item.key">
-                    <template v-if="!item.children">
-                        <a-menu-item :key="item.key" @click="handleClick(item.router)">
-                            <template #icon>
-                                <i class="bi" :class="item.icon"></i>
-                            </template>
-                            <span>{{ item.title }}</span>
-                        </a-menu-item>
-                    </template>
-                    <template v-else>
-                        <a-sub-menu :key="item.key">
-                            <template #icon>
-                                <i class="bi" :class="item.icon"></i>
-                            </template>
-                            <template #title>
-                                <span>{{ item.title }}</span>
-                            </template>
-                            <template v-for="sub in item.children" :key="sub.key">
-                                <a-menu-item @click.stop="handleClick(sub.router)">{{ sub.title }}</a-menu-item>
-                            </template>
-                        </a-sub-menu>
-                    </template>
-                </template>
-            </a-menu>
-        </a-layout-sider> -->
-
-        <!-- <a-layout>
-            <a-layout-header class="his-layout-header">
-                <div class="trigger" @click="toggleCollapsed">
-                    <menu-unfold-outlined v-if="collapsed" />
-                    <menu-fold-outlined v-else />
-                </div>
-
-                <div class="his-layout-header__extra">
-                    <a-dropdown>
-                        <a-button type="text">
-                            <h6>{{ user.username }}</h6>
-                        </a-button>
-                        <template #overlay>
-                            <a-menu @click="handleMenuClick">
-                                <a-menu-item key="1">
-                                    <template #icon>
-                                        <desktop-outlined />
-                                    </template>
-                                    Chọn đơn vị làm việc
-                                </a-menu-item>
-                                <a-menu-item key="2">
-                                    <template #icon>
-                                        <user-outlined />
-                                    </template>
-                                    Tài khoản
-                                </a-menu-item>
-                                <a-menu-divider />
-                                <a-menu-item key="3" danger>
-                                    <template #icon>
-                                        <logout-outlined />
-                                    </template>
-                                    Đăng xuất
-                                </a-menu-item>
-                            </a-menu>
-                        </template>
-                    </a-dropdown>
-                </div>
-            </a-layout-header>
-
-            <a-layout-content class="px-3 py-2">
-                <slot></slot>
-            </a-layout-content>
-        </a-layout> -->
     </a-layout>
 </template>
 
@@ -230,6 +155,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.app-layout {
+    min-height: 100%;
+}
 .x-layout-header {
     position: fixed;
     display: grid;
@@ -250,8 +178,8 @@ export default defineComponent({
     margin-right: 10px;
 }
 
-.x-layout-content {
+.app-layout-content {
     margin-top: var(--x-layout-header-height);
-    padding: 1rem 1rem;
+    padding: .5rem .5rem;
 }
 </style>

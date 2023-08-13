@@ -1,7 +1,8 @@
-export interface NavItem {
-    id: string,
+export interface XItemType {
+    key: string,
     label: string,
-    icon ?: string,
-    path ?: string,
-    children ?: Array<NavItem>
+    icon?: string,
+    path?: string,
+    children?: Array<XItemType>,
+    type?: string
 }

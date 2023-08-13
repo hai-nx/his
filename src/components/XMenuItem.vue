@@ -2,14 +2,13 @@
     <div class="d-flex flex-column me-2 x-nav-item" :class="depth !== 0 ? 'sub' : ''">
         <span class="px-2">{{ label }}</span>
         <ul class="x-nav-item__dropdown">
-            <li v-for="child in children" :key="child.id">
-                <v-nav-item :id="child.id" 
-                            :label="child.label" 
+            <li v-for="child in children" :key="child.key">
+                <x-menu-item :label="child.label" 
                             :path="child.path" 
                             :children="child.children"
                             :icon="child.icon"
                             :index="depth + 1">
-                </v-nav-item>
+                </x-menu-item>
             </li>
         </ul>
     </div>
@@ -17,15 +16,11 @@
 
 <script lang="ts">
 import { PropType, defineComponent } from "vue";
-import { NavItem } from "./data";
+import { XItemType } from "./data";
 
 export default defineComponent({
-    name: "VNavItem",
+    name: "XMenuItem",
     props: {
-        id: {
-            type: String,
-            required: true
-        },
         label: {
             type: String,
             required: true
@@ -37,7 +32,10 @@ export default defineComponent({
             type: String
         },
         children: {
-            type: Object as PropType<Array<NavItem>>
+            type: Object as PropType<Array<XItemType>>
+        },
+        type: {
+            type: String
         },
         depth: {
             type: Number,
