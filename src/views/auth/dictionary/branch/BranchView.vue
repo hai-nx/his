@@ -1,17 +1,13 @@
 <template>
-    <div>
-        <div class="d-flex justify-content-between align-items-center">
-            <h3>Danh mục chi nhánh</h3>
+    <x-layout :title="title">
+        <template #action>
+            <a-button type="primary" @click="handleAdd">
+                <i class="bi bi-plus-lg me-2"></i>
+                <span>Thêm chi nhánh</span>
+            </a-button>
+        </template>
 
-            <div>
-                <a-button type="primary" @click="handleAdd">
-                    <i class="bi bi-plus-lg me-2"></i>
-                    <span>Thêm chi nhánh</span>
-                </a-button>
-            </div>
-        </div>
-
-        <a-table class="ant-table-striped" size="middle" :columns="columns" :data-source="items" bordered>
+        <a-table class="ant-table-striped m-2" size="middle" :columns="columns" :data-source="items" bordered>
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'inactive'">
                     <span>
@@ -37,11 +33,11 @@
                 </template>
             </template>
         </a-table>
+    </x-layout>
 
-        <teleport to="body">
-            <BranchDetailView :visible="visible" :data="record" @toggle="handleToggle" />
-        </teleport>
-    </div>
+    <teleport to="body">
+        <BranchDetailView :visible="visible" :data="record" @toggle="handleToggle" />
+    </teleport>
 </template>
 
 <script lang="ts">
@@ -50,10 +46,12 @@ import { Modal } from 'ant-design-vue'
 import { BranchModel } from '@/models'
 import { branchService } from '@/services';
 import BranchDetailView from './BranchDetailView.vue'
+import XLayout from "@/components/XLayout.vue"
 
 export default defineComponent({
     name: 'BranchView',
     setup() {
+        const title = "Chi nhánh";
         const columns = ref([
             { title: 'Mã chi nhánh', key: 'code', dataIndex: 'code', width: 200 },
             { title: 'Tên chi nhánh', key: 'name', dataIndex: 'name', width: 500 },
@@ -121,6 +119,7 @@ export default defineComponent({
         }
 
         return {
+            title,
             items,
             record,
             columns,
@@ -136,6 +135,7 @@ export default defineComponent({
         this.handleLoad();
     },
     components: {
+        XLayout,
         BranchDetailView
     }
 });

@@ -19,12 +19,9 @@ import ProvinceModel from './dictionary/province'
 import RoomModel from './dictionary/room'
 import RoomTypeModel from './dictionary/room-type'
 import WardModel from './dictionary/ward'
-<<<<<<< HEAD
 import ChapterModel from './dictionary/chapter'
-=======
 import SupplierModel from './dictionary/supplier';
 
->>>>>>> main
 import ServiceModel from './dictionary/service'
 import ServicePricePolicyModel from './dictionary/servicePricePolicy'
 import SurgicalProcedureTypeModel from './dictionary/surgicalProcedureType'
@@ -69,12 +66,9 @@ export {
     RoomModel,
     RoomTypeModel,
     WardModel,
-<<<<<<< HEAD
     ChapterModel,
-=======
     SupplierModel,
 
->>>>>>> main
     ServiceModel,
     UnitModel,
     ServiceGroupModel,

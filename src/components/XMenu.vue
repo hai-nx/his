@@ -1,14 +1,13 @@
 <template>
     <div class="x-nav">
         <ul class="x-nav__list">
-            <li class="x_nav__list-item" v-for="item in items" :key="item.id">
-                <v-nav-item :id="item.id"
-                            :label="item.label"
+            <li class="x_nav__list-item" v-for="item in items" :key="item.key">
+                <x-menu-item :label="item.label"
                             :path="item.path"
                             :children="item.children"
                             :icon="item.icon"
                             :depth="0">
-                </v-nav-item>
+                </x-menu-item>
             </li>
         </ul>
     </div>
@@ -16,17 +15,17 @@
 
 <script lang="ts">
 import { PropType, defineComponent } from "vue";
-import VNavItem from "@/components/VNavItem.vue"
-import { NavItem } from "./data";
+import XMenuItem from "./XMenuItem.vue"
+import { XItemType } from "./data";
 
 export default defineComponent({
-    name: "VNav",
+    name: "XMenu",
     components: {
-        VNavItem
+        XMenuItem
     },
     props: {
         items: {
-            type: Object as PropType<Array<NavItem>>
+            type: Object as PropType<Array<XItemType>>
         }
     },
     setup() {
@@ -48,6 +47,7 @@ export default defineComponent({
 }
 .x-nav__list {
     list-style: none;
+    padding-left: 0;
 }
 
 .x_nav__list-item {
