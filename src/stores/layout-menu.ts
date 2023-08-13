@@ -28,6 +28,19 @@ export const useLayoutMenu = defineStore('layoutMenu', {
             {
                 key: 'dictionary', title: 'Danh mục', icon: 'bi-collection', router: '',
                 children: [
+<<<<<<< HEAD
+                    { key: 'branch', title: 'Chi nhánh', router: 'branch' },
+                    { key: 'department-type', title: 'Loại khoa', router: 'department-type' },
+                    { key: 'department', title: 'Khoa', router: 'department' },
+                    { key: 'room-type', title: 'Loại phòng', router: 'room-type' },
+                    { key: 'room', title: 'Phòng', router: 'room' },
+                    { key: 'chapter', title: 'Chương ICD-10', router: 'chapter' },
+                    { key: 'icd', title: 'ICD', router: 'icd' },
+                    { key: 'career', title: 'Nghề nghiệp', router: 'career' },
+                    { key: 'hospital', title: 'Bệnh viện', router: 'hospital' },
+                    { key: 'ethnic', title: 'Dân tộc', router: 'ethnic' },
+                    { key: 'gender', title: 'Giới tính', router: 'gender' },
+=======
                     {
                         key: 'cocautochuc', title: 'Cơ cấu tổ chức', router:"",
                         children: [
@@ -57,6 +70,7 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                     // { key: 'hospital', title: 'Bệnh viện', router: 'hospital' },
                     // { key: 'ethnic', title: 'Dân tộc', router: 'ethnic' },
                     // { key: 'gender', title: 'Giới tính', router: 'gender' },
+>>>>>>> main
                     { key: 'employee', title: 'Nhân viên', router: 'employee' },
                     // { key: 'country', title: 'Quốc gia', router: 'country' },
                     // { key: 'province', title: 'Tỉnh, thành phố', router: 'province' },
