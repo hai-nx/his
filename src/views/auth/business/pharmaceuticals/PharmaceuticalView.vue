@@ -4,61 +4,15 @@
             <div class="function grid-col-1">
                 <a-dropdown>
                     <template #overlay>
-                        <a-menu @click="handlGegenerateDocumentClick">
+                        <a-menu>
                             <a-menu-item
+                                @click="handlGegenerateDocumentClick(menuItem)"
                                 v-for="menuItem in dImpExpMestTypes"
                                 :key="menuItem.id"
+                                :data-item="menuItem"
                             >
                                 {{ menuItem.name }}
                             </a-menu-item>
-                            <!-- <a-menu-item key="1">
-                                Nhập hàng hóa từ nhà cung cấp
-                            </a-menu-item>
-                            <a-menu-item key="2">
-                                Xuất hàng hóa trả nhà cung cấp
-                            </a-menu-item>
-                            <a-menu-item key="3">
-                                Nhập từ kho khác
-                            </a-menu-item>
-                            <a-menu-item key="4">
-                                Xuất trả kho khác
-                            </a-menu-item>
-                            <a-menu-item key="5"> Nhập bù </a-menu-item>
-                            <a-menu-item key="6"> Xuất thanh lý </a-menu-item>
-                            <a-menu-item key="7">
-                                Xuất kiểm nghiệm
-                            </a-menu-item>
-                            <a-menu-item key="8">
-                                Xuất hủy (Mất, hỏng, võ)</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Xuất hao phí phòng khám</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Xuất sử dụng phòng</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Xuất sử dụng khoa</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Nhập bù cơ số tủ trực</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Xuất bù cơ số tủ trực</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Bổ sung cơ số tủ trực</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Hoàn trả cơ số tủ trực</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Xuất bản cho khách hàng</a-menu-item
-                            >
-                            <a-menu-item key="8">
-                                Nhập trả từ khách hàng</a-menu-item
-                            >
-                            <a-menu-item key="9"> Xuất khác </a-menu-item> -->
                         </a-menu>
                     </template>
                     <a-button type="primary" class="btn-list">
@@ -153,14 +107,16 @@
                     <span>{{
                         record.impTime === null
                             ? record.impTime
-                            : new Date(record.impTime).toLocaleString()
+                            : new Date(record.impTime).toLocaleDateString()
                     }}</span>
                 </template>
                 <template v-if="column.key === 'stockReceiptTime'">
                     <span>{{
                         record.stockReceiptTime === null
                             ? record.stockReceiptTime
-                            : new Date(record.stockReceiptTime).toLocaleString()
+                            : new Date(
+                                  record.stockReceiptTime
+                              ).toLocaleDateString()
                     }}</span>
                 </template>
 
@@ -173,22 +129,16 @@
                         >
                             <i class="bi bi-pen"></i>
                         </button>
-
-                        <button
-                            class="btn btn-outline-danger border-0 btn-sm"
-                            title="Xóa"
-                            @click="handleDelete(record)"
-                        >
-                            <i class="bi bi-x-lg"></i>
-                        </button>
                     </span>
                 </template>
             </template>
         </a-table>
 
         <teleport to="body">
-            <PharmaceuticalProcureFromSupplierView
+            <PharmaceuticalImportFromSupplierView
                 :visible="visible"
+                :impExMestTypeId="impExMestTypeId"
+                :data="source"
                 @toggle="handleToggle"
             />
         </teleport>
@@ -202,7 +152,7 @@ import { PlusOutlined } from "@ant-design/icons-vue";
 import { RoomModel, DImpMestModel, DImpExpMestTypeModel } from "@/models";
 import { roomService, impMestService, impExpMestTypeService } from "@/services";
 import dayjs, { Dayjs } from "dayjs";
-import PharmaceuticalProcureFromSupplierView from "./PharmaceuticalProcureFromSupplierView.vue";
+import PharmaceuticalImportFromSupplierView from "./PharmaceuticalImportFromSupplierView.vue";
 
 export default defineComponent({
     name: "PharmaceuticalView",
@@ -224,8 +174,8 @@ export default defineComponent({
             },
             {
                 title: "Loại phiếu",
-                key: "imExMestTypeName",
-                dataIndex: "imExMestTypeName",
+                key: "impExpMestTypeName",
+                dataIndex: "impExpMestTypeName",
                 width: 250,
                 className: "column-header-center",
             },
@@ -248,6 +198,7 @@ export default defineComponent({
         ]);
 
         const visible = ref<boolean>(false);
+        const source = ref<DImpMestModel>();
         const fields = ref({ value: "id", label: "name" });
         const sStocks = ref<RoomModel[]>([]);
         const itemSources = ref<DImpMestModel[]>([]);
@@ -259,6 +210,7 @@ export default defineComponent({
         const toDate = ref<Dayjs>(
             dayjs().set("hour", 23).set("minute", 59).set("second", 59)
         );
+        const impExMestTypeId = ref<number>(0);
 
         //#region Function
         async function inItData() {
@@ -286,13 +238,20 @@ export default defineComponent({
                     toDateString
                 )
             ).data.result;
+        };
 
-            console.log(itemSources.value);
+        // sửa
+        const handleEdit = (item: DImpMestModel) => {
+            show(true, item);
         };
 
         // ẩn / hiện chi tiết
         const handleToggle = (result: boolean) => {
             visible.value = !visible.value;
+
+            if (result) {
+                handleLoad();
+            }
         };
         //#endregion
 
@@ -302,8 +261,21 @@ export default defineComponent({
         };
         //#endregion
 
-        const handlGegenerateDocumentClick = (e: Event) => {
-            handleToggle(false);
+        const handlGegenerateDocumentClick = (type: DImpExpMestTypeModel) => {
+            impExMestTypeId.value = type.id;
+            visible.value = true;
+            show(true, undefined);
+        };
+
+        const show = (v: boolean, s: DImpMestModel | undefined) => {
+            if (
+                (s !== undefined && s.impExpMestTypeId === 1) ||
+                impExMestTypeId.value === 1
+            ) {
+                visible.value = v;
+            }
+
+            source.value = s;
         };
 
         return {
@@ -315,8 +287,11 @@ export default defineComponent({
             sStocks,
             dImpExpMestTypes,
             itemSources,
+            source,
             sStockId,
+            impExMestTypeId,
             handleLoad,
+            handleEdit,
             inItData,
             handleToggle,
             handleStocksChanged,
@@ -328,7 +303,7 @@ export default defineComponent({
     },
     components: {
         PlusOutlined,
-        PharmaceuticalProcureFromSupplierView,
+        PharmaceuticalImportFromSupplierView,
     },
 });
 </script>

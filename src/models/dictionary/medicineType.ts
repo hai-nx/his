@@ -2,6 +2,7 @@ import DictionaryBase from "./base";
 
 export default interface MedicineTypeModel extends DictionaryBase {
     heInCode: string | null, // Mã BHYT
+    serviceGroupHeInId: string | null,
     medicineLineId: string | null, //Đường dùng thuốc
     medicineGroupId: string | null, // Nhóm thuốc
     unitId: string | null, // Đơn vị tính

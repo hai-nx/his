@@ -66,7 +66,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { Modal } from "ant-design-vue";
-import { ChapterModel } from "@/models";
+import { ChapterIcdModel } from "@/models";
 import { chapterService } from "@/services";
 import ChapterDetailView from "./ChapterDetailView.vue";
 
@@ -106,8 +106,8 @@ export default defineComponent({
             },
             { title: "Xử lý", key: "action", width: 100, align: "center" },
         ]);
-        const items = ref<ChapterModel[]>([]);
-        const record = ref<ChapterModel>();
+        const items = ref<ChapterIcdModel[]>([]);
+        const record = ref<ChapterIcdModel>();
         const visible = ref<boolean>(false);
 
          // lấy dữ liệu
@@ -124,17 +124,17 @@ export default defineComponent({
         };
 
         // sửa
-        const handleEdit = (item: ChapterModel) => {
+        const handleEdit = (item: ChapterIcdModel) => {
             show(true, item);
         };
 
         //sắp xếp
-        const handleOrder = (item: ChapterModel) => {
+        const handleOrder = (item: ChapterIcdModel) => {
             order(item);
         };
 
         // xóa
-        const handleDelete = (item: ChapterModel) => {
+        const handleDelete = (item: ChapterIcdModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
                 Modal.confirm({
@@ -173,12 +173,12 @@ export default defineComponent({
             }
         };
 
-        const show = (v: boolean, r: ChapterModel | undefined) => {
+        const show = (v: boolean, r: ChapterIcdModel | undefined) => {
             record.value = r;
             visible.value = v;
         };
 
-        const order = (r: ChapterModel | undefined) => {            
+        const order = (r: ChapterIcdModel | undefined) => {            
             record.value = r;            
         };
 

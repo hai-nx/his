@@ -1,18 +1,18 @@
-import { ApiResult, ChapterModel } from '@/models'
+import { ApiResult, ChapterIcdModel } from '@/models'
 import request from '@/utils/request'
 
 const chapterService = {
     getAll() {
-        return request.get<ApiResult<ChapterModel[]>>('api/SChapterICD10/GetAll')
+        return request.get<ApiResult<ChapterIcdModel[]>>('api/SChapterIcd/GetAll')
     },
     getById(id: string) {
-        return request.get<ApiResult<ChapterModel>>('api/SChapterICD10/GetById?id=' + id);
+        return request.get<ApiResult<ChapterIcdModel>>('api/SChapterIcd/GetById?id=' + id);
     },
-    createOrEdit(input: ChapterModel) {
-        return request.post<ApiResult<ChapterModel>>('api/SChapterICD10/CreateOrEdit', input);
+    createOrEdit(input: ChapterIcdModel) {
+        return request.post<ApiResult<ChapterIcdModel>>('api/SChapterIcd/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post('api/SChapterICD10/Delete', id);
+        return request.delete('api/SChapterIcd/Delete=?id=' + id);
     }
 }
 

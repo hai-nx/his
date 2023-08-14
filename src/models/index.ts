@@ -19,7 +19,7 @@ import ProvinceModel from './dictionary/province'
 import RoomModel from './dictionary/room'
 import RoomTypeModel from './dictionary/room-type'
 import WardModel from './dictionary/ward'
-import ChapterModel from './dictionary/chapter'
+import ChapterIcdModel from './dictionary/chapterIcd'
 import SupplierModel from './dictionary/supplier';
 
 import ServiceModel from './dictionary/service'
@@ -36,10 +36,12 @@ import MedicineGroupModel from './dictionary/medicineGroup'
 import MedicineTypeModel from './dictionary/medicineType'
 import MedicineLineModel from './dictionary/medicineLine';
 import MedicineModel from './dictionary/medicine';
+import MedicinePricePolicyModel from './dictionary/medicinePricePolicy'
 
 import DImpMestModel from './business/pharmaceuticals/impMests/impMest';
-import DImpMestMedicineModel from './business/pharmaceuticals/impMests/imMestMedicine';
-import DImpExpMestTypeModel from './business/pharmaceuticals/impMests/imEmpMestType';
+import DImpMestMedicineModel from './business/pharmaceuticals/impMests/impMestMedicine';
+import DImpExpMestTypeModel from './business/pharmaceuticals/impMests/impEmpMestType';
+import DMedicineStockModel from './business/pharmaceuticals/medicineStock';
 
 import UserModel from './system/user'
 
@@ -66,7 +68,7 @@ export {
     RoomModel,
     RoomTypeModel,
     WardModel,
-    ChapterModel,
+    ChapterIcdModel,
     SupplierModel,
 
     ServiceModel,
@@ -83,10 +85,12 @@ export {
     MedicineGroupModel,
     MedicineTypeModel,
     MedicineModel,
+    MedicinePricePolicyModel,
 
     DImpExpMestTypeModel,
     DImpMestModel,
     DImpMestMedicineModel,
+    DMedicineStockModel,
 
     UserModel
 }

@@ -16,20 +16,20 @@ export default interface DImpMestModel {
     exStockId: string | null,
 
     /// Loại phiếu nhập, xuất
-    imExMestTypeId: number,
-    imExMestTypeName?: string | null
+    impExpMestTypeId: number,
+    impExpMestTypeName?: string | null
 
     /// Người nhận
     receiverUserId: string | null,
 
     /// Thời gian nhập
-    impTime: Dayjs | null | string,
+    impTime: string | null,
 
     /// Người lập
     impUserId: string | null,
 
     /// Ngày duyệt
-    approverTime: Dayjs | null,
+    approverTime: string | null,
 
     /// NGười duyệt
     approverUserId: string | null,
@@ -56,7 +56,7 @@ export default interface DImpMestModel {
     supplierAddress: string | null,
 
     /// Ngày hóa đơn
-    invTime: Dayjs | null,
+    invTime: string | null,
 
     /// Số hóa đơn
     invNo: string | null,
@@ -65,7 +65,7 @@ export default interface DImpMestModel {
     deliverer: string | null,
 
     /// Ngày nhập kho
-    stockReceiptTime: Dayjs | null
+    stockReceiptTime: string | null
 
     /// Người nhập kho
     stockReceiptUserId: string | null,

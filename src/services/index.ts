@@ -28,11 +28,13 @@ import supplierService from './dictionary/supplier'
 import medicineGroupService from './dictionary/medicineGroup'
 import medicineTypeService from './dictionary/medicineType'
 import medicineLineService from './dictionary/medicineLine'
+import medicinePricePolicyService from './dictionary/medicinePricePolicy'
 
 import patientService from './business/patient'
 
 import impMestService from './business/pharmaceuticals/imMest'
 import impExpMestTypeService from './business/pharmaceuticals/impExpMestType'
+import dMedicineStockService from './business/pharmaceuticals/medicineStock'
 
 import userService from './system/user'
 
@@ -67,10 +69,12 @@ export {
     medicineGroupService,
     medicineTypeService,
     medicineLineService,
+    medicinePricePolicyService,
 
     patientService,
     impMestService,
     impExpMestTypeService,
+    dMedicineStockService,
 
     userService,
 }
