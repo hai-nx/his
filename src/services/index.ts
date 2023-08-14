@@ -15,6 +15,7 @@ import provinceService from './dictionary/province'
 import roomService from './dictionary/room'
 import roomTypeService from './dictionary/room-type'
 import wardService from './dictionary/ward'
+import chapterService from './dictionary/chapter'
 
 import serviceService from './dictionary/service'
 import servicePricePolicyService from './dictionary/servicePricePolicy'
@@ -55,6 +56,7 @@ export {
     roomService,
     roomTypeService,
     wardService,
+    chapterService,
 
     serviceService,
     servicePricePolicyService,
