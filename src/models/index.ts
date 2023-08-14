@@ -19,7 +19,7 @@ import ProvinceModel from './dictionary/province'
 import RoomModel from './dictionary/room'
 import RoomTypeModel from './dictionary/room-type'
 import WardModel from './dictionary/ward'
-import ChapterModel from './dictionary/chapter'
+import ChapterIcdModel from './dictionary/chapterIcd'
 import SupplierModel from './dictionary/supplier';
 
 import ServiceModel from './dictionary/service'
@@ -68,7 +68,7 @@ export {
     RoomModel,
     RoomTypeModel,
     WardModel,
-    ChapterModel,
+    ChapterIcdModel,
     SupplierModel,
 
     ServiceModel,

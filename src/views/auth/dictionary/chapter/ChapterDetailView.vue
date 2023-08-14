@@ -64,7 +64,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from "vue";
 import { Modal } from "ant-design-vue";
-import { ChapterModel } from "@/models";
+import { ChapterIcdModel } from "@/models";
 import { chapterService } from "@/services";
 
 export default defineComponent({
@@ -75,12 +75,12 @@ export default defineComponent({
             required: true,
         },
         data: {
-            type: Object as PropType<ChapterModel>,
+            type: Object as PropType<ChapterIcdModel>,
         },
     },
     setup(props, { emit }) {
         const title = ref<string>("Thêm mới chương ICD10");
-        const item = ref<ChapterModel>({
+        const item = ref<ChapterIcdModel>({
             id: undefined,
             code: "",
             name: "",
@@ -93,9 +93,7 @@ export default defineComponent({
 
         const handleSave = async function () {
             loading.value = true;
-            let resultSave = await chapterService.createOrEdit(
-                item.value
-            );
+            let resultSave = await chapterService.createOrEdit(item.value);
             if (resultSave.data.isSuccessed) {
                 result.value = true;
                 toggle();
@@ -112,9 +110,7 @@ export default defineComponent({
             loading.value = true;
             result.value = true;
 
-            let resultSave = await chapterService.createOrEdit(
-                item.value
-            );
+            let resultSave = await chapterService.createOrEdit(item.value);
             if (resultSave.data.isSuccessed) {
                 result.value = true;
             } else {

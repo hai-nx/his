@@ -29,63 +29,66 @@
                 <a-date-picker class="ms-2"></a-date-picker>
                 <label class="ms-2">Đến</label>
                 <a-date-picker class="ms-2"></a-date-picker>
-                <a-input placeholder="Tìm kiếm" class="ms-2 mb-2 x-w-200"></a-input>
-                <XDateRangePicker class="ms-2"/>
+                <a-input
+                    placeholder="Tìm kiếm"
+                    class="ms-2 mb-2 x-w-200"
+                ></a-input>
+                <XDateRangePicker class="ms-2" />
             </div>
-            <a-table bordered>
-
-            </a-table>
-
+            <a-table bordered> </a-table>
         </div>
     </x-layout>
 
-    <AdmissionRegistrationPatientView :visible="showRegPatient" @cancel="closeRegPatient" />
+    <AdmissionRegistrationPatientView
+        :visible="showRegPatient"
+        @cancel="closeRegPatient"
+    />
 </template>
 
 <script lang="ts">
-import XLayout from "@/components/XLayout.vue"
-import XDateRangePicker from "@/components/XDateRangePicker.vue"
-import AdmissionRegistrationPatientView from "./AdmissionRegistrationPatientView.vue"
-import { ref } from "vue"
-import { XItemType } from "@/components/data"
+import XLayout from "@/components/XLayout.vue";
+import XDateRangePicker from "@/components/XDateRangePicker.vue";
+import AdmissionRegistrationPatientView from "./AdmissionRegistrationPatientView.vue";
+import { ref } from "vue";
+import { XItemType } from "@/components/data";
 export default {
     components: {
         XLayout,
         XDateRangePicker,
-        AdmissionRegistrationPatientView
+        AdmissionRegistrationPatientView,
     },
     setup() {
-        const title = ref("Danh sách bệnh nhân đăng ký khám")
-        const showRegPatient = ref<boolean>(false)
+        const title = ref("Danh sách bệnh nhân đăng ký khám");
+        const showRegPatient = ref<boolean>(false);
 
         const breadcrumbs = ref<Array<XItemType>>([
             {
-                key:"1",
-                label: "Danh sách tiếp đón"
+                key: "1",
+                label: "Danh sách tiếp đón",
             },
             {
-                key:"2",
-                label: "Danh sách tiếp đón"
-            }
+                key: "2",
+                label: "Danh sách tiếp đón",
+            },
         ]);
 
         const regPatient = () => {
             showRegPatient.value = true;
-        }
+        };
 
         const closeRegPatient = () => {
             showRegPatient.value = false;
-        }
+        };
 
         return {
             title,
             breadcrumbs,
             regPatient,
             showRegPatient,
-            closeRegPatient
-        }
-    }
-}
+            closeRegPatient,
+        };
+    },
+};
 </script>
 
 <style scoped>
