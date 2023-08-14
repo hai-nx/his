@@ -520,7 +520,7 @@
                     "
                     type="primary"
                     class="btn-save"
-                    @click.prevent="handleStockIn"
+                    @click.prevent="handleCanceled"
                     >Hủy nhập</a-button
                 >
             </template>
@@ -1167,6 +1167,29 @@ export default defineComponent({
             toggle();
         };
 
+        const handleCanceled = async () => {
+            loading.value = true;
+            result.value = false;
+
+            if (source.value !== undefined && source.value.id !== null) {
+                let resultDto = await impMestService.canceled(source.value.id);
+                if (!resultDto.data.isSuccessed) {
+                    Modal.error({
+                        content: resultDto.data.message,
+                        okText: "Đồng ý",
+                    });
+
+                    result.value = false;
+                } else {
+                    source.value = resultDto.data.result;
+                    result.value = true;
+                }
+            }
+
+            loading.value = false;
+            toggle();
+        };
+
         //#endregion
 
         return {
@@ -1200,6 +1223,7 @@ export default defineComponent({
             handleCancel,
             handleSave,
             handleStockIn,
+            handleCanceled,
         };
     },
 });

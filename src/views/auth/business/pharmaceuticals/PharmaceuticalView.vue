@@ -107,14 +107,16 @@
                     <span>{{
                         record.impTime === null
                             ? record.impTime
-                            : new Date(record.impTime).toLocaleString()
+                            : new Date(record.impTime).toLocaleDateString()
                     }}</span>
                 </template>
                 <template v-if="column.key === 'stockReceiptTime'">
                     <span>{{
                         record.stockReceiptTime === null
                             ? record.stockReceiptTime
-                            : new Date(record.stockReceiptTime).toLocaleString()
+                            : new Date(
+                                  record.stockReceiptTime
+                              ).toLocaleDateString()
                     }}</span>
                 </template>
 

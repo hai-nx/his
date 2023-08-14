@@ -16,7 +16,7 @@ export const useLayoutMenu = defineStore('layoutMenu', {
         items: [
             { key: 'dashboard', title: 'Trang chủ', icon: 'bi-house', router: 'dashboard' },
 
-            { 
+            {
                 key: 'admission', title: 'Đón tiếp', icon: 'bi-house',
                 children: [
                     { key: 'admissionRegister', title: 'Đăng ký khám bệnh', icon: 'bi-house', router: 'admissionRegister' },
@@ -29,18 +29,18 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                 key: 'dictionary', title: 'Danh mục', icon: 'bi-collection', router: '',
                 children: [
                     {
-                        key: 'cocautochuc', title: 'Cơ cấu tổ chức', router:"",
+                        key: 'cocautochuc', title: 'Cơ cấu tổ chức', router: "",
                         children: [
                             { key: 'branch', title: 'Chi nhánh', router: 'branch' },
                             { key: 'department-type', title: 'Loại khoa', router: 'department-type' },
                             { key: 'department', title: 'Khoa', router: 'department' },
                             { key: 'room-type', title: 'Loại phòng', router: 'room-type' },
                             { key: 'room', title: 'Phòng', router: 'room' },
-                            
+
                         ]
                     },
-                    { 
-                        key: 'hanhchinh', title: 'Hành chính', router:"",
+                    {
+                        key: 'hanhchinh', title: 'Hành chính', router: "",
                         children: [
                             { key: 'icd', title: 'ICD', router: 'icd' },
                             { key: 'chapter', title: 'Chương ICD-10', router: 'chapter' },
@@ -73,7 +73,7 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                 ]
             },
 
-            { key: 'pharmaceutical', title: 'Dược', icon: 'bi-capsule', router: 'pharmaceutical', children: [] },
+            { key: 'pharmaceutical', title: 'Dược', icon: 'bi-capsule', router: 'pharmaceutical' },
 
             {
                 key: 'system', title: 'Hệ thống', icon: 'bi-gear', router: 'system',
