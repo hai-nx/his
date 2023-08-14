@@ -7,7 +7,7 @@
 import { defineComponent, ref } from 'vue'
 
 import XMenu from "@/components/XMenu.vue"
-import { XItemType } from '@/components/data';
+import { XItemType } from '@/components';
 
 export default defineComponent({
     name: 'DefaultLayout',

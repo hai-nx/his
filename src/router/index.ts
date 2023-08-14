@@ -65,8 +65,10 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/medicine-group', name: 'medicine-group', component: medicineGroupView, meta: { layout: LAYOUT_AUTH } },
     { path: '/medicine-type', name: 'medicine-type', component: medicineTypeView, meta: { layout: LAYOUT_AUTH } },
 
-    { path: '/admission', name: 'admission', component: () => import('@/views/auth/business/patient/admission/AdmissionView.vue'), meta: { layout: LAYOUT_AUTH } },
-    { path: '/admission/register', name: 'admissionRegister', component: () => import('@/views/auth/business/patient/admission/AdmissionRegistrationPatientView.vue'), meta: { layout: LAYOUT_AUTH } },
+    { path: '/patient/register-exam', name: 'registerExam', component: () => import('@/views/auth/patient/register/RegisterExam.vue'), meta: { layout: LAYOUT_AUTH } },
+    { path: '/patient/register-exam-detail', name: 'registerExamDetail', component: () => import('@/views/auth/patient/register/RegisterExamDetail.vue'), meta: { layout: LAYOUT_AUTH } },
+
+    { path: '/payment', name: 'payment', component: () => import('@/views/auth/payment/Payment.vue'), meta: { layout: LAYOUT_AUTH } },
 
     { path: '/error', name: 'error', component: errorView, meta: { layout: LAYOUT_DEFAULT } },
 

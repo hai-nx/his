@@ -1,9 +1,13 @@
 <template>
     <x-layout :title="title" :routes="breadcrumbs">
         <template #action>
-            <a-button type="primary" @click="regPatient">Đón tiếp</a-button>
+            <a-button type="primary" @click="regPatient">
+                <i class="bi bi-plus-lg me-2"></i>
+                <span>Đón tiếp</span>
+            </a-button>
             <a-dropdown-button class="ms-2">
-                Báo cáo
+                <i class="bi bi-plus-lg me-2"></i>
+                <span>Báo cáo</span>
                 <template #overlay>
                     <a-menu>
                         <a-menu-item key="1">
@@ -32,30 +36,21 @@
                 <a-input placeholder="Tìm kiếm" class="ms-2 mb-2 x-w-200"></a-input>
                 <XDateRangePicker class="ms-2"/>
             </div>
+
             <a-table bordered>
-
             </a-table>
-
         </div>
     </x-layout>
-
-    <AdmissionRegistrationPatientView :visible="showRegPatient" @cancel="closeRegPatient" />
 </template>
 
 <script lang="ts">
-import XLayout from "@/components/XLayout.vue"
-import XDateRangePicker from "@/components/XDateRangePicker.vue"
-import AdmissionRegistrationPatientView from "./AdmissionRegistrationPatientView.vue"
-import { ref } from "vue"
+import { defineComponent, ref } from "vue"
 import { XItemType } from "@/components"
-export default {
-    components: {
-        XLayout,
-        XDateRangePicker,
-        AdmissionRegistrationPatientView
-    },
+
+export default defineComponent({
+    name: "RegisterExamView",
     setup() {
-        const title = ref("Danh sách bệnh nhân đăng ký khám")
+        const title = ref("Danh sách đăng ký khám")
         const showRegPatient = ref<boolean>(false)
 
         const breadcrumbs = ref<Array<XItemType>>([
@@ -85,7 +80,7 @@ export default {
             closeRegPatient
         }
     }
-}
+})
 </script>
 
 <style scoped>

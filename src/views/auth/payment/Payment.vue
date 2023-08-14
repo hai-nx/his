@@ -32,30 +32,21 @@
                 <a-input placeholder="Tìm kiếm" class="ms-2 mb-2 x-w-200"></a-input>
                 <XDateRangePicker class="ms-2"/>
             </div>
+
             <a-table bordered>
-
             </a-table>
-
         </div>
     </x-layout>
-
-    <AdmissionRegistrationPatientView :visible="showRegPatient" @cancel="closeRegPatient" />
 </template>
 
 <script lang="ts">
-import XLayout from "@/components/XLayout.vue"
-import XDateRangePicker from "@/components/XDateRangePicker.vue"
-import AdmissionRegistrationPatientView from "./AdmissionRegistrationPatientView.vue"
-import { ref } from "vue"
+import { defineComponent, ref } from "vue"
 import { XItemType } from "@/components"
-export default {
-    components: {
-        XLayout,
-        XDateRangePicker,
-        AdmissionRegistrationPatientView
-    },
+
+export default defineComponent({
+    name: "PaymentView",
     setup() {
-        const title = ref("Danh sách bệnh nhân đăng ký khám")
+        const title = ref("Viện phí")
         const showRegPatient = ref<boolean>(false)
 
         const breadcrumbs = ref<Array<XItemType>>([
@@ -85,7 +76,7 @@ export default {
             closeRegPatient
         }
     }
-}
+})
 </script>
 
 <style scoped>

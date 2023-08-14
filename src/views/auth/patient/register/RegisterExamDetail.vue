@@ -1,7 +1,9 @@
 <template>
-    <a-modal width="100%" class="full-modal" :visible="show" @cancel="onCancel">
-        <div>Đăng kysw khám</div>
-    </a-modal>
+    <x-layout>
+        <template #action>
+            <a-button type="primary">Gọi</a-button>
+        </template>
+    </x-layout>>
 </template>
 
 <script lang="ts">
@@ -9,7 +11,7 @@ import { defineComponent, ref, watch } from 'vue';
 
 
 export default defineComponent({
-    name: "AdmissionRegistrationPatientView",
+    name: "RegisterExamDetailView",
     props: {
         visible: {
             type: Boolean,

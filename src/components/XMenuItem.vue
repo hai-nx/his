@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { PropType, defineComponent } from "vue";
-import { XItemType } from "./data";
+import { XItemType } from "./";
 
 export default defineComponent({
     name: "XMenuItem",
