@@ -7,7 +7,7 @@
                         <ol class="breadcrumb mb-0">
                             <template v-for="(route, index) in routes" :key="index">
                                 <template v-if="index + 1 === routes?.length">
-                                    <li class="breadcrumb-item active" aria-current="page">{{ route.label  }}</li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{ route.label }}</li>
                                 </template>
                                 <template v-else>
                                     <li class="breadcrumb-item"><router-link :to="{ name: route.path }">{{ route.label }}</router-link></li>
@@ -16,10 +16,10 @@
                         </ol>
                     </nav>
                     <div>
-                        <button class="btn btn-sm text-primary">
+                        <button class="btn btn-sm py-0 text-primary">
                             <i class="bi bi-question-circle-fill h6"></i>
                         </button>
-                        <button class="btn btn-sm text-primary">
+                        <button class="btn btn-sm py-0 text-primary">
                             <i class="bi bi-chat-left-dots h6"></i>
                         </button>
                     </div>
@@ -30,7 +30,7 @@
             <div class="p-2 border-bottom">
                 <slot name="header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <slot name="title">
+                        <slot name="extra">
                             <h5 class="mb-0">{{ title }}</h5>
                         </slot>
                         <div>
@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import { PropType, defineComponent } from "vue"
-import { XItemType } from "@/components/data"
+import { XItemType } from "@/components"
 
 export default defineComponent({
     name: 'XLayout',
