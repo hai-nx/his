@@ -504,11 +504,15 @@
                     v-if="source.impMestStatus === 0"
                     class="btn-save"
                     :loading="loading"
-                    @click.prevent="handleSave"
+                    @click.prevent="handleEdit"
                     >Sửa</a-button
                 >
                 <a-button
-                    v-if="source.impMestStatus === 2"
+                    v-if="
+                        source.impMestStatus !== 3 &&
+                        source.impMestStatus !== 4 &&
+                        source.impMestStatus !== 5
+                    "
                     type="primary"
                     class="btn-save"
                     @click.prevent="handleStockIn"
@@ -1150,21 +1154,50 @@ export default defineComponent({
             }
         };
 
-        const handleSave = () => {
-            result.value = true;
-            impMestService.createOrEdit(source.value);
+        const handleSave = async () => {
+            loading.value = true;
+            result.value = false;
+
+            source.value.impExpMestTypeId = 1;
+            source.value.impMestStatus = 0;
+
+            var resultDto = await impMestService.createOrEdit(source.value);
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                result.value = true;
+            }
+
+            toggle();
+            loading.value = false;
+        };
+
+        const handleEdit = async () => {
+            isDisabled.value = false;
         };
 
         const handleStockIn = async () => {
-            result.value = true;
+            result.value = false;
             loading.value = true;
 
             source.value.impExpMestTypeId = 1;
             source.value.impMestStatus = 3;
-            await impMestService.createOrEdit(source.value);
 
-            loading.value = false;
+            let resultDto = await impMestService.createOrEdit(source.value);
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                result.value = true;
+            }
+
             toggle();
+            loading.value = false;
         };
 
         const handleCanceled = async () => {
@@ -1178,16 +1211,13 @@ export default defineComponent({
                         content: resultDto.data.message,
                         okText: "Đồng ý",
                     });
-
-                    result.value = false;
                 } else {
-                    source.value = resultDto.data.result;
                     result.value = true;
                 }
             }
 
-            loading.value = false;
             toggle();
+            loading.value = false;
         };
 
         //#endregion
@@ -1222,6 +1252,7 @@ export default defineComponent({
             handleRowClickImpMestMedicine,
             handleCancel,
             handleSave,
+            handleEdit,
             handleStockIn,
             handleCanceled,
         };

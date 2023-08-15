@@ -246,7 +246,9 @@ export default defineComponent({
         };
 
         // ẩn / hiện chi tiết
+        /* eslint-disable */
         const handleToggle = (result: boolean) => {
+            debugger;
             visible.value = !visible.value;
 
             if (result) {

@@ -18,7 +18,7 @@ const impMestService = {
         return request.delete<ApiResult<DImpMestModel>>('api/DImpMest/Delete?id=' + id);
     },
     canceled(id: string) {
-        return request.get<ApiResult<DImpMestModel>>('api/DImpMest/Canceled?id=' + id);
+        return request.get<ApiResult<boolean>>('api/DImpMest/Canceled?id=' + id);
     }
 }
 
