@@ -25,7 +25,7 @@
                                     :field-names="fields"
                                     :options="sStocks"
                                     showSearch
-                                    v-model:value="source.imStockId"
+                                    v-model:value="source.impStockId"
                                     :disabled="isDisabled"
                                 >
                                 </a-select>
@@ -270,6 +270,7 @@
                                 </label>
                                 <a-input-number
                                     class="grid-column-4 w-100"
+                                    :formatter="formatNumber"
                                     v-model:value="
                                         dImpMestMedicineSelected.impAmount
                                     "
@@ -598,9 +599,9 @@ export default defineComponent({
             /// Trạng thái
             impMestStatus: 0,
             /// Kho nhập
-            imStockId: null,
+            impStockId: null,
             /// Kho xuất
-            exStockId: null,
+            expStockId: null,
             /// Loại phiếu nhập, xuất
             impExpMestTypeId: 0,
             /// Người nhận
@@ -834,6 +835,7 @@ export default defineComponent({
 
         watch(show, async (value) => {
             if (value) {
+                reset();
                 inItData();
 
                 result.value = false;
@@ -846,7 +848,6 @@ export default defineComponent({
                     props.data?.id !== undefined
                 ) {
                     isDisabled.value = true;
-                    reset();
 
                     var resultDto = await impMestService.getById(props.data.id);
                     if (resultDto.data.isSuccessed) {
@@ -973,9 +974,9 @@ export default defineComponent({
                 /// Trạng thái
                 impMestStatus: 0,
                 /// Kho nhập
-                imStockId: null,
+                impStockId: null,
                 /// Kho xuất
-                exStockId: null,
+                expStockId: null,
                 /// Loại phiếu nhập, xuất
                 impExpMestTypeId: 0,
                 /// Người nhận
@@ -1014,6 +1015,64 @@ export default defineComponent({
                 stockReceiptUserId: null,
                 dImpMestMedicines: [],
             };
+
+            dImpMestMedicineSelected.value = {
+                id: null,
+                code: null,
+                // Mã BH
+                heInCode: null,
+                // Tên
+                name: null,
+                // Đường dùng thuốc
+                medicineLineId: null,
+                // Nhóm thuốc
+                medicineGroupId: null,
+                // Nhóm thuốc
+                medicineTypeId: null,
+                // Thuốc
+                medicineId: null,
+                // Đơn vị tính
+                unitId: null,
+                // Hướng dẫn
+                tutorial: null,
+                // Nước sản xuất
+                countryId: null,
+                // Giá nhập
+                impPrice: null,
+                // Số lượng nhập
+                impQuantity: null,
+                // Phần trăm vat giá nhập
+                impVatRate: null,
+                // Phần trăm thuế
+                taxRate: null,
+                // Thanh tien
+                impAmount: null,
+                // Hoạt chất
+                activeSubstance: null,
+                // Nồng độ
+                concentration: null,
+                // Hàm lượng
+                content: null,
+                // Hãng sản xuất
+                manufacturer: null,
+                // Quy cách đóng gói
+                packagingSpecifications: null,
+                // Số ĐK
+                registrationNumber: null,
+                // Lô
+                lot: null,
+                // Hạn dùng
+                dueDate: null,
+                // Quyệt định thầu
+                tenderDecision: null,
+                // Gói thầu
+                tenderPackage: null,
+                // Nhóm thầu
+                tenderGroup: null,
+                // Năm thầu
+                tenderYear: null,
+                sMedicinePricePolicies: [],
+            };
         };
 
         const setImpMestMedicine = (
@@ -1039,7 +1098,7 @@ export default defineComponent({
                     dImpMestMedicineSelected.value.impPrice;
 
                 dImpMestMedicineSelected.value.impAmount =
-                    impAmount + impAmount * vatRate + impAmount * taxRate;
+                    impAmount * (1 + vatRate + taxRate);
             }
         };
 
@@ -1064,7 +1123,9 @@ export default defineComponent({
             };
         };
 
+        /* eslint-disable */
         const handleUpdateImMest = () => {
+            debugger;
             let dImpMestMedicine = source.value.dImpMestMedicines.find(
                 (f) => f.code == dImpMestMedicineSelected.value.code
             );
@@ -1074,7 +1135,7 @@ export default defineComponent({
                 source.value.dImpMestMedicines[index] = {
                     ...dImpMestMedicineSelected.value,
                 };
-            } else {
+            } else if (dImpMestMedicineSelected.value.medicineTypeId !== null) {
                 source.value.dImpMestMedicines.push({
                     ...dImpMestMedicineSelected.value,
                 });
@@ -1159,9 +1220,10 @@ export default defineComponent({
             result.value = false;
 
             source.value.impExpMestTypeId = 1;
-            source.value.impMestStatus = 0;
 
-            var resultDto = await impMestService.createOrEdit(source.value);
+            var resultDto = await impMestService.importFromSupplierSaveAsDraft(
+                source.value
+            );
             if (!resultDto.data.isSuccessed) {
                 Modal.error({
                     content: resultDto.data.message,
@@ -1169,9 +1231,9 @@ export default defineComponent({
                 });
             } else {
                 result.value = true;
+                toggle();
             }
 
-            toggle();
             loading.value = false;
         };
 
@@ -1184,9 +1246,10 @@ export default defineComponent({
             loading.value = true;
 
             source.value.impExpMestTypeId = 1;
-            source.value.impMestStatus = 3;
 
-            let resultDto = await impMestService.createOrEdit(source.value);
+            let resultDto = await impMestService.importFromSupplierStockIn(
+                source.value
+            );
             if (!resultDto.data.isSuccessed) {
                 Modal.error({
                     content: resultDto.data.message,
@@ -1194,9 +1257,9 @@ export default defineComponent({
                 });
             } else {
                 result.value = true;
+                toggle();
             }
 
-            toggle();
             loading.value = false;
         };
 
@@ -1205,7 +1268,9 @@ export default defineComponent({
             result.value = false;
 
             if (source.value !== undefined && source.value.id !== null) {
-                let resultDto = await impMestService.canceled(source.value.id);
+                let resultDto = await impMestService.importFromSupplierCanceled(
+                    source.value.id
+                );
                 if (!resultDto.data.isSuccessed) {
                     Modal.error({
                         content: resultDto.data.message,
@@ -1213,11 +1278,18 @@ export default defineComponent({
                     });
                 } else {
                     result.value = true;
+                    toggle();
                 }
             }
 
-            toggle();
             loading.value = false;
+        };
+
+        const formatNumber = (value: number | string) => {
+            if (value === null || value === "") {
+                return null;
+            }
+            return parseFloat(value.toString()).toFixed(2);
         };
 
         //#endregion
@@ -1255,6 +1327,7 @@ export default defineComponent({
             handleEdit,
             handleStockIn,
             handleCanceled,
+            formatNumber,
         };
     },
 });

@@ -110,6 +110,13 @@
                             : new Date(record.impTime).toLocaleDateString()
                     }}</span>
                 </template>
+                <template v-if="column.key === 'invTime'">
+                    <span>{{
+                        record.impTime === null
+                            ? record.invTime
+                            : new Date(record.invTime).toLocaleDateString()
+                    }}</span>
+                </template>
                 <template v-if="column.key === 'stockReceiptTime'">
                     <span>{{
                         record.stockReceiptTime === null
@@ -169,7 +176,7 @@ export default defineComponent({
                 title: "Mã phiếu",
                 key: "code",
                 dataIndex: "code",
-                width: 200,
+                width: 100,
                 className: "column-header-center",
             },
             {
@@ -183,6 +190,13 @@ export default defineComponent({
                 title: "Ngày tạo",
                 key: "impTime",
                 dataIndex: "impTime",
+                width: 70,
+                className: "column-header-center",
+            },
+            {
+                title: "Ngày hóa đơn",
+                key: "invTime",
+                dataIndex: "invTime",
                 width: 70,
                 className: "column-header-center",
             },
@@ -269,7 +283,10 @@ export default defineComponent({
             show(true, undefined);
         };
 
+        /* eslint-disable */
         const show = (v: boolean, s: DImpMestModel | undefined) => {
+            debugger;
+
             if (
                 (s !== undefined && s.impExpMestTypeId === 1) ||
                 impExMestTypeId.value === 1
