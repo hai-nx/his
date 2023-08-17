@@ -485,6 +485,24 @@
                                                 disabled
                                             />
                                         </template>
+                                        <template
+                                            v-else-if="column.key === 'action'"
+                                        >
+                                            <span>
+                                                <button
+                                                    class="btn btn-outline-danger border-0 btn-sm"
+                                                    title="Xóa"
+                                                    :disabled="isDisabled"
+                                                    @click="
+                                                        handleDeleteImpMestMedicine(
+                                                            record
+                                                        )
+                                                    "
+                                                >
+                                                    <i class="bi bi-x-lg"></i>
+                                                </button>
+                                            </span>
+                                        </template>
                                     </template>
                                 </a-table>
                             </div>
@@ -774,6 +792,14 @@ export default defineComponent({
                 width: 120,
                 className: "column-header-center",
             },
+            {
+                title: "#",
+                key: "action",
+                dataIndex: "action",
+                width: 70,
+                align: "center",
+                className: "column-header-center",
+            },
         ]);
 
         const pricePolicyColumns = reactive([
@@ -825,13 +851,6 @@ export default defineComponent({
         ]);
 
         const show = computed(() => props.visible);
-        const isDisabledEdit = computed(() => {
-            if (props.data !== undefined && props.data !== null) {
-                return props.data.id !== null && props.data.impMestStatus === 0;
-            }
-
-            return false;
-        });
 
         watch(show, async (value) => {
             if (value) {
@@ -849,7 +868,10 @@ export default defineComponent({
                 ) {
                     isDisabled.value = true;
 
-                    var resultDto = await impMestService.getById(props.data.id);
+                    var resultDto =
+                        await impMestService.importFromSupplierGetById(
+                            props.data.id
+                        );
                     if (resultDto.data.isSuccessed) {
                         title.value = "Nhập thuốc từ nhà cung cấp";
                         source.value = resultDto.data.result;
@@ -873,7 +895,8 @@ export default defineComponent({
 
                         if (
                             source.value.dImpMestMedicines !== null &&
-                            source.value.dImpMestMedicines
+                            source.value.dImpMestMedicines &&
+                            source.value.dImpMestMedicines.length > 0
                         ) {
                             source.value.dImpMestMedicines.forEach(
                                 (dImpMestMedicine) => {
@@ -904,10 +927,11 @@ export default defineComponent({
                                     }
                                 }
                             );
-                        }
 
-                        dImpMestMedicineSelected.value =
-                            source.value.dImpMestMedicines[0];
+                            dImpMestMedicineSelected.value = {
+                                ...source.value.dImpMestMedicines[0],
+                            };
+                        }
                     } else {
                         Modal.error({
                             content: resultDto.data.message,
@@ -1123,9 +1147,7 @@ export default defineComponent({
             };
         };
 
-        /* eslint-disable */
         const handleUpdateImMest = () => {
-            debugger;
             let dImpMestMedicine = source.value.dImpMestMedicines.find(
                 (f) => f.code == dImpMestMedicineSelected.value.code
             );
@@ -1160,6 +1182,8 @@ export default defineComponent({
                     sMedicineTypeSelected.value = { ...sMedicineType };
 
                     if (dImpMestMedicineSelected.value !== undefined) {
+                        dImpMestMedicineSelected.value.id = null;
+                        dImpMestMedicineSelected.value.medicineId = null;
                         dImpMestMedicineSelected.value.code =
                             sMedicineTypeSelected.value.code;
                         dImpMestMedicineSelected.value.heInCode =
@@ -1292,12 +1316,18 @@ export default defineComponent({
             return parseFloat(value.toString()).toFixed(2);
         };
 
+        const handleDeleteImpMestMedicine = (record: DImpMestMedicineModel) => {
+            let index = source.value.dImpMestMedicines.indexOf(record, 0);
+            if (index !== -1) {
+                source.value.dImpMestMedicines.splice(index, 1);
+            }
+        };
+
         //#endregion
 
         return {
             selectedDate: dayjs("2023-08-13T11:29:12.966"),
             isDisabled,
-            isDisabledEdit,
             title,
             loading,
             result,
@@ -1328,6 +1358,7 @@ export default defineComponent({
             handleStockIn,
             handleCanceled,
             formatNumber,
+            handleDeleteImpMestMedicine,
         };
     },
 });

@@ -5,8 +5,8 @@ const impMestService = {
     getByStock(stockId: string, fromDate: string, toDate: string) {
         return request.get<ApiResult<DImpMestModel[]>>("api/DImpMest/GetByStock?stockId=" + stockId + "&fromDate=" + fromDate + "&toDate=" + toDate);
     },
-    getById(id: string) {
-        return request.get<ApiResult<DImpMestModel>>('api/DImpMest/GetById?id=' + id);
+    importFromSupplierGetById(id: string) {
+        return request.get<ApiResult<DImpMestModel>>('api/DImpMest/ImportFromSupplierGetById?id=' + id);
     },
     importFromSupplierSaveAsDraft(input: DImpMestModel) {
         return request.post<ApiResult<DImpMestModel>>('api/DImpMest/ImportFromSupplierSaveAsDraft', input);

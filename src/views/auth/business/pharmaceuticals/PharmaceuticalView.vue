@@ -208,7 +208,7 @@ export default defineComponent({
                 className: "column-header-center",
             },
 
-            { title: "Xử lý", key: "action", width: 100, align: "center" },
+            { title: "Xử lý", key: "action", width: 70, align: "center" },
         ]);
 
         const visible = ref<boolean>(false);
@@ -260,9 +260,7 @@ export default defineComponent({
         };
 
         // ẩn / hiện chi tiết
-        /* eslint-disable */
         const handleToggle = (result: boolean) => {
-            debugger;
             visible.value = !visible.value;
 
             if (result) {
