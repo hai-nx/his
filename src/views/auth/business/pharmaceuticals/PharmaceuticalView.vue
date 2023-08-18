@@ -148,6 +148,12 @@
                 :data="source"
                 @toggle="handleToggle"
             />
+            <PharmaceuticalImportFromAnotherStockView
+                :visible="visibleImportFromAnotherStock"
+                :impExMestTypeId="impExMestTypeId"
+                :data="source"
+                @toggle="handleToggleImportFromAnotherStock"
+            />
         </teleport>
     </div>
 </template>
@@ -160,6 +166,7 @@ import { RoomModel, DImpMestModel, DImpExpMestTypeModel } from "@/models";
 import { roomService, impMestService, impExpMestTypeService } from "@/services";
 import dayjs, { Dayjs } from "dayjs";
 import PharmaceuticalImportFromSupplierView from "./PharmaceuticalImportFromSupplierView.vue";
+import PharmaceuticalImportFromAnotherStockView from "./PharmaceuticalImportFromAnotherStockView.vue";
 
 export default defineComponent({
     name: "PharmaceuticalView",
@@ -212,6 +219,7 @@ export default defineComponent({
         ]);
 
         const visible = ref<boolean>(false);
+        const visibleImportFromAnotherStock = ref<boolean>(false);
         const source = ref<DImpMestModel>();
         const fields = ref({ value: "id", label: "name" });
         const sStocks = ref<RoomModel[]>([]);
@@ -259,9 +267,19 @@ export default defineComponent({
             show(true, item);
         };
 
-        // ẩn / hiện chi tiết
+        // ẩn, hiện nhập thuốc từ nhà cung cấp
         const handleToggle = (result: boolean) => {
             visible.value = !visible.value;
+
+            if (result) {
+                handleLoad();
+            }
+        };
+
+        // Ẩn, hiện nhập thuốc từ kho khác
+        const handleToggleImportFromAnotherStock = (result: boolean) => {
+            visibleImportFromAnotherStock.value =
+                !visibleImportFromAnotherStock.value;
 
             if (result) {
                 handleLoad();
@@ -277,19 +295,20 @@ export default defineComponent({
 
         const handlGegenerateDocumentClick = (type: DImpExpMestTypeModel) => {
             impExMestTypeId.value = type.id;
-            visible.value = true;
             show(true, undefined);
         };
 
-        /* eslint-disable */
         const show = (v: boolean, s: DImpMestModel | undefined) => {
-            debugger;
-
             if (
                 (s !== undefined && s.impExpMestTypeId === 1) ||
                 impExMestTypeId.value === 1
             ) {
                 visible.value = v;
+            } else if (
+                (s !== undefined && s.impExpMestTypeId === 3) ||
+                impExMestTypeId.value === 3
+            ) {
+                visibleImportFromAnotherStock.value = v;
             }
 
             source.value = s;
@@ -313,6 +332,8 @@ export default defineComponent({
             handleToggle,
             handleStocksChanged,
             handlGegenerateDocumentClick,
+            visibleImportFromAnotherStock,
+            handleToggleImportFromAnotherStock,
         };
     },
     mounted() {
@@ -321,6 +342,7 @@ export default defineComponent({
     components: {
         PlusOutlined,
         PharmaceuticalImportFromSupplierView,
+        PharmaceuticalImportFromAnotherStockView,
     },
 });
 </script>
