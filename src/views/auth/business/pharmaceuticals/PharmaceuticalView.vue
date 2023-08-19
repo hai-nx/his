@@ -34,6 +34,15 @@
                 v-model:value="sStockId"
             />
 
+            <a-radio-group
+                name="radioGroup"
+                class="grid-column-4 mx-3"
+                v-model:value="type"
+            >
+                <a-radio value="1">Nhập</a-radio>
+                <a-radio value="2">Xuất</a-radio>
+            </a-radio-group>
+
             <div class="search grid-col-6">
                 <label>Từ ngày:</label>
                 <a-date-picker
@@ -91,12 +100,6 @@
                         </a-tag>
                         <a-tag
                             v-else-if="record.impMestStatus === 4"
-                            color="success"
-                        >
-                            <span>Đã nhập kho</span>
-                        </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 5"
                             color="error"
                         >
                             <span>Đã hủy</span>
@@ -159,7 +162,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, reactive } from "vue";
 import { Modal } from "ant-design-vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import { RoomModel, DImpMestModel, DImpExpMestTypeModel } from "@/models";
@@ -176,14 +179,14 @@ export default defineComponent({
                 title: "Trạng thái phiếu",
                 key: "impMestStatus",
                 dataIndex: "impMestStatus",
-                width: 100,
+                width: 70,
                 className: "column-header-center",
             },
             {
                 title: "Mã phiếu",
                 key: "code",
                 dataIndex: "code",
-                width: 100,
+                width: 70,
                 className: "column-header-center",
             },
             {
@@ -209,8 +212,8 @@ export default defineComponent({
             },
             {
                 title: "Ngày nhập kho",
-                key: "stockReceiptTime",
-                dataIndex: "stockReceiptTime",
+                key: "stockImpUserTime",
+                dataIndex: "stockImpUserTime",
                 width: 70,
                 className: "column-header-center",
             },
@@ -218,6 +221,7 @@ export default defineComponent({
             { title: "Xử lý", key: "action", width: 70, align: "center" },
         ]);
 
+        const type = ref<string>("1");
         const visible = ref<boolean>(false);
         const visibleImportFromAnotherStock = ref<boolean>(false);
         const source = ref<DImpMestModel>();
@@ -315,6 +319,7 @@ export default defineComponent({
         };
 
         return {
+            type,
             fromDate,
             toDate,
             columns,

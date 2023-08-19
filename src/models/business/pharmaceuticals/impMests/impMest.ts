@@ -6,8 +6,11 @@ export default interface DImpMestModel {
     /// Mã phiếu
     code: string | null,
 
-    /// Trạng thái
+    /// Trạng thái phiếu nhập
     impMestStatus: number,
+
+    /// Trạng thái phiếu xuất
+    empMestStatus: number,
 
     /// Kho nhập
     impStockId: string | null,
@@ -65,10 +68,10 @@ export default interface DImpMestModel {
     deliverer: string | null,
 
     /// Ngày nhập kho
-    stockReceiptTime: string | null
+    stockImpTime: string | null
 
     /// Người nhập kho
-    stockReceiptUserId: string | null,
+    stockImpUserId: string | null,
 
     dImpMestMedicines: DImpMestMedicineModel[]
 }

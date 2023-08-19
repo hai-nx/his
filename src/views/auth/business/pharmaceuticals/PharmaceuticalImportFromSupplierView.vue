@@ -616,6 +616,7 @@ export default defineComponent({
             code: null,
             /// Trạng thái
             impMestStatus: 0,
+            empMestStatus: 0,
             /// Kho nhập
             impStockId: null,
             /// Kho xuất
@@ -653,9 +654,9 @@ export default defineComponent({
             /// Người giao
             deliverer: null,
             /// Ngày nhập kho
-            stockReceiptTime: null,
+            stockImpTime: null,
             /// Người nhập kho
-            stockReceiptUserId: null,
+            stockImpUserId: null,
             dImpMestMedicines: [],
         });
 
@@ -852,7 +853,9 @@ export default defineComponent({
 
         const show = computed(() => props.visible);
 
+        /* eslint-disable */
         watch(show, async (value) => {
+            debugger;
             if (value) {
                 reset();
                 inItData();
@@ -888,9 +891,9 @@ export default defineComponent({
                             source.value.approverTime =
                                 source.value.approverTime.split("T")[0];
                         }
-                        if (source.value.stockReceiptTime !== null) {
-                            source.value.stockReceiptTime =
-                                source.value.stockReceiptTime.split("T")[0];
+                        if (source.value.stockImpTime !== null) {
+                            source.value.stockImpTime =
+                                source.value.stockImpTime.split("T")[0];
                         }
 
                         if (
@@ -997,6 +1000,7 @@ export default defineComponent({
                 code: null,
                 /// Trạng thái
                 impMestStatus: 0,
+                empMestStatus: 0,
                 /// Kho nhập
                 impStockId: null,
                 /// Kho xuất
@@ -1034,9 +1038,9 @@ export default defineComponent({
                 /// Người giao
                 deliverer: null,
                 /// Ngày nhập kho
-                stockReceiptTime: null,
+                stockImpTime: null,
                 /// Người nhập kho
-                stockReceiptUserId: null,
+                stockImpUserId: null,
                 dImpMestMedicines: [],
             };
 

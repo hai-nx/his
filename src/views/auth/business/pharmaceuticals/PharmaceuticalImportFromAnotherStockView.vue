@@ -53,7 +53,7 @@
                         :field-names="fields"
                         :options="sStocks"
                         showSearch
-                        v-model:value="source.impStockId"
+                        v-model:value="source.expStockId"
                         :disabled="isDisabled"
                     />
                     <label class="grid-column-5"> Mã phiếu: </label>
@@ -92,7 +92,7 @@
                     <a-input
                         class="grid-column-8"
                         v-model:value="source.description"
-                        :disabled="isDisabled"
+                        disabled
                     />
 
                     <label class="grid-column-9"> ĐVT: </label>
@@ -127,14 +127,14 @@
                     <label class="grid-column-3">Giá nhập: </label>
                     <a-input-number
                         class="grid-column-4 w-100"
-                        :disabled="isDisabled"
+                        disabled
                         min="0"
                     />
 
                     <label class="grid-column-5">VAT nhập (%): </label>
                     <a-input-number
                         class="grid-column-6 w-100"
-                        :disabled="isDisabled"
+                        disabled
                         min="0"
                         max="100"
                     />
@@ -142,7 +142,7 @@
                     <label class="grid-column-7">Thuế nhập (%): </label>
                     <a-input-number
                         class="grid-column-8 w-100"
-                        :disabled="isDisabled"
+                        disabled
                         min="0"
                         max="100"
                     />
@@ -150,7 +150,7 @@
                     <label class="grid-column-9">Thành tiền: </label>
                     <a-input-number
                         class="grid-column-columnspan-10-13 w-100"
-                        :disabled="isDisabled"
+                        disabled
                         min="0"
                     />
 
@@ -164,7 +164,7 @@
                     <input
                         class="datetime grid-column-6"
                         type="date"
-                        :disabled="isDisabled"
+                        disabled
                     />
 
                     <a-button
@@ -177,7 +177,6 @@
                     <a-table
                         class="ant-table-striped grid-column-columnspan-1-13 mt-3 table-overflow-x"
                         size="middle"
-                        :customRow="handleRowClickImpMestMedicine"
                         :columns="impMestMedicineColumns"
                         :data-source="source.dImpMestMedicines"
                         bordered
@@ -227,8 +226,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, PropType } from "vue";
+import { defineComponent, ref, reactive, computed, PropType, watch } from "vue";
 import { DImpMestModel, RoomModel, UnitModel, UserModel } from "@/models";
+import { roomService, userService, unitService } from "@/services";
 
 export default defineComponent({
     name: "PharmaceuticalImportFromAnotherStockView",
@@ -266,6 +266,7 @@ export default defineComponent({
             code: null,
             /// Trạng thái
             impMestStatus: 0,
+            empMestStatus: 0,
             /// Kho nhập
             impStockId: null,
             /// Kho xuất
@@ -303,16 +304,139 @@ export default defineComponent({
             /// Người giao
             deliverer: null,
             /// Ngày nhập kho
-            stockReceiptTime: null,
+            stockImpTime: null,
             /// Người nhập kho
-            stockReceiptUserId: null,
+            stockImpUserId: null,
             dImpMestMedicines: [],
         });
+
+        const impMestMedicineColumns = reactive([
+            {
+                title: "Mã thuốc",
+                key: "code",
+                dataIndex: "code",
+                width: 100,
+                className: "column-header-center",
+            },
+            {
+                title: "Tên thuốc",
+                key: "name",
+                dataIndex: "name",
+                width: 250,
+                className: "column-header-center",
+            },
+            {
+                title: "ĐVT",
+                key: "unitId",
+                dataIndex: "unitId",
+                width: 100,
+                className: "column-header-center",
+            },
+            {
+                title: "Giá nhập",
+                key: "impPrice",
+                dataIndex: "impPrice",
+                width: 150,
+                className: "column-header-center",
+                align: "right",
+            },
+            {
+                title: "Số lượng",
+                key: "impQuantity",
+                dataIndex: "impQuantity",
+                width: 100,
+                className: "column-header-center",
+                align: "right",
+            },
+            {
+                title: "VAT(%)",
+                key: "impVatRate",
+                dataIndex: "impVatRate",
+                width: 100,
+                className: "column-header-center",
+                align: "right",
+            },
+            {
+                title: "Thành tiền",
+                key: "impAmount",
+                dataIndex: "impAmount",
+                width: 150,
+                className: "column-header-center",
+                align: "right",
+            },
+            {
+                title: "Số lô",
+                key: "lot",
+                dataIndex: "lot",
+                width: 150,
+                className: "column-header-center",
+            },
+            {
+                title: "Hạn dùng",
+                key: "dueDate",
+                dataIndex: "dueDate",
+                width: 120,
+                className: "column-header-center",
+            },
+            {
+                title: "#",
+                key: "action",
+                dataIndex: "action",
+                width: 70,
+                align: "center",
+                className: "column-header-center",
+            },
+        ]);
 
         //#region Funtion
         const toggle = function () {
             emit("toggle", result);
         };
+
+        /* eslint-disable */
+        watch(show, async (value) => {
+            if (value) {
+                debugger;
+                // reset();
+                inItData();
+
+                result.value = false;
+                loading.value = true;
+                isDisabled.value = true;
+
+                if (
+                    props.data !== null &&
+                    props.data?.id !== null &&
+                    props.data?.id !== undefined
+                ) {
+                    isDisabled.value = true;
+
+                    loading.value = false;
+                } else {
+                    isDisabled.value = false;
+                }
+
+                loading.value = false;
+            }
+        });
+
+        async function inItData() {
+            sStocks.value = await getStocks();
+            sUnits.value = await getUnits();
+            sUsers.value = await getUsers();
+        }
+
+        async function getStocks(): Promise<RoomModel[]> {
+            return (await roomService.getByStocks()).data.result;
+        }
+
+        async function getUnits(): Promise<UnitModel[]> {
+            return (await unitService.getAll()).data.result;
+        }
+
+        async function getUsers(): Promise<UserModel[]> {
+            return (await userService.getAll()).data.result;
+        }
         //#endregion
 
         //#region Event
@@ -335,6 +459,7 @@ export default defineComponent({
             sUnits,
             sUsers,
 
+            impMestMedicineColumns,
             handleCancel,
         };
     },
@@ -343,7 +468,7 @@ export default defineComponent({
 
 <style scoped>
 .card-body {
-    margin: -10px;
+    /* margin: 0px -24px; */
     max-height: 650px;
     height: 650px;
     overflow-y: auto;
