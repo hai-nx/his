@@ -120,13 +120,11 @@
                             : new Date(record.invTime).toLocaleDateString()
                     }}</span>
                 </template>
-                <template v-if="column.key === 'stockReceiptTime'">
+                <template v-if="column.key === 'stockImpTime'">
                     <span>{{
                         record.stockReceiptTime === null
-                            ? record.stockReceiptTime
-                            : new Date(
-                                  record.stockReceiptTime
-                              ).toLocaleDateString()
+                            ? record.stockImpTime
+                            : new Date(record.stockImpTime).toLocaleDateString()
                     }}</span>
                 </template>
 
@@ -212,8 +210,8 @@ export default defineComponent({
             },
             {
                 title: "Ngày nhập kho",
-                key: "stockImpUserTime",
-                dataIndex: "stockImpUserTime",
+                key: "stockImpTime",
+                dataIndex: "stockImpTime",
                 width: 70,
                 className: "column-header-center",
             },

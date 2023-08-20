@@ -91,7 +91,7 @@
                                 </label>
                                 <a-input
                                     class="grid-column-10"
-                                    v-model:value="supplierSelected.taxtCode"
+                                    v-model:value="supplierSelected.taxCode"
                                     disabled
                                 />
                                 <label class="grid-column-11">
@@ -528,9 +528,7 @@
                 >
                 <a-button
                     v-if="
-                        source.impMestStatus !== 3 &&
-                        source.impMestStatus !== 4 &&
-                        source.impMestStatus !== 5
+                        source.impMestStatus !== 3 && source.impMestStatus !== 4
                     "
                     type="primary"
                     class="btn-save"
@@ -994,6 +992,13 @@ export default defineComponent({
         }
 
         const reset = () => {
+            supplierSelected.value = {
+                id: undefined,
+                code: null,
+                name: null,
+                inactive: false,
+            };
+
             source.value = {
                 id: null,
                 /// Mã phiếu
@@ -1247,8 +1252,6 @@ export default defineComponent({
             loading.value = true;
             result.value = false;
 
-            source.value.impExpMestTypeId = 1;
-
             var resultDto = await impMestService.importFromSupplierSaveAsDraft(
                 source.value
             );
@@ -1272,8 +1275,6 @@ export default defineComponent({
         const handleStockIn = async () => {
             result.value = false;
             loading.value = true;
-
-            source.value.impExpMestTypeId = 1;
 
             let resultDto = await impMestService.importFromSupplierStockIn(
                 source.value
