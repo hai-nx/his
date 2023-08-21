@@ -39,8 +39,8 @@
                 class="grid-column-4 mx-3"
                 v-model:value="type"
             >
-                <a-radio value="1">Nhập</a-radio>
-                <a-radio value="2">Xuất</a-radio>
+                <a-radio value="0">Nhập</a-radio>
+                <a-radio value="1">Xuất</a-radio>
             </a-radio-group>
 
             <div class="search grid-col-6">
@@ -65,10 +65,11 @@
         </div>
 
         <a-table
+            v-if="isImport"
             class="ant-table-striped"
             size="middle"
             :columns="columns"
-            :data-source="itemSources"
+            :data-source="impSources"
             bordered
         >
             <template #bodyCell="{ column, record }">
@@ -109,21 +110,21 @@
                 <template v-if="column.key === 'impTime'">
                     <span>{{
                         record.impTime === null
-                            ? record.impTime
+                            ? null
                             : new Date(record.impTime).toLocaleDateString()
                     }}</span>
                 </template>
                 <template v-if="column.key === 'invTime'">
                     <span>{{
-                        record.impTime === null
-                            ? record.invTime
+                        record.invTime === null
+                            ? null
                             : new Date(record.invTime).toLocaleDateString()
                     }}</span>
                 </template>
                 <template v-if="column.key === 'stockImpTime'">
                     <span>{{
-                        record.stockReceiptTime === null
-                            ? record.stockImpTime
+                        record.stockImpTime === null
+                            ? null
                             : new Date(record.stockImpTime).toLocaleDateString()
                     }}</span>
                 </template>
@@ -160,7 +161,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from "vue";
+import { defineComponent, ref, reactive, computed } from "vue";
 import { Modal } from "ant-design-vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import { RoomModel, DImpMestModel, DImpExpMestTypeModel } from "@/models";
@@ -219,13 +220,13 @@ export default defineComponent({
             { title: "Xử lý", key: "action", width: 70, align: "center" },
         ]);
 
-        const type = ref<string>("1");
+        const type = ref<string>("0");
         const visible = ref<boolean>(false);
         const visibleImportFromAnotherStock = ref<boolean>(false);
         const source = ref<DImpMestModel>();
         const fields = ref({ value: "id", label: "name" });
         const sStocks = ref<RoomModel[]>([]);
-        const itemSources = ref<DImpMestModel[]>([]);
+        const impSources = ref<DImpMestModel[]>([]);
         const dImpExpMestTypes = ref<DImpExpMestTypeModel[]>([]);
         const sStockId = ref<string>("");
         const fromDate = ref<Dayjs>(
@@ -255,13 +256,16 @@ export default defineComponent({
             let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
             let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
 
-            itemSources.value = (
-                await impMestService.getByStock(
-                    sStockId.value,
-                    fromDateString,
-                    toDateString
-                )
-            ).data.result;
+            let isImport = type.value == "0" ? true : false;
+            if (isImport) {
+                impSources.value = (
+                    await impMestService.getByStock(
+                        sStockId.value,
+                        fromDateString,
+                        toDateString
+                    )
+                ).data.result;
+            }
         };
 
         // sửa
@@ -316,6 +320,10 @@ export default defineComponent({
             source.value = s;
         };
 
+        const isImport = computed(() => {
+            return type.value == "0" ? true : false;
+        });
+
         return {
             type,
             fromDate,
@@ -325,10 +333,11 @@ export default defineComponent({
             fields,
             sStocks,
             dImpExpMestTypes,
-            itemSources,
+            impSources,
             source,
             sStockId,
             impExMestTypeId,
+            isImport,
             handleLoad,
             handleEdit,
             inItData,

@@ -140,10 +140,13 @@
                     />
 
                     <label class="grid-column-5"> Nước SX: </label>
-                    <a-input
+                    <a-select
                         class="grid-column-6"
-                        disabled
+                        :field-names="fields"
+                        :options="sCountries"
+                        showSearch
                         v-model:value="dImpMestMedicineSelected.countryId"
+                        disabled
                     />
 
                     <label class="grid-column-7"> Hãng SX: </label>
@@ -171,7 +174,7 @@
                         v-model:value="dImpMestMedicineSelected.impPrice"
                     />
 
-                    <label class="grid-column-5">VAT nhập (%): </label>
+                    <label class="grid-column-5">VAT (%): </label>
                     <a-input-number
                         @input="calculateTotalAmout"
                         class="grid-column-6 w-100"
@@ -181,7 +184,7 @@
                         v-model:value="dImpMestMedicineSelected.impVatRate"
                     />
 
-                    <label class="grid-column-7">Thuế nhập (%): </label>
+                    <label class="grid-column-7">Thuế (%): </label>
                     <a-input-number
                         @input="calculateTotalAmout"
                         class="grid-column-8 w-100"
@@ -305,30 +308,31 @@
                     >Sửa</a-button
                 >
                 <a-button
-                    v-if="
-                        source.impMestStatus !== 3 && source.impMestStatus !== 4
-                    "
+                    v-if="source.impMestStatus === 0"
                     type="primary"
                     class="btn-save"
-                    @click.prevent="handleStockIn"
+                    @click.prevent="handleSendRequest"
                     >Gửi yêu cầu</a-button
                 >
-                <!-- <a-button
-                    v-if="
-                        source.impMestStatus !== 3 && source.impMestStatus !== 4
-                    "
+                <a-button
+                    v-if="source.impMestStatus === 1"
+                    class="btn-save"
+                    @click.prevent="handleCanceledRequest"
+                    >Hủy yêu cầu</a-button
+                >
+                <a-button
+                    v-if="source.impMestStatus === 1"
+                    :disabled="source.expMestStatus !== 3"
                     type="primary"
                     class="btn-save"
                     @click.prevent="handleStockIn"
                     >Nhập kho</a-button
-                > -->
+                >
                 <a-button
                     v-if="
                         source.impMestStatus === 3 || source.impMestStatus === 4
                     "
-                    type="primary"
                     class="btn-save"
-                    @click.prevent="handleCanceled"
                     >Hủy phiếu</a-button
                 >
             </template>
@@ -338,7 +342,15 @@
 
 <script lang="ts">
 import { Modal } from "ant-design-vue";
-import { defineComponent, ref, reactive, computed, PropType, watch } from "vue";
+import {
+    defineComponent,
+    ref,
+    reactive,
+    computed,
+    PropType,
+    watch,
+    watchEffect,
+} from "vue";
 import {
     DImpMestModel,
     DMedicineStockModel,
@@ -346,12 +358,14 @@ import {
     UnitModel,
     UserModel,
     DImpMestMedicineModel,
+    CountryModel,
 } from "@/models";
 import {
     roomService,
     userService,
     unitService,
     impMestService,
+    countryService,
 } from "@/services";
 
 export default defineComponent({
@@ -387,6 +401,7 @@ export default defineComponent({
         const sStocks = ref<RoomModel[]>([]);
         const sUnits = ref<UnitModel[]>([]);
         const sUsers = ref<UserModel[]>([]);
+        const sCountries = ref<CountryModel[]>([]);
         const dMedicineStocks = ref<DMedicineStockModel[]>([]);
 
         const show = computed(() => props.visible);
@@ -396,7 +411,7 @@ export default defineComponent({
             code: null,
             /// Trạng thái
             impMestStatus: 0,
-            empMestStatus: 0,
+            expMestStatus: 0,
             /// Kho nhập
             impStockId: null,
             /// Kho xuất
@@ -683,10 +698,46 @@ export default defineComponent({
             }
         });
 
+        watchEffect(async () => {
+            // Theo dõi expStockId thay đổi
+            if (
+                source.value.expStockId !== null &&
+                source.value.expStockId !== undefined
+            ) {
+                dMedicineStocks.value = await getMedicineByStocks(
+                    source.value.expStockId
+                );
+            } else {
+                dMedicineStocks.value = [];
+            }
+
+            // Theo dõi thuốc thay đổi
+            if (dImpMestMedicineSelected.value.medicineId != null) {
+                let dMedicineStock = dMedicineStocks.value.find(
+                    (f) =>
+                        f.medicineId ==
+                        dImpMestMedicineSelected.value.medicineId
+                );
+                if (dMedicineStock != null) {
+                    dMedicineStockSelected.value = { ...dMedicineStock };
+                } else {
+                    dMedicineStockSelected.value = {
+                        id: null,
+                        stockId: null,
+                        medicineId: null,
+                        quantity: null,
+                        availableQuantity: null,
+                        sMedicine: null,
+                    };
+                }
+            }
+        });
+
         async function inItData() {
             sStocks.value = await getStocks();
             sUnits.value = await getUnits();
             sUsers.value = await getUsers();
+            sCountries.value = await getCountries();
         }
 
         const reset = () => {
@@ -696,7 +747,7 @@ export default defineComponent({
                 code: null,
                 /// Trạng thái
                 impMestStatus: 0,
-                empMestStatus: 0,
+                expMestStatus: 0,
                 /// Kho nhập
                 impStockId: null,
                 /// Kho xuất
@@ -817,6 +868,10 @@ export default defineComponent({
         async function getUsers(): Promise<UserModel[]> {
             return (await userService.getAll()).data.result;
         }
+
+        async function getCountries(): Promise<CountryModel[]> {
+            return (await countryService.getAll()).data.result;
+        }
         //#endregion
 
         //#region Event
@@ -826,7 +881,6 @@ export default defineComponent({
 
         /* eslint-disable */
         const handleExpStockChanged = async (stockId: string) => {
-            debugger;
             if (stockId !== null && stockId !== undefined) {
                 dMedicineStocks.value = await getMedicineByStocks(stockId);
             } else {
@@ -1049,6 +1103,46 @@ export default defineComponent({
             loading.value = false;
         };
 
+        const handleCanceledRequest = async () => {
+            result.value = false;
+            loading.value = true;
+
+            let resultDto = await impMestService.importFromAnotherStockRequest(
+                source.value
+            );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                result.value = true;
+                toggle();
+            }
+
+            loading.value = false;
+        };
+
+        // const handleCanceled = async () => {
+        //     result.value = false;
+        //     loading.value = true;
+
+        //     let resultDto = await impMestService.importFromAnotherStockStockIn(
+        //         source.value
+        //     );
+        //     if (resultDto.data.isSuccessed) {
+        //         Modal.error({
+        //             content: resultDto.data.message,
+        //             okText: "Đồng ý",
+        //         });
+        //     } else {
+        //         result.value = true;
+        //         toggle();
+        //     }
+
+        //     loading.value = false;
+        // };
+
         const handleStockIn = async () => {
             result.value = false;
             loading.value = true;
@@ -1086,6 +1180,7 @@ export default defineComponent({
             sUnits,
             sUsers,
             dMedicineStocks,
+            sCountries,
             formatNumber,
 
             dMedicineStockSelected,
@@ -1101,6 +1196,7 @@ export default defineComponent({
             handleSave,
             handleEdit,
             handleSendRequest,
+            handleCanceledRequest,
             handleStockIn,
             handleCancel,
         };

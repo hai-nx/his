@@ -9,7 +9,7 @@ export default interface DImpMestModel {
     impMestStatus: number,
 
     /// Trạng thái phiếu xuất
-    empMestStatus: number,
+    expMestStatus: number,
 
     /// Kho nhập
     impStockId: string | null,

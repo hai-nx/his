@@ -614,7 +614,7 @@ export default defineComponent({
             code: null,
             /// Trạng thái
             impMestStatus: 0,
-            empMestStatus: 0,
+            expMestStatus: 0,
             /// Kho nhập
             impStockId: null,
             /// Kho xuất
@@ -1005,7 +1005,7 @@ export default defineComponent({
                 code: null,
                 /// Trạng thái
                 impMestStatus: 0,
-                empMestStatus: 0,
+                expMestStatus: 0,
                 /// Kho nhập
                 impStockId: null,
                 /// Kho xuất
