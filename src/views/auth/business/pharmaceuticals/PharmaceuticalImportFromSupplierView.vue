@@ -270,7 +270,6 @@
                                 </label>
                                 <a-input-number
                                     class="grid-column-4 w-100"
-                                    :formatter="formatNumber"
                                     v-model:value="
                                         dImpMestMedicineSelected.impAmount
                                     "
@@ -1130,8 +1129,9 @@ export default defineComponent({
                     dImpMestMedicineSelected.value.impQuantity *
                     dImpMestMedicineSelected.value.impPrice;
 
-                dImpMestMedicineSelected.value.impAmount =
-                    impAmount * (1 + vatRate + taxRate);
+                dImpMestMedicineSelected.value.impAmount = Number(
+                    (impAmount * (1 + vatRate + taxRate)).toFixed(2)
+                );
             }
         };
 

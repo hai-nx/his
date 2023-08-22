@@ -1107,9 +1107,10 @@ export default defineComponent({
             result.value = false;
             loading.value = true;
 
-            let resultDto = await impMestService.importFromAnotherStockRequest(
-                source.value
-            );
+            let resultDto =
+                await impMestService.importFromAnotherStockSaveAsDraft(
+                    source.value
+                );
             if (!resultDto.data.isSuccessed) {
                 Modal.error({
                     content: resultDto.data.message,
