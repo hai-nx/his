@@ -4,6 +4,12 @@
             <h3>Danh mục thuốc</h3>
 
             <div>
+                <a-button type="primary"
+                    style="margin-right: 10px"
+                    @click="handleImportExcel(true)"
+                >
+                    Nhập thuốc từ Excel
+                </a-button>
                 <a-button type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
                     <span>Thêm thuốc</span>
@@ -57,6 +63,10 @@
                 :data="record"
                 @toggle="handleToggle"
             />
+            <MedicineTypeDetailImportView
+                :visible="visibleImportExcel"
+                @toggle="handleToggleImportExcel"
+            />
         </teleport>
     </div>
 </template>
@@ -67,6 +77,7 @@ import { Modal } from "ant-design-vue";
 import { MedicineTypeModel } from "@/models";
 import { medicineTypeService } from "@/services";
 import MedicineTypeDetailView from "./MedicineTypeDetailView.vue";
+import MedicineTypeDetailImportView from "./MedicineTypeDetailImportView.vue";
 
 export default defineComponent({
     name: "MedicineTypeView",
@@ -99,6 +110,7 @@ export default defineComponent({
         const items = ref<MedicineTypeModel[]>([]);
         const record = ref<MedicineTypeModel>();
         const visible = ref<boolean>(false);
+        const visibleImportExcel = ref<boolean>(false);
 
         // lấy dữ liệu
         const handleLoad = () => {
@@ -149,9 +161,21 @@ export default defineComponent({
             }
         };
 
+        const handleImportExcel = (v: boolean) => {
+            visibleImportExcel.value = v;
+        };
+
         // ẩn / hiện chi tiết
         const handleToggle = (result: boolean) => {
             visible.value = !visible.value;
+            if (result) {
+                record.value = undefined;
+                handleLoad();
+            }
+        };
+
+        const handleToggleImportExcel = (result: boolean) => {
+            visibleImportExcel.value = !visibleImportExcel.value;
             if (result) {
                 record.value = undefined;
                 handleLoad();
@@ -168,18 +192,25 @@ export default defineComponent({
             record,
             columns,
             visible,
+            visibleImportExcel,
             handleAdd,
             handleDelete,
             handleEdit,
             handleLoad,
             handleToggle,
+            handleImportExcel,
+            handleToggleImportExcel,
         };
     },
+
+
     mounted() {
         this.handleLoad();
     },
     components: {
-        MedicineTypeDetailView,
+        MedicineTypeDetailView,        
+        MedicineTypeDetailImportView,
     },
 });
+const visibleImportExcel = ref<boolean>(false);
 </script>

@@ -1,4 +1,4 @@
-import { ApiResult, MedicineTypeModel } from '@/models'
+import { ApiResult, MedicineTypeImportModel, MedicineTypeModel } from '@/models'
 import request from '@/utils/request'
 
 const medicineTypeService = {
@@ -10,6 +10,9 @@ const medicineTypeService = {
     },
     createOrEdit(input: MedicineTypeModel) {
         return request.post<ApiResult<MedicineTypeModel>>('api/SMedicineType/CreateOrEdit', input);
+    },
+    import(input: MedicineTypeImportModel[]) {
+        return request.post<ApiResult<boolean>>('api/SMedicineType/Import', input);
     },
     delete(id: string) {
         return request.delete('api/SMedicineType/Delete?id=' + id);
