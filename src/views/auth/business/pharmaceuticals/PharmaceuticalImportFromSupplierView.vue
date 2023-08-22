@@ -25,7 +25,7 @@
                                     :field-names="fields"
                                     :options="sStocks"
                                     showSearch
-                                    v-model:value="source.imStockId"
+                                    v-model:value="source.impStockId"
                                     :disabled="isDisabled"
                                 >
                                 </a-select>
@@ -91,7 +91,7 @@
                                 </label>
                                 <a-input
                                     class="grid-column-10"
-                                    v-model:value="supplierSelected.taxtCode"
+                                    v-model:value="supplierSelected.taxCode"
                                     disabled
                                 />
                                 <label class="grid-column-11">
@@ -270,6 +270,7 @@
                                 </label>
                                 <a-input-number
                                     class="grid-column-4 w-100"
+                                    :formatter="formatNumber"
                                     v-model:value="
                                         dImpMestMedicineSelected.impAmount
                                     "
@@ -484,6 +485,24 @@
                                                 disabled
                                             />
                                         </template>
+                                        <template
+                                            v-else-if="column.key === 'action'"
+                                        >
+                                            <span>
+                                                <button
+                                                    class="btn btn-outline-danger border-0 btn-sm"
+                                                    title="Xóa"
+                                                    :disabled="isDisabled"
+                                                    @click="
+                                                        handleDeleteImpMestMedicine(
+                                                            record
+                                                        )
+                                                    "
+                                                >
+                                                    <i class="bi bi-x-lg"></i>
+                                                </button>
+                                            </span>
+                                        </template>
                                     </template>
                                 </a-table>
                             </div>
@@ -504,11 +523,13 @@
                     v-if="source.impMestStatus === 0"
                     class="btn-save"
                     :loading="loading"
-                    @click.prevent="handleSave"
+                    @click.prevent="handleEdit"
                     >Sửa</a-button
                 >
                 <a-button
-                    v-if="source.impMestStatus === 2"
+                    v-if="
+                        source.impMestStatus !== 3 && source.impMestStatus !== 4
+                    "
                     type="primary"
                     class="btn-save"
                     @click.prevent="handleStockIn"
@@ -593,10 +614,11 @@ export default defineComponent({
             code: null,
             /// Trạng thái
             impMestStatus: 0,
+            empMestStatus: 0,
             /// Kho nhập
-            imStockId: null,
+            impStockId: null,
             /// Kho xuất
-            exStockId: null,
+            expStockId: null,
             /// Loại phiếu nhập, xuất
             impExpMestTypeId: 0,
             /// Người nhận
@@ -630,9 +652,9 @@ export default defineComponent({
             /// Người giao
             deliverer: null,
             /// Ngày nhập kho
-            stockReceiptTime: null,
+            stockImpTime: null,
             /// Người nhập kho
-            stockReceiptUserId: null,
+            stockImpUserId: null,
             dImpMestMedicines: [],
         });
 
@@ -769,6 +791,14 @@ export default defineComponent({
                 width: 120,
                 className: "column-header-center",
             },
+            {
+                title: "#",
+                key: "action",
+                dataIndex: "action",
+                width: 70,
+                align: "center",
+                className: "column-header-center",
+            },
         ]);
 
         const pricePolicyColumns = reactive([
@@ -820,16 +850,12 @@ export default defineComponent({
         ]);
 
         const show = computed(() => props.visible);
-        const isDisabledEdit = computed(() => {
-            if (props.data !== undefined && props.data !== null) {
-                return props.data.id !== null && props.data.impMestStatus === 0;
-            }
 
-            return false;
-        });
-
+        /* eslint-disable */
         watch(show, async (value) => {
+            debugger;
             if (value) {
+                reset();
                 inItData();
 
                 result.value = false;
@@ -842,9 +868,11 @@ export default defineComponent({
                     props.data?.id !== undefined
                 ) {
                     isDisabled.value = true;
-                    reset();
 
-                    var resultDto = await impMestService.getById(props.data.id);
+                    var resultDto =
+                        await impMestService.importFromSupplierGetById(
+                            props.data.id
+                        );
                     if (resultDto.data.isSuccessed) {
                         title.value = "Nhập thuốc từ nhà cung cấp";
                         source.value = resultDto.data.result;
@@ -861,14 +889,15 @@ export default defineComponent({
                             source.value.approverTime =
                                 source.value.approverTime.split("T")[0];
                         }
-                        if (source.value.stockReceiptTime !== null) {
-                            source.value.stockReceiptTime =
-                                source.value.stockReceiptTime.split("T")[0];
+                        if (source.value.stockImpTime !== null) {
+                            source.value.stockImpTime =
+                                source.value.stockImpTime.split("T")[0];
                         }
 
                         if (
                             source.value.dImpMestMedicines !== null &&
-                            source.value.dImpMestMedicines
+                            source.value.dImpMestMedicines &&
+                            source.value.dImpMestMedicines.length > 0
                         ) {
                             source.value.dImpMestMedicines.forEach(
                                 (dImpMestMedicine) => {
@@ -899,10 +928,11 @@ export default defineComponent({
                                     }
                                 }
                             );
-                        }
 
-                        dImpMestMedicineSelected.value =
-                            source.value.dImpMestMedicines[0];
+                            dImpMestMedicineSelected.value = {
+                                ...source.value.dImpMestMedicines[0],
+                            };
+                        }
                     } else {
                         Modal.error({
                             content: resultDto.data.message,
@@ -962,16 +992,24 @@ export default defineComponent({
         }
 
         const reset = () => {
+            supplierSelected.value = {
+                id: undefined,
+                code: null,
+                name: null,
+                inactive: false,
+            };
+
             source.value = {
                 id: null,
                 /// Mã phiếu
                 code: null,
                 /// Trạng thái
                 impMestStatus: 0,
+                empMestStatus: 0,
                 /// Kho nhập
-                imStockId: null,
+                impStockId: null,
                 /// Kho xuất
-                exStockId: null,
+                expStockId: null,
                 /// Loại phiếu nhập, xuất
                 impExpMestTypeId: 0,
                 /// Người nhận
@@ -1005,10 +1043,68 @@ export default defineComponent({
                 /// Người giao
                 deliverer: null,
                 /// Ngày nhập kho
-                stockReceiptTime: null,
+                stockImpTime: null,
                 /// Người nhập kho
-                stockReceiptUserId: null,
+                stockImpUserId: null,
                 dImpMestMedicines: [],
+            };
+
+            dImpMestMedicineSelected.value = {
+                id: null,
+                code: null,
+                // Mã BH
+                heInCode: null,
+                // Tên
+                name: null,
+                // Đường dùng thuốc
+                medicineLineId: null,
+                // Nhóm thuốc
+                medicineGroupId: null,
+                // Nhóm thuốc
+                medicineTypeId: null,
+                // Thuốc
+                medicineId: null,
+                // Đơn vị tính
+                unitId: null,
+                // Hướng dẫn
+                tutorial: null,
+                // Nước sản xuất
+                countryId: null,
+                // Giá nhập
+                impPrice: null,
+                // Số lượng nhập
+                impQuantity: null,
+                // Phần trăm vat giá nhập
+                impVatRate: null,
+                // Phần trăm thuế
+                taxRate: null,
+                // Thanh tien
+                impAmount: null,
+                // Hoạt chất
+                activeSubstance: null,
+                // Nồng độ
+                concentration: null,
+                // Hàm lượng
+                content: null,
+                // Hãng sản xuất
+                manufacturer: null,
+                // Quy cách đóng gói
+                packagingSpecifications: null,
+                // Số ĐK
+                registrationNumber: null,
+                // Lô
+                lot: null,
+                // Hạn dùng
+                dueDate: null,
+                // Quyệt định thầu
+                tenderDecision: null,
+                // Gói thầu
+                tenderPackage: null,
+                // Nhóm thầu
+                tenderGroup: null,
+                // Năm thầu
+                tenderYear: null,
+                sMedicinePricePolicies: [],
             };
         };
 
@@ -1035,7 +1131,7 @@ export default defineComponent({
                     dImpMestMedicineSelected.value.impPrice;
 
                 dImpMestMedicineSelected.value.impAmount =
-                    impAmount + impAmount * vatRate + impAmount * taxRate;
+                    impAmount * (1 + vatRate + taxRate);
             }
         };
 
@@ -1070,7 +1166,7 @@ export default defineComponent({
                 source.value.dImpMestMedicines[index] = {
                     ...dImpMestMedicineSelected.value,
                 };
-            } else {
+            } else if (dImpMestMedicineSelected.value.medicineTypeId !== null) {
                 source.value.dImpMestMedicines.push({
                     ...dImpMestMedicineSelected.value,
                 });
@@ -1095,6 +1191,8 @@ export default defineComponent({
                     sMedicineTypeSelected.value = { ...sMedicineType };
 
                     if (dImpMestMedicineSelected.value !== undefined) {
+                        dImpMestMedicineSelected.value.id = null;
+                        dImpMestMedicineSelected.value.medicineId = null;
                         dImpMestMedicineSelected.value.code =
                             sMedicineTypeSelected.value.code;
                         dImpMestMedicineSelected.value.heInCode =
@@ -1150,21 +1248,48 @@ export default defineComponent({
             }
         };
 
-        const handleSave = () => {
-            result.value = true;
-            impMestService.createOrEdit(source.value);
+        const handleSave = async () => {
+            loading.value = true;
+            result.value = false;
+
+            var resultDto = await impMestService.importFromSupplierSaveAsDraft(
+                source.value
+            );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                result.value = true;
+                toggle();
+            }
+
+            loading.value = false;
+        };
+
+        const handleEdit = async () => {
+            isDisabled.value = false;
         };
 
         const handleStockIn = async () => {
-            result.value = true;
+            result.value = false;
             loading.value = true;
 
-            source.value.impExpMestTypeId = 1;
-            source.value.impMestStatus = 3;
-            await impMestService.createOrEdit(source.value);
+            let resultDto = await impMestService.importFromSupplierStockIn(
+                source.value
+            );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                result.value = true;
+                toggle();
+            }
 
             loading.value = false;
-            toggle();
         };
 
         const handleCanceled = async () => {
@@ -1172,22 +1297,35 @@ export default defineComponent({
             result.value = false;
 
             if (source.value !== undefined && source.value.id !== null) {
-                let resultDto = await impMestService.canceled(source.value.id);
+                let resultDto = await impMestService.importFromSupplierCanceled(
+                    source.value.id
+                );
                 if (!resultDto.data.isSuccessed) {
                     Modal.error({
                         content: resultDto.data.message,
                         okText: "Đồng ý",
                     });
-
-                    result.value = false;
                 } else {
-                    source.value = resultDto.data.result;
                     result.value = true;
+                    toggle();
                 }
             }
 
             loading.value = false;
-            toggle();
+        };
+
+        const formatNumber = (value: number | string) => {
+            if (value === null || value === "") {
+                return null;
+            }
+            return parseFloat(value.toString()).toFixed(2);
+        };
+
+        const handleDeleteImpMestMedicine = (record: DImpMestMedicineModel) => {
+            let index = source.value.dImpMestMedicines.indexOf(record, 0);
+            if (index !== -1) {
+                source.value.dImpMestMedicines.splice(index, 1);
+            }
         };
 
         //#endregion
@@ -1195,7 +1333,6 @@ export default defineComponent({
         return {
             selectedDate: dayjs("2023-08-13T11:29:12.966"),
             isDisabled,
-            isDisabledEdit,
             title,
             loading,
             result,
@@ -1222,8 +1359,11 @@ export default defineComponent({
             handleRowClickImpMestMedicine,
             handleCancel,
             handleSave,
+            handleEdit,
             handleStockIn,
             handleCanceled,
+            formatNumber,
+            handleDeleteImpMestMedicine,
         };
     },
 });

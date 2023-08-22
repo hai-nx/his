@@ -34,6 +34,15 @@
                 v-model:value="sStockId"
             />
 
+            <a-radio-group
+                name="radioGroup"
+                class="grid-column-4 mx-3"
+                v-model:value="type"
+            >
+                <a-radio value="1">Nhập</a-radio>
+                <a-radio value="2">Xuất</a-radio>
+            </a-radio-group>
+
             <div class="search grid-col-6">
                 <label>Từ ngày:</label>
                 <a-date-picker
@@ -91,12 +100,6 @@
                         </a-tag>
                         <a-tag
                             v-else-if="record.impMestStatus === 4"
-                            color="success"
-                        >
-                            <span>Đã nhập kho</span>
-                        </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 5"
                             color="error"
                         >
                             <span>Đã hủy</span>
@@ -110,13 +113,18 @@
                             : new Date(record.impTime).toLocaleDateString()
                     }}</span>
                 </template>
-                <template v-if="column.key === 'stockReceiptTime'">
+                <template v-if="column.key === 'invTime'">
+                    <span>{{
+                        record.impTime === null
+                            ? record.invTime
+                            : new Date(record.invTime).toLocaleDateString()
+                    }}</span>
+                </template>
+                <template v-if="column.key === 'stockImpTime'">
                     <span>{{
                         record.stockReceiptTime === null
-                            ? record.stockReceiptTime
-                            : new Date(
-                                  record.stockReceiptTime
-                              ).toLocaleDateString()
+                            ? record.stockImpTime
+                            : new Date(record.stockImpTime).toLocaleDateString()
                     }}</span>
                 </template>
 
@@ -141,18 +149,25 @@
                 :data="source"
                 @toggle="handleToggle"
             />
+            <PharmaceuticalImportFromAnotherStockView
+                :visible="visibleImportFromAnotherStock"
+                :impExMestTypeId="impExMestTypeId"
+                :data="source"
+                @toggle="handleToggleImportFromAnotherStock"
+            />
         </teleport>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, reactive } from "vue";
 import { Modal } from "ant-design-vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import { RoomModel, DImpMestModel, DImpExpMestTypeModel } from "@/models";
 import { roomService, impMestService, impExpMestTypeService } from "@/services";
 import dayjs, { Dayjs } from "dayjs";
 import PharmaceuticalImportFromSupplierView from "./PharmaceuticalImportFromSupplierView.vue";
+import PharmaceuticalImportFromAnotherStockView from "./PharmaceuticalImportFromAnotherStockView.vue";
 
 export default defineComponent({
     name: "PharmaceuticalView",
@@ -162,14 +177,14 @@ export default defineComponent({
                 title: "Trạng thái phiếu",
                 key: "impMestStatus",
                 dataIndex: "impMestStatus",
-                width: 100,
+                width: 70,
                 className: "column-header-center",
             },
             {
                 title: "Mã phiếu",
                 key: "code",
                 dataIndex: "code",
-                width: 200,
+                width: 70,
                 className: "column-header-center",
             },
             {
@@ -187,17 +202,26 @@ export default defineComponent({
                 className: "column-header-center",
             },
             {
+                title: "Ngày hóa đơn",
+                key: "invTime",
+                dataIndex: "invTime",
+                width: 70,
+                className: "column-header-center",
+            },
+            {
                 title: "Ngày nhập kho",
-                key: "stockReceiptTime",
-                dataIndex: "stockReceiptTime",
+                key: "stockImpTime",
+                dataIndex: "stockImpTime",
                 width: 70,
                 className: "column-header-center",
             },
 
-            { title: "Xử lý", key: "action", width: 100, align: "center" },
+            { title: "Xử lý", key: "action", width: 70, align: "center" },
         ]);
 
+        const type = ref<string>("1");
         const visible = ref<boolean>(false);
+        const visibleImportFromAnotherStock = ref<boolean>(false);
         const source = ref<DImpMestModel>();
         const fields = ref({ value: "id", label: "name" });
         const sStocks = ref<RoomModel[]>([]);
@@ -245,9 +269,19 @@ export default defineComponent({
             show(true, item);
         };
 
-        // ẩn / hiện chi tiết
+        // ẩn, hiện nhập thuốc từ nhà cung cấp
         const handleToggle = (result: boolean) => {
             visible.value = !visible.value;
+
+            if (result) {
+                handleLoad();
+            }
+        };
+
+        // Ẩn, hiện nhập thuốc từ kho khác
+        const handleToggleImportFromAnotherStock = (result: boolean) => {
+            visibleImportFromAnotherStock.value =
+                !visibleImportFromAnotherStock.value;
 
             if (result) {
                 handleLoad();
@@ -263,7 +297,6 @@ export default defineComponent({
 
         const handlGegenerateDocumentClick = (type: DImpExpMestTypeModel) => {
             impExMestTypeId.value = type.id;
-            visible.value = true;
             show(true, undefined);
         };
 
@@ -273,12 +306,18 @@ export default defineComponent({
                 impExMestTypeId.value === 1
             ) {
                 visible.value = v;
+            } else if (
+                (s !== undefined && s.impExpMestTypeId === 3) ||
+                impExMestTypeId.value === 3
+            ) {
+                visibleImportFromAnotherStock.value = v;
             }
 
             source.value = s;
         };
 
         return {
+            type,
             fromDate,
             toDate,
             columns,
@@ -296,6 +335,8 @@ export default defineComponent({
             handleToggle,
             handleStocksChanged,
             handlGegenerateDocumentClick,
+            visibleImportFromAnotherStock,
+            handleToggleImportFromAnotherStock,
         };
     },
     mounted() {
@@ -304,6 +345,7 @@ export default defineComponent({
     components: {
         PlusOutlined,
         PharmaceuticalImportFromSupplierView,
+        PharmaceuticalImportFromAnotherStockView,
     },
 });
 </script>

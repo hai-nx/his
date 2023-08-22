@@ -1,4 +1,3 @@
-import { Dayjs } from 'dayjs'
 import { MedicinePricePolicyModel } from "@/models"
 
 export default interface DImpMestMedicineModel {

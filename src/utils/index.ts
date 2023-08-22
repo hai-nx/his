@@ -6,3 +6,10 @@ export function defineAsyncLayoutComponents (app: App<Element>) {
     app.component(LAYOUT_AUTH, defineAsyncComponent(() => import('@/layouts/Auth.vue')));
 }
 
+export function defineAsyncComponents(app: App<Element>) {
+    app.component("XDateRangePicker", defineAsyncComponent(() => import('@/components/XDateRangePicker.vue')));
+    app.component("XLayout", defineAsyncComponent(() => import('@/components/XLayout.vue')));
+    app.component("XMenu", defineAsyncComponent(() => import('@/components/XMenu.vue')));
+    app.component("XMenuItem", defineAsyncComponent(() => import('@/components/XMenuItem.vue')));
+}
+
