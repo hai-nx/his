@@ -1,15 +1,16 @@
-import { DImpMestMedicineModel } from '@/models'
+import { DExpMestMedicineModel } from '@/models'
 
-export default interface DImpMestModel {
+export default interface DExpMestModel {
     id: string | null,
+
     /// Mã phiếu
     code: string | null,
 
     /// Trạng thái phiếu nhập
     impMestStatus: number,
 
-    /// Trạng thái phiếu xuất
-    expMestStatus: number,
+    /// Trang thái phiếu xuất
+    expMestStatus: string,
 
     /// Kho nhập
     impStockId: string | null,
@@ -25,20 +26,23 @@ export default interface DImpMestModel {
     impExpMestTypeId: number,
     impExpMestTypeName?: string | null
 
-    /// Người nhận
-    receiverUserId: string | null,
-
-    /// Thời gian nhập
-    impTime: string | null,
-
-    /// Người lập
-    impUserId: string | null,
+    /// Người duyệt
+    approverUserId: string | null,
 
     /// Ngày duyệt
     approverTime: string | null,
 
-    /// NGười duyệt
-    approverUserId: string | null,
+    /// Ngày tạo phiếu xuất
+    expTime: string | null,
+
+    /// Người tạo phiếu xuất
+    expUserId: string | null,
+
+    /// Ngày nhập kho
+    stockExpTime: string | null,
+
+    /// Người nhập kho
+    stockExpUserId: string | null,
 
     /// Nội dung
     description: string | null,
@@ -50,7 +54,7 @@ export default interface DImpMestModel {
     reqDepartmentId: string | null,
 
     /// Id điều trị
-    treatmentId: string | null,
+    patientRecordId: string | null,
 
     /// Id Bệnh nhân
     patientId: string | null,
@@ -58,26 +62,7 @@ export default interface DImpMestModel {
     /// Nhà cung cấp
     supplierId: string | null,
 
-    /// Nhà cung cấp
-    supplierAddress: string | null,
+    impMestId: string | null,
 
-    /// Ngày hóa đơn
-    invTime: string | null,
-
-    /// Số hóa đơn
-    invNo: string | null,
-
-    /// Người giao
-    deliverer: string | null,
-
-    /// Ngày nhập kho
-    stockImpTime: string | null
-
-    /// Người nhập kho
-    stockImpUserId: string | null,
-
-    expMestId: string | null,
-
-    dImpMestMedicines: DImpMestMedicineModel[]
+    dExpMestMedicines: DExpMestMedicineModel[]
 }
-

@@ -203,33 +203,33 @@
                         v-model:value="dImpMestMedicineSelected.impAmount"
                     />
 
-                    <label class="grid-column-1"> Số ĐK: </label>
+                    <!-- <label class="grid-column-1"> Số ĐK: </label>
                     <a-input
                         class="grid-column-2"
                         disabled
                         v-model:value="
                             dImpMestMedicineSelected.registrationNumber
                         "
-                    />
+                    /> -->
 
-                    <label class="grid-column-3"> Số lô: </label>
+                    <label class="grid-column-1"> Số lô: </label>
                     <a-input
-                        class="grid-column-4"
+                        class="grid-column-2"
                         disabled
                         v-model:value="dImpMestMedicineSelected.lot"
                     />
 
-                    <label class="grid-column-5">Hạn dùng: </label>
+                    <label class="grid-column-3">Hạn dùng: </label>
                     <input
-                        class="datetime grid-column-6"
+                        class="datetime grid-column-4"
                         type="date"
                         disabled
                         v-model="dImpMestMedicineSelected.dueDate"
                     />
 
-                    <label class="grid-column-7">SL tồn: </label>
+                    <label class="grid-column-5">SL tồn: </label>
                     <a-input-number
-                        class="grid-column-8 w-100"
+                        class="grid-column-6 w-100"
                         disabled
                         min="0"
                         v-model:value="dMedicineStockSelected.availableQuantity"
@@ -366,6 +366,7 @@ import {
     unitService,
     impMestService,
     countryService,
+    dMedicineStockService,
 } from "@/services";
 
 export default defineComponent({
@@ -452,6 +453,7 @@ export default defineComponent({
             stockImpTime: null,
             /// Người nhập kho
             stockImpUserId: null,
+            expMestId: null,
             dImpMestMedicines: [],
         });
 
@@ -788,6 +790,7 @@ export default defineComponent({
                 stockImpTime: null,
                 /// Người nhập kho
                 stockImpUserId: null,
+                expMestId: null,
                 dImpMestMedicines: [],
             };
 
@@ -853,8 +856,8 @@ export default defineComponent({
         async function getMedicineByStocks(
             stockId: string
         ): Promise<DMedicineStockModel[]> {
-            return (await impMestService.getMedicineByStocks(stockId)).data
-                .result;
+            return (await dMedicineStockService.getMedicineByStocks(stockId))
+                .data.result;
         }
 
         async function getStocks(): Promise<RoomModel[]> {
@@ -888,8 +891,11 @@ export default defineComponent({
             }
         };
 
+        /* eslint-disable */
         const handleMedicineStockChanged = (medicineId: string) => {
             if (medicineId !== null) {
+                debugger;
+
                 let dMedicineStock = dMedicineStocks.value.find(
                     (f) => f.medicineId === medicineId
                 );

@@ -35,6 +35,7 @@ import patientService from './business/patient'
 import impMestService from './business/pharmaceuticals/imMest'
 import impExpMestTypeService from './business/pharmaceuticals/impExpMestType'
 import dMedicineStockService from './business/pharmaceuticals/medicineStock'
+import expMestService from './business/pharmaceuticals/expMest'
 
 import userService from './system/user'
 
@@ -75,6 +76,7 @@ export {
     impMestService,
     impExpMestTypeService,
     dMedicineStockService,
+    expMestService,
 
     userService,
 }

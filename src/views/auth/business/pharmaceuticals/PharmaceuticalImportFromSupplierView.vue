@@ -309,7 +309,7 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.registrationNumber
                                     "
-                                    :disabled="isDisabled"
+                                    disabled
                                 />
 
                                 <label class="grid-column-1">Số Lô: </label>
@@ -654,6 +654,7 @@ export default defineComponent({
             stockImpTime: null,
             /// Người nhập kho
             stockImpUserId: null,
+            expMestId: null,
             dImpMestMedicines: [],
         });
 
@@ -1045,6 +1046,7 @@ export default defineComponent({
                 stockImpTime: null,
                 /// Người nhập kho
                 stockImpUserId: null,
+                expMestId: null,
                 dImpMestMedicines: [],
             };
 
