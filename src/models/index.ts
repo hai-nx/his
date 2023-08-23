@@ -37,6 +37,7 @@ import MedicineTypeModel from './dictionary/medicineType'
 import MedicineLineModel from './dictionary/medicineLine';
 import MedicineModel from './dictionary/medicine';
 import MedicinePricePolicyModel from './dictionary/medicinePricePolicy'
+import MedicineTypeImportModel from './dictionary/medicineTypeImport'
 
 import DImpMestModel from './business/pharmaceuticals/impMests/impMest';
 import DImpMestMedicineModel from './business/pharmaceuticals/impMests/impMestMedicine';
@@ -90,6 +91,7 @@ export {
     MedicineTypeModel,
     MedicineModel,
     MedicinePricePolicyModel,
+    MedicineTypeImportModel,
 
     DImpMestModel,
     DImpMestMedicineModel,
