@@ -137,274 +137,274 @@ export default defineComponent({
             },
             {
                 title: "Nhóm BHYT",
-                key: "heInName",
-                dataIndex: "heInName",
+                key: "serviceGroupHeInId",
+                dataIndex: "serviceGroupHeInId",
                 width: 250,
                 className: "column-header-center",
             },
             {
                 title: "Nhóm thuốc:",
-                key: "serviceUnitCode",
-                dataIndex: "serviceUnitCode",
+                key: "medicineGroupId",
+                dataIndex: "medicineGroupId",
                 width: 100,
                 className: "column-header-center",
             },
             {
                 title: "Đơn vị tính",
-                key: "serviceGroupHeInCode",
-                dataIndex: "serviceGroupHeInCode",
+                key: "unitCode",
+                dataIndex: "unitCode",
                 width: 100,
                 className: "column-header-center",
             },
             {
                 title: "Đường dùng",
-                key: "serviceGroupCode",
-                dataIndex: "serviceGroupCode",
+                key: "medicineLineId",
+                dataIndex: "medicineLineId",
                 width: 100,
                 className: "column-header-center",
             },
             {
                 title: "Hoạt chất",
-                key: "surgicalProcedureTypeCode",
-                dataIndex: "surgicalProcedureTypeCode",
+                key: "activeSubstance",
+                dataIndex: "activeSubstance",
                 width: 100,
                 className: "column-header-center",
             },
             {
                 title: "Hàm lượng",
-                key: "heInPrice",
-                dataIndex: "heInPrice",
+                key: "content",
+                dataIndex: "content",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Nồng độ",
-                key: "servicePrice",
-                dataIndex: "servicePrice",
+                key: "concentration",
+                dataIndex: "concentration",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Đóng gói",
-                key: "peoplePrice",
-                dataIndex: "peoplePrice",
+                key: "packagingSpecifications",
+                dataIndex: "packagingSpecifications",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Hướng dẫn",
-                key: "paymentRate",
-                dataIndex: "paymentRate",
+                key: "tutorial",
+                dataIndex: "tutorial",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Hãng sản xuất",
-                key: "ceilingPrice",
-                dataIndex: "ceilingPrice",
+                key: "manufacturer",
+                dataIndex: "manufacturer",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Nước sản xuất",
-                key: "executionTimeString",
-                dataIndex: "executionTimeString",
+                key: "countryId",
+                dataIndex: "countryId",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Giá nhập",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "impPrice",
+                dataIndex: "impPrice",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "VAT nhập(%)",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "impVatRate",
+                dataIndex: "impVatRate",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Thuế nhập(%)",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "taxRate",
+                dataIndex: "taxRate",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Số đăng ký",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "registrationNumber",
+                dataIndex: "registrationNumber",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Ghi chú",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "description",
+                dataIndex: "description",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Số thứ tự",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "sortOrder",
+                dataIndex: "sortOrder",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Biệt dược",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "proprietaryDrug",
+                dataIndex: "proprietaryDrug",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Thuốc kháng sinh",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "isAntibiotics",
+                dataIndex: "isAntibiotics",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Thuốc kê đơn",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "isPrescriptionDrug",
+                dataIndex: "isPrescriptionDrug",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Dược phẩm chức năng",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "isNutraceutical",
+                dataIndex: "isNutraceutical",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Thuốc tài trợ",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "isSponsoredDrug",
+                dataIndex: "isSponsoredDrug",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Thuốc kê đơn trẻ em",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "isPrescriptionDrugForChildren",
+                dataIndex: "isPrescriptionDrugForChildren",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Vị thuốc YHCT",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "isTraditionalHerbalDrug",
+                dataIndex: "isTraditionalHerbalDrug",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Chế phẩm YHCT",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "isTraditionalDrugFormulation",
+                dataIndex: "isTraditionalDrugFormulation",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Yêu cầu trả vỏ thuốc",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "isDrugContainerReturnRequest",
+                dataIndex: "isDrugContainerReturnRequest",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Cho phép kê SL bằng 0",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "isAllowZeroQuantity",
+                dataIndex: "isAllowZeroQuantity",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Thuốc phóng xạ",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "isRadiolabeledDrug",
+                dataIndex: "isRadiolabeledDrug",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Dạng bào chế",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "pharmaceuticalFormulation",
+                dataIndex: "pharmaceuticalFormulation",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Nguồn gốc",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "origin",
+                dataIndex: "origin",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Tên khoa học vị thuốc",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "scientificName",
+                dataIndex: "scientificName",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Tên KH của cây con, khoáng vật",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "scientificNameChildren",
+                dataIndex: "scientificNameChildren",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Tình trạng dược liệu",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "dugStatus",
+                dataIndex: "dugStatus",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Yêu cầu sử dụng dược liệu",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "requirementUseDug",
+                dataIndex: "requirementUseDug",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Bộ phận dược liệu sử dụng",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "pharmaceuticalDivision",
+                dataIndex: "pharmaceuticalDivision",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Tỷ lệ hao hụt chế biến (%)",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "processingLossRate",
+                dataIndex: "processingLossRate",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Chi phí khác",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "otherExpenses",
+                dataIndex: "otherExpenses",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Phương pháp chế biến",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "preparationMethod",
+                dataIndex: "preparationMethod",
                 width: 120,
                 className: "column-header-center",
             },
             {
                 title: "Tiêu chuẩn chất lượng",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
+                key: "qualityStandards",
+                dataIndex: "qualityStandards",
                 width: 120,
                 className: "column-header-center",
             },
@@ -414,14 +414,7 @@ export default defineComponent({
                 dataIndex: "inactive",
                 width: 120,
                 className: "column-header-center",
-            },
-            {
-                title: "Thứ tự",
-                key: "softOrder",
-                dataIndex: "softOrder",
-                width: 120,
-                className: "column-header-center",
-            },
+            }
         ]);
 
         const handleCancel = () => {
@@ -481,82 +474,102 @@ export default defineComponent({
                             let dataExcels = json.slice(2); // Lấy dữ liệu từ dòng thứ 3 trở đi
 
                             dataExcels.forEach((row) => {
-                                // const excelData: MedicineTypeImportModel = {
-                                //     code:
-                                //         row[0] == undefined
-                                //             ? ""
-                                //             : row[0].toString(),
-                                //     name:
-                                //         row[1] == undefined
-                                //             ? ""
-                                //             : row[1].toString(),
-                                //     heInCode:
-                                //         row[2] == undefined
-                                //             ? ""
-                                //             : row[2].toString(),
-                                    // heInName:
-                                    //     row[3] == undefined
-                                    //         ? ""
-                                    //         : row[3].toString(),
-                                    // sortOrder:
-                                    //     row[4] === undefined
-                                    //         ? 0
-                                    //         : parseInt(row[4].toString()),
-                                    // inactive:
-                                    //     row[5] === undefined
-                                    //         ? false
-                                    //         : JSON.parse(row[5].toString()),
-                                    // serviceUnitCode:
-                                    //     row[6] == undefined
-                                    //         ? ""
-                                    //         : row[6].toString(),
-                                    // serviceGroupCode:
-                                    //     row[7] == undefined
-                                    //         ? ""
-                                    //         : row[7].toString(),
-                                    // serviceGroupHeInCode:
-                                    //     row[8] == undefined
-                                    //         ? ""
-                                    //         : row[8].toString(),
-                                    // surgicalProcedureTypeCode:
-                                    //     row[9] === null || row[9] === undefined
-                                    //         ? ""
-                                    //         : row[9].toString(),
-                                    // heInPrice:
-                                    //     row[10] === undefined
-                                    //         ? 0
-                                    //         : parseFloat(row[10].toString()),
-                                    // servicePrice:
-                                    //     row[11] === undefined
-                                    //         ? 0
-                                    //         : parseFloat(row[11].toString()),
-                                    // peoplePrice:
-                                    //     row[12] === undefined
-                                    //         ? 0
-                                    //         : parseFloat(row[12].toString()),
-                                    // paymentRate:
-                                    //     row[13] === undefined
-                                    //         ? 0
-                                    //         : parseFloat(row[13].toString()),
-                                    // ceilingPrice:
-                                    //     row[14] === undefined
-                                    //         ? 0
-                                    //         : parseFloat(row[14].toString()),
-                                    // // executionTime:
-                                    // //   row[15] === undefined
-                                    // //     ? null
-                                    // //     : dayjs(row[15].toString(), "DD-MM-YYYY HH:mm:ss"),
-                                    // executionTimeString:
-                                    //     row[15] === undefined
-                                    //         ? null
-                                    //         : row[15].toString(),
-                                    // executionRoomCode:
-                                    //     row[16] === undefined
-                                    //         ? ""
-                                    //         : row[16].toString(),
-                                // };
+                            const excelData: MedicineTypeImportModel = {
+                                code:
+                                    row[0] == undefined? "": row[0].toString(),
+                                name:
+                                    row[1] == undefined? "": row[1].toString(),
+                                heInCode:
+                                    row[2] == undefined? "": row[2].toString(),
+                                serviceGroupHeInId:
+                                    row[3] == undefined? "": row[3].toString(),
+                                medicineGroupId:
+                                    row[4] == undefined? "": row[4].toString(),
+                                unitCode:
+                                    row[5] == undefined? "": row[5].toString(),
+                                medicineLineId:
+                                    row[6] == undefined? "": row[6].toString(),
+                                activeSubstance:
+                                    row[7] == undefined? "": row[7].toString(),
+                                content:
+                                    row[8] == undefined? "": row[8].toString(),
+                                concentration:
+                                    row[9] == undefined? "": row[9].toString(),
+                                packagingSpecifications:
+                                    row[10] == undefined? "": row[10].toString(),
+                                tutorial:
+                                    row[11] == undefined? "": row[11].toString(),
+                                manufacturer:
+                                    row[12] == undefined? "": row[12].toString(),
+                                countryId:
+                                    row[13] == undefined? "": row[13].toString(),
+                                impPrice:
+                                    row[14] === undefined? 0 : parseFloat(row[14].toString()),
+                                impVatRate:
+                                    row[15] === undefined? 0 : parseFloat(row[15].toString()),
+                                taxRate:
+                                    row[16] === undefined? 0 : parseFloat(row[16].toString()),
+                                registrationNumber:
+                                    row[17] == undefined? "": row[17].toString(),
+                                description:
+                                    row[18] == undefined? "": row[18].toString(),
+                                sortOrder:
+                                    row[19] === undefined? 0 : parseInt(row[19].toString()),
+                                proprietaryDrug:
+                                    row[20] == undefined? "": row[20].toString(),
+                                isAntibiotics:
+                                    row[21] === undefined? false : JSON.parse(row[21].toString()),
+                                isPrescriptionDrug:
+                                    row[22] === undefined? false : JSON.parse(row[22].toString()),
+                                isNutraceutical:
+                                    row[23] === undefined? false : JSON.parse(row[23].toString()),
+                                isSponsoredDrug:
+                                    row[24] === undefined? false : JSON.parse(row[24].toString()),
+                                isPrescriptionDrugForChildren:
+                                    row[25] === undefined? false : JSON.parse(row[25].toString()),
+                                isTraditionalHerbalDrug:
+                                    row[26] === undefined? false : JSON.parse(row[26].toString()),
+                                isTraditionalDrugFormulation:
+                                    row[27] === undefined? false : JSON.parse(row[27].toString()),
+                                isDrugContainerReturnRequest:
+                                    row[28] === undefined? false : JSON.parse(row[28].toString()),
+                                isAllowZeroQuantity:
+                                    row[29] === undefined? false : JSON.parse(row[29].toString()),
+                                isRadiolabeledDrug:
+                                    row[30] === undefined? false : JSON.parse(row[30].toString()),
+                                pharmaceuticalFormulation:
+                                    row[31] == undefined? "": row[31].toString(),
+                                origin:
+                                    row[32] == undefined? "": row[32].toString(),
+                                scientificName:
+                                    row[33] == undefined? "": row[33].toString(),
+                                scientificNameChildren:
+                                    row[34] == undefined? "": row[34].toString(),
+                                dugStatus:
+                                    row[35] == undefined? "": row[35].toString(),
+                                requirementUseDug:
+                                    row[36] == undefined? "": row[36].toString(),
+                                pharmaceuticalDivision:
+                                    row[37] == undefined? "": row[37].toString(),
+                                processingLossRate:
+                                    row[38] == undefined? "": row[38].toString(),
+                                otherExpenses:
+                                    row[39] === undefined? 0 : parseFloat(row[39].toString()),
+                                preparationMethod:
+                                    row[40] == undefined? "": row[40].toString(),
+                                qualityStandards:
+                                    row[41] == undefined? "": row[41].toString(),
+                                inactive:
+                                    row[42] === undefined? false : JSON.parse(row[42].toString()),
+                                unitId: 
+                                    row[43] === undefined? "": row[43].toString(), 
+                                isNewDrug: 
+                                    row[44] === undefined?  false : JSON.parse(row[44].toString()),
+                                isInhalantDrug: 
+                                    row[45] === undefined?  false : JSON.parse(row[45].toString()),
+                                };
 
-                                // datas.value?.push(excelData);
+                                datas.value?.push(excelData);
                             });
                         }
                     }

@@ -1,6 +1,6 @@
 export default interface MedicineTypesImportModel {
     code: string,
-    name: string
+    name: string,
     heInCode: string | null, // Mã BHYT
     serviceGroupHeInId: string | null,
     medicineLineId: string | null, //Đường dùng thuốc
@@ -32,6 +32,9 @@ export default interface MedicineTypesImportModel {
     isDrugContainerReturnRequest: boolean, // YC trả lại vỏ thuốc
     isAllowZeroQuantity: boolean, // Cho phép kê SL bằng 0
     isRadiolabeledDrug: boolean, // Thuốc phóng xạ
+    description: string,
+    inactive: boolean,
+    sortOrder: number,
 
     // Thông tin khác
     pharmaceuticalFormulation: string | null, // Dạng bào chế
@@ -41,7 +44,7 @@ export default interface MedicineTypesImportModel {
     dugStatus: string | null, // Tình trạng dược liệu
     requirementUseDug: string | null, // Yêu cầu sử dụng dược liệu
     pharmaceuticalDivision: string | null, // Bộ phận dược liệu sử dụng
-    processingLossRate: number | null, // Tỷ lệ hao hụt chế biến
+    processingLossRate: string | null, // Tỷ lệ hao hụt chế biến
     otherExpenses: number | null, // Chi phí khác
     preparationMethod: string | null, // Phương pháp chế biến
     qualityStandards: string | null, // Tiêu chuẩn chất lượng
