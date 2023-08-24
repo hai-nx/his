@@ -370,7 +370,7 @@ import {
 } from "@/services";
 
 export default defineComponent({
-    name: "PharmaceuticalImportFromAnotherStockView",
+    name: "ImportFromAnotherStockView",
     props: {
         visible: {
             type: Boolean,

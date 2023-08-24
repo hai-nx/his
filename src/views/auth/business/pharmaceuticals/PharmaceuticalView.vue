@@ -68,7 +68,7 @@
             v-if="isImport"
             class="ant-table-striped"
             size="middle"
-            :columns="columns"
+            :columns="columnImps"
             :data-source="impSources"
             bordered
         >
@@ -147,11 +147,46 @@
             v-if="!isImport"
             class="ant-table-striped"
             size="middle"
-            :columns="columns"
+            :columns="columnExps"
             :data-source="expSources"
             bordered
         >
             <template #bodyCell="{ column, record }">
+                <template v-if="column.key === 'expMestStatus'">
+                    <span>
+                        <a-tag
+                            v-if="record.impMestStatus === 0"
+                            color="success"
+                        >
+                            <span>Mới tạo</span>
+                        </a-tag>
+                        <a-tag
+                            v-else-if="record.impMestStatus === 1"
+                            color="success"
+                        >
+                            <span>Đã gửi yêu cầu</span>
+                        </a-tag>
+                        <a-tag
+                            v-else-if="record.impMestStatus === 2"
+                            color="success"
+                        >
+                            <span>Đã duyệt</span>
+                        </a-tag>
+                        <a-tag
+                            v-else-if="record.impMestStatus === 3"
+                            color="success"
+                        >
+                            <span>Đã xuất kho</span>
+                        </a-tag>
+                        <a-tag
+                            v-else-if="record.impMestStatus === 4"
+                            color="error"
+                        >
+                            <span>Đã hủy</span>
+                        </a-tag>
+                    </span>
+                </template>
+
                 <template v-if="column.key === 'impMestStatus'">
                     <span>
                         <a-tag
@@ -186,25 +221,19 @@
                         </a-tag>
                     </span>
                 </template>
-                <template v-if="column.key === 'impTime'">
+
+                <template v-if="column.key === 'expTime'">
                     <span>{{
-                        record.impTime === null
+                        record.expTime === null
                             ? null
-                            : new Date(record.impTime).toLocaleDateString()
+                            : new Date(record.expTime).toLocaleDateString()
                     }}</span>
                 </template>
-                <template v-if="column.key === 'invTime'">
+                <template v-if="column.key === 'stockExpTime'">
                     <span>{{
-                        record.invTime === null
+                        record.stockExpTime === null
                             ? null
-                            : new Date(record.invTime).toLocaleDateString()
-                    }}</span>
-                </template>
-                <template v-if="column.key === 'stockImpTime'">
-                    <span>{{
-                        record.stockImpTime === null
-                            ? null
-                            : new Date(record.stockImpTime).toLocaleDateString()
+                            : new Date(record.stockExpTime).toLocaleDateString()
                     }}</span>
                 </template>
 
@@ -223,17 +252,23 @@
         </a-table>
 
         <teleport to="body">
-            <PharmaceuticalImportFromSupplierView
-                :visible="visible"
+            <ImportFromSupplierView
+                :visible="visibleImportFromSupplier"
                 :impExMestTypeId="impExMestTypeId"
                 :data="impSource"
-                @toggle="handleToggle"
+                @toggle="handleToggleImportFromSupplier"
             />
-            <PharmaceuticalImportFromAnotherStockView
+            <ImportFromAnotherStockView
                 :visible="visibleImportFromAnotherStock"
                 :impExMestTypeId="impExMestTypeId"
                 :data="impSource"
                 @toggle="handleToggleImportFromAnotherStock"
+            />
+
+            <ExportFromAnotherStockView
+                :visible="visibleExportFromAnotherStock"
+                :data="expSource"
+                @toggle="handleToggleExportFromSupplier"
             />
         </teleport>
     </div>
@@ -241,7 +276,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed } from "vue";
-import { Modal } from "ant-design-vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import {
     RoomModel,
@@ -256,25 +290,47 @@ import {
     expMestService,
 } from "@/services";
 import dayjs, { Dayjs } from "dayjs";
-import PharmaceuticalImportFromSupplierView from "./PharmaceuticalImportFromSupplierView.vue";
-import PharmaceuticalImportFromAnotherStockView from "./PharmaceuticalImportFromAnotherStockView.vue";
+import ImportFromSupplierView from "./impMest/ImportFromSupplierView.vue";
+import ImportFromAnotherStockView from "./impMest/ImportFromAnotherStockView.vue";
+import ExportFromAnotherStockView from "./expMest/ExportFromAnotherStockView.vue";
 
 export default defineComponent({
     name: "PharmaceuticalView",
     setup() {
-        const columns = ref([
+        const type = ref<string>("0");
+        const visibleImportFromSupplier = ref<boolean>(false);
+        const visibleImportFromAnotherStock = ref<boolean>(false);
+        const impSource = ref<DImpMestModel>();
+        const expSource = ref<DExpMestModel>();
+        const fields = ref({ value: "id", label: "name" });
+        const sStocks = ref<RoomModel[]>([]);
+        const impSources = ref<DImpMestModel[]>([]);
+        const expSources = ref<DExpMestModel[]>([]);
+        const dImpExpMestTypes = ref<DImpExpMestTypeModel[]>([]);
+        const sStockId = ref<string>("");
+        const fromDate = ref<Dayjs>(
+            dayjs().set("hour", 0).set("minute", 0).set("second", 0)
+        );
+        const toDate = ref<Dayjs>(
+            dayjs().set("hour", 23).set("minute", 59).set("second", 59)
+        );
+        const impExMestTypeId = ref<number>(0);
+
+        const visibleExportFromAnotherStock = ref<boolean>(false);
+
+        const columnImps = ref([
             {
                 title: "Trạng thái phiếu",
                 key: "impMestStatus",
                 dataIndex: "impMestStatus",
-                width: 70,
+                width: 60,
                 className: "column-header-center",
             },
             {
                 title: "Mã phiếu",
                 key: "code",
                 dataIndex: "code",
-                width: 70,
+                width: 50,
                 className: "column-header-center",
             },
             {
@@ -309,24 +365,52 @@ export default defineComponent({
             { title: "Xử lý", key: "action", width: 70, align: "center" },
         ]);
 
-        const type = ref<string>("0");
-        const visible = ref<boolean>(false);
-        const visibleImportFromAnotherStock = ref<boolean>(false);
-        const impSource = ref<DImpMestModel>();
-        const expSource = ref<DExpMestModel>();
-        const fields = ref({ value: "id", label: "name" });
-        const sStocks = ref<RoomModel[]>([]);
-        const impSources = ref<DImpMestModel[]>([]);
-        const expSources = ref<DExpMestModel[]>([]);
-        const dImpExpMestTypes = ref<DImpExpMestTypeModel[]>([]);
-        const sStockId = ref<string>("");
-        const fromDate = ref<Dayjs>(
-            dayjs().set("hour", 0).set("minute", 0).set("second", 0)
-        );
-        const toDate = ref<Dayjs>(
-            dayjs().set("hour", 23).set("minute", 59).set("second", 59)
-        );
-        const impExMestTypeId = ref<number>(0);
+        const columnExps = ref([
+            {
+                title: "Trạng thái phiếu",
+                key: "expMestStatus",
+                dataIndex: "expMestStatus",
+                width: 60,
+                className: "column-header-center",
+            },
+            {
+                title: "Mã phiếu",
+                key: "code",
+                dataIndex: "code",
+                width: 50,
+                className: "column-header-center",
+            },
+            {
+                title: "Loại phiếu",
+                key: "impExpMestTypeName",
+                dataIndex: "impExpMestTypeName",
+                width: 250,
+                className: "column-header-center",
+            },
+            {
+                title: "Ngày tạo",
+                key: "impTime",
+                dataIndex: "impTime",
+                width: 70,
+                className: "column-header-center",
+            },
+            {
+                title: "Ngày xuất kho",
+                key: "stockExpTime",
+                dataIndex: "stockExpTime",
+                width: 70,
+                className: "column-header-center",
+            },
+            {
+                title: "Trạng thái nhập",
+                key: "impMestStatus",
+                dataIndex: "impMestStatus",
+                width: 60,
+                className: "column-header-center",
+            },
+
+            { title: "Xử lý", key: "action", width: 70, align: "center" },
+        ]);
 
         //#region Function
         async function inItData() {
@@ -375,8 +459,8 @@ export default defineComponent({
         };
 
         // ẩn, hiện nhập thuốc từ nhà cung cấp
-        const handleToggle = (result: boolean) => {
-            visible.value = !visible.value;
+        const handleToggleImportFromSupplier = (result: boolean) => {
+            visibleImportFromSupplier.value = !visibleImportFromSupplier.value;
 
             if (result) {
                 handleLoad();
@@ -387,6 +471,16 @@ export default defineComponent({
         const handleToggleImportFromAnotherStock = (result: boolean) => {
             visibleImportFromAnotherStock.value =
                 !visibleImportFromAnotherStock.value;
+
+            if (result) {
+                handleLoad();
+            }
+        };
+
+        // Ẩn, hiện xuất kho thuốc của phiếu nhập từ kho khác
+        const handleToggleExportFromSupplier = (result: boolean) => {
+            visibleExportFromAnotherStock.value =
+                !visibleExportFromAnotherStock.value;
 
             if (result) {
                 handleLoad();
@@ -410,7 +504,7 @@ export default defineComponent({
                 (s !== undefined && s.impExpMestTypeId === 1) ||
                 impExMestTypeId.value === 1
             ) {
-                visible.value = v;
+                visibleImportFromSupplier.value = v;
             } else if (
                 (s !== undefined && s.impExpMestTypeId === 3) ||
                 impExMestTypeId.value === 3
@@ -429,26 +523,30 @@ export default defineComponent({
             type,
             fromDate,
             toDate,
-            columns,
-            visible,
+            columnImps,
+            visibleImportFromSupplier,
+            visibleImportFromAnotherStock,
             fields,
             sStocks,
             dImpExpMestTypes,
             impSources,
             impSource,
-            expSource,
-            expSources,
             sStockId,
             impExMestTypeId,
             isImport,
             handleLoad,
             handleEdit,
             inItData,
-            handleToggle,
+            handleToggleImportFromSupplier,
             handleStocksChanged,
             handlGegenerateDocumentClick,
-            visibleImportFromAnotherStock,
             handleToggleImportFromAnotherStock,
+
+            visibleExportFromAnotherStock,
+            columnExps,
+            expSource,
+            expSources,
+            handleToggleExportFromSupplier,
         };
     },
     mounted() {
@@ -456,8 +554,9 @@ export default defineComponent({
     },
     components: {
         PlusOutlined,
-        PharmaceuticalImportFromSupplierView,
-        PharmaceuticalImportFromAnotherStockView,
+        ImportFromSupplierView,
+        ImportFromAnotherStockView,
+        ExportFromAnotherStockView,
     },
 });
 </script>

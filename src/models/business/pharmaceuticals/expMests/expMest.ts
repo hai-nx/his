@@ -10,7 +10,7 @@ export default interface DExpMestModel {
     impMestStatus: number,
 
     /// Trang thái phiếu xuất
-    expMestStatus: string,
+    expMestStatus: number,
 
     /// Kho nhập
     impStockId: string | null,
