@@ -5,9 +5,6 @@ const impMestService = {
     getByStock(stockId: string, fromDate: string, toDate: string) {
         return request.get<ApiResult<DImpMestModel[]>>("api/DImpMest/GetByStocks?stockId=" + stockId + "&fromDate=" + fromDate + "&toDate=" + toDate);
     },
-    getMedicineByStocks(stockId: string) {
-        return request.get<ApiResult<DMedicineStockModel[]>>("api/DImpMest/GetMedicineByStocks?stockId=" + stockId);
-    },
 
     //#region Nhập từ NCC
     importFromSupplierGetById(id: string) {

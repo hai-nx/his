@@ -270,7 +270,6 @@
                                 </label>
                                 <a-input-number
                                     class="grid-column-4 w-100"
-                                    :formatter="formatNumber"
                                     v-model:value="
                                         dImpMestMedicineSelected.impAmount
                                     "
@@ -310,7 +309,7 @@
                                     v-model:value="
                                         dImpMestMedicineSelected.registrationNumber
                                     "
-                                    :disabled="isDisabled"
+                                    disabled
                                 />
 
                                 <label class="grid-column-1">Số Lô: </label>
@@ -614,7 +613,7 @@ export default defineComponent({
             code: null,
             /// Trạng thái
             impMestStatus: 0,
-            empMestStatus: 0,
+            expMestStatus: 0,
             /// Kho nhập
             impStockId: null,
             /// Kho xuất
@@ -655,6 +654,7 @@ export default defineComponent({
             stockImpTime: null,
             /// Người nhập kho
             stockImpUserId: null,
+            expMestId: null,
             dImpMestMedicines: [],
         });
 
@@ -1005,7 +1005,7 @@ export default defineComponent({
                 code: null,
                 /// Trạng thái
                 impMestStatus: 0,
-                empMestStatus: 0,
+                expMestStatus: 0,
                 /// Kho nhập
                 impStockId: null,
                 /// Kho xuất
@@ -1046,6 +1046,7 @@ export default defineComponent({
                 stockImpTime: null,
                 /// Người nhập kho
                 stockImpUserId: null,
+                expMestId: null,
                 dImpMestMedicines: [],
             };
 
@@ -1130,8 +1131,9 @@ export default defineComponent({
                     dImpMestMedicineSelected.value.impQuantity *
                     dImpMestMedicineSelected.value.impPrice;
 
-                dImpMestMedicineSelected.value.impAmount =
-                    impAmount * (1 + vatRate + taxRate);
+                dImpMestMedicineSelected.value.impAmount = Number(
+                    (impAmount * (1 + vatRate + taxRate)).toFixed(2)
+                );
             }
         };
 

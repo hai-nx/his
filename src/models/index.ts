@@ -41,6 +41,10 @@ import MedicineTypeImportModel from './dictionary/medicineTypeImport'
 
 import DImpMestModel from './business/pharmaceuticals/impMests/impMest';
 import DImpMestMedicineModel from './business/pharmaceuticals/impMests/impMestMedicine';
+
+import DExpMestModel from './business/pharmaceuticals/expMests/expMest';
+import DExpMestMedicineModel from './business/pharmaceuticals/expMests/expMestMedicine';
+
 import DImpExpMestTypeModel from './business/pharmaceuticals/impMests/impEmpMestType';
 import DMedicineStockModel from './business/pharmaceuticals/medicineStock';
 
@@ -89,9 +93,13 @@ export {
     MedicinePricePolicyModel,
     MedicineTypeImportModel,
 
-    DImpExpMestTypeModel,
     DImpMestModel,
     DImpMestMedicineModel,
+
+    DExpMestModel,
+    DExpMestMedicineModel,
+
+    DImpExpMestTypeModel,
     DMedicineStockModel,
 
     UserModel
