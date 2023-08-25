@@ -3,16 +3,16 @@ import request from '@/utils/request'
 
 const medicineLineService = {
     getAll() {
-        return request.get<ApiResult<MedicineLineModel[]>>('api/SMedicineLine/GetAll')
+        return request.get<ApiResult<MedicineLineModel[]>>('api/MedicineLine/GetAll')
     },
     getById(id: string) {
-        return request.get<ApiResult<MedicineLineModel>>('api/SMedicineLine/GetById?id=' + id);
+        return request.get<ApiResult<MedicineLineModel>>('api/MedicineLine/GetById?id=' + id);
     },
     createOrEdit(input: MedicineLineModel) {
-        return request.post<ApiResult<MedicineLineModel>>('api/SMedicineLine/CreateOrEdit', input);
+        return request.post<ApiResult<MedicineLineModel>>('api/MedicineLine/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.delete('api/SMedicineLine/Delete?id=' + id);
+        return request.delete('api/MedicineLine/Delete?id=' + id);
     }
 }
 

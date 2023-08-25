@@ -3,16 +3,16 @@ import request from '@/utils/request'
 
 const serviceGroupHeInService = {
     getAll() {
-        return request.get<ApiResult<ServiceGroupHeInModel[]>>('api/SServiceGroupHeIn/GetAll');
+        return request.get<ApiResult<ServiceGroupHeInModel[]>>('api/ServiceGroupHeIn/GetAll');
     },
     getById(id: string) {
-        return request.get<ApiResult<ServiceGroupHeInModel>>('api/SServiceGroupHeIn/GetById?id=' + id);
+        return request.get<ApiResult<ServiceGroupHeInModel>>('api/ServiceGroupHeIn/GetById?id=' + id);
     },
     createOrEdit(input: ServiceGroupHeInModel) {
-        return request.post<ApiResult<ServiceGroupHeInModel>>('api/SServiceGroupHeIn/CreateOrEdit', input);
+        return request.post<ApiResult<ServiceGroupHeInModel>>('api/ServiceGroupHeIn/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.delete<ApiResult<ServiceGroupHeInModel>>('api/SServiceGroupHeIn/Delete?id=' + id);
+        return request.delete<ApiResult<ServiceGroupHeInModel>>('api/ServiceGroupHeIn/Delete?id=' + id);
     }
 }
 

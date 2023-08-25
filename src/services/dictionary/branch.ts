@@ -3,16 +3,16 @@ import request from '@/utils/request'
 
 const branchService = {
     getAll() {
-        return request.get<ApiResult<BranchModel[]>>('api/SBranch/GetAll');
+        return request.get<ApiResult<BranchModel[]>>('api/Branch/GetAll');
     },
     getById(id: string) {
-        return request.get<ApiResult<BranchModel>>('api/SBranch/GetById?id=' + id);
+        return request.get<ApiResult<BranchModel>>('api/Branch/GetById?id=' + id);
     },
     createOrEdit(input: BranchModel) {
-        return request.post<ApiResult<BranchModel>>('api/SBranch/CreateOrEdit', input);
+        return request.post<ApiResult<BranchModel>>('api/Branch/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post<ApiResult<BranchModel>>('api/SBranch/Delete?id=' + id);
+        return request.post<ApiResult<BranchModel>>('api/Branch/Delete?id=' + id);
     }
 }
 

@@ -3,7 +3,7 @@ import request from '@/utils/request'
 
 const medicinePricePolicyService = {
     getAll() {
-        return request.get<ApiResult<MedicinePricePolicyModel[]>>('api/SMedicinePricePolicy/GetAll')
+        return request.get<ApiResult<MedicinePricePolicyModel[]>>('api/MedicinePricePolicy/GetAll')
     },
 }
 

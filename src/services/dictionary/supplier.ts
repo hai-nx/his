@@ -3,16 +3,16 @@ import request from '@/utils/request'
 
 const supplierService = {
     getAll() {
-        return request.get<ApiResult<SupplierModel[]>>('api/SSupplier/GetAll');
+        return request.get<ApiResult<SupplierModel[]>>('api/Supplier/GetAll');
     },
     getById(id: string) {
-        return request.get<ApiResult<SupplierModel>>('api/SSupplier/GetById?id=' + id);
+        return request.get<ApiResult<SupplierModel>>('api/Supplier/GetById?id=' + id);
     },
     createOrEdit(input: SupplierModel) {
-        return request.post<ApiResult<SupplierModel>>('api/SSupplier/CreateOrEdit', input);
+        return request.post<ApiResult<SupplierModel>>('api/Supplier/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.delete<ApiResult<SupplierModel>>('api/SSupplier/Delete?id=' + id);
+        return request.delete<ApiResult<SupplierModel>>('api/Supplier/Delete?id=' + id);
     },
 }
 

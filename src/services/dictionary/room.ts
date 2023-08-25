@@ -4,19 +4,19 @@ import request from '@/utils/request'
 
 const roomService = {
     getAll() {
-        return request.get<ApiResult<RoomModel[]>>('api/SRoom/GetAll')
+        return request.get<ApiResult<RoomModel[]>>('api/Room/GetAll')
     },
     getById(id: string) {
-        return request.get<ApiResult<RoomModel>>('api/SRoom/GetById?id=' + id);
+        return request.get<ApiResult<RoomModel>>('api/Room/GetById?id=' + id);
     },
     createOrEdit(input: RoomModel) {
-        return request.post<ApiResult<RoomModel>>('api/SRoom/CreateOrEdit', input);
+        return request.post<ApiResult<RoomModel>>('api/Room/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post('api/SRoom/Delete', id);
+        return request.delete('api/Room/Delete?id=' + id);
     },
     getByStocks() {
-        return request.get<ApiResult<RoomModel[]>>('api/SRoom/GetByStocks')
+        return request.get<ApiResult<RoomModel[]>>('api/Room/GetByStocks')
     }
 }
 

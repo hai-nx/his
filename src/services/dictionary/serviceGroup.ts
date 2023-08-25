@@ -3,16 +3,16 @@ import request from '@/utils/request'
 
 const serviceGroupService = {
     getAll() {
-        return request.get<ApiResult<ServiceGroupModel[]>>('api/SServiceGroup/GetAll');
+        return request.get<ApiResult<ServiceGroupModel[]>>('api/ServiceGroup/GetAll');
     },
     getById(id: string) {
-        return request.get<ApiResult<ServiceGroupModel>>('api/SServiceGroup/GetById?id=' + id);
+        return request.get<ApiResult<ServiceGroupModel>>('api/ServiceGroup/GetById?id=' + id);
     },
     createOrEdit(input: ServiceGroupModel) {
-        return request.post<ApiResult<ServiceGroupModel>>('api/SServiceGroup/CreateOrEdit', input);
+        return request.post<ApiResult<ServiceGroupModel>>('api/ServiceGroup/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.delete<ApiResult<ServiceGroupModel>>('api/SServiceGroup/Delete?id=' + id);
+        return request.delete<ApiResult<ServiceGroupModel>>('api/ServiceGroup/Delete?id=' + id);
     }
 }
 
