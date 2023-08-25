@@ -7,7 +7,7 @@
                         <a-menu>
                             <a-menu-item
                                 @click="handlGegenerateDocumentClick(menuItem)"
-                                v-for="menuItem in dImpExpMestTypes"
+                                v-for="menuItem in inOutStockTypes"
                                 :key="menuItem.id"
                                 :data-item="menuItem"
                             >
@@ -69,49 +69,37 @@
             class="ant-table-striped"
             size="middle"
             :columns="columnImps"
-            :data-source="impSources"
+            :data-source="itemSources"
             bordered
         >
             <template #bodyCell="{ column, record }">
-                <template v-if="column.key === 'impMestStatus'">
+                <template v-if="column.key === 'status'">
                     <span>
-                        <a-tag
-                            v-if="record.impMestStatus === 0"
-                            color="success"
-                        >
+                        <a-tag v-if="record.status === -1" color="error">
+                            <span>Đã hủy</span>
+                        </a-tag>
+                        <a-tag v-else-if="record.status === 0" color="success">
                             <span>Mới tạo</span>
                         </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 1"
-                            color="success"
-                        >
+                        <a-tag v-else-if="record.status === 1" color="success">
                             <span>Đã gửi yêu cầu</span>
                         </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 2"
-                            color="success"
-                        >
+                        <a-tag v-else-if="record.status === 2" color="success">
                             <span>Đã duyệt</span>
                         </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 3"
-                            color="success"
-                        >
-                            <span>Đã nhập kho</span>
+                        <a-tag v-else-if="record.status === 4" color="success">
+                            <span>Đã xuất kho</span>
                         </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 4"
-                            color="error"
-                        >
-                            <span>Đã hủy</span>
+                        <a-tag v-else-if="record.status === 5" color="success">
+                            <span>Đã nhập kho</span>
                         </a-tag>
                     </span>
                 </template>
-                <template v-if="column.key === 'impTime'">
+                <template v-if="column.key === 'reqTime'">
                     <span>{{
-                        record.impTime === null
+                        record.reqTime === null
                             ? null
-                            : new Date(record.impTime).toLocaleDateString()
+                            : new Date(record.reqTime).toLocaleDateString()
                     }}</span>
                 </template>
                 <template v-if="column.key === 'invTime'">
@@ -143,132 +131,16 @@
             </template>
         </a-table>
 
-        <a-table
-            v-if="!isImport"
-            class="ant-table-striped"
-            size="middle"
-            :columns="columnExps"
-            :data-source="expSources"
-            bordered
-        >
-            <template #bodyCell="{ column, record }">
-                <template v-if="column.key === 'expMestStatus'">
-                    <span>
-                        <a-tag
-                            v-if="record.impMestStatus === 0"
-                            color="success"
-                        >
-                            <span>Mới tạo</span>
-                        </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 1"
-                            color="success"
-                        >
-                            <span>Đã gửi yêu cầu</span>
-                        </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 2"
-                            color="success"
-                        >
-                            <span>Đã duyệt</span>
-                        </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 3"
-                            color="success"
-                        >
-                            <span>Đã xuất kho</span>
-                        </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 4"
-                            color="error"
-                        >
-                            <span>Đã hủy</span>
-                        </a-tag>
-                    </span>
-                </template>
-
-                <template v-if="column.key === 'impMestStatus'">
-                    <span>
-                        <a-tag
-                            v-if="record.impMestStatus === 0"
-                            color="success"
-                        >
-                            <span>Mới tạo</span>
-                        </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 1"
-                            color="success"
-                        >
-                            <span>Đã gửi yêu cầu</span>
-                        </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 2"
-                            color="success"
-                        >
-                            <span>Đã duyệt</span>
-                        </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 3"
-                            color="success"
-                        >
-                            <span>Đã nhập kho</span>
-                        </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 4"
-                            color="error"
-                        >
-                            <span>Đã hủy</span>
-                        </a-tag>
-                    </span>
-                </template>
-
-                <template v-if="column.key === 'expTime'">
-                    <span>{{
-                        record.expTime === null
-                            ? null
-                            : new Date(record.expTime).toLocaleDateString()
-                    }}</span>
-                </template>
-                <template v-if="column.key === 'stockExpTime'">
-                    <span>{{
-                        record.stockExpTime === null
-                            ? null
-                            : new Date(record.stockExpTime).toLocaleDateString()
-                    }}</span>
-                </template>
-
-                <template v-else-if="column.key === 'action'">
-                    <span>
-                        <button
-                            class="btn btn-outline-primary border-0 btn-sm me-2"
-                            title="Sửa"
-                            @click="handleEdit(record)"
-                        >
-                            <i class="bi bi-pen"></i>
-                        </button>
-                    </span>
-                </template>
-            </template>
-        </a-table>
-
         <teleport to="body">
             <ImportFromSupplierView
                 :visible="visibleImportFromSupplier"
-                :impExMestTypeId="impExMestTypeId"
-                :data="impSource"
+                :data="source"
                 @toggle="handleToggleImportFromSupplier"
             />
             <ImportFromAnotherStockView
                 :visible="visibleImportFromAnotherStock"
-                :impExMestTypeId="impExMestTypeId"
-                :data="impSource"
+                :data="source"
                 @toggle="handleToggleImportFromAnotherStock"
-            />
-
-            <ExportFromAnotherStockView
-                :visible="visibleExportFromAnotherStock"
-                :data="expSource"
-                @toggle="handleToggleExportFromSupplier"
             />
         </teleport>
     </div>
@@ -279,20 +151,18 @@ import { defineComponent, ref, reactive, computed } from "vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import {
     RoomModel,
-    DImpMestModel,
-    DImpExpMestTypeModel,
-    DExpMestModel,
+    InOutStockModel,
+    InOutStockMedicineModel,
+    InOutStockTypeModel,
 } from "@/models";
 import {
     roomService,
-    impMestService,
-    impExpMestTypeService,
-    expMestService,
+    inOutStockService,
+    inOutStockTypeService,
 } from "@/services";
 import dayjs, { Dayjs } from "dayjs";
 import ImportFromSupplierView from "./impMest/ImportFromSupplierView.vue";
 import ImportFromAnotherStockView from "./impMest/ImportFromAnotherStockView.vue";
-import ExportFromAnotherStockView from "./expMest/ExportFromAnotherStockView.vue";
 
 export default defineComponent({
     name: "PharmaceuticalView",
@@ -300,13 +170,10 @@ export default defineComponent({
         const type = ref<string>("0");
         const visibleImportFromSupplier = ref<boolean>(false);
         const visibleImportFromAnotherStock = ref<boolean>(false);
-        const impSource = ref<DImpMestModel>();
-        const expSource = ref<DExpMestModel>();
+        const source = ref<InOutStockModel>();
         const fields = ref({ value: "id", label: "name" });
         const sStocks = ref<RoomModel[]>([]);
-        const impSources = ref<DImpMestModel[]>([]);
-        const expSources = ref<DExpMestModel[]>([]);
-        const dImpExpMestTypes = ref<DImpExpMestTypeModel[]>([]);
+        const itemSources = ref<InOutStockModel[]>([]);
         const sStockId = ref<string>("");
         const fromDate = ref<Dayjs>(
             dayjs().set("hour", 0).set("minute", 0).set("second", 0)
@@ -314,15 +181,17 @@ export default defineComponent({
         const toDate = ref<Dayjs>(
             dayjs().set("hour", 23).set("minute", 59).set("second", 59)
         );
-        const impExMestTypeId = ref<number>(0);
 
+        const inOutStockTypes = ref<InOutStockTypeModel[]>([]);
+
+        const inOutStockTypeId = ref<number>(0);
         const visibleExportFromAnotherStock = ref<boolean>(false);
 
         const columnImps = ref([
             {
                 title: "Trạng thái phiếu",
-                key: "impMestStatus",
-                dataIndex: "impMestStatus",
+                key: "status",
+                dataIndex: "status",
                 width: 60,
                 className: "column-header-center",
             },
@@ -335,15 +204,15 @@ export default defineComponent({
             },
             {
                 title: "Loại phiếu",
-                key: "impExpMestTypeName",
-                dataIndex: "impExpMestTypeName",
+                key: "inOutStockTypeName",
+                dataIndex: "inOutStockTypeName",
                 width: 250,
                 className: "column-header-center",
             },
             {
                 title: "Ngày tạo",
-                key: "impTime",
-                dataIndex: "impTime",
+                key: "reqTime",
+                dataIndex: "reqTime",
                 width: 70,
                 className: "column-header-center",
             },
@@ -365,65 +234,18 @@ export default defineComponent({
             { title: "Xử lý", key: "action", width: 70, align: "center" },
         ]);
 
-        const columnExps = ref([
-            {
-                title: "Trạng thái phiếu",
-                key: "expMestStatus",
-                dataIndex: "expMestStatus",
-                width: 60,
-                className: "column-header-center",
-            },
-            {
-                title: "Mã phiếu",
-                key: "code",
-                dataIndex: "code",
-                width: 50,
-                className: "column-header-center",
-            },
-            {
-                title: "Loại phiếu",
-                key: "impExpMestTypeName",
-                dataIndex: "impExpMestTypeName",
-                width: 250,
-                className: "column-header-center",
-            },
-            {
-                title: "Ngày tạo",
-                key: "impTime",
-                dataIndex: "impTime",
-                width: 70,
-                className: "column-header-center",
-            },
-            {
-                title: "Ngày xuất kho",
-                key: "stockExpTime",
-                dataIndex: "stockExpTime",
-                width: 70,
-                className: "column-header-center",
-            },
-            {
-                title: "Trạng thái nhập",
-                key: "impMestStatus",
-                dataIndex: "impMestStatus",
-                width: 60,
-                className: "column-header-center",
-            },
-
-            { title: "Xử lý", key: "action", width: 70, align: "center" },
-        ]);
-
         //#region Function
         async function inItData() {
             sStocks.value = await getStocks();
-            dImpExpMestTypes.value = await getImpExpMestTypes();
+            inOutStockTypes.value = await getInOutStockTypes();
         }
 
         async function getStocks(): Promise<RoomModel[]> {
             return (await roomService.getByStocks()).data.result;
         }
 
-        async function getImpExpMestTypes(): Promise<DImpExpMestTypeModel[]> {
-            return (await impExpMestTypeService.getAll()).data.result;
+        async function getInOutStockTypes(): Promise<InOutStockTypeModel[]> {
+            return (await inOutStockTypeService.getAll()).data.result;
         }
 
         // lấy dữ liệu
@@ -431,30 +253,17 @@ export default defineComponent({
             let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
             let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
 
-            /* eslint-disable */
-            debugger;
-            let isImport = type.value == "0" ? true : false;
-            if (isImport) {
-                impSources.value = (
-                    await impMestService.getByStock(
-                        sStockId.value,
-                        fromDateString,
-                        toDateString
-                    )
-                ).data.result;
-            } else {
-                expSources.value = (
-                    await expMestService.getByStock(
-                        sStockId.value,
-                        fromDateString,
-                        toDateString
-                    )
-                ).data.result;
-            }
+            itemSources.value = (
+                await inOutStockService.getByStock(
+                    sStockId.value,
+                    fromDateString,
+                    toDateString
+                )
+            ).data.result;
         };
 
         // sửa
-        const handleEdit = (item: DImpMestModel) => {
+        const handleEdit = (item: InOutStockModel) => {
             show(true, item);
         };
 
@@ -494,25 +303,25 @@ export default defineComponent({
         };
         //#endregion
 
-        const handlGegenerateDocumentClick = (type: DImpExpMestTypeModel) => {
-            impExMestTypeId.value = type.id;
+        const handlGegenerateDocumentClick = (type: InOutStockTypeModel) => {
+            inOutStockTypeId.value = type.id;
             show(true, undefined);
         };
 
-        const show = (v: boolean, s: DImpMestModel | undefined) => {
+        const show = (v: boolean, s: InOutStockModel | undefined) => {
             if (
-                (s !== undefined && s.impExpMestTypeId === 1) ||
-                impExMestTypeId.value === 1
+                (s !== undefined && s.inOutStockTypeId === 1) ||
+                inOutStockTypeId.value === 1
             ) {
                 visibleImportFromSupplier.value = v;
             } else if (
-                (s !== undefined && s.impExpMestTypeId === 3) ||
-                impExMestTypeId.value === 3
+                (s !== undefined && s.inOutStockTypeId === 3) ||
+                inOutStockTypeId.value === 3
             ) {
                 visibleImportFromAnotherStock.value = v;
             }
 
-            impSource.value = s;
+            source.value = s;
         };
 
         const isImport = computed(() => {
@@ -528,11 +337,11 @@ export default defineComponent({
             visibleImportFromAnotherStock,
             fields,
             sStocks,
-            dImpExpMestTypes,
-            impSources,
-            impSource,
+            inOutStockTypes,
+            itemSources,
+            source,
             sStockId,
-            impExMestTypeId,
+            inOutStockTypeId,
             isImport,
             handleLoad,
             handleEdit,
@@ -543,9 +352,6 @@ export default defineComponent({
             handleToggleImportFromAnotherStock,
 
             visibleExportFromAnotherStock,
-            columnExps,
-            expSource,
-            expSources,
             handleToggleExportFromSupplier,
         };
     },
@@ -556,7 +362,6 @@ export default defineComponent({
         PlusOutlined,
         ImportFromSupplierView,
         ImportFromAnotherStockView,
-        ExportFromAnotherStockView,
     },
 });
 </script>

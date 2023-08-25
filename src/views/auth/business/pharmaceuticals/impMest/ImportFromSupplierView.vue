@@ -36,7 +36,7 @@
                                 <input
                                     class="datetime grid-column-6"
                                     type="date"
-                                    v-model="source.impTime"
+                                    v-model="source.reqTime"
                                     :disabled="isDisabled"
                                 />
 
@@ -111,7 +111,7 @@
                                     :options="sUsers"
                                     :field-names="userColumns"
                                     show-search
-                                    v-model:value="source.impUserId"
+                                    v-model:value="source.creationUserId"
                                     :disabled="isDisabled"
                                 >
                                 </a-select>
@@ -156,7 +156,7 @@
                                     :options="sMedicineTypes"
                                     @change="handleMedicineTypeChanged"
                                     v-model:value="
-                                        dImpMestMedicineSelected.medicineTypeId
+                                        inOutStockMedicineSelected.medicineTypeId
                                     "
                                     :disabled="isDisabled"
                                 />
@@ -164,7 +164,7 @@
                                 <a-input
                                     class="grid-column-8"
                                     v-model:value="
-                                        dImpMestMedicineSelected.code
+                                        inOutStockMedicineSelected.code
                                     "
                                     :disabled="isDisabled"
                                 />
@@ -172,7 +172,7 @@
                                 <a-input
                                     class="grid-column-10"
                                     v-model:value="
-                                        dImpMestMedicineSelected.concentration
+                                        inOutStockMedicineSelected.concentration
                                     "
                                     disabled
                                 />
@@ -182,7 +182,7 @@
                                 <a-input
                                     class="grid-column-12"
                                     v-model:value="
-                                        dImpMestMedicineSelected.content
+                                        inOutStockMedicineSelected.content
                                     "
                                     disabled
                                 />
@@ -194,7 +194,7 @@
                                     :options="sCountries"
                                     showSearch
                                     v-model:value="
-                                        dImpMestMedicineSelected.countryId
+                                        inOutStockMedicineSelected.countryId
                                     "
                                     disabled
                                 />
@@ -203,7 +203,7 @@
                                 <a-input
                                     class="grid-column-4"
                                     v-model:value="
-                                        dImpMestMedicineSelected.manufacturer
+                                        inOutStockMedicineSelected.manufacturer
                                     "
                                     disabled
                                 />
@@ -214,7 +214,7 @@
                                     class="grid-column-6"
                                     :field-names="fields"
                                     :options="sUnits"
-                                    :value="dImpMestMedicineSelected.unitId"
+                                    :value="inOutStockMedicineSelected.unitId"
                                     disabled
                                 />
                                 <label class="grid-column-7">Giá nhập: </label>
@@ -222,7 +222,7 @@
                                     @input="calculateTotalAmout"
                                     class="grid-column-8 w-100"
                                     v-model:value="
-                                        dImpMestMedicineSelected.impPrice
+                                        inOutStockMedicineSelected.impPrice
                                     "
                                     :disabled="isDisabled"
                                     min="0"
@@ -234,7 +234,7 @@
                                     @input="calculateTotalAmout"
                                     class="grid-column-10 w-100"
                                     v-model:value="
-                                        dImpMestMedicineSelected.impVatRate
+                                        inOutStockMedicineSelected.impVatRate
                                     "
                                     :disabled="isDisabled"
                                     min="0"
@@ -248,7 +248,7 @@
                                     @input="calculateTotalAmout"
                                     class="grid-column-12 w-100"
                                     v-model:value="
-                                        dImpMestMedicineSelected.taxRate
+                                        inOutStockMedicineSelected.taxRate
                                     "
                                     :disabled="isDisabled"
                                     min="0"
@@ -260,7 +260,7 @@
                                     @input="calculateTotalAmout"
                                     class="grid-column-2 w-100"
                                     v-model:value="
-                                        dImpMestMedicineSelected.impQuantity
+                                        inOutStockMedicineSelected.requestQuantity
                                     "
                                     :disabled="isDisabled"
                                     min="0"
@@ -271,7 +271,7 @@
                                 <a-input-number
                                     class="grid-column-4 w-100"
                                     v-model:value="
-                                        dImpMestMedicineSelected.impAmount
+                                        inOutStockMedicineSelected.impAmount
                                     "
                                     :disabled="isDisabled"
                                     min="0"
@@ -280,7 +280,7 @@
                                 <a-input
                                     class="grid-column-6"
                                     v-model:value="
-                                        dImpMestMedicineSelected.tenderDecision
+                                        inOutStockMedicineSelected.tenderDecision
                                     "
                                     :disabled="isDisabled"
                                 />
@@ -288,7 +288,7 @@
                                 <a-input
                                     class="grid-column-8"
                                     v-model:value="
-                                        dImpMestMedicineSelected.tenderPackage
+                                        inOutStockMedicineSelected.tenderPackage
                                     "
                                     :disabled="isDisabled"
                                 />
@@ -296,7 +296,7 @@
                                 <a-input-number
                                     class="grid-column-10 w-100"
                                     v-model:value="
-                                        dImpMestMedicineSelected.tenderYear
+                                        inOutStockMedicineSelected.tenderYear
                                     "
                                     :disabled="isDisabled"
                                     min="0"
@@ -307,7 +307,7 @@
                                 <a-input
                                     class="grid-column-12"
                                     v-model:value="
-                                        dImpMestMedicineSelected.registrationNumber
+                                        inOutStockMedicineSelected.registrationNumber
                                     "
                                     disabled
                                 />
@@ -315,14 +315,16 @@
                                 <label class="grid-column-1">Số Lô: </label>
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="dImpMestMedicineSelected.lot"
+                                    v-model:value="
+                                        inOutStockMedicineSelected.lot
+                                    "
                                     :disabled="isDisabled"
                                 />
                                 <label class="grid-column-3">Hạn dùng: </label>
                                 <input
                                     class="datetime grid-column-4"
                                     type="date"
-                                    v-model="dImpMestMedicineSelected.dueDate"
+                                    v-model="inOutStockMedicineSelected.dueDate"
                                     :disabled="isDisabled"
                                 />
 
@@ -342,7 +344,7 @@
                                     :pagination="false"
                                     :columns="pricePolicyColumns"
                                     :data-source="
-                                        dImpMestMedicineSelected.sMedicinePricePolicies
+                                        inOutStockMedicineSelected.medicinePricePolicies
                                     "
                                 >
                                     <template #bodyCell="{ column, record }">
@@ -452,7 +454,7 @@
                                     size="middle"
                                     :customRow="handleRowClickImpMestMedicine"
                                     :columns="impMestMedicineColumns"
-                                    :data-source="source.dImpMestMedicines"
+                                    :data-source="source.inOutStockMedicines"
                                     bordered
                                     :pagination="false"
                                 >
@@ -512,14 +514,15 @@
             </div>
             <template #footer>
                 <a-button
-                    v-if="source.impMestStatus === 0"
+                    v-if="source.status === 0"
                     class="btn-save"
                     :loading="loading"
+                    :disabled="isDisabled"
                     @click.prevent="handleSave"
                     >Lưu tạm</a-button
                 >
                 <a-button
-                    v-if="source.impMestStatus === 0"
+                    v-if="source.status === 0"
                     class="btn-save"
                     :loading="loading"
                     @click.prevent="handleEdit"
@@ -527,7 +530,9 @@
                 >
                 <a-button
                     v-if="
-                        source.impMestStatus !== 3 && source.impMestStatus !== 4
+                        source.status !== 3 &&
+                        source.status !== 4 &&
+                        source.status !== -1
                     "
                     type="primary"
                     class="btn-save"
@@ -535,9 +540,7 @@
                     >Nhận kho</a-button
                 >
                 <a-button
-                    v-if="
-                        source.impMestStatus === 3 || source.impMestStatus === 4
-                    "
+                    v-if="source.status === 3 || source.status === 4"
                     type="primary"
                     class="btn-save"
                     @click.prevent="handleCanceled"
@@ -550,11 +553,10 @@
 
 <script lang="ts">
 import { Modal } from "ant-design-vue";
-import dayjs from "dayjs";
 import { defineComponent, ref, computed, watch, reactive, PropType } from "vue";
 import {
-    DImpMestModel,
-    DImpMestMedicineModel,
+    InOutStockModel,
+    InOutStockMedicineModel,
     SupplierModel,
     MedicineTypeModel,
     RoomModel,
@@ -570,8 +572,8 @@ import {
     countryService,
     unitService,
     userService,
-    impMestService,
     medicinePricePolicyService,
+    inOutStockService,
 } from "@/services";
 
 export default defineComponent({
@@ -581,12 +583,8 @@ export default defineComponent({
             type: Boolean,
             required: true,
         },
-        impExMestTypeId: {
-            type: Number,
-            required: true,
-        },
         data: {
-            type: Object as PropType<DImpMestModel>,
+            type: Object as PropType<InOutStockModel>,
         },
     },
     setup(props, { emit }) {
@@ -607,72 +605,74 @@ export default defineComponent({
         const sUsers = ref<UserModel[]>([]);
         const sMedicinePricePolicies = ref<MedicinePricePolicyModel[]>([]);
 
-        const source = ref<DImpMestModel>({
+        const source = ref<InOutStockModel>({
             id: null,
-            /// Mã phiếu
+            // Mã phiếu
             code: null,
-            /// Trạng thái
-            impMestStatus: 0,
-            expMestStatus: 0,
-            /// Kho nhập
+            // Trạng thái phiếu
+            status: 0,
+            // Loại phiếu: 0 - Nhập, 1 - xuất
+            type: 0,
+            // Kho nhập
             impStockId: null,
-            /// Kho xuất
+            // Kho xuất
             expStockId: null,
-            /// Loại phiếu nhập, xuất
-            impExpMestTypeId: 0,
+            // Loại phiếu nhập, xuất
+            inOutStockTypeId: null,
             /// Người nhận
             receiverUserId: null,
-            /// Thời gian nhập
-            impTime: null,
-            /// Người lập
-            impUserId: null,
-            /// Ngày duyệt
-            approverTime: null,
-            /// NGười duyệt
+            // Người duyệt
             approverUserId: null,
-            /// Nội dung
-            description: null,
-            /// Phòng yêu cầu
-            reqRoomId: null,
-            /// Khoa yêu cầu
-            reqDepartmentId: null,
-            /// Id điều trị
-            treatmentId: null,
-            /// Id Bệnh nhân
-            patientId: null,
-            /// Nhà cung cấp
-            supplierId: null,
-            /// Nhà cung cấp
-            supplierAddress: null,
-            /// Ngày hóa đơn
-            invTime: null,
-            /// Số hóa đơn
-            invNo: null,
-            /// Người giao
-            deliverer: null,
-            /// Ngày nhập kho
+            // Ngày duyệt
+            approverTime: null,
+            // Ngày tạo phiếu, yêu cầu
+            reqTime: null,
+            // Người tạo phiếu nhập
+            creationUserId: null,
+            // Ngày nhập kho
             stockImpTime: null,
-            /// Người nhập kho
+            // Người nhập kho
             stockImpUserId: null,
-            expMestId: null,
-            dImpMestMedicines: [],
+            description: null,
+            // Phòng yêu cầu
+            reqRoomId: null,
+            // Khoa yêu cầu
+            reqDepartmentId: null,
+            // Id Bệnh nhân
+            patientId: null,
+            // Id điều trị
+            patientRecordId: null,
+            // Nhà cung cấp
+            supplierId: null,
+            // Ngày hóa đơn
+            invTime: null,
+            // Số hóa đơn
+            invNo: null,
+            // NGười giao
+            deliverer: null,
+            // Ngày xuất kho
+            stockExpTime: null,
+            // Người xuất kho
+            stockExpUserId: null,
+            inOutStockMedicines: [],
         });
 
-        const dImpMestMedicineSelected = ref<DImpMestMedicineModel>({
+        const inOutStockMedicineSelected = ref<InOutStockMedicineModel>({
             id: null,
+            // Mã thuốc
             code: null,
             // Mã BH
             heInCode: null,
-            // Tên
+            // Tên thuốc
             name: null,
+            // Thứ tự sắp xếp
+            sortOrder: null,
             // Đường dùng thuốc
             medicineLineId: null,
             // Nhóm thuốc
             medicineGroupId: null,
             // Nhóm thuốc
             medicineTypeId: null,
-            // Thuốc
-            medicineId: null,
             // Đơn vị tính
             unitId: null,
             // Hướng dẫn
@@ -681,14 +681,18 @@ export default defineComponent({
             countryId: null,
             // Giá nhập
             impPrice: null,
-            // Số lượng nhập
-            impQuantity: null,
+            // Số lượng YC
+            requestQuantity: null,
+            // Số lượng duyệt
+            approvedQuantity: null,
             // Phần trăm vat giá nhập
             impVatRate: null,
             // Phần trăm thuế
             taxRate: null,
-            // Thanh tien
+            // Thành tiền
             impAmount: null,
+            // Diễn giải
+            description: null,
             // Hoạt chất
             activeSubstance: null,
             // Nồng độ
@@ -699,13 +703,15 @@ export default defineComponent({
             manufacturer: null,
             // Quy cách đóng gói
             packagingSpecifications: null,
-            // Số ĐK
-            registrationNumber: null,
+            // Liều dùng
+            dosage: null,
             // Lô
             lot: null,
             // Hạn dùng
             dueDate: null,
-            // Quyệt định thầu
+            // Số đăng ký
+            registrationNumber: null,
+            // Quyệt định thầu,
             tenderDecision: null,
             // Gói thầu
             tenderPackage: null,
@@ -713,7 +719,10 @@ export default defineComponent({
             tenderGroup: null,
             // Năm thầu
             tenderYear: null,
-            sMedicinePricePolicies: [],
+            // Id lô thuốc
+            medicineId: null,
+            inOutStockId: null,
+            medicinePricePolicies: [],
         });
         const sMedicineTypeSelected = ref<MedicineTypeModel>();
         const supplierSelected = ref<SupplierModel>({
@@ -755,8 +764,8 @@ export default defineComponent({
             },
             {
                 title: "Số lượng",
-                key: "impQuantity",
-                dataIndex: "impQuantity",
+                key: "requestQuantity",
+                dataIndex: "requestQuantity",
                 width: 100,
                 className: "column-header-center",
                 align: "right",
@@ -851,9 +860,7 @@ export default defineComponent({
 
         const show = computed(() => props.visible);
 
-        /* eslint-disable */
         watch(show, async (value) => {
-            debugger;
             if (value) {
                 reset();
                 inItData();
@@ -870,16 +877,16 @@ export default defineComponent({
                     isDisabled.value = true;
 
                     var resultDto =
-                        await impMestService.importFromSupplierGetById(
+                        await inOutStockService.importFromSupplierGetById(
                             props.data.id
                         );
                     if (resultDto.data.isSuccessed) {
                         title.value = "Nhập thuốc từ nhà cung cấp";
                         source.value = resultDto.data.result;
 
-                        if (source.value.impTime !== null) {
-                            source.value.impTime =
-                                source.value.impTime.split("T")[0];
+                        if (source.value.reqTime !== null) {
+                            source.value.reqTime =
+                                source.value.reqTime.split("T")[0];
                         }
                         if (source.value.invTime !== null) {
                             source.value.invTime =
@@ -895,25 +902,25 @@ export default defineComponent({
                         }
 
                         if (
-                            source.value.dImpMestMedicines !== null &&
-                            source.value.dImpMestMedicines &&
-                            source.value.dImpMestMedicines.length > 0
+                            source.value.inOutStockMedicines !== null &&
+                            source.value.inOutStockMedicines &&
+                            source.value.inOutStockMedicines.length > 0
                         ) {
-                            source.value.dImpMestMedicines.forEach(
-                                (dImpMestMedicine) => {
-                                    if (dImpMestMedicine.dueDate !== null) {
-                                        dImpMestMedicine.dueDate =
-                                            dImpMestMedicine.dueDate.split(
+                            source.value.inOutStockMedicines.forEach(
+                                (inOutStockMedicine) => {
+                                    if (inOutStockMedicine.dueDate !== null) {
+                                        inOutStockMedicine.dueDate =
+                                            inOutStockMedicine.dueDate.split(
                                                 "T"
                                             )[0];
                                     }
 
                                     if (
-                                        dImpMestMedicine.sMedicinePricePolicies &&
-                                        dImpMestMedicine.sMedicinePricePolicies !==
+                                        inOutStockMedicine.medicinePricePolicies &&
+                                        inOutStockMedicine.medicinePricePolicies !==
                                             null
                                     ) {
-                                        dImpMestMedicine.sMedicinePricePolicies.forEach(
+                                        inOutStockMedicine.medicinePricePolicies.forEach(
                                             (price) => {
                                                 if (
                                                     price.executionTime !== null
@@ -929,8 +936,8 @@ export default defineComponent({
                                 }
                             );
 
-                            dImpMestMedicineSelected.value = {
-                                ...source.value.dImpMestMedicines[0],
+                            inOutStockMedicineSelected.value = {
+                                ...source.value.inOutStockMedicines[0],
                             };
                         }
                     } else {
@@ -1001,70 +1008,72 @@ export default defineComponent({
 
             source.value = {
                 id: null,
-                /// Mã phiếu
+                // Mã phiếu
                 code: null,
-                /// Trạng thái
-                impMestStatus: 0,
-                expMestStatus: 0,
-                /// Kho nhập
+                // Trạng thái phiếu
+                status: 0,
+                // Loại phiếu: 0 - Nhập, 1 - xuất
+                type: 0,
+                // Kho nhập
                 impStockId: null,
-                /// Kho xuất
+                // Kho xuất
                 expStockId: null,
-                /// Loại phiếu nhập, xuất
-                impExpMestTypeId: 0,
+                // Loại phiếu nhập, xuất
+                inOutStockTypeId: null,
                 /// Người nhận
                 receiverUserId: null,
-                /// Thời gian nhập
-                impTime: null,
-                /// Người lập
-                impUserId: null,
-                /// Ngày duyệt
-                approverTime: null,
-                /// NGười duyệt
+                // Người duyệt
                 approverUserId: null,
-                /// Nội dung
-                description: null,
-                /// Phòng yêu cầu
-                reqRoomId: null,
-                /// Khoa yêu cầu
-                reqDepartmentId: null,
-                /// Id điều trị
-                treatmentId: null,
-                /// Id Bệnh nhân
-                patientId: null,
-                /// Nhà cung cấp
-                supplierId: null,
-                /// Nhà cung cấp
-                supplierAddress: null,
-                /// Ngày hóa đơn
-                invTime: null,
-                /// Số hóa đơn
-                invNo: null,
-                /// Người giao
-                deliverer: null,
-                /// Ngày nhập kho
+                // Ngày duyệt
+                approverTime: null,
+                // Ngày tạo phiếu, yêu cầu
+                reqTime: null,
+                // Người tạo phiếu nhập
+                creationUserId: null,
+                // Ngày nhập kho
                 stockImpTime: null,
-                /// Người nhập kho
+                // Người nhập kho
                 stockImpUserId: null,
-                expMestId: null,
-                dImpMestMedicines: [],
+                description: null,
+                // Phòng yêu cầu
+                reqRoomId: null,
+                // Khoa yêu cầu
+                reqDepartmentId: null,
+                // Id Bệnh nhân
+                patientId: null,
+                // Id điều trị
+                patientRecordId: null,
+                // Nhà cung cấp
+                supplierId: null,
+                // Ngày hóa đơn
+                invTime: null,
+                // Số hóa đơn
+                invNo: null,
+                // NGười giao
+                deliverer: null,
+                // Ngày xuất kho
+                stockExpTime: null,
+                // Người xuất kho
+                stockExpUserId: null,
+                inOutStockMedicines: [],
             };
 
-            dImpMestMedicineSelected.value = {
+            inOutStockMedicineSelected.value = {
                 id: null,
+                // Mã thuốc
                 code: null,
                 // Mã BH
                 heInCode: null,
-                // Tên
+                // Tên thuốc
                 name: null,
+                // Thứ tự sắp xếp
+                sortOrder: null,
                 // Đường dùng thuốc
                 medicineLineId: null,
                 // Nhóm thuốc
                 medicineGroupId: null,
                 // Nhóm thuốc
                 medicineTypeId: null,
-                // Thuốc
-                medicineId: null,
                 // Đơn vị tính
                 unitId: null,
                 // Hướng dẫn
@@ -1073,14 +1082,18 @@ export default defineComponent({
                 countryId: null,
                 // Giá nhập
                 impPrice: null,
-                // Số lượng nhập
-                impQuantity: null,
+                // Số lượng YC
+                requestQuantity: null,
+                // Số lượng duyệt
+                approvedQuantity: null,
                 // Phần trăm vat giá nhập
                 impVatRate: null,
                 // Phần trăm thuế
                 taxRate: null,
-                // Thanh tien
+                // Thành tiền
                 impAmount: null,
+                // Diễn giải
+                description: null,
                 // Hoạt chất
                 activeSubstance: null,
                 // Nồng độ
@@ -1091,13 +1104,15 @@ export default defineComponent({
                 manufacturer: null,
                 // Quy cách đóng gói
                 packagingSpecifications: null,
-                // Số ĐK
-                registrationNumber: null,
+                // Liều dùng
+                dosage: null,
                 // Lô
                 lot: null,
                 // Hạn dùng
                 dueDate: null,
-                // Quyệt định thầu
+                // Số đăng ký
+                registrationNumber: null,
+                // Quyệt định thầu,
                 tenderDecision: null,
                 // Gói thầu
                 tenderPackage: null,
@@ -1105,33 +1120,36 @@ export default defineComponent({
                 tenderGroup: null,
                 // Năm thầu
                 tenderYear: null,
-                sMedicinePricePolicies: [],
+                // Id lô thuốc
+                medicineId: null,
+                inOutStockId: null,
+                medicinePricePolicies: [],
             };
         };
 
         const setImpMestMedicine = (
-            data: DImpMestMedicineModel | undefined
+            data: InOutStockMedicineModel | undefined
         ) => {
             if (data !== undefined) {
                 const dataCopy = { ...data };
-                dImpMestMedicineSelected.value = dataCopy;
+                inOutStockMedicineSelected.value = dataCopy;
             }
         };
 
         const calculateTotalAmout = () => {
             if (
-                dImpMestMedicineSelected.value.impQuantity &&
-                dImpMestMedicineSelected.value.impVatRate &&
-                dImpMestMedicineSelected.value.impPrice &&
-                dImpMestMedicineSelected.value.taxRate
+                inOutStockMedicineSelected.value.requestQuantity !== null &&
+                inOutStockMedicineSelected.value.impVatRate !== null &&
+                inOutStockMedicineSelected.value.impPrice !== null &&
+                inOutStockMedicineSelected.value.taxRate !== null
             ) {
-                let vatRate = dImpMestMedicineSelected.value.impVatRate / 100;
-                let taxRate = dImpMestMedicineSelected.value.taxRate / 100;
+                let vatRate = inOutStockMedicineSelected.value.impVatRate / 100;
+                let taxRate = inOutStockMedicineSelected.value.taxRate / 100;
                 let impAmount =
-                    dImpMestMedicineSelected.value.impQuantity *
-                    dImpMestMedicineSelected.value.impPrice;
+                    inOutStockMedicineSelected.value.requestQuantity *
+                    inOutStockMedicineSelected.value.impPrice;
 
-                dImpMestMedicineSelected.value.impAmount = Number(
+                inOutStockMedicineSelected.value.impAmount = Number(
                     (impAmount * (1 + vatRate + taxRate)).toFixed(2)
                 );
             }
@@ -1149,7 +1167,7 @@ export default defineComponent({
         };
 
         const handleRowClickImpMestMedicine = (
-            record: DImpMestMedicineModel
+            record: InOutStockMedicineModel
         ) => {
             return {
                 onClick: () => {
@@ -1159,18 +1177,25 @@ export default defineComponent({
         };
 
         const handleUpdateImMest = () => {
-            let dImpMestMedicine = source.value.dImpMestMedicines.find(
-                (f) => f.code == dImpMestMedicineSelected.value.code
+            let inOutStockMedicine = source.value.inOutStockMedicines.find(
+                (f) => f.code == inOutStockMedicineSelected.value.code
             );
-            if (dImpMestMedicine !== null && dImpMestMedicine != undefined) {
+            if (
+                inOutStockMedicine !== null &&
+                inOutStockMedicine != undefined
+            ) {
                 const index =
-                    source.value.dImpMestMedicines.indexOf(dImpMestMedicine);
-                source.value.dImpMestMedicines[index] = {
-                    ...dImpMestMedicineSelected.value,
+                    source.value.inOutStockMedicines.indexOf(
+                        inOutStockMedicine
+                    );
+                source.value.inOutStockMedicines[index] = {
+                    ...inOutStockMedicineSelected.value,
                 };
-            } else if (dImpMestMedicineSelected.value.medicineTypeId !== null) {
-                source.value.dImpMestMedicines.push({
-                    ...dImpMestMedicineSelected.value,
+            } else if (
+                inOutStockMedicineSelected.value.medicineTypeId !== null
+            ) {
+                source.value.inOutStockMedicines.push({
+                    ...inOutStockMedicineSelected.value,
                 });
             }
         };
@@ -1184,7 +1209,9 @@ export default defineComponent({
             }
         };
 
+        /* eslint-disable */
         const handleMedicineTypeChanged = (value: string) => {
+            debugger;
             if (value !== null) {
                 let sMedicineType = sMedicineTypes.value.find(
                     (f) => f.id === value
@@ -1192,56 +1219,52 @@ export default defineComponent({
                 if (sMedicineType !== undefined && sMedicineType !== null) {
                     sMedicineTypeSelected.value = { ...sMedicineType };
 
-                    if (dImpMestMedicineSelected.value !== undefined) {
-                        dImpMestMedicineSelected.value.id = null;
-                        dImpMestMedicineSelected.value.medicineId = null;
-                        dImpMestMedicineSelected.value.code =
+                    if (inOutStockMedicineSelected.value !== undefined) {
+                        inOutStockMedicineSelected.value.id = null;
+                        inOutStockMedicineSelected.value.medicineId = null;
+                        inOutStockMedicineSelected.value.code =
                             sMedicineTypeSelected.value.code;
-                        dImpMestMedicineSelected.value.heInCode =
+                        inOutStockMedicineSelected.value.heInCode =
                             sMedicineTypeSelected.value.heInCode;
-                        dImpMestMedicineSelected.value.name =
+                        inOutStockMedicineSelected.value.name =
                             sMedicineTypeSelected.value.name;
-                        dImpMestMedicineSelected.value.medicineLineId =
+                        inOutStockMedicineSelected.value.medicineLineId =
                             sMedicineTypeSelected.value.medicineLineId;
-                        dImpMestMedicineSelected.value.medicineGroupId =
+                        inOutStockMedicineSelected.value.medicineGroupId =
                             sMedicineTypeSelected.value.medicineGroupId;
-                        dImpMestMedicineSelected.value.medicineTypeId =
+                        inOutStockMedicineSelected.value.medicineTypeId =
                             sMedicineTypeSelected.value.id !== undefined
                                 ? sMedicineTypeSelected.value.id
                                 : null;
-                        dImpMestMedicineSelected.value.unitId =
+                        inOutStockMedicineSelected.value.unitId =
                             sMedicineTypeSelected.value.unitId;
-                        dImpMestMedicineSelected.value.unitCode =
-                            sMedicineTypeSelected.value.unitCode;
-                        dImpMestMedicineSelected.value.unitName =
-                            sMedicineTypeSelected.value.unitName;
-                        dImpMestMedicineSelected.value.tutorial =
+                        inOutStockMedicineSelected.value.tutorial =
                             sMedicineTypeSelected.value.tutorial;
-                        dImpMestMedicineSelected.value.countryId =
+                        inOutStockMedicineSelected.value.countryId =
                             sMedicineTypeSelected.value.countryId;
-                        dImpMestMedicineSelected.value.impPrice =
+                        inOutStockMedicineSelected.value.impPrice =
                             sMedicineTypeSelected.value.impPrice;
-                        dImpMestMedicineSelected.value.activeSubstance =
+                        inOutStockMedicineSelected.value.activeSubstance =
                             sMedicineTypeSelected.value.activeSubstance;
-                        dImpMestMedicineSelected.value.concentration =
+                        inOutStockMedicineSelected.value.concentration =
                             sMedicineTypeSelected.value.concentration;
-                        dImpMestMedicineSelected.value.impVatRate =
+                        inOutStockMedicineSelected.value.impVatRate =
                             sMedicineTypeSelected.value.impVatRate;
-                        dImpMestMedicineSelected.value.taxRate =
+                        inOutStockMedicineSelected.value.taxRate =
                             sMedicineTypeSelected.value.taxRate;
-                        dImpMestMedicineSelected.value.activeSubstance =
+                        inOutStockMedicineSelected.value.activeSubstance =
                             sMedicineTypeSelected.value.activeSubstance;
-                        dImpMestMedicineSelected.value.concentration =
+                        inOutStockMedicineSelected.value.concentration =
                             sMedicineTypeSelected.value.concentration;
-                        dImpMestMedicineSelected.value.content =
+                        inOutStockMedicineSelected.value.content =
                             sMedicineTypeSelected.value.content;
-                        dImpMestMedicineSelected.value.manufacturer =
+                        inOutStockMedicineSelected.value.manufacturer =
                             sMedicineTypeSelected.value.manufacturer;
-                        dImpMestMedicineSelected.value.packagingSpecifications =
+                        inOutStockMedicineSelected.value.packagingSpecifications =
                             sMedicineTypeSelected.value.packagingSpecifications;
-                        dImpMestMedicineSelected.value.registrationNumber =
+                        inOutStockMedicineSelected.value.registrationNumber =
                             sMedicineTypeSelected.value.registrationNumber;
-                        dImpMestMedicineSelected.value.sMedicinePricePolicies =
+                        inOutStockMedicineSelected.value.medicinePricePolicies =
                             JSON.parse(
                                 JSON.stringify(sMedicinePricePolicies.value)
                             );
@@ -1254,9 +1277,10 @@ export default defineComponent({
             loading.value = true;
             result.value = false;
 
-            var resultDto = await impMestService.importFromSupplierSaveAsDraft(
-                source.value
-            );
+            var resultDto =
+                await inOutStockService.importFromSupplierSaveAsDraft(
+                    source.value
+                );
             if (!resultDto.data.isSuccessed) {
                 Modal.error({
                     content: resultDto.data.message,
@@ -1278,7 +1302,7 @@ export default defineComponent({
             result.value = false;
             loading.value = true;
 
-            let resultDto = await impMestService.importFromSupplierStockIn(
+            let resultDto = await inOutStockService.importFromSupplierStockIn(
                 source.value
             );
             if (!resultDto.data.isSuccessed) {
@@ -1299,9 +1323,10 @@ export default defineComponent({
             result.value = false;
 
             if (source.value !== undefined && source.value.id !== null) {
-                let resultDto = await impMestService.importFromSupplierCanceled(
-                    source.value.id
-                );
+                let resultDto =
+                    await inOutStockService.importFromSupplierCanceled(
+                        source.value.id
+                    );
                 if (!resultDto.data.isSuccessed) {
                     Modal.error({
                         content: resultDto.data.message,
@@ -1316,24 +1341,25 @@ export default defineComponent({
             loading.value = false;
         };
 
-        const formatNumber = (value: number | string) => {
+        const formatNumber = (value: string) => {
             if (value === null || value === "") {
                 return null;
             }
             return parseFloat(value.toString()).toFixed(2);
         };
 
-        const handleDeleteImpMestMedicine = (record: DImpMestMedicineModel) => {
-            let index = source.value.dImpMestMedicines.indexOf(record, 0);
+        const handleDeleteImpMestMedicine = (
+            record: InOutStockMedicineModel
+        ) => {
+            let index = source.value.inOutStockMedicines.indexOf(record, 0);
             if (index !== -1) {
-                source.value.dImpMestMedicines.splice(index, 1);
+                source.value.inOutStockMedicines.splice(index, 1);
             }
         };
 
         //#endregion
 
         return {
-            selectedDate: dayjs("2023-08-13T11:29:12.966"),
             isDisabled,
             title,
             loading,
@@ -1351,7 +1377,7 @@ export default defineComponent({
             sUsers,
             impMestMedicineColumns,
             supplierSelected,
-            dImpMestMedicineSelected,
+            inOutStockMedicineSelected,
             sMedicineTypeSelected,
             pricePolicyColumns,
             calculateTotalAmout,

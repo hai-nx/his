@@ -32,10 +32,9 @@ import medicinePricePolicyService from './dictionary/medicinePricePolicy'
 
 import patientService from './business/patient'
 
-import impMestService from './business/pharmaceuticals/imMest'
-import impExpMestTypeService from './business/pharmaceuticals/impExpMestType'
-import dMedicineStockService from './business/pharmaceuticals/medicineStock'
-import expMestService from './business/pharmaceuticals/expMest'
+import inOutStockService from './business/pharmaceuticals/inOutStock'
+import inOutStockTypeService from './business/pharmaceuticals/inOutStockType'
+import medicineStockService from './business/pharmaceuticals/medicineStock'
 
 import userService from './system/user'
 
@@ -73,10 +72,9 @@ export {
     medicinePricePolicyService,
 
     patientService,
-    impMestService,
-    impExpMestTypeService,
-    dMedicineStockService,
-    expMestService,
+    inOutStockService,
+    inOutStockTypeService,
+    medicineStockService,
 
     userService,
 }

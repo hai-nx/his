@@ -1,6 +1,6 @@
 import { MedicineModel } from "@/models"
 
-export default interface DMedicineStockModel {
+export default interface MedicineStockModel {
     id: string | null,
     stockId: string | null
     medicineId: string | null
@@ -20,5 +20,5 @@ export default interface DMedicineStockModel {
     medicineCode?: string
     medicineName?: string
 
-    sMedicine: MedicineModel | null
+    medicine: MedicineModel | null
 }

@@ -1,12 +1,12 @@
 import request from '@/utils/request'
-import { ApiResult, DMedicineStockModel } from '@/models'
+import { ApiResult, MedicineStockModel } from '@/models'
 
 const dMedicineStockService = {
     getAll() {
-        return request.get<ApiResult<DMedicineStockModel[]>>('api/DMedicineStock/GetAll');
+        return request.get<ApiResult<MedicineStockModel[]>>('api/MedicineStock/GetAll');
     },
     getMedicineByStocks(stockId: string) {
-        return request.get<ApiResult<DMedicineStockModel[]>>("api/DMedicineStock/GetMedicineByStocks?stockId=" + stockId);
+        return request.get<ApiResult<MedicineStockModel[]>>("api/MedicineStock/GetMedicineByStocks?stockId=" + stockId);
     },
 }
 
