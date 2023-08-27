@@ -31,7 +31,7 @@ export default interface InOutStockMedicineModel {
     // Phần trăm vat giá nhập
     impVatRate: number | null
     // Phần trăm thuế
-    taxRate: number | null
+    impTaxRate: number | null
     // Thành tiền
     impAmount: number | null
     // Diễn giải

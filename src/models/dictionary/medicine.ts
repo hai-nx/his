@@ -24,7 +24,7 @@ export default interface MedicineModel extends DictionaryBase {
     // Phần trăm vat giá nhập
     impVatRate: number | null,
     // Phần trăm thuế
-    taxRate: number | null,
+    impTaxRate: number | null,
     // Phần trăm thuế
     impAmount: number | null,
     // Hoạt chất

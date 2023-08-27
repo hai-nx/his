@@ -19,7 +19,7 @@ export default interface MedicineTypeModel extends DictionaryBase {
     packagingSpecifications: string | null, // Quy cách đóng gói
     impPrice: number | null, // Giá nhập
     impVatRate: number | null, // Phần trăm vat giá nhập
-    taxRate: number | null, // Phần trăm thuế
+    impTaxRate: number | null, // Phần trăm thuế
     isAntibiotics: boolean, // Thuốc kháng sinh
     isNewDrug: boolean, // Thuốc tân dược
     isPrescriptionDrug: boolean, // Thuốc kê đơn

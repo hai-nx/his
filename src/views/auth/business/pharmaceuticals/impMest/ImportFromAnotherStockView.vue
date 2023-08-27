@@ -195,7 +195,7 @@
                         disabled
                         min="0"
                         max="100"
-                        v-model:value="inOutStockMedicineSelected.taxRate"
+                        v-model:value="inOutStockMedicineSelected.impTaxRate"
                     />
 
                     <label class="grid-column-9">Thành tiền: </label>
@@ -486,7 +486,7 @@ export default defineComponent({
             // Phần trăm vat giá nhập
             impVatRate: null,
             // Phần trăm thuế
-            taxRate: null,
+            impTaxRate: null,
             // Thành tiền
             impAmount: null,
             // Diễn giải
@@ -834,7 +834,7 @@ export default defineComponent({
                 // Phần trăm vat giá nhập
                 impVatRate: null,
                 // Phần trăm thuế
-                taxRate: null,
+                impTaxRate: null,
                 // Thành tiền
                 impAmount: null,
                 // Diễn giải
@@ -953,8 +953,8 @@ export default defineComponent({
                                 dMedicineStockSelected.value.medicine.concentration;
                             inOutStockMedicineSelected.value.impVatRate =
                                 dMedicineStockSelected.value.medicine.impVatRate;
-                            inOutStockMedicineSelected.value.taxRate =
-                                dMedicineStockSelected.value.medicine.taxRate;
+                            inOutStockMedicineSelected.value.impTaxRate =
+                                dMedicineStockSelected.value.medicine.impTaxRate;
                             inOutStockMedicineSelected.value.activeSubstance =
                                 dMedicineStockSelected.value.medicine.activeSubstance;
                             inOutStockMedicineSelected.value.concentration =
@@ -1015,10 +1015,10 @@ export default defineComponent({
                         dImpMestMedicine.requestQuantity &&
                         dImpMestMedicine.impVatRate &&
                         dImpMestMedicine.impPrice &&
-                        dImpMestMedicine.taxRate
+                        dImpMestMedicine.impTaxRate
                     ) {
                         let vatRate = dImpMestMedicine.impVatRate / 100;
-                        let taxRate = dImpMestMedicine.taxRate / 100;
+                        let taxRate = dImpMestMedicine.impTaxRate / 100;
                         let impAmount =
                             dImpMestMedicine.requestQuantity *
                             dImpMestMedicine.impPrice;
@@ -1041,10 +1041,10 @@ export default defineComponent({
                 inOutStockMedicineSelected.value.requestQuantity &&
                 inOutStockMedicineSelected.value.impVatRate &&
                 inOutStockMedicineSelected.value.impPrice &&
-                inOutStockMedicineSelected.value.taxRate
+                inOutStockMedicineSelected.value.impTaxRate
             ) {
                 let vatRate = inOutStockMedicineSelected.value.impVatRate / 100;
-                let taxRate = inOutStockMedicineSelected.value.taxRate / 100;
+                let taxRate = inOutStockMedicineSelected.value.impTaxRate / 100;
                 let impAmount =
                     inOutStockMedicineSelected.value.requestQuantity *
                     inOutStockMedicineSelected.value.impPrice;

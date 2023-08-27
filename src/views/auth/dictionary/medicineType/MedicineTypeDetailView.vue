@@ -192,7 +192,7 @@
                                 >
                                 <a-input-number
                                     class="grid-column-6 w-100"
-                                    v-model:value="item.taxRate"
+                                    v-model:value="item.impTaxRate"
                                     :disabled="loading"
                                     min="0"
                                     max="100"
@@ -524,7 +524,7 @@ export default defineComponent({
             packagingSpecifications: null, // Quy cách đóng gói
             impPrice: null, // Giá nhập
             impVatRate: null, // Phần trăm vat giá nhập
-            taxRate: null, // Phần trăm thuế
+            impTaxRate: null, // Phần trăm thuế
             isAntibiotics: false, // Thuốc kháng sinh
             isNewDrug: false, // Thuốc tân dược
             isPrescriptionDrug: false, // Thuốc kê đơn
@@ -693,7 +693,7 @@ export default defineComponent({
                 packagingSpecifications: null, // Quy cách đóng gói
                 impPrice: null, // Giá nhập
                 impVatRate: null, // Phần trăm vat giá nhập
-                taxRate: null, // Phần trăm thuế
+                impTaxRate: null, // Phần trăm thuế
                 isAntibiotics: false, // Thuốc kháng sinh
                 isNewDrug: false, // Thuốc tân dược
                 isPrescriptionDrug: false, // Thuốc kê đơn

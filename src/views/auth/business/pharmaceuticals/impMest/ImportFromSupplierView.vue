@@ -248,7 +248,7 @@
                                     @input="calculateTotalAmout"
                                     class="grid-column-12 w-100"
                                     v-model:value="
-                                        inOutStockMedicineSelected.taxRate
+                                        inOutStockMedicineSelected.impTaxRate
                                     "
                                     :disabled="isDisabled"
                                     min="0"
@@ -546,6 +546,13 @@
                     @click.prevent="handleCanceled"
                     >Hủy nhập</a-button
                 >
+                <a-button
+                    v-if="source.status === 0 && source.id !== null"
+                    type="primary"
+                    class="btn-save"
+                    @click.prevent="handleDeleted"
+                    >Hủy phiếu</a-button
+                >
             </template>
         </a-modal>
     </form>
@@ -688,7 +695,7 @@ export default defineComponent({
             // Phần trăm vat giá nhập
             impVatRate: null,
             // Phần trăm thuế
-            taxRate: null,
+            impTaxRate: null,
             // Thành tiền
             impAmount: null,
             // Diễn giải
@@ -1089,7 +1096,7 @@ export default defineComponent({
                 // Phần trăm vat giá nhập
                 impVatRate: null,
                 // Phần trăm thuế
-                taxRate: null,
+                impTaxRate: null,
                 // Thành tiền
                 impAmount: null,
                 // Diễn giải
@@ -1136,15 +1143,17 @@ export default defineComponent({
             }
         };
 
+        /* eslint-disable */
         const calculateTotalAmout = () => {
+            debugger;
             if (
                 inOutStockMedicineSelected.value.requestQuantity !== null &&
                 inOutStockMedicineSelected.value.impVatRate !== null &&
                 inOutStockMedicineSelected.value.impPrice !== null &&
-                inOutStockMedicineSelected.value.taxRate !== null
+                inOutStockMedicineSelected.value.impTaxRate !== null
             ) {
                 let vatRate = inOutStockMedicineSelected.value.impVatRate / 100;
-                let taxRate = inOutStockMedicineSelected.value.taxRate / 100;
+                let taxRate = inOutStockMedicineSelected.value.impTaxRate / 100;
                 let impAmount =
                     inOutStockMedicineSelected.value.requestQuantity *
                     inOutStockMedicineSelected.value.impPrice;
@@ -1250,8 +1259,8 @@ export default defineComponent({
                             sMedicineTypeSelected.value.concentration;
                         inOutStockMedicineSelected.value.impVatRate =
                             sMedicineTypeSelected.value.impVatRate;
-                        inOutStockMedicineSelected.value.taxRate =
-                            sMedicineTypeSelected.value.taxRate;
+                        inOutStockMedicineSelected.value.impTaxRate =
+                            sMedicineTypeSelected.value.impTaxRate;
                         inOutStockMedicineSelected.value.activeSubstance =
                             sMedicineTypeSelected.value.activeSubstance;
                         inOutStockMedicineSelected.value.concentration =
@@ -1325,6 +1334,31 @@ export default defineComponent({
             if (source.value !== undefined && source.value.id !== null) {
                 let resultDto =
                     await inOutStockService.importFromSupplierCanceled(
+                        source.value
+                    );
+                if (!resultDto.data.isSuccessed) {
+                    Modal.error({
+                        content: resultDto.data.message,
+                        okText: "Đồng ý",
+                    });
+                } else {
+                    result.value = true;
+                    toggle();
+                }
+            }
+
+            loading.value = false;
+        };
+
+        /* eslint-disable */
+        const handleDeleted = async () => {
+            debugger;
+            loading.value = true;
+            result.value = false;
+
+            if (source.value !== undefined && source.value.id !== null) {
+                let resultDto =
+                    await inOutStockService.importFromSupplierDeleted(
                         source.value.id
                     );
                 if (!resultDto.data.isSuccessed) {
@@ -1390,6 +1424,7 @@ export default defineComponent({
             handleEdit,
             handleStockIn,
             handleCanceled,
+            handleDeleted,
             formatNumber,
             handleDeleteImpMestMedicine,
         };
