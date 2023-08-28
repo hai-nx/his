@@ -34,8 +34,26 @@ const impMestService = {
     importFromAnotherStockRequest(input: InOutStockModel) {
         return request.post<ApiResult<InOutStockModel>>('api/InOutStock/ImportFromAnotherStockRequest', input);
     },
+    importFromAnotherStockCancelRequest(input: InOutStockModel) {
+        return request.post<ApiResult<InOutStockModel>>('api/InOutStock/ImportFromAnotherStockCancelRequest', input);
+    },
+    importFromAnotherStockApproved(input: InOutStockModel) {
+        return request.post<ApiResult<InOutStockModel>>('api/InOutStock/ImportFromAnotherStockApproved', input);
+    },
+    importFromAnotherStockCancelApproved(input: InOutStockModel) {
+        return request.post<ApiResult<InOutStockModel>>('api/InOutStock/ImportFromAnotherStockCancelApproved', input);
+    },
+    importFromAnotherStockStockOut(input: InOutStockModel) {
+        return request.post<ApiResult<InOutStockModel>>('api/InOutStock/ImportFromAnotherStockStockOut', input);
+    },
+    importFromAnotherStockCanCelStockOut(input: InOutStockModel) {
+        return request.post<ApiResult<InOutStockModel>>('api/InOutStock/ImportFromAnotherStockCanCelStockOut', input);
+    },
     importFromAnotherStockStockIn(input: InOutStockModel) {
         return request.post<ApiResult<InOutStockModel>>('api/InOutStock/ImportFromAnotherStockStockIn', input);
+    },
+    importFromAnotherStockCancelStockIn(input: InOutStockModel) {
+        return request.post<ApiResult<InOutStockModel>>('api/InOutStock/ImportFromAnotherStockCancelStockIn', input);
     },
     //#endregion
 }

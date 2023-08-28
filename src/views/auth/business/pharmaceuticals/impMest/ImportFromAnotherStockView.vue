@@ -242,6 +242,7 @@
                     <a-button
                         type="primary"
                         class="grid-column-columnspan-11-13"
+                        :disabled="isDisabled"
                         @click="handleUpdateImMest()"
                     >
                         Cập nhật (Ctl + A)
@@ -298,41 +299,67 @@
 
             <template #footer>
                 <a-button
-                    v-if="source.status === 0"
+                    v-if="source.status === 0 && isImport"
                     class="btn-save"
                     :loading="loading"
                     @click.prevent="handleSave"
                     >Lưu tạm</a-button
                 >
                 <a-button
-                    v-if="source.status === 0"
+                    v-if="source.status === 0 && isImport"
                     class="btn-save"
                     :loading="loading"
                     @click.prevent="handleEdit"
                     >Sửa</a-button
                 >
                 <a-button
-                    v-if="source.status === 0"
+                    v-if="source.status === 0 && isImport"
                     type="primary"
                     class="btn-save"
                     @click.prevent="handleSendRequest"
                     >Gửi yêu cầu</a-button
                 >
                 <a-button
-                    v-if="source.status === 1"
+                    v-if="source.status === 1 && isImport"
                     class="btn-save"
                     @click.prevent="handleCanceledRequest"
                     >Hủy yêu cầu</a-button
                 >
                 <a-button
-                    v-if="source.status === 1"
+                    v-if="source.status === 3 && isImport"
                     type="primary"
                     class="btn-save"
                     @click.prevent="handleStockIn"
                     >Nhập kho</a-button
                 >
+
                 <a-button
-                    v-if="source.status === 3 || source.status === 4"
+                    v-if="source.status === 1 && !isImport"
+                    class="btn-save"
+                    @click.prevent="handleApproved"
+                    >Duyệt</a-button
+                >
+                <a-button
+                    v-if="source.status === 2 && !isImport"
+                    class="btn-save"
+                    @click.prevent="handleCancelApproved"
+                    >Hủy duyệt</a-button
+                >
+                <a-button
+                    v-if="source.status === 2 && !isImport"
+                    class="btn-save"
+                    @click.prevent="handleStockOut"
+                    >Xuất kho</a-button
+                >
+                <a-button
+                    v-if="source.status === 3 && !isImport"
+                    class="btn-save"
+                    @click.prevent="handleCancelStockOut"
+                    >Hủy xuất</a-button
+                >
+
+                <a-button
+                    v-if="source.status === 0 && isImport"
                     class="btn-save"
                     >Hủy phiếu</a-button
                 >
@@ -377,6 +404,10 @@ export default defineComponent({
             type: Boolean,
             required: true,
         },
+        isImport: {
+            type: Boolean,
+            required: true,
+        },
         data: {
             type: Object as PropType<InOutStockModel>,
         },
@@ -395,6 +426,7 @@ export default defineComponent({
 
         const activeKey = ref<string>("1");
         const isOK = ref<boolean>(false);
+        const isImport = computed(() => props.isImport);
 
         const sStocks = ref<RoomModel[]>([]);
         const sUnits = ref<UnitModel[]>([]);
@@ -408,9 +440,9 @@ export default defineComponent({
             // Mã phiếu
             code: null,
             // Trạng thái phiếu
-            status: null,
+            status: 0,
             // Loại phiếu: 0 - Nhập, 1 - xuất
-            type: null,
+            type: 0,
             // Kho nhập
             impStockId: null,
             // Kho xuất
@@ -564,8 +596,8 @@ export default defineComponent({
             },
             {
                 title: "Số lượng",
-                key: "impQuantity",
-                dataIndex: "impQuantity",
+                key: "requestQuantity",
+                dataIndex: "requestQuantity",
                 width: 100,
                 className: "column-header-center",
                 align: "right",
@@ -756,9 +788,9 @@ export default defineComponent({
                 // Mã phiếu
                 code: null,
                 // Trạng thái phiếu
-                status: null,
+                status: 0,
                 // Loại phiếu: 0 - Nhập, 1 - xuất
-                type: null,
+                type: 0,
                 // Kho nhập
                 impStockId: null,
                 // Kho xuất
@@ -901,7 +933,6 @@ export default defineComponent({
             toggle();
         };
 
-        /* eslint-disable */
         const handleExpStockChanged = async (stockId: string) => {
             if (stockId !== null && stockId !== undefined) {
                 dMedicineStocks.value = await getMedicineByStocks(stockId);
@@ -910,11 +941,8 @@ export default defineComponent({
             }
         };
 
-        /* eslint-disable */
         const handleMedicineStockChanged = (medicineId: string) => {
             if (medicineId !== null) {
-                debugger;
-
                 let dMedicineStock = dMedicineStocks.value.find(
                     (f) => f.medicineId === medicineId
                 );
@@ -1072,12 +1100,12 @@ export default defineComponent({
         ) => {
             return {
                 onClick: () => {
-                    setImpMestMedicine(record);
+                    setInoutStockMedicine(record);
                 },
             };
         };
 
-        const setImpMestMedicine = (
+        const setInoutStockMedicine = (
             data: InOutStockMedicineModel | undefined
         ) => {
             if (data !== undefined) {
@@ -1137,7 +1165,7 @@ export default defineComponent({
             loading.value = true;
 
             let resultDto =
-                await inOutStockService.importFromAnotherStockSaveAsDraft(
+                await inOutStockService.importFromAnotherStockCancelRequest(
                     source.value
                 );
             if (!resultDto.data.isSuccessed) {
@@ -1153,25 +1181,89 @@ export default defineComponent({
             loading.value = false;
         };
 
-        // const handleCanceled = async () => {
-        //     result.value = false;
-        //     loading.value = true;
+        const handleApproved = async () => {
+            result.value = false;
+            loading.value = true;
 
-        //     let resultDto = await impMestService.importFromAnotherStockStockIn(
-        //         source.value
-        //     );
-        //     if (resultDto.data.isSuccessed) {
-        //         Modal.error({
-        //             content: resultDto.data.message,
-        //             okText: "Đồng ý",
-        //         });
-        //     } else {
-        //         result.value = true;
-        //         toggle();
-        //     }
+            let resultDto =
+                await inOutStockService.importFromAnotherStockApproved(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                result.value = true;
+                toggle();
+            }
 
-        //     loading.value = false;
-        // };
+            loading.value = false;
+        };
+
+        const handleCancelApproved = async () => {
+            result.value = false;
+            loading.value = true;
+
+            let resultDto =
+                await inOutStockService.importFromAnotherStockCancelApproved(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                result.value = true;
+                toggle();
+            }
+
+            loading.value = false;
+        };
+
+        const handleStockOut = async () => {
+            result.value = false;
+            loading.value = true;
+
+            let resultDto =
+                await inOutStockService.importFromAnotherStockStockOut(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                result.value = true;
+                toggle();
+            }
+
+            loading.value = false;
+        };
+
+        const handleCancelStockOut = async () => {
+            result.value = false;
+            loading.value = true;
+
+            let resultDto =
+                await inOutStockService.importFromAnotherStockCanCelStockOut(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                result.value = true;
+                toggle();
+            }
+
+            loading.value = false;
+        };
 
         const handleStockIn = async () => {
             result.value = false;
@@ -1181,7 +1273,28 @@ export default defineComponent({
                 await inOutStockService.importFromAnotherStockStockIn(
                     source.value
                 );
-            if (resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                result.value = true;
+                toggle();
+            }
+
+            loading.value = false;
+        };
+
+        const handleCancelStockIn = async () => {
+            result.value = false;
+            loading.value = true;
+
+            let resultDto =
+                await inOutStockService.importFromAnotherStockCancelStockIn(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1197,6 +1310,7 @@ export default defineComponent({
         //#endregion
 
         return {
+            isImport,
             isDisabled,
             show,
             title,
@@ -1228,7 +1342,12 @@ export default defineComponent({
             handleEdit,
             handleSendRequest,
             handleCanceledRequest,
+            handleApproved,
+            handleCancelApproved,
+            handleStockOut,
+            handleCancelStockOut,
             handleStockIn,
+            handleCancelStockIn,
             handleCancel,
         };
     },

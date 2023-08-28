@@ -27,21 +27,21 @@
             <a-select
                 class="grid-column-3"
                 :field-names="fields"
-                :options="sStocks"
+                :options="stocks"
                 showSearch
                 style="width: 180px"
                 placeholder="Chọn kho"
-                v-model:value="sStockId"
+                v-model:value="stockId"
             />
 
-            <a-radio-group
+            <!-- <a-radio-group
                 name="radioGroup"
                 class="grid-column-4 mx-3"
                 v-model:value="type"
             >
                 <a-radio value="0">Nhập</a-radio>
                 <a-radio value="1">Xuất</a-radio>
-            </a-radio-group>
+            </a-radio-group> -->
 
             <div class="search grid-col-6">
                 <label>Từ ngày:</label>
@@ -65,7 +65,6 @@
         </div>
 
         <a-table
-            v-if="isImport"
             class="ant-table-striped"
             size="middle"
             :columns="columnImps"
@@ -87,10 +86,10 @@
                         <a-tag v-else-if="record.status === 2" color="success">
                             <span>Đã duyệt</span>
                         </a-tag>
-                        <a-tag v-else-if="record.status === 4" color="success">
+                        <a-tag v-else-if="record.status === 3" color="success">
                             <span>Đã xuất kho</span>
                         </a-tag>
-                        <a-tag v-else-if="record.status === 5" color="success">
+                        <a-tag v-else-if="record.status === 4" color="success">
                             <span>Đã nhập kho</span>
                         </a-tag>
                     </span>
@@ -139,6 +138,7 @@
             />
             <ImportFromAnotherStockView
                 :visible="visibleImportFromAnotherStock"
+                :isImport="isImport"
                 :data="source"
                 @toggle="handleToggleImportFromAnotherStock"
             />
@@ -167,14 +167,14 @@ import ImportFromAnotherStockView from "./impMest/ImportFromAnotherStockView.vue
 export default defineComponent({
     name: "PharmaceuticalView",
     setup() {
-        const type = ref<string>("0");
+        // const type = ref<string>("0");
         const visibleImportFromSupplier = ref<boolean>(false);
         const visibleImportFromAnotherStock = ref<boolean>(false);
         const source = ref<InOutStockModel>();
         const fields = ref({ value: "id", label: "name" });
-        const sStocks = ref<RoomModel[]>([]);
+        const stocks = ref<RoomModel[]>([]);
         const itemSources = ref<InOutStockModel[]>([]);
-        const sStockId = ref<string>("");
+        const stockId = ref<string>("");
         const fromDate = ref<Dayjs>(
             dayjs().set("hour", 0).set("minute", 0).set("second", 0)
         );
@@ -236,7 +236,7 @@ export default defineComponent({
 
         //#region Function
         async function inItData() {
-            sStocks.value = await getStocks();
+            stocks.value = await getStocks();
             inOutStockTypes.value = await getInOutStockTypes();
         }
 
@@ -255,7 +255,7 @@ export default defineComponent({
 
             itemSources.value = (
                 await inOutStockService.getByStock(
-                    sStockId.value,
+                    stockId.value,
                     fromDateString,
                     toDateString
                 )
@@ -325,22 +325,22 @@ export default defineComponent({
         };
 
         const isImport = computed(() => {
-            return type.value == "0" ? true : false;
+            return source.value?.impStockId === stockId.value;
         });
 
         return {
-            type,
+            // type,
             fromDate,
             toDate,
             columnImps,
             visibleImportFromSupplier,
             visibleImportFromAnotherStock,
             fields,
-            sStocks,
+            stocks,
             inOutStockTypes,
             itemSources,
             source,
-            sStockId,
+            stockId,
             inOutStockTypeId,
             isImport,
             handleLoad,

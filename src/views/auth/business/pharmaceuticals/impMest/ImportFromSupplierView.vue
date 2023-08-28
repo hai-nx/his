@@ -1143,9 +1143,7 @@ export default defineComponent({
             }
         };
 
-        /* eslint-disable */
         const calculateTotalAmout = () => {
-            debugger;
             if (
                 inOutStockMedicineSelected.value.requestQuantity !== null &&
                 inOutStockMedicineSelected.value.impVatRate !== null &&
@@ -1218,9 +1216,7 @@ export default defineComponent({
             }
         };
 
-        /* eslint-disable */
         const handleMedicineTypeChanged = (value: string) => {
-            debugger;
             if (value !== null) {
                 let sMedicineType = sMedicineTypes.value.find(
                     (f) => f.id === value
@@ -1350,9 +1346,7 @@ export default defineComponent({
             loading.value = false;
         };
 
-        /* eslint-disable */
         const handleDeleted = async () => {
-            debugger;
             loading.value = true;
             result.value = false;
 
