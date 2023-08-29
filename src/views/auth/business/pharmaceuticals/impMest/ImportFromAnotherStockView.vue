@@ -53,7 +53,6 @@
                         :field-names="fields"
                         :options="sStocks"
                         showSearch
-                        @change="handleExpStockChanged"
                         v-model:value="source.expStockId"
                         :disabled="isDisabled"
                     />
@@ -306,7 +305,7 @@
                     >Lưu tạm</a-button
                 >
                 <a-button
-                    v-if="source.status === 0 && isImport"
+                    v-if="source.status === 0 && isImport && source.id !== null"
                     class="btn-save"
                     :loading="loading"
                     @click.prevent="handleEdit"
@@ -331,6 +330,12 @@
                     class="btn-save"
                     @click.prevent="handleStockIn"
                     >Nhập kho</a-button
+                >
+                <a-button
+                    v-if="source.status === 4 && isImport"
+                    class="btn-save"
+                    @click.prevent="handleCancelStockIn"
+                    >Hủy nhập</a-button
                 >
 
                 <a-button
@@ -359,7 +364,7 @@
                 >
 
                 <a-button
-                    v-if="source.status === 0 && isImport"
+                    v-if="source.status === 0 && isImport && source.id !== null"
                     class="btn-save"
                     >Hủy phiếu</a-button
                 >
@@ -426,7 +431,9 @@ export default defineComponent({
 
         const activeKey = ref<string>("1");
         const isOK = ref<boolean>(false);
-        const isImport = computed(() => props.isImport);
+        const isImport = computed(
+            () => props.isImport || source.value.id === null
+        );
 
         const sStocks = ref<RoomModel[]>([]);
         const sUnits = ref<UnitModel[]>([]);
@@ -933,14 +940,6 @@ export default defineComponent({
             toggle();
         };
 
-        const handleExpStockChanged = async (stockId: string) => {
-            if (stockId !== null && stockId !== undefined) {
-                dMedicineStocks.value = await getMedicineByStocks(stockId);
-            } else {
-                dMedicineStocks.value = [];
-            }
-        };
-
         const handleMedicineStockChanged = (medicineId: string) => {
             if (medicineId !== null) {
                 let dMedicineStock = dMedicineStocks.value.find(
@@ -1332,7 +1331,6 @@ export default defineComponent({
             inOutStockMedicineSelected,
 
             impMestMedicineColumns,
-            handleExpStockChanged,
             handleMedicineStockChanged,
             handleUpdateImMest,
             handleRowClickImpMestMedicine,
