@@ -366,6 +366,7 @@
                 <a-button
                     v-if="source.status === 0 && isImport && source.id !== null"
                     class="btn-save"
+                    @click.prevent="handleDeleted"
                     >Hủy phiếu</a-button
                 >
             </template>
@@ -1306,6 +1307,28 @@ export default defineComponent({
             loading.value = false;
         };
 
+        const handleDeleted = async () => {
+            result.value = false;
+            loading.value = true;
+
+            if(source.value.id!==null) {
+            let resultDto =
+                await inOutStockService.importFromAnotherStockDeleted(
+                    source.value.id
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                result.value = true;
+                toggle();
+            }
+            }
+            loading.value = false;
+        };
+
         //#endregion
 
         return {
@@ -1347,6 +1370,7 @@ export default defineComponent({
             handleStockIn,
             handleCancelStockIn,
             handleCancel,
+            handleDeleted,
         };
     },
 });

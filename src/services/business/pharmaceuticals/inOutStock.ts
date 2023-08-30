@@ -55,6 +55,9 @@ const impMestService = {
     importFromAnotherStockCancelStockIn(input: InOutStockModel) {
         return request.post<ApiResult<InOutStockModel>>('api/InOutStock/ImportFromAnotherStockCancelStockIn', input);
     },
+    importFromAnotherStockDeleted(id:string){
+        return request.delete<ApiResult<boolean>>('api/InOutStock/ImportFromAnotherStockDeleted?id=' + id);
+    }
     //#endregion
 }
 
