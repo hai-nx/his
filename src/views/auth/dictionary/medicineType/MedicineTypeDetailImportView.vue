@@ -89,8 +89,19 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, reactive } from "vue";
 import * as XLSX from "xlsx";
-import { MedicineTypeImportModel } from "@/models";
-import { medicineTypeService } from "@/services";
+import { MedicineTypeImportModel,
+        MedicineTypeModel,
+        UnitModel,
+        ServiceGroupHeInModel,
+        MedicineGroupModel,
+        MedicineLineModel,
+        CountryModel,} from "@/models";
+import { medicineTypeService,
+        unitService,
+        serviceGroupHeInService,
+        medicineGroupService,
+        medicineLineService,
+        countryService,} from "@/services";
 
 export default defineComponent({
     name: "MedicineTypesDetailImportView",
@@ -115,49 +126,49 @@ export default defineComponent({
 
         const columnMedicineTypes = ref([
             {
-                title: "Mã thuốc",
+                title: "Mã thuốc (*)",
                 key: "code",
                 dataIndex: "code",
                 width: 100,
                 className: "column-header-center",
             },
             {
-                title: "Tên thuốc",
+                title: "Tên thuốc (*)",
                 key: "name",
                 dataIndex: "name",
                 width: 250,
                 className: "column-header-center",
             },
             {
-                title: "Mã BHYT",
+                title: "Mã BHYT (*)",
                 key: "heInCode",
                 dataIndex: "heInCode",
                 width: 100,
                 className: "column-header-center",
             },
             {
-                title: "Nhóm BHYT",
+                title: "Nhóm BHYT (*)",
                 key: "serviceGroupHeInId",
                 dataIndex: "serviceGroupHeInId",
                 width: 250,
                 className: "column-header-center",
             },
             {
-                title: "Nhóm thuốc:",
+                title: "Nhóm thuốc (*)",
                 key: "medicineGroupId",
                 dataIndex: "medicineGroupId",
                 width: 100,
                 className: "column-header-center",
             },
             {
-                title: "Đơn vị tính",
+                title: "Đơn vị tính (*)",
                 key: "unitCode",
                 dataIndex: "unitCode",
                 width: 100,
                 className: "column-header-center",
             },
             {
-                title: "Đường dùng",
+                title: "Đường dùng (*)",
                 key: "medicineLineId",
                 dataIndex: "medicineLineId",
                 width: 100,
@@ -445,7 +456,82 @@ export default defineComponent({
             handleFileServiceChange(event);
         };
 
+        const units = ref<UnitModel[]>([]);
+        const serviceGroupHeIns = ref<ServiceGroupHeInModel[]>([]);
+        const medicineGroups = ref<MedicineGroupModel[]>([]);
+        const medicineLines = ref<MedicineLineModel[]>([]);
+        const countries = ref<CountryModel[]>([]);
+
+        const fields = ref({ value: "id", label: "name" });
+
+        // Dạng bào chế
+        const optionPharmaceuticalFormulations = reactive<
+            { value: string; label: string }[]
+        >([
+            { value: "", label: "-- Chọn --" },
+            { value: "Dạng cao", label: "Dạng cao" },
+            { value: "Hoàn cứng", label: "Hoàn cứng" },
+            { value: "Hoàn mềm", label: "Hoàn mềm" },
+            { value: "Bột thuốc", label: "Bột thuốc" },
+            { value: "Trà thuốc", label: "Trà thuốc" },
+            { value: "Rượu thuốc", label: "Rượu thuốc" },
+            { value: "Cồn thuốc", label: "Cồn thuốc" },
+            { value: "Viên nén", label: "Viên nén" },
+            { value: "Bột hòa tan", label: "Bột hòa tan" },
+            { value: "Cốm hòa tan", label: "Cốm hòa tan" },
+            { value: "Hoàn nhỏ giọt", label: "Hoàn nhỏ giọt" },
+            { value: "Siro", label: "Siro" },
+            { value: "Viên nang cứng", label: "Viên nang cứng" },
+            { value: "Viên nang mềm", label: "Viên nang mềm" },
+            { value: "Thuốc phun sương mù", label: "Thuốc phun sương mù" },
+            { value: "Dung dịch", label: "Dung dịch" },
+            { value: "Viên", label: "Viên" },
+            { value: "Viên nén bao phim", label: "Viên nén bao phim" },
+            { value: "Khác", label: "Khác" },
+        ]);
+
+        // Phương pháp chế biến
+        const preparationMethods = reactive<{ value: string; label: string }[]>(
+            [
+                { value: "", label: "-- Chọn --" },
+                { value: "Sơ chế", label: "Sơ chế" },
+                { value: "Phức chế", label: "Phức chế" },
+                { value: "Khác", label: "Khác" },
+            ]
+        );
+
+        async function inItData() {
+            units.value = await getUnits();
+            serviceGroupHeIns.value = await getServiceGroupHeIns();
+            medicineGroups.value = await getMedicineGroups();
+            medicineLines.value = await getMedicineLines();
+            countries.value = await getCountries();
+        }
+
+        async function getUnits(): Promise<UnitModel[]> {
+            return (await unitService.getAll()).data.result;
+        }
+
+        async function getServiceGroupHeIns(): Promise<
+            ServiceGroupHeInModel[]
+        > {
+            return (await serviceGroupHeInService.getAll()).data.result;
+        }
+
+        async function getMedicineGroups(): Promise<MedicineGroupModel[]> {
+            return (await medicineGroupService.getAll()).data.result;
+        }
+
+        async function getMedicineLines(): Promise<MedicineLineModel[]> {
+            return (await medicineLineService.getAll()).data.result;
+        }
+
+        async function getCountries(): Promise<CountryModel[]> {
+            return (await countryService.getAll()).data.result;
+        }
+
         function handleFileServiceChange(event: Event) {
+            inItData();
             const target = event.target as HTMLInputElement;
             if (target.files && target.files.length > 0) {
                 const selectedFile = target.files[0];
@@ -482,11 +568,11 @@ export default defineComponent({
                                 heInCode:
                                     row[2] == undefined? "": row[2].toString(),
                                 serviceGroupHeInId:
-                                    row[3] == undefined? "": row[3].toString(),
+                                    row[3] == undefined? "": serviceGroupHeIns.value.find(f => f.code === row[3].toString())?.id ?? "",
                                 medicineGroupId:
                                     row[4] == undefined? "": row[4].toString(),
                                 unitCode:
-                                    row[5] == undefined? "": row[5].toString(),
+                                    row[5] == undefined? "": row[5].toString() ,
                                 medicineLineId:
                                     row[6] == undefined? "": row[6].toString(),
                                 activeSubstance:
@@ -599,6 +685,13 @@ export default defineComponent({
             fileInput,
             datas,
             columnMedicineTypes,
+            units,
+            serviceGroupHeIns,
+            medicineGroups,
+            medicineLines,
+            countries,
+            optionPharmaceuticalFormulations,
+            preparationMethods,
             handleCancel,
             handleSave,
             openFilePicker,
