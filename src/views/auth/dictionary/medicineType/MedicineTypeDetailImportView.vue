@@ -570,11 +570,11 @@ export default defineComponent({
                                 serviceGroupHeInId:
                                     row[3] == undefined? "": serviceGroupHeIns.value.find(f => f.code === row[3].toString())?.id ?? "",
                                 medicineGroupId:
-                                    row[4] == undefined? "": row[4].toString(),
+                                    row[4] == undefined? "": medicineGroups.value.find(f => f.code === row[4].toString())?.id ?? "",
                                 unitCode:
-                                    row[5] == undefined? "": row[5].toString() ,
+                                    row[5] == undefined? "": units.value.find(f => f.code === row[5].toString())?.id ?? "",
                                 medicineLineId:
-                                    row[6] == undefined? "": row[6].toString(),
+                                    row[6] == undefined? "": medicineLines.value.find(f => f.code === row[6].toString())?.id ?? "",
                                 activeSubstance:
                                     row[7] == undefined? "": row[7].toString(),
                                 content:
@@ -588,7 +588,7 @@ export default defineComponent({
                                 manufacturer:
                                     row[12] == undefined? "": row[12].toString(),
                                 countryId:
-                                    row[13] == undefined? "": row[13].toString(),
+                                    row[13] == undefined? "": countries.value.find(f => f.code === row[13].toString())?.id ?? "",
                                 impPrice:
                                     row[14] === undefined? 0 : parseFloat(row[14].toString()),
                                 impVatRate:
@@ -624,7 +624,7 @@ export default defineComponent({
                                 isRadiolabeledDrug:
                                     row[30] === undefined? false : JSON.parse(row[30].toString()),
                                 pharmaceuticalFormulation:
-                                    row[31] == undefined? "": row[31].toString(),
+                                    row[31] == undefined? "": optionPharmaceuticalFormulations.find(f => f.value === row[31].toString())?.label ?? "",
                                 origin:
                                     row[32] == undefined? "": row[32].toString(),
                                 scientificName:
@@ -642,7 +642,7 @@ export default defineComponent({
                                 otherExpenses:
                                     row[39] === undefined? 0 : parseFloat(row[39].toString()),
                                 preparationMethod:
-                                    row[40] == undefined? "": row[40].toString(),
+                                    row[40] == undefined? "": preparationMethods.find(f => f.value === row[40].toString())?.label ?? "",
                                 qualityStandards:
                                     row[41] == undefined? "": row[41].toString(),
                                 inactive:
