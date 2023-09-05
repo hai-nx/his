@@ -25,16 +25,16 @@ import serviceGroupHeInService from './dictionary/serviceGroupHeIn'
 import unitService from './dictionary/unit'
 import supplierService from './dictionary/supplier'
 
-import medicineGroupService from './dictionary/medicineGroup'
-import medicineTypeService from './dictionary/medicineType'
-import medicineLineService from './dictionary/medicineLine'
-import medicinePricePolicyService from './dictionary/medicinePricePolicy'
+import itemGroupService from './dictionary/itemGroup'
+import itemTypeService from './dictionary/itemType'
+import itemLineService from './dictionary/itemLine'
+import itemPricePolicyService from './dictionary/itemPricePolicy'
 
 import patientService from './business/patient'
 
 import inOutStockService from './business/pharmaceuticals/inOutStock'
 import inOutStockTypeService from './business/pharmaceuticals/inOutStockType'
-import medicineStockService from './business/pharmaceuticals/medicineStock'
+import itemStockService from './business/pharmaceuticals/itemStock'
 
 import userService from './system/user'
 
@@ -66,15 +66,15 @@ export {
     unitService,
     supplierService,
 
-    medicineGroupService,
-    medicineTypeService,
-    medicineLineService,
-    medicinePricePolicyService,
+    itemGroupService,
+    itemTypeService,
+    itemLineService,
+    itemPricePolicyService,
 
     patientService,
     inOutStockService,
     inOutStockTypeService,
-    medicineStockService,
+    itemStockService,
 
     userService,
 }

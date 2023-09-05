@@ -64,7 +64,7 @@
         </a-table>
 
         <teleport to="body">
-            <MedicineGroupDetailView
+            <itemGroupDetailView
                 :visible="visible"
                 :data="record"
                 @toggle="handleToggle"
@@ -76,12 +76,12 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { Modal } from "ant-design-vue";
-import { MedicineGroupModel } from "@/models";
-import { medicineGroupService } from "@/services";
-import MedicineGroupDetailView from "./MedicineGroupDetailView.vue";
+import { ItemGroupModel } from "@/models";
+import { itemGroupService } from "@/services";
+import ItemGroupDetailView from "./ItemGroupDetailView.vue";
 
 export default defineComponent({
-    name: "MedicineGroupView",
+    name: "itemGroupView",
     setup() {
         const columns = ref([
             {
@@ -116,14 +116,14 @@ export default defineComponent({
             },
             { title: "Xử lý", key: "action", width: 100, align: "center" },
         ]);
-        const items = ref<MedicineGroupModel[]>([]);
-        const record = ref<MedicineGroupModel>();
+        const items = ref<ItemGroupModel[]>([]);
+        const record = ref<ItemGroupModel>();
         const visible = ref<boolean>(false);
 
         // lấy dữ liệu
         const handleLoad = () => {
             items.value = [];
-            medicineGroupService.getAll().then((res) => {
+            itemGroupService.getAll().then((res) => {
                 items.value = res.data.result;
             });
         };
@@ -134,12 +134,12 @@ export default defineComponent({
         };
 
         // sửa
-        const handleEdit = (item: MedicineGroupModel) => {
+        const handleEdit = (item: ItemGroupModel) => {
             show(true, item);
         };
 
         // xóa
-        const handleDelete = (item: MedicineGroupModel) => {
+        const handleDelete = (item: ItemGroupModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
                 Modal.confirm({
@@ -150,7 +150,7 @@ export default defineComponent({
                     okText: "Đồng ý",
                     cancelText: "Bỏ qua",
                     onOk() {
-                        medicineGroupService
+                        itemGroupService
                             .delete(id)
                             .catch((error) => {
                                 Modal.error({
@@ -178,7 +178,7 @@ export default defineComponent({
             }
         };
 
-        const show = (v: boolean, r: MedicineGroupModel | undefined) => {
+        const show = (v: boolean, r: ItemGroupModel | undefined) => {
             record.value = r;
             visible.value = v;
         };
@@ -199,7 +199,7 @@ export default defineComponent({
         this.handleLoad();
     },
     components: {
-        MedicineGroupDetailView,
+        ItemGroupDetailView,
     },
 });
 </script>

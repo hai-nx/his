@@ -9,7 +9,7 @@
         >
             <div class="container">
                 <a-tabs
-                    class="medicine-card-body"
+                    class="Item-card-body"
                     v-model:activeKey="activeKey"
                     type="card"
                 >
@@ -153,26 +153,24 @@
                                     class="grid-column-columnspan-2-7"
                                     showSearch
                                     :field-names="fields"
-                                    :options="sMedicineTypes"
-                                    @change="handleMedicineTypeChanged"
+                                    :options="sItemTypes"
+                                    @change="handleItemTypeChanged"
                                     v-model:value="
-                                        inOutStockMedicineSelected.medicineTypeId
+                                        inOutStockItemSelected.itemTypeId
                                     "
                                     :disabled="isDisabled"
                                 />
                                 <label class="grid-column-7"> Mã hàng: </label>
                                 <a-input
                                     class="grid-column-8"
-                                    v-model:value="
-                                        inOutStockMedicineSelected.code
-                                    "
+                                    v-model:value="inOutStockItemSelected.code"
                                     :disabled="isDisabled"
                                 />
                                 <label class="grid-column-9"> Nồng độ: </label>
                                 <a-input
                                     class="grid-column-10"
                                     v-model:value="
-                                        inOutStockMedicineSelected.concentration
+                                        inOutStockItemSelected.concentration
                                     "
                                     disabled
                                 />
@@ -182,7 +180,7 @@
                                 <a-input
                                     class="grid-column-12"
                                     v-model:value="
-                                        inOutStockMedicineSelected.content
+                                        inOutStockItemSelected.content
                                     "
                                     disabled
                                 />
@@ -194,7 +192,7 @@
                                     :options="sCountries"
                                     showSearch
                                     v-model:value="
-                                        inOutStockMedicineSelected.countryId
+                                        inOutStockItemSelected.countryId
                                     "
                                     disabled
                                 />
@@ -203,7 +201,7 @@
                                 <a-input
                                     class="grid-column-4"
                                     v-model:value="
-                                        inOutStockMedicineSelected.manufacturer
+                                        inOutStockItemSelected.manufacturer
                                     "
                                     disabled
                                 />
@@ -214,7 +212,7 @@
                                     class="grid-column-6"
                                     :field-names="fields"
                                     :options="sUnits"
-                                    :value="inOutStockMedicineSelected.unitId"
+                                    :value="inOutStockItemSelected.unitId"
                                     disabled
                                 />
                                 <label class="grid-column-7">Giá nhập: </label>
@@ -222,7 +220,7 @@
                                     @input="calculateTotalAmout"
                                     class="grid-column-8 w-100"
                                     v-model:value="
-                                        inOutStockMedicineSelected.impPrice
+                                        inOutStockItemSelected.impPrice
                                     "
                                     :disabled="isDisabled"
                                     min="0"
@@ -234,7 +232,7 @@
                                     @input="calculateTotalAmout"
                                     class="grid-column-10 w-100"
                                     v-model:value="
-                                        inOutStockMedicineSelected.impVatRate
+                                        inOutStockItemSelected.impVatRate
                                     "
                                     :disabled="isDisabled"
                                     min="0"
@@ -248,7 +246,7 @@
                                     @input="calculateTotalAmout"
                                     class="grid-column-12 w-100"
                                     v-model:value="
-                                        inOutStockMedicineSelected.impTaxRate
+                                        inOutStockItemSelected.impTaxRate
                                     "
                                     :disabled="isDisabled"
                                     min="0"
@@ -260,7 +258,7 @@
                                     @input="calculateTotalAmout"
                                     class="grid-column-2 w-100"
                                     v-model:value="
-                                        inOutStockMedicineSelected.requestQuantity
+                                        inOutStockItemSelected.requestQuantity
                                     "
                                     :disabled="isDisabled"
                                     min="0"
@@ -271,7 +269,7 @@
                                 <a-input-number
                                     class="grid-column-4 w-100"
                                     v-model:value="
-                                        inOutStockMedicineSelected.impAmount
+                                        inOutStockItemSelected.impAmount
                                     "
                                     :disabled="isDisabled"
                                     min="0"
@@ -280,7 +278,7 @@
                                 <a-input
                                     class="grid-column-6"
                                     v-model:value="
-                                        inOutStockMedicineSelected.tenderDecision
+                                        inOutStockItemSelected.tenderDecision
                                     "
                                     :disabled="isDisabled"
                                 />
@@ -288,7 +286,7 @@
                                 <a-input
                                     class="grid-column-8"
                                     v-model:value="
-                                        inOutStockMedicineSelected.tenderPackage
+                                        inOutStockItemSelected.tenderPackage
                                     "
                                     :disabled="isDisabled"
                                 />
@@ -296,7 +294,7 @@
                                 <a-input-number
                                     class="grid-column-10 w-100"
                                     v-model:value="
-                                        inOutStockMedicineSelected.tenderYear
+                                        inOutStockItemSelected.tenderYear
                                     "
                                     :disabled="isDisabled"
                                     min="0"
@@ -307,7 +305,7 @@
                                 <a-input
                                     class="grid-column-12"
                                     v-model:value="
-                                        inOutStockMedicineSelected.registrationNumber
+                                        inOutStockItemSelected.registrationNumber
                                     "
                                     disabled
                                 />
@@ -315,16 +313,14 @@
                                 <label class="grid-column-1">Số Lô: </label>
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="
-                                        inOutStockMedicineSelected.lot
-                                    "
+                                    v-model:value="inOutStockItemSelected.lot"
                                     :disabled="isDisabled"
                                 />
                                 <label class="grid-column-3">Hạn dùng: </label>
                                 <input
                                     class="datetime grid-column-4"
                                     type="date"
-                                    v-model="inOutStockMedicineSelected.dueDate"
+                                    v-model="inOutStockItemSelected.dueDate"
                                     :disabled="isDisabled"
                                 />
 
@@ -344,7 +340,7 @@
                                     :pagination="false"
                                     :columns="pricePolicyColumns"
                                     :data-source="
-                                        inOutStockMedicineSelected.medicinePricePolicies
+                                        inOutStockItemSelected.itemPricePolicies
                                     "
                                 >
                                     <template #bodyCell="{ column, record }">
@@ -452,9 +448,9 @@
                                 <a-table
                                     class="ant-table-striped grid-column-columnspan-1-13 mt-3 table-overflow-x"
                                     size="middle"
-                                    :customRow="handleRowClickImpMestMedicine"
-                                    :columns="impMestMedicineColumns"
-                                    :data-source="source.inOutStockMedicines"
+                                    :customRow="handleRowClickImpMestItem"
+                                    :columns="impMestItemColumns"
+                                    :data-source="source.inOutStockItems"
                                     bordered
                                     :pagination="false"
                                 >
@@ -495,7 +491,7 @@
                                                     title="Xóa"
                                                     :disabled="isDisabled"
                                                     @click="
-                                                        handleDeleteImpMestMedicine(
+                                                        handleDeleteImpMestItem(
                                                             record
                                                         )
                                                     "
@@ -563,23 +559,23 @@ import { Modal } from "ant-design-vue";
 import { defineComponent, ref, computed, watch, reactive, PropType } from "vue";
 import {
     InOutStockModel,
-    InOutStockMedicineModel,
+    InOutStockItemModel,
     SupplierModel,
-    MedicineTypeModel,
+    ItemTypeModel,
     RoomModel,
     CountryModel,
     UnitModel,
     UserModel,
-    MedicinePricePolicyModel,
+    ItemPricePolicyModel,
 } from "@/models";
 import {
-    medicineTypeService,
+    itemTypeService,
     roomService,
     supplierService,
     countryService,
     unitService,
     userService,
-    medicinePricePolicyService,
+    itemPricePolicyService,
     inOutStockService,
 } from "@/services";
 
@@ -605,12 +601,12 @@ export default defineComponent({
         const userColumns = ref({ value: "id", label: "userName" });
 
         const sSuppliers = ref<SupplierModel[]>([]);
-        const sMedicineTypes = ref<MedicineTypeModel[]>([]);
+        const sItemTypes = ref<ItemTypeModel[]>([]);
         const sStocks = ref<RoomModel[]>([]);
         const sCountries = ref<CountryModel[]>([]);
         const sUnits = ref<UnitModel[]>([]);
         const sUsers = ref<UserModel[]>([]);
-        const sMedicinePricePolicies = ref<MedicinePricePolicyModel[]>([]);
+        const sItemPricePolicies = ref<ItemPricePolicyModel[]>([]);
 
         const source = ref<InOutStockModel>({
             id: null,
@@ -661,10 +657,11 @@ export default defineComponent({
             stockExpTime: null,
             // Người xuất kho
             stockExpUserId: null,
-            inOutStockMedicines: [],
+            commodityType: 0,
+            inOutStockItems: [],
         });
 
-        const inOutStockMedicineSelected = ref<InOutStockMedicineModel>({
+        const inOutStockItemSelected = ref<InOutStockItemModel>({
             id: null,
             // Mã thuốc
             code: null,
@@ -675,11 +672,11 @@ export default defineComponent({
             // Thứ tự sắp xếp
             sortOrder: null,
             // Đường dùng thuốc
-            medicineLineId: null,
+            itemLineId: null,
             // Nhóm thuốc
-            medicineGroupId: null,
+            itemGroupId: null,
             // Nhóm thuốc
-            medicineTypeId: null,
+            itemTypeId: null,
             // Đơn vị tính
             unitId: null,
             // Hướng dẫn
@@ -727,11 +724,11 @@ export default defineComponent({
             // Năm thầu
             tenderYear: null,
             // Id lô thuốc
-            medicineId: null,
+            itemId: null,
             inOutStockId: null,
-            medicinePricePolicies: [],
+            itemPricePolicies: [],
         });
-        const sMedicineTypeSelected = ref<MedicineTypeModel>();
+        const sItemTypeSelected = ref<ItemTypeModel>();
         const supplierSelected = ref<SupplierModel>({
             id: undefined,
             code: null,
@@ -739,7 +736,7 @@ export default defineComponent({
             inactive: false,
         });
 
-        const impMestMedicineColumns = reactive([
+        const impMestItemColumns = reactive([
             {
                 title: "Mã thuốc",
                 key: "code",
@@ -909,25 +906,25 @@ export default defineComponent({
                         }
 
                         if (
-                            source.value.inOutStockMedicines !== null &&
-                            source.value.inOutStockMedicines &&
-                            source.value.inOutStockMedicines.length > 0
+                            source.value.inOutStockItems !== null &&
+                            source.value.inOutStockItems &&
+                            source.value.inOutStockItems.length > 0
                         ) {
-                            source.value.inOutStockMedicines.forEach(
-                                (inOutStockMedicine) => {
-                                    if (inOutStockMedicine.dueDate !== null) {
-                                        inOutStockMedicine.dueDate =
-                                            inOutStockMedicine.dueDate.split(
+                            source.value.inOutStockItems.forEach(
+                                (inOutStockItem) => {
+                                    if (inOutStockItem.dueDate !== null) {
+                                        inOutStockItem.dueDate =
+                                            inOutStockItem.dueDate.split(
                                                 "T"
                                             )[0];
                                     }
 
                                     if (
-                                        inOutStockMedicine.medicinePricePolicies &&
-                                        inOutStockMedicine.medicinePricePolicies !==
+                                        inOutStockItem.itemPricePolicies &&
+                                        inOutStockItem.itemPricePolicies !==
                                             null
                                     ) {
-                                        inOutStockMedicine.medicinePricePolicies.forEach(
+                                        inOutStockItem.itemPricePolicies.forEach(
                                             (price) => {
                                                 if (
                                                     price.executionTime !== null
@@ -943,8 +940,8 @@ export default defineComponent({
                                 }
                             );
 
-                            inOutStockMedicineSelected.value = {
-                                ...source.value.inOutStockMedicines[0],
+                            inOutStockItemSelected.value = {
+                                ...source.value.inOutStockItems[0],
                             };
                         }
                     } else {
@@ -967,20 +964,20 @@ export default defineComponent({
         //#region Function
         async function inItData() {
             sSuppliers.value = await getSuppliers();
-            sMedicineTypes.value = await getMedicineTypes();
+            sItemTypes.value = await getItemTypes();
             sStocks.value = await getStocks();
             sCountries.value = await getCountries();
             sUnits.value = await getUnits();
             sUsers.value = await getUsers();
-            sMedicinePricePolicies.value = await getMedicinePricePolicies();
+            sItemPricePolicies.value = await getItemPricePolicies();
         }
 
         async function getSuppliers(): Promise<SupplierModel[]> {
             return (await supplierService.getAll()).data.result;
         }
 
-        async function getMedicineTypes(): Promise<MedicineTypeModel[]> {
-            return (await medicineTypeService.getAll()).data.result;
+        async function getItemTypes(): Promise<ItemTypeModel[]> {
+            return (await itemTypeService.getAll()).data.result;
         }
 
         async function getStocks(): Promise<RoomModel[]> {
@@ -999,10 +996,8 @@ export default defineComponent({
             return (await userService.getAll()).data.result;
         }
 
-        async function getMedicinePricePolicies(): Promise<
-            MedicinePricePolicyModel[]
-        > {
-            return (await medicinePricePolicyService.getAll()).data.result;
+        async function getItemPricePolicies(): Promise<ItemPricePolicyModel[]> {
+            return (await itemPricePolicyService.getAll()).data.result;
         }
 
         const reset = () => {
@@ -1062,10 +1057,11 @@ export default defineComponent({
                 stockExpTime: null,
                 // Người xuất kho
                 stockExpUserId: null,
-                inOutStockMedicines: [],
+                commodityType: 0,
+                inOutStockItems: [],
             };
 
-            inOutStockMedicineSelected.value = {
+            inOutStockItemSelected.value = {
                 id: null,
                 // Mã thuốc
                 code: null,
@@ -1076,11 +1072,11 @@ export default defineComponent({
                 // Thứ tự sắp xếp
                 sortOrder: null,
                 // Đường dùng thuốc
-                medicineLineId: null,
+                itemLineId: null,
                 // Nhóm thuốc
-                medicineGroupId: null,
+                itemGroupId: null,
                 // Nhóm thuốc
-                medicineTypeId: null,
+                itemTypeId: null,
                 // Đơn vị tính
                 unitId: null,
                 // Hướng dẫn
@@ -1128,35 +1124,33 @@ export default defineComponent({
                 // Năm thầu
                 tenderYear: null,
                 // Id lô thuốc
-                medicineId: null,
+                itemId: null,
                 inOutStockId: null,
-                medicinePricePolicies: [],
+                itemPricePolicies: [],
             };
         };
 
-        const setImpMestMedicine = (
-            data: InOutStockMedicineModel | undefined
-        ) => {
+        const setImpMestItem = (data: InOutStockItemModel | undefined) => {
             if (data !== undefined) {
                 const dataCopy = { ...data };
-                inOutStockMedicineSelected.value = dataCopy;
+                inOutStockItemSelected.value = dataCopy;
             }
         };
 
         const calculateTotalAmout = () => {
             if (
-                inOutStockMedicineSelected.value.requestQuantity !== null &&
-                inOutStockMedicineSelected.value.impVatRate !== null &&
-                inOutStockMedicineSelected.value.impPrice !== null &&
-                inOutStockMedicineSelected.value.impTaxRate !== null
+                inOutStockItemSelected.value.requestQuantity !== null &&
+                inOutStockItemSelected.value.impVatRate !== null &&
+                inOutStockItemSelected.value.impPrice !== null &&
+                inOutStockItemSelected.value.impTaxRate !== null
             ) {
-                let vatRate = inOutStockMedicineSelected.value.impVatRate / 100;
-                let taxRate = inOutStockMedicineSelected.value.impTaxRate / 100;
+                let vatRate = inOutStockItemSelected.value.impVatRate / 100;
+                let taxRate = inOutStockItemSelected.value.impTaxRate / 100;
                 let impAmount =
-                    inOutStockMedicineSelected.value.requestQuantity *
-                    inOutStockMedicineSelected.value.impPrice;
+                    inOutStockItemSelected.value.requestQuantity *
+                    inOutStockItemSelected.value.impPrice;
 
-                inOutStockMedicineSelected.value.impAmount = Number(
+                inOutStockItemSelected.value.impAmount = Number(
                     (impAmount * (1 + vatRate + taxRate)).toFixed(2)
                 );
             }
@@ -1173,36 +1167,27 @@ export default defineComponent({
             toggle();
         };
 
-        const handleRowClickImpMestMedicine = (
-            record: InOutStockMedicineModel
-        ) => {
+        const handleRowClickImpMestItem = (record: InOutStockItemModel) => {
             return {
                 onClick: () => {
-                    setImpMestMedicine(record);
+                    setImpMestItem(record);
                 },
             };
         };
 
         const handleUpdateImMest = () => {
-            let inOutStockMedicine = source.value.inOutStockMedicines.find(
-                (f) => f.code == inOutStockMedicineSelected.value.code
+            let inOutStockItem = source.value.inOutStockItems.find(
+                (f) => f.code == inOutStockItemSelected.value.code
             );
-            if (
-                inOutStockMedicine !== null &&
-                inOutStockMedicine != undefined
-            ) {
+            if (inOutStockItem !== null && inOutStockItem != undefined) {
                 const index =
-                    source.value.inOutStockMedicines.indexOf(
-                        inOutStockMedicine
-                    );
-                source.value.inOutStockMedicines[index] = {
-                    ...inOutStockMedicineSelected.value,
+                    source.value.inOutStockItems.indexOf(inOutStockItem);
+                source.value.inOutStockItems[index] = {
+                    ...inOutStockItemSelected.value,
                 };
-            } else if (
-                inOutStockMedicineSelected.value.medicineTypeId !== null
-            ) {
-                source.value.inOutStockMedicines.push({
-                    ...inOutStockMedicineSelected.value,
+            } else if (inOutStockItemSelected.value.itemTypeId !== null) {
+                source.value.inOutStockItems.push({
+                    ...inOutStockItemSelected.value,
                 });
             }
         };
@@ -1216,62 +1201,60 @@ export default defineComponent({
             }
         };
 
-        const handleMedicineTypeChanged = (value: string) => {
+        const handleItemTypeChanged = (value: string) => {
             if (value !== null) {
-                let sMedicineType = sMedicineTypes.value.find(
-                    (f) => f.id === value
-                );
-                if (sMedicineType !== undefined && sMedicineType !== null) {
-                    sMedicineTypeSelected.value = { ...sMedicineType };
+                let sItemType = sItemTypes.value.find((f) => f.id === value);
+                if (sItemType !== undefined && sItemType !== null) {
+                    sItemTypeSelected.value = { ...sItemType };
 
-                    if (inOutStockMedicineSelected.value !== undefined) {
-                        inOutStockMedicineSelected.value.id = null;
-                        inOutStockMedicineSelected.value.medicineId = null;
-                        inOutStockMedicineSelected.value.code =
-                            sMedicineTypeSelected.value.code;
-                        inOutStockMedicineSelected.value.heInCode =
-                            sMedicineTypeSelected.value.heInCode;
-                        inOutStockMedicineSelected.value.name =
-                            sMedicineTypeSelected.value.name;
-                        inOutStockMedicineSelected.value.medicineLineId =
-                            sMedicineTypeSelected.value.medicineLineId;
-                        inOutStockMedicineSelected.value.medicineGroupId =
-                            sMedicineTypeSelected.value.medicineGroupId;
-                        inOutStockMedicineSelected.value.medicineTypeId =
-                            sMedicineTypeSelected.value.id !== undefined
-                                ? sMedicineTypeSelected.value.id
+                    if (inOutStockItemSelected.value !== undefined) {
+                        inOutStockItemSelected.value.id = null;
+                        inOutStockItemSelected.value.itemId = null;
+                        inOutStockItemSelected.value.code =
+                            sItemTypeSelected.value.code;
+                        inOutStockItemSelected.value.heInCode =
+                            sItemTypeSelected.value.heInCode;
+                        inOutStockItemSelected.value.name =
+                            sItemTypeSelected.value.name;
+                        inOutStockItemSelected.value.itemLineId =
+                            sItemTypeSelected.value.itemLineId;
+                        inOutStockItemSelected.value.itemGroupId =
+                            sItemTypeSelected.value.itemGroupId;
+                        inOutStockItemSelected.value.itemTypeId =
+                            sItemTypeSelected.value.id !== undefined
+                                ? sItemTypeSelected.value.id
                                 : null;
-                        inOutStockMedicineSelected.value.unitId =
-                            sMedicineTypeSelected.value.unitId;
-                        inOutStockMedicineSelected.value.tutorial =
-                            sMedicineTypeSelected.value.tutorial;
-                        inOutStockMedicineSelected.value.countryId =
-                            sMedicineTypeSelected.value.countryId;
-                        inOutStockMedicineSelected.value.impPrice =
-                            sMedicineTypeSelected.value.impPrice;
-                        inOutStockMedicineSelected.value.activeSubstance =
-                            sMedicineTypeSelected.value.activeSubstance;
-                        inOutStockMedicineSelected.value.concentration =
-                            sMedicineTypeSelected.value.concentration;
-                        inOutStockMedicineSelected.value.impVatRate =
-                            sMedicineTypeSelected.value.impVatRate;
-                        inOutStockMedicineSelected.value.impTaxRate =
-                            sMedicineTypeSelected.value.impTaxRate;
-                        inOutStockMedicineSelected.value.activeSubstance =
-                            sMedicineTypeSelected.value.activeSubstance;
-                        inOutStockMedicineSelected.value.concentration =
-                            sMedicineTypeSelected.value.concentration;
-                        inOutStockMedicineSelected.value.content =
-                            sMedicineTypeSelected.value.content;
-                        inOutStockMedicineSelected.value.manufacturer =
-                            sMedicineTypeSelected.value.manufacturer;
-                        inOutStockMedicineSelected.value.packagingSpecifications =
-                            sMedicineTypeSelected.value.packagingSpecifications;
-                        inOutStockMedicineSelected.value.registrationNumber =
-                            sMedicineTypeSelected.value.registrationNumber;
-                        inOutStockMedicineSelected.value.medicinePricePolicies =
+                        inOutStockItemSelected.value.unitId =
+                            sItemTypeSelected.value.unitId;
+                        inOutStockItemSelected.value.tutorial =
+                            sItemTypeSelected.value.tutorial;
+                        inOutStockItemSelected.value.countryId =
+                            sItemTypeSelected.value.countryId;
+                        inOutStockItemSelected.value.impPrice =
+                            sItemTypeSelected.value.impPrice;
+                        inOutStockItemSelected.value.activeSubstance =
+                            sItemTypeSelected.value.activeSubstance;
+                        inOutStockItemSelected.value.concentration =
+                            sItemTypeSelected.value.concentration;
+                        inOutStockItemSelected.value.impVatRate =
+                            sItemTypeSelected.value.impVatRate;
+                        inOutStockItemSelected.value.impTaxRate =
+                            sItemTypeSelected.value.impTaxRate;
+                        inOutStockItemSelected.value.activeSubstance =
+                            sItemTypeSelected.value.activeSubstance;
+                        inOutStockItemSelected.value.concentration =
+                            sItemTypeSelected.value.concentration;
+                        inOutStockItemSelected.value.content =
+                            sItemTypeSelected.value.content;
+                        inOutStockItemSelected.value.manufacturer =
+                            sItemTypeSelected.value.manufacturer;
+                        inOutStockItemSelected.value.packagingSpecifications =
+                            sItemTypeSelected.value.packagingSpecifications;
+                        inOutStockItemSelected.value.registrationNumber =
+                            sItemTypeSelected.value.registrationNumber;
+                        inOutStockItemSelected.value.itemPricePolicies =
                             JSON.parse(
-                                JSON.stringify(sMedicinePricePolicies.value)
+                                JSON.stringify(sItemPricePolicies.value)
                             );
                     }
                 }
@@ -1376,12 +1359,10 @@ export default defineComponent({
             return parseFloat(value.toString()).toFixed(2);
         };
 
-        const handleDeleteImpMestMedicine = (
-            record: InOutStockMedicineModel
-        ) => {
-            let index = source.value.inOutStockMedicines.indexOf(record, 0);
+        const handleDeleteImpMestItem = (record: InOutStockItemModel) => {
+            let index = source.value.inOutStockItems.indexOf(record, 0);
             if (index !== -1) {
-                source.value.inOutStockMedicines.splice(index, 1);
+                source.value.inOutStockItems.splice(index, 1);
             }
         };
 
@@ -1398,21 +1379,21 @@ export default defineComponent({
             userColumns,
             source,
             sSuppliers,
-            sMedicineTypes,
+            sItemTypes,
             sStocks,
             sCountries,
             sUnits,
             sUsers,
-            impMestMedicineColumns,
+            impMestItemColumns,
             supplierSelected,
-            inOutStockMedicineSelected,
-            sMedicineTypeSelected,
+            inOutStockItemSelected,
+            sItemTypeSelected,
             pricePolicyColumns,
             calculateTotalAmout,
             handleUpdateImMest,
             handleSupplierChanged,
-            handleMedicineTypeChanged,
-            handleRowClickImpMestMedicine,
+            handleItemTypeChanged,
+            handleRowClickImpMestItem,
             handleCancel,
             handleSave,
             handleEdit,
@@ -1420,14 +1401,14 @@ export default defineComponent({
             handleCanceled,
             handleDeleted,
             formatNumber,
-            handleDeleteImpMestMedicine,
+            handleDeleteImpMestItem,
         };
     },
 });
 </script>
 
 <style scoped>
-.medicine-card-body {
+.Item-card-body {
     margin: -24px;
     max-height: 650px;
     height: 650px;

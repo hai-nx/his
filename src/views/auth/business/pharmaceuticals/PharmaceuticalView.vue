@@ -149,12 +149,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed } from "vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
-import {
-    RoomModel,
-    InOutStockModel,
-    InOutStockMedicineModel,
-    InOutStockTypeModel,
-} from "@/models";
+import { RoomModel, InOutStockModel, InOutStockTypeModel } from "@/models";
 import {
     roomService,
     inOutStockService,

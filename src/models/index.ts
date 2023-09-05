@@ -32,17 +32,17 @@ import ExecutionRoomModel from './dictionary/executionRoom'
 import ServiceImportModel from './dictionary/serviceImport'
 import ServiceResultIndiceModel from './dictionary/serviceResultIndice'
 
-import MedicineGroupModel from './dictionary/medicineGroup'
-import MedicineTypeModel from './dictionary/medicineType'
-import MedicineLineModel from './dictionary/medicineLine';
-import MedicineModel from './dictionary/medicine';
-import MedicinePricePolicyModel from './dictionary/medicinePricePolicy'
-import MedicineTypeImportModel from './dictionary/medicineTypeImport'
+import ItemGroupModel from './dictionary/itemGroup'
+import ItemTypeModel from './dictionary/itemType'
+import ItemLineModel from './dictionary/itemLine';
+import ItemModel from './dictionary/item';
+import ItemPricePolicyModel from './dictionary/itemPricePolicy'
+import ItemTypeImportModel from './dictionary/itemTypeImport'
 
 import InOutStockTypeModel from './business/pharmaceuticals/inOutStockType';
-import InOutStockMedicineModel from './business/pharmaceuticals/inOutStockMedicine';
+import InOutStockItemModel from './business/pharmaceuticals/inOutStockItem';
 import InOutStockModel from './business/pharmaceuticals/inOutStock';
-import MedicineStockModel from './business/pharmaceuticals/medicineStock';
+import ItemStockModel from './business/pharmaceuticals/itemStock';
 
 import UserModel from './system/user'
 
@@ -82,17 +82,17 @@ export {
     ServiceImportModel,
     ServiceResultIndiceModel,
 
-    MedicineLineModel,
-    MedicineGroupModel,
-    MedicineTypeModel,
-    MedicineModel,
-    MedicinePricePolicyModel,
-    MedicineTypeImportModel,
+    ItemLineModel,
+    ItemGroupModel,
+    ItemTypeModel,
+    ItemModel,
+    ItemPricePolicyModel,
+    ItemTypeImportModel,
 
     InOutStockTypeModel,
-    InOutStockMedicineModel,
+    InOutStockItemModel,
     InOutStockModel,
-    MedicineStockModel,
+    ItemStockModel,
 
     UserModel
 }

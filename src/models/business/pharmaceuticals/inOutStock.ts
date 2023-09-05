@@ -1,4 +1,4 @@
-import { InOutStockMedicineModel } from "@/models"
+import { InOutStockItemModel } from "@/models"
 
 export default interface InOutStockModel {
     id: string | null,
@@ -78,5 +78,8 @@ export default interface InOutStockModel {
     // Người xuất kho
     stockExpUserId: string | null
 
-    inOutStockMedicines: InOutStockMedicineModel[]
+    // Loại hàng hóa
+    commodityType: number
+
+    inOutStockItems: InOutStockItemModel[]
 }

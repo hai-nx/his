@@ -1,6 +1,6 @@
-import { MedicinePricePolicyModel } from "@/models"
+import { ItemPricePolicyModel } from "@/models"
 
-export default interface InOutStockMedicineModel {
+export default interface InOutStockItemModel {
     id: string | null,
     // Mã thuốc
     code: string | null
@@ -11,11 +11,11 @@ export default interface InOutStockMedicineModel {
     // Thứ tự sắp xếp
     sortOrder: string | null
     // Đường dùng thuốc
-    medicineLineId: string | null
+    itemLineId: string | null
     // Nhóm thuốc
-    medicineGroupId: string | null
+    itemGroupId: string | null
     // Nhóm thuốc
-    medicineTypeId: string | null
+    itemTypeId: string | null
     // Đơn vị tính
     unitId: string | null
     // Hướng dẫn
@@ -62,7 +62,7 @@ export default interface InOutStockMedicineModel {
     // Năm thầu
     tenderYear: number | null
     // Id lô thuốc
-    medicineId: string | null
+    itemId: string | null
     inOutStockId: string | null
-    medicinePricePolicies: MedicinePricePolicyModel[]
+    itemPricePolicies: ItemPricePolicyModel[]
 }
