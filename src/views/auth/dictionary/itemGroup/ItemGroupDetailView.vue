@@ -64,23 +64,23 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from "vue";
 import { Modal } from "ant-design-vue";
-import { MedicineGroupModel } from "@/models";
-import { medicineGroupService } from "@/services";
+import { ItemGroupModel } from "@/models";
+import { itemGroupService } from "@/services";
 
 export default defineComponent({
-    name: "MedicineGroupDetailView",
+    name: "ItemGroupDetailView",
     props: {
         visible: {
             type: Boolean,
             required: true,
         },
         data: {
-            type: Object as PropType<MedicineGroupModel>,
+            type: Object as PropType<ItemGroupModel>,
         },
     },
     setup(props, { emit }) {
         const title = ref<string>("Thêm mới nhóm thuốc");
-        const item = ref<MedicineGroupModel>({
+        const item = ref<ItemGroupModel>({
             id: undefined,
             code: "",
             name: "",
@@ -94,9 +94,7 @@ export default defineComponent({
 
         const handleSave = async function () {
             loading.value = true;
-            let resultSave = await medicineGroupService.createOrEdit(
-                item.value
-            );
+            let resultSave = await itemGroupService.createOrEdit(item.value);
             if (resultSave.data.isSuccessed) {
                 result.value = true;
                 toggle();
@@ -113,9 +111,7 @@ export default defineComponent({
             loading.value = true;
             result.value = true;
 
-            let resultSave = await medicineGroupService.createOrEdit(
-                item.value
-            );
+            let resultSave = await itemGroupService.createOrEdit(item.value);
             if (resultSave.data.isSuccessed) {
                 result.value = true;
             } else {
@@ -163,7 +159,7 @@ export default defineComponent({
                     props.data?.id !== undefined
                 ) {
                     let data = props.data!;
-                    medicineGroupService
+                    itemGroupService
                         .getById(data.id!)
                         .then((res) => {
                             item.value = res.data.result;

@@ -9,7 +9,7 @@
         >
             <div class="container">
                 <a-tabs
-                    class="medicine-card-body"
+                    class="Item-card-body"
                     v-model:activeKey="activeKey"
                     type="card"
                 >
@@ -49,6 +49,7 @@
                                     <span class="text-danger me-1">*</span>
                                 </label>
                                 <a-select
+                                    showSearch
                                     class="grid-column-4"
                                     v-model:value="item.serviceGroupHeInId"
                                     :options="serviceGroupHeIns"
@@ -66,9 +67,10 @@
                                     <span class="text-danger me-1">*</span>
                                 </label>
                                 <a-select
+                                    showSearch
                                     class="grid-column-6"
-                                    v-model:value="item.medicineGroupId"
-                                    :options="medicineGroups"
+                                    v-model:value="item.itemGroupId"
+                                    :options="ItemGroups"
                                     :field-names="fields"
                                     :disabled="loading"
                                 >
@@ -84,6 +86,7 @@
                                     <span class="text-danger me-1">*</span>
                                 </label>
                                 <a-select
+                                    showSearch
                                     class="grid-column-2"
                                     v-model:value="item.unitId"
                                     :options="units"
@@ -101,9 +104,10 @@
                                     <span class="text-danger me-1">*</span>
                                 </label>
                                 <a-select
+                                    showSearch
                                     class="grid-column-4"
-                                    v-model:value="item.medicineLineId"
-                                    :options="medicineLines"
+                                    v-model:value="item.itemLineId"
+                                    :options="ItemLines"
                                     :field-names="fields"
                                     :disabled="loading"
                                 >
@@ -158,6 +162,7 @@
                                 >
                                 <a-select
                                     class="grid-column-6"
+                                    showSearch
                                     v-model:value="item.countryId"
                                     :options="countries"
                                     :field-names="fields"
@@ -472,36 +477,36 @@
 import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
 import { Modal } from "ant-design-vue";
 import {
-    MedicineTypeModel,
+    ItemTypeModel,
     UnitModel,
     ServiceGroupHeInModel,
-    MedicineGroupModel,
-    MedicineLineModel,
+    ItemGroupModel,
+    ItemLineModel,
     CountryModel,
 } from "@/models";
 import {
-    medicineTypeService,
+    itemTypeService,
     unitService,
     serviceGroupHeInService,
-    medicineGroupService,
-    medicineLineService,
+    itemGroupService,
+    itemLineService,
     countryService,
 } from "@/services";
 
 export default defineComponent({
-    name: "MedicineGroupDetailView",
+    name: "ItemGroupDetailView",
     props: {
         visible: {
             type: Boolean,
             required: true,
         },
         data: {
-            type: Object as PropType<MedicineTypeModel>,
+            type: Object as PropType<ItemTypeModel>,
         },
     },
     setup(props, { emit }) {
         const title = ref<string>("Thêm mới nhóm thuốc");
-        const item = ref<MedicineTypeModel>({
+        const item = ref<ItemTypeModel>({
             id: undefined,
             code: null,
             heInCode: null,
@@ -512,8 +517,8 @@ export default defineComponent({
             registrationNumber: null, // Số đăng ký
             proprietaryDrug: null, // Biệt dược
             serviceGroupHeInId: null,
-            medicineLineId: null, //Đường dùng thuốc
-            medicineGroupId: null, // Nhóm thuốc
+            itemLineId: null, //Đường dùng thuốc
+            itemGroupId: null, // Nhóm thuốc
             unitId: null, // Đơn vị tính
             tutorial: null, // Hướng dẫn
             activeSubstance: null, // Hoạt chất
@@ -558,8 +563,8 @@ export default defineComponent({
 
         const units = ref<UnitModel[]>([]);
         const serviceGroupHeIns = ref<ServiceGroupHeInModel[]>([]);
-        const medicineGroups = ref<MedicineGroupModel[]>([]);
-        const medicineLines = ref<MedicineLineModel[]>([]);
+        const ItemGroups = ref<ItemGroupModel[]>([]);
+        const ItemLines = ref<ItemLineModel[]>([]);
         const countries = ref<CountryModel[]>([]);
 
         const fields = ref({ value: "id", label: "name" });
@@ -603,8 +608,8 @@ export default defineComponent({
         async function inItData() {
             units.value = await getUnits();
             serviceGroupHeIns.value = await getServiceGroupHeIns();
-            medicineGroups.value = await getMedicineGroups();
-            medicineLines.value = await getMedicineLines();
+            ItemGroups.value = await getItemGroups();
+            ItemLines.value = await getItemLines();
             countries.value = await getCountries();
         }
 
@@ -618,12 +623,12 @@ export default defineComponent({
             return (await serviceGroupHeInService.getAll()).data.result;
         }
 
-        async function getMedicineGroups(): Promise<MedicineGroupModel[]> {
-            return (await medicineGroupService.getAll()).data.result;
+        async function getItemGroups(): Promise<ItemGroupModel[]> {
+            return (await itemGroupService.getAll()).data.result;
         }
 
-        async function getMedicineLines(): Promise<MedicineLineModel[]> {
-            return (await medicineLineService.getAll()).data.result;
+        async function getItemLines(): Promise<ItemLineModel[]> {
+            return (await itemLineService.getAll()).data.result;
         }
 
         async function getCountries(): Promise<CountryModel[]> {
@@ -632,7 +637,7 @@ export default defineComponent({
 
         const handleSave = async function () {
             loading.value = true;
-            let resultSave = await medicineTypeService.createOrEdit(item.value);
+            let resultSave = await itemTypeService.createOrEdit(item.value);
             console.log(resultSave);
 
             if (resultSave.data.isSuccessed) {
@@ -651,7 +656,7 @@ export default defineComponent({
             loading.value = true;
             result.value = true;
 
-            let resultSave = await medicineTypeService.createOrEdit(item.value);
+            let resultSave = await itemTypeService.createOrEdit(item.value);
             if (resultSave.data.isSuccessed) {
                 result.value = true;
             } else {
@@ -681,8 +686,8 @@ export default defineComponent({
                 registrationNumber: null, // Số đăng ký
                 proprietaryDrug: null, // Biệt dược
                 serviceGroupHeInId: null,
-                medicineLineId: null, //Đường dùng thuốc
-                medicineGroupId: null, // Nhóm thuốc
+                itemLineId: null, //Đường dùng thuốc
+                itemGroupId: null, // Nhóm thuốc
                 unitId: null, // Đơn vị tính
                 tutorial: null, // Hướng dẫn
                 activeSubstance: null, // Hoạt chất
@@ -742,7 +747,7 @@ export default defineComponent({
                     props.data?.id !== undefined
                 ) {
                     let data = props.data!;
-                    medicineTypeService
+                    itemTypeService
                         .getById(data.id!)
                         .then((res) => {
                             item.value = res.data.result;
@@ -774,8 +779,8 @@ export default defineComponent({
             fields,
             units,
             serviceGroupHeIns,
-            medicineGroups,
-            medicineLines,
+            ItemGroups,
+            ItemLines,
             countries,
             optionPharmaceuticalFormulations,
             preparationMethods,
@@ -788,7 +793,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.medicine-card-body {
+.Item-card-body {
     margin: -24px;
     max-height: 650px;
     height: 650px;

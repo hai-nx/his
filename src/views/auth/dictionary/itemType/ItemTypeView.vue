@@ -4,7 +4,8 @@
             <h3>Danh mục thuốc</h3>
 
             <div>
-                <a-button type="primary"
+                <a-button
+                    type="primary"
                     style="margin-right: 10px"
                     @click="handleImportExcel(true)"
                 >
@@ -58,12 +59,12 @@
         </a-table>
 
         <teleport to="body">
-            <MedicineTypeDetailView
+            <ItemTypeDetailView
                 :visible="visible"
                 :data="record"
                 @toggle="handleToggle"
             />
-            <MedicineTypeDetailImportView
+            <ItemTypeDetailImportView
                 :visible="visibleImportExcel"
                 @toggle="handleToggleImportExcel"
             />
@@ -74,13 +75,13 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { Modal } from "ant-design-vue";
-import { MedicineTypeModel } from "@/models";
-import { medicineTypeService } from "@/services";
-import MedicineTypeDetailView from "./MedicineTypeDetailView.vue";
-import MedicineTypeDetailImportView from "./MedicineTypeDetailImportView.vue";
+import { ItemTypeModel } from "@/models";
+import { itemTypeService } from "@/services";
+import ItemTypeDetailView from "./ItemTypeDetailView.vue";
+import ItemTypeDetailImportView from "./ItemTypeDetailImportView.vue";
 
 export default defineComponent({
-    name: "MedicineTypeView",
+    name: "ItemTypeView",
     setup() {
         const columns = ref([
             {
@@ -107,15 +108,15 @@ export default defineComponent({
             },
             { title: "Xử lý", key: "action", width: 100, align: "center" },
         ]);
-        const items = ref<MedicineTypeModel[]>([]);
-        const record = ref<MedicineTypeModel>();
+        const items = ref<ItemTypeModel[]>([]);
+        const record = ref<ItemTypeModel>();
         const visible = ref<boolean>(false);
         const visibleImportExcel = ref<boolean>(false);
 
         // lấy dữ liệu
         const handleLoad = () => {
             items.value = [];
-            medicineTypeService.getAll().then((res) => {
+            itemTypeService.getAll().then((res) => {
                 items.value = res.data.result;
             });
         };
@@ -126,12 +127,12 @@ export default defineComponent({
         };
 
         // sửa
-        const handleEdit = (item: MedicineTypeModel) => {
+        const handleEdit = (item: ItemTypeModel) => {
             show(true, item);
         };
 
         // xóa
-        const handleDelete = (item: MedicineTypeModel) => {
+        const handleDelete = (item: ItemTypeModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
                 Modal.confirm({
@@ -142,7 +143,7 @@ export default defineComponent({
                     okText: "Đồng ý",
                     cancelText: "Bỏ qua",
                     onOk() {
-                        medicineTypeService
+                        itemTypeService
                             .delete(id)
                             .catch((error) => {
                                 Modal.error({
@@ -182,7 +183,7 @@ export default defineComponent({
             }
         };
 
-        const show = (v: boolean, r: MedicineTypeModel | undefined) => {
+        const show = (v: boolean, r: ItemTypeModel | undefined) => {
             record.value = r;
             visible.value = v;
         };
@@ -203,13 +204,12 @@ export default defineComponent({
         };
     },
 
-
     mounted() {
         this.handleLoad();
     },
     components: {
-        MedicineTypeDetailView,        
-        MedicineTypeDetailImportView,
+        ItemTypeDetailView,
+        ItemTypeDetailImportView,
     },
 });
 const visibleImportExcel = ref<boolean>(false);

@@ -27,8 +27,8 @@ import wardView from '@/views/auth/dictionary/ward/WardView.vue'
 import dictionaryView from '@/views/auth/dictionary/DictionaryView.vue'
 import serviceView from '@/views/auth/dictionary/service/ServiceView.vue'
 import chapterView from '@/views/auth/dictionary/chapter/ChapterView.vue'
-import medicineGroupView from '@/views/auth/dictionary/medicineGroup/MedicineGroupView.vue'
-import medicineTypeView from '@/views/auth/dictionary/medicineType/MedicineTypeView.vue'
+import itemGroupView from '@/views/auth/dictionary/itemGroup/ItemGroupView.vue'
+import itemTypeView from '@/views/auth/dictionary/itemType/ItemTypeView.vue'
 
 import errorView from '@/views/public/error.vue'
 
@@ -62,8 +62,8 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/service', name: 'service', component: serviceView, meta: { layout: LAYOUT_AUTH } },
     { path: '/chapter', name: 'chapter', component: chapterView, meta: { layout: LAYOUT_AUTH } },
 
-    { path: '/medicine-group', name: 'medicine-group', component: medicineGroupView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/medicine-type', name: 'medicine-type', component: medicineTypeView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/item-group', name: 'item-group', component: itemGroupView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/item-type', name: 'item-type', component: itemTypeView, meta: { layout: LAYOUT_AUTH } },
 
     { path: '/patient/register-exam', name: 'registerExam', component: () => import('@/views/auth/patient/register/RegisterExam.vue'), meta: { layout: LAYOUT_AUTH } },
     { path: '/patient/register-exam-detail', name: 'registerExamDetail', component: () => import('@/views/auth/patient/register/RegisterExamDetail.vue'), meta: { layout: LAYOUT_AUTH } },

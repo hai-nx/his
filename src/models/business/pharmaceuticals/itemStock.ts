@@ -1,9 +1,9 @@
-import { MedicineModel } from "@/models"
+import { ItemModel } from "@/models"
 
-export default interface MedicineStockModel {
+export default interface ItemStockModel {
     id: string | null,
     stockId: string | null
-    medicineId: string | null
+    itemId: string | null
 
     /// <summary>
     /// Số lượng tồn kho
@@ -17,8 +17,8 @@ export default interface MedicineStockModel {
 
     stockCode?: string
     stockName?: string
-    medicineCode?: string
-    medicineName?: string
+    itemCode?: string
+    itemName?: string
 
-    medicine: MedicineModel | null
+    item: ItemModel | null
 }

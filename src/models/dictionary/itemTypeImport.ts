@@ -1,10 +1,10 @@
-export default interface MedicineTypesImportModel {
+export default interface ItemTypesImportModel {
     code: string,
     name: string,
     heInCode: string | null, // Mã BHYT
     serviceGroupHeInId: string | null,
-    medicineLineId: string | null, //Đường dùng thuốc
-    medicineGroupId: string | null, // Nhóm thuốc
+    itemLineId: string | null, //Đường dùng thuốc
+    itemGroupId: string | null, // Nhóm thuốc
     unitId: string | null, // Đơn vị tính
     unitCode?: string, // Đơn vị tính
     unitName?: string, // Đơn vị tính
