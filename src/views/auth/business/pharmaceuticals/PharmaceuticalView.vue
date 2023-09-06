@@ -94,6 +94,11 @@
                         </a-tag>
                     </span>
                 </template>
+                <template v-if="column.key === 'commodityType'">
+                    <span v-if="record.commodityType === 0">Thuốc</span>
+                    <span v-else-if="record.commodityType === 1">Vật tư</span>
+                    <span v-else-if="record.commodityType === 3">Máu</span>
+                </template>
                 <template v-if="column.key === 'reqTime'">
                     <span>{{
                         record.reqTime === null
@@ -156,8 +161,8 @@ import {
     inOutStockTypeService,
 } from "@/services";
 import dayjs, { Dayjs } from "dayjs";
-import ImportFromSupplierView from "./impMest/ImportFromSupplierView.vue";
-import ImportFromAnotherStockView from "./impMest/ImportFromAnotherStockView.vue";
+import ImportFromSupplierView from "./ImportFromSupplierView.vue";
+import ImportFromAnotherStockView from "./ImportFromAnotherStockView.vue";
 
 export default defineComponent({
     name: "PharmaceuticalView",
@@ -198,32 +203,56 @@ export default defineComponent({
                 className: "column-header-center",
             },
             {
-                title: "Loại phiếu",
+                title: "Loại hàng hóa",
+                key: "commodityType",
+                dataIndex: "commodityType",
+                width: 50,
+                className: "column-header-center",
+            },
+            {
+                title: "Loại phiếu nhập xuất",
                 key: "inOutStockTypeName",
                 dataIndex: "inOutStockTypeName",
                 width: 250,
                 className: "column-header-center",
             },
             {
+                title: "Kho nhập",
+                key: "impStockName",
+                dataIndex: "impStockName",
+                width: 100,
+                className: "column-header-center",
+            },
+            {
+                title: "Kho xuất",
+                key: "expStockName",
+                dataIndex: "expStockName",
+                width: 100,
+                className: "column-header-center",
+            },
+            {
                 title: "Ngày tạo",
                 key: "reqTime",
                 dataIndex: "reqTime",
-                width: 70,
+                width: 50,
                 className: "column-header-center",
+                align: "center",
             },
             {
                 title: "Ngày hóa đơn",
                 key: "invTime",
                 dataIndex: "invTime",
-                width: 70,
+                width: 50,
                 className: "column-header-center",
+                align: "center",
             },
             {
                 title: "Ngày nhập kho",
                 key: "stockImpTime",
                 dataIndex: "stockImpTime",
-                width: 70,
+                width: 50,
                 className: "column-header-center",
+                align: "center",
             },
 
             { title: "Xử lý", key: "action", width: 70, align: "center" },

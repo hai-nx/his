@@ -116,7 +116,14 @@ export default defineComponent({
         // lấy dữ liệu
         const handleLoad = () => {
             items.value = [];
-            itemTypeService.getAll().then((res) => {
+
+            let params = {
+                CommodityTypeFilter: 0,
+                CodeFilter: "Code",
+                NameFilter: "Name",
+            };
+
+            itemTypeService.getAll(params).then((res) => {
                 items.value = res.data.result;
             });
         };
