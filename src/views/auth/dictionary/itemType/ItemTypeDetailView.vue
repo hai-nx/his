@@ -508,6 +508,7 @@ export default defineComponent({
         const title = ref<string>("Thêm mới nhóm thuốc");
         const item = ref<ItemTypeModel>({
             id: undefined,
+            commodityType: 0,
             code: null,
             heInCode: null,
             name: null,
@@ -677,6 +678,7 @@ export default defineComponent({
         const reset = function () {
             item.value = {
                 id: undefined,
+                commodityType: 0,
                 code: null,
                 heInCode: null,
                 name: null,
