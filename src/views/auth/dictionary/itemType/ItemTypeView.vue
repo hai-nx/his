@@ -118,9 +118,9 @@ export default defineComponent({
             items.value = [];
 
             let params = {
-                CommodityTypeFilter: 0,
-                CodeFilter: "Code",
-                NameFilter: "Name",
+                params: {
+                    CommodityTypeFilter: 0,
+                },
             };
 
             itemTypeService.getAll(params).then((res) => {
