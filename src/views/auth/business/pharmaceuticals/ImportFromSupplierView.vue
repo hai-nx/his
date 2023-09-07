@@ -556,7 +556,15 @@
 
 <script lang="ts">
 import { Modal } from "ant-design-vue";
-import { defineComponent, ref, computed, watch, reactive, PropType } from "vue";
+import {
+    defineComponent,
+    ref,
+    computed,
+    watch,
+    watchEffect,
+    reactive,
+    PropType,
+} from "vue";
 import {
     InOutStockModel,
     InOutStockItemModel,
@@ -578,6 +586,7 @@ import {
     itemPricePolicyService,
     inOutStockService,
 } from "@/services";
+import { RoomType } from "@/enums/roomtypes";
 
 export default defineComponent({
     name: "PharmaceuticalProcureFromSupplierView",
@@ -588,6 +597,10 @@ export default defineComponent({
         },
         data: {
             type: Object as PropType<InOutStockModel>,
+        },
+        roomType: {
+            type: Number,
+            required: true,
         },
     },
     setup(props, { emit }) {
@@ -863,7 +876,6 @@ export default defineComponent({
         ]);
 
         const show = computed(() => props.visible);
-
         watch(show, async (value) => {
             if (value) {
                 reset();
@@ -961,10 +973,46 @@ export default defineComponent({
             }
         });
 
+        watchEffect(async () => {
+            // Kiểm tra xem impStockId có thay đổi không
+            if (source.value.impStockId !== null) {
+                let params: any = {
+                    params: {
+                        CommodityTypeFilter: null,
+                    },
+                };
+
+                let stock = sStocks.value.find(
+                    (f) => f.id == source.value.impStockId
+                );
+                if (stock) {
+                    switch (stock.roomTypeId) {
+                        case RoomType.CentralWarehouse:
+                            params.params.CommodityTypeFilter = null;
+                            break;
+                        case RoomType.OutpatientPharmacy:
+                        case RoomType.InpatientPharmacy:
+                        case RoomType.EmergencyCabinet:
+                            params.params.CommodityTypeFilter = 0;
+                            break;
+                        case RoomType.OutpatientInventory:
+                        case RoomType.InventoryCabinet:
+                            params.params.CommodityTypeFilter = 1;
+                            break;
+                        case RoomType.BloodBack:
+                            params.params.CommodityTypeFilter = 2;
+                            break;
+                    }
+                }
+
+                sItemTypes.value = await getItemTypes(params);
+            }
+        });
+
         //#region Function
         async function inItData() {
             sSuppliers.value = await getSuppliers();
-            sItemTypes.value = await getItemTypes();
+            // sItemTypes.value = await getItemTypes();
             sStocks.value = await getStocks();
             sCountries.value = await getCountries();
             sUnits.value = await getUnits();
@@ -976,8 +1024,8 @@ export default defineComponent({
             return (await supplierService.getAll()).data.result;
         }
 
-        async function getItemTypes(): Promise<ItemTypeModel[]> {
-            return (await itemTypeService.getAll()).data.result;
+        async function getItemTypes(params: any): Promise<ItemTypeModel[]> {
+            return (await itemTypeService.getAll(params)).data.result;
         }
 
         async function getStocks(): Promise<RoomModel[]> {

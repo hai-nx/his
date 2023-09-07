@@ -1,7 +1,18 @@
 <template>
     <div>
         <div class="header">
-            <div class="function grid-col-1">
+            <a-select
+                class="grid-column-1"
+                :field-names="fields"
+                :options="stocks"
+                showSearch
+                optionFilterProp="label"
+                style="width: 180px"
+                placeholder="Chọn kho"
+                v-model:value="stockId"
+            />
+
+            <div class="function grid-col-3">
                 <a-dropdown>
                     <template #overlay>
                         <a-menu>
@@ -23,25 +34,6 @@
                     </a-button>
                 </a-dropdown>
             </div>
-
-            <a-select
-                class="grid-column-3"
-                :field-names="fields"
-                :options="stocks"
-                showSearch
-                style="width: 180px"
-                placeholder="Chọn kho"
-                v-model:value="stockId"
-            />
-
-            <!-- <a-radio-group
-                name="radioGroup"
-                class="grid-column-4 mx-3"
-                v-model:value="type"
-            >
-                <a-radio value="0">Nhập</a-radio>
-                <a-radio value="1">Xuất</a-radio>
-            </a-radio-group> -->
 
             <div class="search grid-col-6">
                 <label>Từ ngày:</label>
@@ -139,6 +131,7 @@
             <ImportFromSupplierView
                 :visible="visibleImportFromSupplier"
                 :data="source"
+                :roomType="roomType"
                 @toggle="handleToggleImportFromSupplier"
             />
             <ImportFromAnotherStockView
@@ -152,7 +145,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from "vue";
+import { defineComponent, ref, reactive, computed, watch } from "vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import { RoomModel, InOutStockModel, InOutStockTypeModel } from "@/models";
 import {
@@ -163,6 +156,7 @@ import {
 import dayjs, { Dayjs } from "dayjs";
 import ImportFromSupplierView from "./ImportFromSupplierView.vue";
 import ImportFromAnotherStockView from "./ImportFromAnotherStockView.vue";
+import { RoomType } from "@/enums/roomtypes";
 
 export default defineComponent({
     name: "PharmaceuticalView",
@@ -187,12 +181,14 @@ export default defineComponent({
         const inOutStockTypeId = ref<number>(0);
         const visibleExportFromAnotherStock = ref<boolean>(false);
 
+        const roomType = ref<number>(0);
+
         const columnImps = ref([
             {
                 title: "Trạng thái phiếu",
                 key: "status",
                 dataIndex: "status",
-                width: 60,
+                width: 50,
                 className: "column-header-center",
             },
             {
@@ -262,6 +258,14 @@ export default defineComponent({
         async function inItData() {
             stocks.value = await getStocks();
             inOutStockTypes.value = await getInOutStockTypes();
+
+            if (
+                stocks.value !== null &&
+                stocks.value.length > 0 &&
+                stocks.value[0].id
+            ) {
+                stockId.value = stocks.value[0].id;
+            }
         }
 
         async function getStocks(): Promise<RoomModel[]> {
@@ -352,6 +356,15 @@ export default defineComponent({
             return source.value?.impStockId === stockId.value;
         });
 
+        watch(stockId, (newValue, oldValue) => {
+            if (newValue !== oldValue && newValue !== "") {
+                let stock = stocks.value.find((f) => f.id == newValue);
+                if (stock) {
+                    roomType.value = stock.roomTypeId;
+                }
+            }
+        });
+
         return {
             // type,
             fromDate,
@@ -367,6 +380,7 @@ export default defineComponent({
             stockId,
             inOutStockTypeId,
             isImport,
+            roomType,
             handleLoad,
             handleEdit,
             inItData,
@@ -379,8 +393,9 @@ export default defineComponent({
             handleToggleExportFromSupplier,
         };
     },
-    mounted() {
-        this.inItData();
+    async mounted() {
+        await this.inItData();
+        await this.handleLoad();
     },
     components: {
         PlusOutlined,
