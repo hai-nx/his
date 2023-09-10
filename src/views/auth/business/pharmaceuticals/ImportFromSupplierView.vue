@@ -739,6 +739,7 @@ export default defineComponent({
             // Id lô thuốc
             itemId: null,
             inOutStockId: null,
+            commodityType: 0,
             itemPricePolicies: [],
         });
         const sItemTypeSelected = ref<ItemTypeModel>();
@@ -1174,6 +1175,7 @@ export default defineComponent({
                 // Id lô thuốc
                 itemId: null,
                 inOutStockId: null,
+                commodityType: 0,
                 itemPricePolicies: [],
             };
         };
@@ -1249,7 +1251,9 @@ export default defineComponent({
             }
         };
 
+        /* eslint-disable */
         const handleItemTypeChanged = (value: string) => {
+            debugger;
             if (value !== null) {
                 let sItemType = sItemTypes.value.find((f) => f.id === value);
                 if (sItemType !== undefined && sItemType !== null) {
@@ -1300,6 +1304,8 @@ export default defineComponent({
                             sItemTypeSelected.value.packagingSpecifications;
                         inOutStockItemSelected.value.registrationNumber =
                             sItemTypeSelected.value.registrationNumber;
+                        inOutStockItemSelected.value.commodityType =
+                            sItemTypeSelected.value.commodityType;
                         inOutStockItemSelected.value.itemPricePolicies =
                             JSON.parse(
                                 JSON.stringify(sItemPricePolicies.value)

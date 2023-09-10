@@ -64,5 +64,6 @@ export default interface InOutStockItemModel {
     // Id lô thuốc
     itemId: string | null
     inOutStockId: string | null
+    commodityType: number
     itemPricePolicies: ItemPricePolicyModel[]
 }

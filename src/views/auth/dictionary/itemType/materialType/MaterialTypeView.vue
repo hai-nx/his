@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="d-flex justify-content-between align-items-center">
-            <h3>Danh mục thuốc</h3>
+            <h3>Danh mục vật tư</h3>
 
             <div>
                 <a-button
@@ -9,11 +9,11 @@
                     style="margin-right: 10px"
                     @click="handleImportExcel(true)"
                 >
-                    Nhập thuốc từ Excel
+                    Nhập vật tư từ Excel
                 </a-button>
                 <a-button type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
-                    <span>Thêm thuốc</span>
+                    <span>Thêm vật tư</span>
                 </a-button>
             </div>
         </div>
@@ -59,12 +59,12 @@
         </a-table>
 
         <teleport to="body">
-            <ItemTypeDetailView
+            <MaterialTypeDetailView
                 :visible="visible"
                 :data="record"
                 @toggle="handleToggle"
             />
-            <ItemTypeDetailImportView
+            <MaterialTypeDetailImportView
                 :visible="visibleImportExcel"
                 @toggle="handleToggleImportExcel"
             />
@@ -77,22 +77,22 @@ import { defineComponent, ref } from "vue";
 import { Modal } from "ant-design-vue";
 import { ItemTypeModel } from "@/models";
 import { itemTypeService } from "@/services";
-import ItemTypeDetailView from "./ItemTypeDetailView.vue";
-import ItemTypeDetailImportView from "./ItemTypeDetailImportView.vue";
+import MaterialTypeDetailView from "./MaterialTypeDetailView.vue";
+import MaterialTypeDetailImportView from "./MaterialTypeDetailImportView.vue";
 
 export default defineComponent({
-    name: "ItemTypeView",
+    name: "MaterialTypeView",
     setup() {
         const columns = ref([
             {
-                title: "Mã thuốc",
+                title: "Mã vật tư",
                 key: "code",
                 dataIndex: "code",
                 width: 200,
                 className: "column-header-center",
             },
             {
-                title: "Tên thuốc",
+                title: "Tên vật tư",
                 key: "name",
                 dataIndex: "name",
                 width: 500,
@@ -119,7 +119,7 @@ export default defineComponent({
 
             let params = {
                 params: {
-                    CommodityTypeFilter: 0,
+                    CommodityTypeFilter: 1,
                 },
             };
 
@@ -144,7 +144,7 @@ export default defineComponent({
                 let id = item.id!;
                 Modal.confirm({
                     content:
-                        "Bạn có thực sự muốn xóa thuốc <" +
+                        "Bạn có thực sự muốn xóa vật tư <" +
                         item.code +
                         "> đã chọn không?",
                     okText: "Đồng ý",
@@ -215,8 +215,8 @@ export default defineComponent({
         this.handleLoad();
     },
     components: {
-        ItemTypeDetailView,
-        ItemTypeDetailImportView,
+        MaterialTypeDetailView,
+        MaterialTypeDetailImportView,
     },
 });
 const visibleImportExcel = ref<boolean>(false);

@@ -1,5 +1,6 @@
 import DictionaryBase from "./base";
 
 export default interface MedicineGroupModel extends DictionaryBase {
-    isSystem: boolean
+    isSystem: boolean,
+    commodityType: number
 }

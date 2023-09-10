@@ -76,7 +76,7 @@
                     />
 
                     <label class="grid-column-1">
-                        <span>Tên thuốc:</span>
+                        <span>Tên hàng:</span>
                         <span class="text-danger me-1">*</span>
                     </label>
                     <a-select
@@ -100,7 +100,7 @@
                         </template>
                     </a-select>
                     <label class="grid-column-7">
-                        <span>Mã thuốc:</span>
+                        <span>Mã hàng:</span>
                         <span class="text-danger me-1">*</span>
                     </label>
                     <a-input
@@ -372,6 +372,7 @@
 
 <script lang="ts">
 import { Modal } from "ant-design-vue";
+import { RoomType } from "@/enums/roomtypes";
 import {
     defineComponent,
     ref,
@@ -557,6 +558,7 @@ export default defineComponent({
             // Id lô thuốc
             itemId: null,
             inOutStockId: null,
+            commodityType: 0,
             itemPricePolicies: [],
         });
 
@@ -571,14 +573,14 @@ export default defineComponent({
 
         const impMestitemColumns = reactive([
             {
-                title: "Mã thuốc",
+                title: "Mã hàng",
                 key: "code",
                 dataIndex: "code",
                 width: 100,
                 className: "column-header-center",
             },
             {
-                title: "Tên thuốc",
+                title: "Tên hàng",
                 key: "name",
                 dataIndex: "name",
                 width: 250,
@@ -745,17 +747,48 @@ export default defineComponent({
             }
         });
 
+        /* eslint-disable */
         watchEffect(async () => {
             // Theo dõi expStockId thay đổi
-            if (
-                source.value.expStockId !== null &&
-                source.value.expStockId !== undefined
-            ) {
-                ditemStocks.value = await getitemByStocks(
-                    source.value.expStockId
-                );
-            } else {
+            debugger;
+
+            if (source.value.expStockId !== null) {
                 ditemStocks.value = [];
+
+                let params: any = {
+                    params: {
+                        CommodityTypeFilter: null,
+                        StockIdFilter: source.value.expStockId,
+                    },
+                };
+
+                if (source.value.impStockId !== null) {
+                    let impStock = sStocks.value.find(
+                        (f) => f.id == source.value.impStockId
+                    );
+
+                    if (impStock) {
+                        switch (impStock.roomTypeId) {
+                            case RoomType.CentralWarehouse:
+                                params.params.CommodityTypeFilter = null;
+                                break;
+                            case RoomType.OutpatientPharmacy:
+                            case RoomType.InpatientPharmacy:
+                            case RoomType.EmergencyCabinet:
+                                params.params.CommodityTypeFilter = 0;
+                                break;
+                            case RoomType.OutpatientInventory:
+                            case RoomType.InventoryCabinet:
+                                params.params.CommodityTypeFilter = 1;
+                                break;
+                            case RoomType.BloodBack:
+                                params.params.CommodityTypeFilter = 2;
+                                break;
+                        }
+                    }
+                }
+
+                ditemStocks.value = await getItemByStocks(params);
             }
 
             // Theo dõi thuốc thay đổi
@@ -904,15 +937,13 @@ export default defineComponent({
                 // Id lô thuốc
                 itemId: null,
                 inOutStockId: null,
+                commodityType: 0,
                 itemPricePolicies: [],
             };
         };
 
-        async function getitemByStocks(
-            stockId: string
-        ): Promise<ItemStockModel[]> {
-            return (await itemStockService.getItemByStocks(stockId)).data
-                .result;
+        async function getItemByStocks(params: any): Promise<ItemStockModel[]> {
+            return (await itemStockService.getAll(params)).data.result;
         }
 
         async function getStocks(): Promise<RoomModel[]> {
@@ -993,6 +1024,8 @@ export default defineComponent({
                                 ditemStockSelected.value.item.registrationNumber;
                             inOutStockitemSelected.value.lot =
                                 ditemStockSelected.value.item.lot;
+                            inOutStockitemSelected.value.commodityType =
+                                ditemStockSelected.value.item.commodityType;
                             if (
                                 ditemStockSelected.value.item.dueDate !== null
                             ) {
@@ -1007,52 +1040,36 @@ export default defineComponent({
             }
         };
 
+        /* eslint-disable */
         const handleUpdateImMest = () => {
-            let dImpMestitem = source.value.inOutStockItems.find(
-                (f) => f.itemId == inOutStockitemSelected.value.itemId
+            let inOutStockItem = source.value.inOutStockItems.find(
+                (f) => f.code == inOutStockitemSelected.value.code
             );
-
-            if (dImpMestitem !== null && dImpMestitem != undefined) {
-                Modal.warning({
-                    content:
-                        "Thuốc đã tồn tại trong danh sách chọn. Bạn có muốn cập nhật vào số lượng không?",
-                    okText: "Đồng ý",
-                    cancelText: "Bỏ qua",
-                });
-
-                if (isOK) {
-                    let dImpMestitemCopy = {
-                        ...inOutStockitemSelected.value,
-                    };
-
-                    if (
-                        dImpMestitem.requestQuantity !== null &&
-                        dImpMestitemCopy.requestQuantity
-                    ) {
-                        dImpMestitem.requestQuantity +=
-                            dImpMestitemCopy.requestQuantity;
-                    }
-
-                    if (
-                        dImpMestitem.requestQuantity &&
-                        dImpMestitem.impVatRate &&
-                        dImpMestitem.impPrice &&
-                        dImpMestitem.impTaxRate
-                    ) {
-                        let vatRate = dImpMestitem.impVatRate / 100;
-                        let taxRate = dImpMestitem.impTaxRate / 100;
-                        let impAmount =
-                            dImpMestitem.requestQuantity *
-                            dImpMestitem.impPrice;
-
-                        dImpMestitem.impAmount =
-                            impAmount * (1 + vatRate + taxRate);
-                    }
-                }
+            if (inOutStockItem !== null && inOutStockItem != undefined) {
+                const index =
+                    source.value.inOutStockItems.indexOf(inOutStockItem);
+                source.value.inOutStockItems[index] = {
+                    ...inOutStockitemSelected.value,
+                };
             } else if (inOutStockitemSelected.value.itemTypeId !== null) {
                 source.value.inOutStockItems.push({
                     ...inOutStockitemSelected.value,
                 });
+            }
+
+            if (
+                inOutStockItem &&
+                inOutStockItem.requestQuantity &&
+                inOutStockItem.impVatRate &&
+                inOutStockItem.impPrice &&
+                inOutStockItem.impTaxRate
+            ) {
+                let vatRate = inOutStockItem.impVatRate / 100;
+                let taxRate = inOutStockItem.impTaxRate / 100;
+                let impAmount =
+                    inOutStockItem.requestQuantity * inOutStockItem.impPrice;
+
+                inOutStockItem.impAmount = impAmount * (1 + vatRate + taxRate);
             }
         };
 

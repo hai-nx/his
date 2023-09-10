@@ -108,7 +108,7 @@ import {
 } from "@/services";
 
 export default defineComponent({
-    name: "itemTypesDetailImportView",
+    name: "MaterialTypeDetailImportView",
     props: {
         visible: {
             type: Boolean,
@@ -521,7 +521,13 @@ export default defineComponent({
         }
 
         async function getitemGroups(): Promise<ItemGroupModel[]> {
-            return (await itemGroupService.getAll()).data.result;
+            let params: any = {
+                params: {
+                    CommodityTypeFilter: 1,
+                },
+            };
+
+            return (await itemGroupService.getAll(params)).data.result;
         }
 
         async function getitemLines(): Promise<ItemLineModel[]> {
