@@ -65,8 +65,9 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/medicine-group', name: 'medicine-group', component: medicineGroupView, meta: { layout: LAYOUT_AUTH } },
     { path: '/medicine-type', name: 'medicine-type', component: medicineTypeView, meta: { layout: LAYOUT_AUTH } },
 
-    { path: '/patient/register-exam', name: 'registerExam', component: () => import('@/views/auth/patient/register/RegisterExam.vue'), meta: { layout: LAYOUT_AUTH } },
-    { path: '/patient/register-exam-detail', name: 'registerExamDetail', component: () => import('@/views/auth/patient/register/RegisterExamDetail.vue'), meta: { layout: LAYOUT_AUTH } },
+    // bệnh nhân
+    { path: '/reception', name: 'reception', component: () => import('@/views/auth/business/receptions/ReceptionView.vue'), meta: { layout: LAYOUT_AUTH } },
+    { path: '/reception-detail', name: 'reception-detail', component: () => import('@/views/auth/business/receptions/ReceptionDetailView.vue'), meta: { layout: LAYOUT_AUTH } },
 
     { path: '/payment', name: 'payment', component: () => import('@/views/auth/payment/Payment.vue'), meta: { layout: LAYOUT_AUTH } },
 

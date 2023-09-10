@@ -45,3 +45,7 @@ body,
     border: 1px solid #40a9ff;
     outline: none;
 }
+
+.x-input {
+    padding: 2px 5px 2px 5px;
+}

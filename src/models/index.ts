@@ -1,5 +1,9 @@
 import ApiResult from './ApiResult'
+import ResultModel from './ResultModel'
+import PagedResultModel from './PagedResultModel'
 
+import ReceptionModel from './business/receprions/reception'
+import ReceptionRequestModel from './business/receprions/request'
 import PatientModel from './business/patient'
 import TreatmentModel, { TreatmentFilterModel } from './business/treatment'
 
@@ -47,7 +51,11 @@ import UserModel from './system/user'
 
 export {
     ApiResult,
+    ResultModel,
+    PagedResultModel,
 
+    ReceptionModel,
+    ReceptionRequestModel,
     PatientModel,
     TreatmentModel,
     TreatmentFilterModel,
