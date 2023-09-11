@@ -86,6 +86,7 @@ export default defineComponent({
             name: "",
             sortOrder: undefined,
             inactive: false,
+            commodityType: 0,
             isSystem: false,
         });
         const errors = ref({ code: "", name: "" });
@@ -136,6 +137,7 @@ export default defineComponent({
                 name: "",
                 sortOrder: undefined,
                 inactive: false,
+                commodityType: 0,
                 isSystem: false,
             };
         };

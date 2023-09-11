@@ -17,7 +17,7 @@
                         <div class="container">
                             <div class="container-general">
                                 <label class="grid-column-1">
-                                    <span>Mã thuốc:</span>
+                                    <span>Mã vật tư:</span>
                                     <span class="text-danger me-1">*</span>
                                 </label>
                                 <a-input
@@ -26,7 +26,7 @@
                                     :disabled="loading"
                                 />
                                 <label class="grid-column-3">
-                                    <span>Tên thuốc:</span>
+                                    <span>Tên vật tư:</span>
                                     <span class="text-danger me-1">*</span>
                                 </label>
                                 <a-input
@@ -70,7 +70,7 @@
                                     showSearch
                                     class="grid-column-6"
                                     v-model:value="item.itemGroupId"
-                                    :options="ItemGroups"
+                                    :options="itemGroups"
                                     :field-names="fields"
                                     :disabled="loading"
                                 >
@@ -99,54 +99,24 @@
                                         </div>
                                     </template>
                                 </a-select>
-                                <label class="grid-column-3">
-                                    <span>Đường dùng:</span>
-                                    <span class="text-danger me-1">*</span>
-                                </label>
-                                <a-select
-                                    showSearch
-                                    class="grid-column-4"
-                                    v-model:value="item.itemLineId"
-                                    :options="ItemLines"
-                                    :field-names="fields"
-                                    :disabled="loading"
-                                >
-                                    <template #option="{ name }">
-                                        <div class="row">
-                                            <span>{{ name }}</span>
-                                        </div>
-                                    </template>
-                                </a-select>
-                                <label class="grid-column-5">Hoạt chất:</label>
-                                <a-input
-                                    class="grid-column-6"
-                                    v-model:value="item.activeSubstance"
-                                    :disabled="loading"
-                                />
-
-                                <label class="grid-column-1">Hàm lượng:</label>
-                                <a-input
-                                    class="grid-column-2"
-                                    v-model:value="item.content"
-                                    :disabled="loading"
-                                />
-                                <label class="grid-column-3">Nồng độ:</label>
-                                <a-input
-                                    class="grid-column-4"
-                                    v-model:value="item.concentration"
-                                    :disabled="loading"
-                                />
-                                <label class="grid-column-5">Đóng gói:</label>
+                                <!-- <label class="grid-column-5">Đóng gói:</label>
                                 <a-input
                                     class="grid-column-6"
                                     v-model:value="item.packagingSpecifications"
                                     :disabled="loading"
+                                /> -->
+
+                                <label class="grid-column-3">Hướng dẫn:</label>
+                                <a-input
+                                    class="grid-column-columnspan-4-7"
+                                    v-model:value="item.tutorial"
+                                    :disabled="loading"
                                 />
 
-                                <label class="grid-column-1">Hướng dẫn:</label>
+                                <label class="grid-column-1">Đóng gói:</label>
                                 <a-input
                                     class="grid-column-2"
-                                    v-model:value="item.tutorial"
+                                    v-model:value="item.packagingSpecifications"
                                     :disabled="loading"
                                 />
                                 <label class="grid-column-3"
@@ -222,12 +192,6 @@
                                     v-model:value="item.sortOrder"
                                     :disabled="loading"
                                     min="0"
-                                />
-                                <label class="grid-column-3">Biệt dược:</label>
-                                <a-input
-                                    class="grid-column-4"
-                                    v-model:value="item.proprietaryDrug"
-                                    :disabled="loading"
                                 />
                                 <a-checkbox
                                     class="grid-column-6"
@@ -339,113 +303,6 @@
                             </div>
                         </div>
                     </a-tab-pane>
-                    <a-tab-pane key="2" tab="Thông tin bổ sung">
-                        <div class="container">
-                            <div class="container-extent">
-                                <label class="grid-column-1"
-                                    >Dạng bào chế:</label
-                                >
-                                <a-select
-                                    class="grid-column-2"
-                                    :options="optionPharmaceuticalFormulations"
-                                    v-model:value="
-                                        item.pharmaceuticalFormulation
-                                    "
-                                    :disabled="loading"
-                                />
-
-                                <label class="grid-column-1">Nguồn gốc:</label>
-                                <a-input
-                                    class="grid-column-2"
-                                    v-model:value="item.origin"
-                                    :disabled="loading"
-                                />
-
-                                <label class="grid-column-1"
-                                    >Tên khoa học vị thuốc:</label
-                                >
-                                <a-input
-                                    class="grid-column-2"
-                                    v-model:value="item.scientificName"
-                                    :disabled="loading"
-                                />
-
-                                <label class="grid-column-1"
-                                    >Tên KH của cây con, khoáng vật:</label
-                                >
-                                <a-input
-                                    class="grid-column-2"
-                                    v-model:value="item.scientificNameChildren"
-                                    :disabled="loading"
-                                />
-
-                                <label class="grid-column-1"
-                                    >Tình trạng dược liệu:</label
-                                >
-                                <a-input
-                                    class="grid-column-2"
-                                    v-model:value="item.dugStatus"
-                                    :disabled="loading"
-                                />
-
-                                <label class="grid-column-1"
-                                    >Yêu cầu sử dụng dược liệu:</label
-                                >
-                                <a-input
-                                    class="grid-column-2"
-                                    v-model:value="item.requirementUseDug"
-                                    :disabled="loading"
-                                />
-
-                                <label class="grid-column-1"
-                                    >Bộ phận dược liệu sử dụng:</label
-                                >
-                                <a-input
-                                    class="grid-column-2"
-                                    v-model:value="item.pharmaceuticalDivision"
-                                    :disabled="loading"
-                                />
-
-                                <label class="grid-column-1"
-                                    >Tỷ lệ hao hụt chế biến (%):</label
-                                >
-                                <a-input
-                                    class="grid-column-2"
-                                    v-model:value="item.processingLossRate"
-                                    :disabled="loading"
-                                />
-
-                                <label class="grid-column-1"
-                                    >Chi phí khác:</label
-                                >
-                                <a-input-number
-                                    class="grid-column-2 w-100"
-                                    v-model:value="item.otherExpenses"
-                                    :disabled="loading"
-                                    min="0"
-                                />
-
-                                <label class="grid-column-1">
-                                    Phương pháp chế biến:</label
-                                >
-                                <a-select
-                                    class="grid-column-2"
-                                    :options="preparationMethods"
-                                    v-model:value="item.preparationMethod"
-                                    :disabled="loading"
-                                />
-
-                                <label class="grid-column-1">
-                                    Tiêu chuẩn chất lượng:</label
-                                >
-                                <a-input
-                                    class="grid-column-2"
-                                    v-model:value="item.qualityStandards"
-                                    :disabled="loading"
-                                />
-                            </div>
-                        </div>
-                    </a-tab-pane>
                 </a-tabs>
             </div>
 
@@ -474,6 +331,7 @@
 </template>
 
 <script lang="ts">
+import { CommodityType } from "@/enums/commodityType";
 import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
 import { Modal } from "ant-design-vue";
 import {
@@ -481,7 +339,6 @@ import {
     UnitModel,
     ServiceGroupHeInModel,
     ItemGroupModel,
-    ItemLineModel,
     CountryModel,
 } from "@/models";
 import {
@@ -489,12 +346,11 @@ import {
     unitService,
     serviceGroupHeInService,
     itemGroupService,
-    itemLineService,
     countryService,
 } from "@/services";
 
 export default defineComponent({
-    name: "ItemGroupDetailView",
+    name: "MaterialTypeDetailView",
     props: {
         visible: {
             type: Boolean,
@@ -505,9 +361,10 @@ export default defineComponent({
         },
     },
     setup(props, { emit }) {
-        const title = ref<string>("Thêm mới nhóm thuốc");
+        const title = ref<string>("Thêm mới vật tư");
         const item = ref<ItemTypeModel>({
             id: undefined,
+            commodityType: CommodityType.Material,
             code: null,
             heInCode: null,
             name: null,
@@ -563,53 +420,15 @@ export default defineComponent({
 
         const units = ref<UnitModel[]>([]);
         const serviceGroupHeIns = ref<ServiceGroupHeInModel[]>([]);
-        const ItemGroups = ref<ItemGroupModel[]>([]);
-        const ItemLines = ref<ItemLineModel[]>([]);
+        const itemGroups = ref<ItemGroupModel[]>([]);
         const countries = ref<CountryModel[]>([]);
 
         const fields = ref({ value: "id", label: "name" });
 
-        // Dạng bào chế
-        const optionPharmaceuticalFormulations = reactive<
-            { value: string; label: string }[]
-        >([
-            { value: "", label: "-- Chọn --" },
-            { value: "Dạng cao", label: "Dạng cao" },
-            { value: "Hoàn cứng", label: "Hoàn cứng" },
-            { value: "Hoàn mềm", label: "Hoàn mềm" },
-            { value: "Bột thuốc", label: "Bột thuốc" },
-            { value: "Trà thuốc", label: "Trà thuốc" },
-            { value: "Rượu thuốc", label: "Rượu thuốc" },
-            { value: "Cồn thuốc", label: "Cồn thuốc" },
-            { value: "Viên nén", label: "Viên nén" },
-            { value: "Bột hòa tan", label: "Bột hòa tan" },
-            { value: "Cốm hòa tan", label: "Cốm hòa tan" },
-            { value: "Hoàn nhỏ giọt", label: "Hoàn nhỏ giọt" },
-            { value: "Siro", label: "Siro" },
-            { value: "Viên nang cứng", label: "Viên nang cứng" },
-            { value: "Viên nang mềm", label: "Viên nang mềm" },
-            { value: "Thuốc phun sương mù", label: "Thuốc phun sương mù" },
-            { value: "Dung dịch", label: "Dung dịch" },
-            { value: "Viên", label: "Viên" },
-            { value: "Viên nén bao phim", label: "Viên nén bao phim" },
-            { value: "Khác", label: "Khác" },
-        ]);
-
-        // Phương pháp chế biến
-        const preparationMethods = reactive<{ value: string; label: string }[]>(
-            [
-                { value: "", label: "-- Chọn --" },
-                { value: "Sơ chế", label: "Sơ chế" },
-                { value: "Phức chế", label: "Phức chế" },
-                { value: "Khác", label: "Khác" },
-            ]
-        );
-
         async function inItData() {
             units.value = await getUnits();
             serviceGroupHeIns.value = await getServiceGroupHeIns();
-            ItemGroups.value = await getItemGroups();
-            ItemLines.value = await getItemLines();
+            itemGroups.value = await getItemGroups();
             countries.value = await getCountries();
         }
 
@@ -624,11 +443,13 @@ export default defineComponent({
         }
 
         async function getItemGroups(): Promise<ItemGroupModel[]> {
-            return (await itemGroupService.getAll()).data.result;
-        }
+            let params: any = {
+                params: {
+                    CommodityTypeFilter: 1,
+                },
+            };
 
-        async function getItemLines(): Promise<ItemLineModel[]> {
-            return (await itemLineService.getAll()).data.result;
+            return (await itemGroupService.getAll(params)).data.result;
         }
 
         async function getCountries(): Promise<CountryModel[]> {
@@ -638,7 +459,6 @@ export default defineComponent({
         const handleSave = async function () {
             loading.value = true;
             let resultSave = await itemTypeService.createOrEdit(item.value);
-            console.log(resultSave);
 
             if (resultSave.data.isSuccessed) {
                 result.value = true;
@@ -677,6 +497,7 @@ export default defineComponent({
         const reset = function () {
             item.value = {
                 id: undefined,
+                commodityType: CommodityType.Material,
                 code: null,
                 heInCode: null,
                 name: null,
@@ -751,7 +572,7 @@ export default defineComponent({
                         .getById(data.id!)
                         .then((res) => {
                             item.value = res.data.result;
-                            title.value = "Sửa thuốc";
+                            title.value = "Sửa vật tư";
                             loading.value = false;
                         })
                         .catch((error) => {
@@ -779,11 +600,8 @@ export default defineComponent({
             fields,
             units,
             serviceGroupHeIns,
-            ItemGroups,
-            ItemLines,
+            itemGroups,
             countries,
-            optionPharmaceuticalFormulations,
-            preparationMethods,
             handleSave,
             handleSaveAndAddNew,
             handleCancel,

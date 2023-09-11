@@ -1,9 +1,9 @@
 import { ApiResult, ItemTypeImportModel, ItemTypeModel } from '@/models'
 import request from '@/utils/request'
 
-const ItemTypeService = {
-    getAll() {
-        return request.get<ApiResult<ItemTypeModel[]>>('api/ItemType/GetAll')
+const itemTypeService = {
+    getAll(params: any = null) {
+        return request.get<ApiResult<ItemTypeModel[]>>('api/ItemType/GetAll', params)
     },
     getById(id: string) {
         return request.get<ApiResult<ItemTypeModel>>('api/ItemType/GetById?id=' + id);
@@ -19,4 +19,4 @@ const ItemTypeService = {
     }
 }
 
-export default ItemTypeService;
+export default itemTypeService;

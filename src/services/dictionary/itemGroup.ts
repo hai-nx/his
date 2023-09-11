@@ -1,9 +1,9 @@
 import { ApiResult, ItemGroupModel } from '@/models'
 import request from '@/utils/request'
 
-const ItemGroupService = {
-    getAll() {
-        return request.get<ApiResult<ItemGroupModel[]>>('api/ItemGroup/GetAll')
+const itemGroupService = {
+    getAll(params: any = null) {
+        return request.get<ApiResult<ItemGroupModel[]>>('api/ItemGroup/GetAll', params)
     },
     getById(id: string) {
         return request.get<ApiResult<ItemGroupModel>>('api/ItemGroup/GetById?id=' + id);
@@ -16,4 +16,4 @@ const ItemGroupService = {
     }
 }
 
-export default ItemGroupService;
+export default itemGroupService;

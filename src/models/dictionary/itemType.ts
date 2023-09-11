@@ -1,6 +1,7 @@
 import DictionaryBase from "./base";
 
 export default interface ItemTypeModel extends DictionaryBase {
+    commodityType: number // Loại hàng hóa 
     heInCode: string | null, // Mã BHYT
     serviceGroupHeInId: string | null,
     itemLineId: string | null, //Đường dùng thuốc
