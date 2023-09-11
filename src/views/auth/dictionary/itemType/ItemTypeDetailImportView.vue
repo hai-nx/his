@@ -562,8 +562,7 @@ export default defineComponent({
                             let dataExcels = json.slice(2); // Lấy dữ liệu từ dòng thứ 3 trở đi
 
                             dataExcels.forEach((row) => {
-<<<<<<< HEAD:src/views/auth/dictionary/medicineType/MedicineTypeDetailImportView.vue
-                            const excelData: MedicineTypeImportModel = {
+                            const excelData: ItemTypeImportModel = {
                                 code:
                                     row[0] == undefined? "": row[0].toString(),
                                 name:
@@ -572,12 +571,12 @@ export default defineComponent({
                                     row[2] == undefined? "": row[2].toString(),
                                 serviceGroupHeInId:
                                     row[3] == undefined? "": serviceGroupHeIns.value.find(f => f.code === row[3].toString())?.id ?? "",
-                                medicineGroupId:
-                                    row[4] == undefined? "": medicineGroups.value.find(f => f.code === row[4].toString())?.id ?? "",
+                                itemGroupId:
+                                    row[4] == undefined? "": itemGroups.value.find(f => f.code === row[4].toString())?.id ?? "",
                                 unitCode:
                                     row[5] == undefined? "": units.value.find(f => f.code === row[5].toString())?.id ?? "",
-                                medicineLineId:
-                                    row[6] == undefined? "": medicineLines.value.find(f => f.code === row[6].toString())?.id ?? "",
+                                itemLineId:
+                                    row[6] == undefined? "": itemLines.value.find(f => f.code === row[6].toString())?.id ?? "",
                                 activeSubstance:
                                     row[7] == undefined? "": row[7].toString(),
                                 content:
@@ -656,197 +655,6 @@ export default defineComponent({
                                     row[44] === undefined?  false : JSON.parse(row[44].toString()),
                                 isInhalantDrug: 
                                     row[45] === undefined?  false : JSON.parse(row[45].toString()),
-=======
-                                const excelData: ItemTypeImportModel = {
-                                    code:
-                                        row[0] == undefined
-                                            ? ""
-                                            : row[0].toString(),
-                                    name:
-                                        row[1] == undefined
-                                            ? ""
-                                            : row[1].toString(),
-                                    heInCode:
-                                        row[2] == undefined
-                                            ? ""
-                                            : row[2].toString(),
-                                    serviceGroupHeInId:
-                                        row[3] == undefined
-                                            ? ""
-                                            : serviceGroupHeIns.value.find(
-                                                  (f) =>
-                                                      f.code ===
-                                                      row[3].toString()
-                                              )?.id ?? "",
-                                    itemGroupId:
-                                        row[4] == undefined
-                                            ? ""
-                                            : row[4].toString(),
-                                    unitCode:
-                                        row[5] == undefined
-                                            ? ""
-                                            : row[5].toString(),
-                                    itemLineId:
-                                        row[6] == undefined
-                                            ? ""
-                                            : row[6].toString(),
-                                    activeSubstance:
-                                        row[7] == undefined
-                                            ? ""
-                                            : row[7].toString(),
-                                    content:
-                                        row[8] == undefined
-                                            ? ""
-                                            : row[8].toString(),
-                                    concentration:
-                                        row[9] == undefined
-                                            ? ""
-                                            : row[9].toString(),
-                                    packagingSpecifications:
-                                        row[10] == undefined
-                                            ? ""
-                                            : row[10].toString(),
-                                    tutorial:
-                                        row[11] == undefined
-                                            ? ""
-                                            : row[11].toString(),
-                                    manufacturer:
-                                        row[12] == undefined
-                                            ? ""
-                                            : row[12].toString(),
-                                    countryId:
-                                        row[13] == undefined
-                                            ? ""
-                                            : row[13].toString(),
-                                    impPrice:
-                                        row[14] === undefined
-                                            ? 0
-                                            : parseFloat(row[14].toString()),
-                                    impVatRate:
-                                        row[15] === undefined
-                                            ? 0
-                                            : parseFloat(row[15].toString()),
-                                    taxRate:
-                                        row[16] === undefined
-                                            ? 0
-                                            : parseFloat(row[16].toString()),
-                                    registrationNumber:
-                                        row[17] == undefined
-                                            ? ""
-                                            : row[17].toString(),
-                                    description:
-                                        row[18] == undefined
-                                            ? ""
-                                            : row[18].toString(),
-                                    sortOrder:
-                                        row[19] === undefined
-                                            ? 0
-                                            : parseInt(row[19].toString()),
-                                    proprietaryDrug:
-                                        row[20] == undefined
-                                            ? ""
-                                            : row[20].toString(),
-                                    isAntibiotics:
-                                        row[21] === undefined
-                                            ? false
-                                            : JSON.parse(row[21].toString()),
-                                    isPrescriptionDrug:
-                                        row[22] === undefined
-                                            ? false
-                                            : JSON.parse(row[22].toString()),
-                                    isNutraceutical:
-                                        row[23] === undefined
-                                            ? false
-                                            : JSON.parse(row[23].toString()),
-                                    isSponsoredDrug:
-                                        row[24] === undefined
-                                            ? false
-                                            : JSON.parse(row[24].toString()),
-                                    isPrescriptionDrugForChildren:
-                                        row[25] === undefined
-                                            ? false
-                                            : JSON.parse(row[25].toString()),
-                                    isTraditionalHerbalDrug:
-                                        row[26] === undefined
-                                            ? false
-                                            : JSON.parse(row[26].toString()),
-                                    isTraditionalDrugFormulation:
-                                        row[27] === undefined
-                                            ? false
-                                            : JSON.parse(row[27].toString()),
-                                    isDrugContainerReturnRequest:
-                                        row[28] === undefined
-                                            ? false
-                                            : JSON.parse(row[28].toString()),
-                                    isAllowZeroQuantity:
-                                        row[29] === undefined
-                                            ? false
-                                            : JSON.parse(row[29].toString()),
-                                    isRadiolabeledDrug:
-                                        row[30] === undefined
-                                            ? false
-                                            : JSON.parse(row[30].toString()),
-                                    pharmaceuticalFormulation:
-                                        row[31] == undefined
-                                            ? ""
-                                            : row[31].toString(),
-                                    origin:
-                                        row[32] == undefined
-                                            ? ""
-                                            : row[32].toString(),
-                                    scientificName:
-                                        row[33] == undefined
-                                            ? ""
-                                            : row[33].toString(),
-                                    scientificNameChildren:
-                                        row[34] == undefined
-                                            ? ""
-                                            : row[34].toString(),
-                                    dugStatus:
-                                        row[35] == undefined
-                                            ? ""
-                                            : row[35].toString(),
-                                    requirementUseDug:
-                                        row[36] == undefined
-                                            ? ""
-                                            : row[36].toString(),
-                                    pharmaceuticalDivision:
-                                        row[37] == undefined
-                                            ? ""
-                                            : row[37].toString(),
-                                    processingLossRate:
-                                        row[38] == undefined
-                                            ? ""
-                                            : row[38].toString(),
-                                    otherExpenses:
-                                        row[39] === undefined
-                                            ? 0
-                                            : parseFloat(row[39].toString()),
-                                    preparationMethod:
-                                        row[40] == undefined
-                                            ? ""
-                                            : row[40].toString(),
-                                    qualityStandards:
-                                        row[41] == undefined
-                                            ? ""
-                                            : row[41].toString(),
-                                    inactive:
-                                        row[42] === undefined
-                                            ? false
-                                            : JSON.parse(row[42].toString()),
-                                    unitId:
-                                        row[43] === undefined
-                                            ? ""
-                                            : row[43].toString(),
-                                    isNewDrug:
-                                        row[44] === undefined
-                                            ? false
-                                            : JSON.parse(row[44].toString()),
-                                    isInhalantDrug:
-                                        row[45] === undefined
-                                            ? false
-                                            : JSON.parse(row[45].toString()),
->>>>>>> main:src/views/auth/dictionary/itemType/ItemTypeDetailImportView.vue
                                 };
 
                                 datas.value?.push(excelData);
