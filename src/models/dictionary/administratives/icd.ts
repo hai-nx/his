@@ -1,4 +1,4 @@
-import DictionaryBase from "./base";
+import DictionaryBase from "../base";
 
 export default interface ICDModel extends DictionaryBase {
     mohReportCode?: string,

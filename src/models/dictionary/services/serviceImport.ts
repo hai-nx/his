@@ -1,5 +1,3 @@
-import { Dayjs } from 'dayjs'
-
 export default interface ServiceImportModel {
     code: string,
     name: string

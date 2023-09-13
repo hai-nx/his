@@ -1,4 +1,4 @@
-import DictionaryBase from './base'
+import DictionaryBase from "./../base";
 
 export default interface SupplierModel extends DictionaryBase {
     taxCode?: string // Mã số thuế

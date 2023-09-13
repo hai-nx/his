@@ -155,8 +155,7 @@ import {
 } from "@/services";
 import dayjs, { Dayjs } from "dayjs";
 import ImportFromSupplierView from "./ImportFromSupplierView.vue";
-import ImportFromAnotherStockView from "./ImportFromAnotherStockView.vue";
-import { RoomType } from "@/enums/roomtypes";
+import ImportFromAnotherStockView from "./ImportFromAnotherStocksView.vue";
 
 export default defineComponent({
     name: "PharmaceuticalView",

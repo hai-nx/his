@@ -1,4 +1,4 @@
-import DictionaryBase from './base'
+import DictionaryBase from "./../base";
 import ServicePricePolicyModel from './servicePricePolicy'
 import ExecutionRoomModel from './executionRoom'
 import ServiceResultIndiceModel from './serviceResultIndice'
