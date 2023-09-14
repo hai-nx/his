@@ -1,6 +1,11 @@
 <template>
     <form>
-        <a-modal :visible="show" :title="title" @cancel="handleCancel" :mask-closable="false">
+        <a-modal
+            :visible="show"
+            :title="title"
+            @cancel="handleCancel"
+            :mask-closable="false"
+        >
             <div class="row mb-1">
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
@@ -30,7 +35,10 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-textarea v-model:value="item.description" :disabled="loading" />
+                    <a-textarea
+                        v-model:value="item.description"
+                        :disabled="loading"
+                    />
                 </div>
             </div>
             <div class="row mb-1">
@@ -40,19 +48,37 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-input-number v-model:value="item.sortOrder" :disabled="loading" class="w-100"/>
+                    <a-input-number
+                        v-model:value="item.sortOrder"
+                        :disabled="loading"
+                        class="w-100"
+                    />
                 </div>
             </div>
             <div class="row mb-1">
                 <div class="col-12 col-md-8 offset-md-4">
-                    <a-checkbox v-model:checked="item.inactive" :disabled="loading">Ngừng theo dõi</a-checkbox>
+                    <a-checkbox
+                        v-model:checked="item.inactive"
+                        :disabled="loading"
+                        >Ngừng theo dõi</a-checkbox
+                    >
                 </div>
             </div>
 
-
             <template #footer>
-                <a-button key="submit" type="primary" :loading="loading" @click.prevent="handleSave">Lưu</a-button>
-                <a-button type="primary" :loading="loading" @click.prevent="handleSaveAndAddNew">Lưu và Thêm mới</a-button>
+                <a-button
+                    key="submit"
+                    type="primary"
+                    :loading="loading"
+                    @click.prevent="handleSave"
+                    >Lưu</a-button
+                >
+                <a-button
+                    type="primary"
+                    :loading="loading"
+                    @click.prevent="handleSaveAndAddNew"
+                    >Lưu và Thêm mới</a-button
+                >
                 <a-button @click="handleCancel">Bỏ qua</a-button>
             </template>
         </a-modal>
@@ -60,37 +86,38 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, PropType } from 'vue'
+import { defineComponent, ref, computed, watch, PropType } from "vue";
 import { Modal, SelectProps } from "ant-design-vue";
-import { DepartmentTypeModel } from '@/models'
-import { departmentTypeService } from '@/services';
+import { DepartmentTypeModel } from "@/models";
+import { departmentTypeService } from "@/services";
 
 export default defineComponent({
-    name: 'DepartmentTypeDetailView',
+    name: "DepartmentTypeDetailView",
     props: {
         visible: {
             type: Boolean,
-            required: true
+            required: true,
         },
         data: {
-            type: Object as PropType<DepartmentTypeModel>
-        }
+            type: Object as PropType<DepartmentTypeModel>,
+        },
     },
     setup(props, { emit }) {
         const loading = ref<boolean>(false);
         const result = ref<boolean>(false);
-        const title = ref<string>('Thêm mới loại khoa');
+        const title = ref<string>("Thêm mới loại khoa");
         const item = ref<DepartmentTypeModel>({
-            id: undefined,
+            id: null,
             code: "",
             name: "",
-            inactive: false
+            inactive: false,
         });
 
         const handleSave = () => {
             loading.value = true;
-            departmentTypeService.createOrEdit(item.value)
-                .then(res => {
+            departmentTypeService
+                .createOrEdit(item.value)
+                .then((res) => {
                     if (res) {
                         result.value = true;
                         toggle();
@@ -98,38 +125,38 @@ export default defineComponent({
                         Modal.error({ content: res, okText: "Đồng ý" });
                     }
                 })
-                .catch(error => {
+                .catch((error) => {
                     Modal.error({ content: error.message, okText: "Đồng ý" });
                 })
                 .finally(() => {
                     loading.value = false;
                 });
-        }
+        };
 
         const handleSaveAndAddNew = () => {
             loading.value = true;
             result.value = true;
 
             reset();
-        }
+        };
 
         const handleCancel = () => {
             toggle();
-        }
+        };
 
         const reset = () => {
             item.value = {
-                id: undefined,
+                id: null,
                 code: "",
                 name: "",
                 description: "",
-                inactive: false
-            }
-        }
+                inactive: false,
+            };
+        };
 
         const toggle = () => {
             emit("toggle", result.value);
-        }
+        };
 
         const show = computed(() => props.visible);
 
@@ -141,18 +168,21 @@ export default defineComponent({
 
                 if (props.data !== null && props.data?.id !== undefined) {
                     let data = props.data!;
-                    departmentTypeService.getById(data.id!)
-                        .then(res => {
+                    departmentTypeService
+                        .getById(data.id!)
+                        .then((res) => {
                             item.value = res.data.result;
                             title.value = "Sửa chi loại khoa";
                             loading.value = false;
                         })
-                        .catch(error => {
-                            Modal.error({ content: error.message, okText: 'Đồng ý' });
+                        .catch((error) => {
+                            Modal.error({
+                                content: error.message,
+                                okText: "Đồng ý",
+                            });
                             toggle();
                         });
-                }
-                else {
+                } else {
                     loading.value = false;
                 }
             }
@@ -167,7 +197,7 @@ export default defineComponent({
             handleSave,
             handleSaveAndAddNew,
             handleCancel,
-        }
-    }
-})
+        };
+    },
+});
 </script>

@@ -1,7 +1,6 @@
 import { ItemModel } from "@/models"
 
-export default interface ItemStockModel {
-    id: string | null,
+export default interface ItemStockModel extends ItemModel {
     stockId: string | null
     itemId: string | null
 

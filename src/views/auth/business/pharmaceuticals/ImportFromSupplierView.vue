@@ -744,7 +744,7 @@ export default defineComponent({
         });
         const sItemTypeSelected = ref<ItemTypeModel>();
         const supplierSelected = ref<SupplierModel>({
-            id: undefined,
+            id: null,
             code: null,
             name: null,
             inactive: false,
@@ -1051,7 +1051,7 @@ export default defineComponent({
 
         const reset = () => {
             supplierSelected.value = {
-                id: undefined,
+                id: null,
                 code: null,
                 name: null,
                 inactive: false,

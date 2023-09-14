@@ -272,7 +272,7 @@ export default defineComponent({
                                             ? false
                                             : JSON.parse(row[9].toString()),
                                     serviceId: undefined,
-                                    id: undefined,
+                                    id: null,
                                 };
 
                                 datas.value?.push(excelData);
