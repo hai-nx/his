@@ -575,13 +575,13 @@ export default defineComponent({
                                     heInCode:
                                         row[2] == undefined? "": row[2].toString(),
                                     serviceGroupHeInId:
-                                        row[3] == undefined? "": serviceGroupHeIns.value.find(f => f.code === row[3].toString())?.id ?? "",
+                                        row[3] == undefined? null: serviceGroupHeIns.value.find(f => f.code === row[3].toString())?.id ?? "",
                                     itemGroupId:
-                                        row[4] == undefined? "": itemGroups.value.find(f => f.code === row[4].toString())?.id ?? "",
+                                        row[4] == undefined? null: itemGroups.value.find(f => f.code === row[4].toString())?.id ?? "",
                                     unitCode:
                                         row[5] == undefined? "": units.value.find(f => f.code === row[5].toString())?.id ?? "",
                                     itemLineId:
-                                        row[6] == undefined? "": itemLines.value.find(f => f.code === row[6].toString())?.id ?? "",
+                                        row[6] == undefined? null: itemLines.value.find(f => f.code === row[6].toString())?.id ?? "",
                                     activeSubstance:
                                         row[7] == undefined? "": row[7].toString(),
                                     content:
@@ -595,7 +595,7 @@ export default defineComponent({
                                     manufacturer:
                                         row[12] == undefined? "": row[12].toString(),
                                     countryId:
-                                        row[13] == undefined? "": countries.value.find(f => f.code === row[13].toString())?.id ?? "",
+                                        row[13] == undefined? null: countries.value.find(f => f.code === row[13].toString())?.id ?? "",
                                     impPrice:
                                         row[14] === undefined? 0 : parseFloat(row[14].toString()),
                                     impVatRate:
@@ -655,7 +655,7 @@ export default defineComponent({
                                     inactive:
                                         row[42] === undefined? false : JSON.parse(row[42].toString()),
                                     unitId: 
-                                        row[43] === undefined? "": row[43].toString(), 
+                                        row[43] === undefined? null: row[43].toString(), 
                                     isNewDrug: 
                                         row[44] === undefined?  false : JSON.parse(row[44].toString()),
                                     isInhalantDrug: 
