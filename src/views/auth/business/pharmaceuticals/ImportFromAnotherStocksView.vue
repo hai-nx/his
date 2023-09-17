@@ -7,7 +7,7 @@
             width="1280px"
             :mask-closable="false"
         >
-            <div class="container card-body">
+            <div class="container card-body" @keydown="handleKeydown">
                 <div class="container card-container">
                     <label class="grid-column-1">
                         <span>Kho nhập:</span>
@@ -83,7 +83,7 @@
                         class="grid-column-columnspan-2-7"
                         showSearch
                         @change="handleItemStockChanged"
-                        v-model:value="inOutStockitemSelected.itemId"
+                        v-model:value="inOutStockitemSelected.itemTypeId"
                         :field-names="fieldMedistocks"
                         :options="itemStocks"
                         :disabled="isDisabled"
@@ -238,7 +238,7 @@
                         type="primary"
                         class="grid-column-columnspan-11-13"
                         :disabled="isDisabled"
-                        @click="handleUpdateImMest()"
+                        @click="handleUpdateInOutStocks()"
                     >
                         Cập nhật (Ctl + A)
                     </a-button>
@@ -424,7 +424,7 @@ export default defineComponent({
         const fields = ref({ value: "id", label: "name" });
         const userColumns = ref({ value: "id", label: "userName" });
         const fieldMedistocks = ref({
-            value: "itemId",
+            value: "itemTypeId",
             label: "itemName",
         });
 
@@ -801,11 +801,8 @@ export default defineComponent({
             }
         });
 
-        /* eslint-disable */
         watchEffect(async () => {
             // Theo dõi expStockId thay đổi
-            debugger;
-
             if (source.value.expStockId !== null) {
                 itemStocks.value = [];
 
@@ -838,7 +835,7 @@ export default defineComponent({
                 }
 
                 itemStocks.value = await getItemByStocks(
-                    source.value.impStockId ?? "",
+                    source.value.expStockId ?? "",
                     true,
                     commodityType
                 );
@@ -1085,11 +1082,11 @@ export default defineComponent({
         };
 
         /* eslint-disable */
-        const handleItemStockChanged = (itemId: string) => {
+        const handleItemStockChanged = (itemTypeId: string) => {
             debugger;
-            if (itemId !== null) {
+            if (itemTypeId !== null) {
                 let itemStock = itemStocks.value.find(
-                    (f) => f.itemId === itemId
+                    (f) => f.itemTypeId === itemTypeId
                 );
                 if (itemStock !== undefined && itemStock !== null) {
                     itemStockSelected.value = { ...itemStock };
@@ -1098,7 +1095,6 @@ export default defineComponent({
                         inOutStockitemSelected.value.id = null;
                         inOutStockitemSelected.value.itemId =
                             itemStockSelected.value.itemId;
-
                         inOutStockitemSelected.value.code =
                             itemStockSelected.value.code;
                         inOutStockitemSelected.value.heInCode =
@@ -1152,10 +1148,17 @@ export default defineComponent({
             }
         };
 
+        function handleKeydown(event: KeyboardEvent) {
+            if (event.ctrlKey && event.key.toUpperCase() === "A") {
+                handleUpdateInOutStocks();
+            }
+        }
+
         /* eslint-disable */
-        const handleUpdateImMest = () => {
+        function handleUpdateInOutStocks() {
+            debugger;
             let inOutStockItem = source.value.inOutStockItems.find(
-                (f) => f.code == inOutStockitemSelected.value.code
+                (f) => f.itemTypeId == inOutStockitemSelected.value.itemTypeId
             );
             if (inOutStockItem !== null && inOutStockItem != undefined) {
                 const index =
@@ -1183,7 +1186,7 @@ export default defineComponent({
 
                 inOutStockItem.impAmount = impAmount * (1 + vatRate + taxRate);
             }
-        };
+        }
 
         const calculateTotalAmout = () => {
             if (
@@ -1472,7 +1475,8 @@ export default defineComponent({
 
             impMestitemColumns,
             handleItemStockChanged,
-            handleUpdateImMest,
+            handleUpdateInOutStocks,
+            handleKeydown,
             handleRowClickImpMestitem,
             calculateTotalAmout,
 
