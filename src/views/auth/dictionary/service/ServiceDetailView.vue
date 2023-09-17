@@ -686,16 +686,16 @@ export default defineComponent({
         const result = ref<boolean>(false);
         const title = ref<string>("Thêm mới dịch vụ ký thuật");
         let service = reactive<ServiceModel>({
-            id: undefined,
-            code: "",
-            name: "",
-            heInCode: "",
-            heInName: "",
+            id: null,
+            code: null,
+            name: null,
+            heInCode: null,
+            heInName: null,
             inactive: false,
-            unitId: undefined,
-            serviceGroupId: undefined,
-            serviceGroupHeInId: undefined,
-            surgicalProcedureTypeId: undefined,
+            unitId: null,
+            serviceGroupId: null,
+            serviceGroupHeInId: null,
+            surgicalProcedureTypeId: null,
             unitName: "",
             serviceGroupName: "",
             sServicePricePolicies: [],
@@ -711,7 +711,7 @@ export default defineComponent({
         const units = ref<UnitModel[]>([]);
         const visibleResultIndice = ref<boolean>(false);
         let resultIndiceSelected = reactive<ServiceResultIndiceModel>({
-            id: undefined,
+            id: null,
             code: "",
             name: "",
             unit: "",
@@ -1152,18 +1152,18 @@ export default defineComponent({
         };
 
         const reset = () => {
-            service.id = undefined;
-            service.code = "";
-            service.name = "";
-            service.heInCode = "";
-            service.heInName = "";
+            service.id = null;
+            service.code = null;
+            service.name = null;
+            service.heInCode = null;
+            service.heInName = null;
             service.inactive = false;
-            service.unitId = undefined;
-            service.serviceGroupHeInId = undefined;
-            service.serviceGroupId = undefined;
-            service.surgicalProcedureTypeId = undefined;
-            service.unitName = "";
-            service.serviceGroupName = "";
+            service.unitId = null;
+            service.serviceGroupHeInId = null;
+            service.serviceGroupId = null;
+            service.surgicalProcedureTypeId = null;
+            service.unitName = null;
+            service.serviceGroupName = null;
             service.sortOrder = 0;
             service.sServicePricePolicies = [];
             service.sExecutionRooms = [];

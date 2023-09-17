@@ -363,7 +363,7 @@ export default defineComponent({
     setup(props, { emit }) {
         const title = ref<string>("Thêm mới vật tư");
         const item = ref<ItemTypeModel>({
-            id: undefined,
+            id: null,
             commodityType: CommodityType.Material,
             code: null,
             heInCode: null,
@@ -496,7 +496,7 @@ export default defineComponent({
 
         const reset = function () {
             item.value = {
-                id: undefined,
+                id: null,
                 commodityType: CommodityType.Material,
                 code: null,
                 heInCode: null,

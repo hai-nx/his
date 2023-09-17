@@ -564,11 +564,64 @@ export default defineComponent({
 
         const ditemStockSelected = ref<ItemStockModel>({
             id: null,
+            code: null,
+            name: null,
             stockId: null,
             itemId: null,
             quantity: null,
             availableQuantity: null,
+            inactive: false,
             item: null,
+
+            commodityType: 0,
+            // Mã BH
+            heInCode: null,
+            // Đường dùng thuốc
+            itemLineId: null,
+            // Nhóm thuốc
+            itemGroupId: null,
+            // Nhóm thuốc
+            itemTypeId: null,
+            // Đơn vị tính
+            unitId: null,
+            // Hướng dẫn
+            tutorial: null,
+            // Nước sản xuất
+            countryId: null,
+            // Giá nhập
+            impPrice: null,
+            // Số lượng nhập
+            impQuantity: null,
+            // Phần trăm vat giá nhập
+            impVatRate: null,
+            // Phần trăm thuế
+            impTaxRate: null,
+            // Phần trăm thuế
+            impAmount: null,
+            // Hoạt chất
+            activeSubstance: null,
+            // Nồng độ
+            concentration: null,
+            // Hàm lượng
+            content: null,
+            // Hãng sản xuất
+            manufacturer: null,
+            // Quy cách đóng gói
+            packagingSpecifications: null,
+            // Số ĐK
+            registrationNumber: null,
+            // Lô
+            lot: null,
+            // Hạn dùng
+            dueDate: null,
+            // Quyệt định thầu
+            tenderDecision: null,
+            // Gói thầu
+            tenderPackage: null,
+            // Nhóm thầu
+            tenderGroup: null,
+            // Năm thầu
+            tenderYear: null,
         });
 
         const impMestitemColumns = reactive([
@@ -801,11 +854,64 @@ export default defineComponent({
                 } else {
                     ditemStockSelected.value = {
                         id: null,
+                        code: null,
+                        name: null,
                         stockId: null,
                         itemId: null,
                         quantity: null,
                         availableQuantity: null,
+                        inactive: false,
                         item: null,
+
+                        commodityType: 0,
+                        // Mã BH
+                        heInCode: null,
+                        // Đường dùng thuốc
+                        itemLineId: null,
+                        // Nhóm thuốc
+                        itemGroupId: null,
+                        // Nhóm thuốc
+                        itemTypeId: null,
+                        // Đơn vị tính
+                        unitId: null,
+                        // Hướng dẫn
+                        tutorial: null,
+                        // Nước sản xuất
+                        countryId: null,
+                        // Giá nhập
+                        impPrice: null,
+                        // Số lượng nhập
+                        impQuantity: null,
+                        // Phần trăm vat giá nhập
+                        impVatRate: null,
+                        // Phần trăm thuế
+                        impTaxRate: null,
+                        // Phần trăm thuế
+                        impAmount: null,
+                        // Hoạt chất
+                        activeSubstance: null,
+                        // Nồng độ
+                        concentration: null,
+                        // Hàm lượng
+                        content: null,
+                        // Hãng sản xuất
+                        manufacturer: null,
+                        // Quy cách đóng gói
+                        packagingSpecifications: null,
+                        // Số ĐK
+                        registrationNumber: null,
+                        // Lô
+                        lot: null,
+                        // Hạn dùng
+                        dueDate: null,
+                        // Quyệt định thầu
+                        tenderDecision: null,
+                        // Gói thầu
+                        tenderPackage: null,
+                        // Nhóm thầu
+                        tenderGroup: null,
+                        // Năm thầu
+                        tenderYear: null,
                     };
                 }
             }

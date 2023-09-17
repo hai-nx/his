@@ -171,7 +171,7 @@ export default defineComponent({
 
         const title = ref<string>("Thêm mới chi nhánh");
         const item = ref<DepartmentModel>({
-            id: undefined,
+            id: null,
             code: "",
             name: "",
             mohCode: "",
@@ -237,7 +237,7 @@ export default defineComponent({
 
         const reset = () => {
             item.value = {
-                id: undefined,
+                id: null,
                 code: "",
                 mohCode: "",
                 name: "",

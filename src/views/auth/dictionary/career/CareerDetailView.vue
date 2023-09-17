@@ -1,6 +1,11 @@
 <template>
     <form>
-        <a-modal :visible="show" :title="title" @cancel="handleCancel" :mask-closable="false">
+        <a-modal
+            :visible="show"
+            :title="title"
+            @cancel="handleCancel"
+            :mask-closable="false"
+        >
             <div class="row mb-1">
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
@@ -9,9 +14,13 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.code" :disabled="loading" :class="{
-                        'input-danger': errors.code
-                    }" />
+                    <a-input
+                        v-model:value="item.code"
+                        :disabled="loading"
+                        :class="{
+                            'input-danger': errors.code,
+                        }"
+                    />
                 </div>
             </div>
             <div class="row mb-1">
@@ -22,9 +31,13 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.name" :disabled="loading" :class="{
-                        'input-danger': errors.name
-                    }" />
+                    <a-input
+                        v-model:value="item.name"
+                        :disabled="loading"
+                        :class="{
+                            'input-danger': errors.name,
+                        }"
+                    />
                 </div>
             </div>
             <div class="row mb-1">
@@ -34,19 +47,36 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-textarea v-model:value="item.description" :disabled="loading" />
+                    <a-textarea
+                        v-model:value="item.description"
+                        :disabled="loading"
+                    />
                 </div>
             </div>
             <div class="row mb-1">
                 <div class="col-12 col-md-8 offset-md-4">
-                    <a-checkbox v-model:checked="item.inactive" :disabled="loading">Ngừng theo dõi</a-checkbox>
+                    <a-checkbox
+                        v-model:checked="item.inactive"
+                        :disabled="loading"
+                        >Ngừng theo dõi</a-checkbox
+                    >
                 </div>
             </div>
 
-
             <template #footer>
-                <a-button key="submit" type="primary" :loading="loading" @click.prevent="handleSave">Lưu</a-button>
-                <a-button type="primary" :loading="loading" @click.prevent="handleSaveAndAddNew">Lưu và Thêm mới</a-button>
+                <a-button
+                    key="submit"
+                    type="primary"
+                    :loading="loading"
+                    @click.prevent="handleSave"
+                    >Lưu</a-button
+                >
+                <a-button
+                    type="primary"
+                    :loading="loading"
+                    @click.prevent="handleSaveAndAddNew"
+                    >Lưu và Thêm mới</a-button
+                >
                 <a-button @click="handleCancel">Bỏ qua</a-button>
             </template>
         </a-modal>
@@ -54,40 +84,41 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, PropType } from 'vue'
+import { defineComponent, ref, computed, watch, PropType } from "vue";
 import { Modal } from "ant-design-vue";
-import { CareerModel } from '@/models'
-import { careerService } from '@/services'
+import { CareerModel } from "@/models";
+import { careerService } from "@/services";
 
 export default defineComponent({
-    name: 'JobDetailView',
+    name: "JobDetailView",
     props: {
         visible: {
             type: Boolean,
-            required: true
+            required: true,
         },
         data: {
-            type: Object as PropType<CareerModel>
-        }
+            type: Object as PropType<CareerModel>,
+        },
     },
     setup(props, { emit }) {
-        const title = ref<string>('Thêm mới mã bệnh');
+        const title = ref<string>("Thêm mới mã bệnh");
         const item = ref<CareerModel>({
-            id: undefined,
+            id: null,
             code: "",
             name: "",
             description: "",
-            inactive: false
+            inactive: false,
         });
-        const errors = ref({ code: '', name: '' });
+        const errors = ref({ code: "", name: "" });
         const loading = ref<boolean>(false);
 
         let result = false;
 
         const handleSave = function () {
             loading.value = true;
-            careerService.createOrEdit(item.value)
-                .then(res => {
+            careerService
+                .createOrEdit(item.value)
+                .then((res) => {
                     if (res) {
                         result = true;
                         toggle();
@@ -95,28 +126,29 @@ export default defineComponent({
                         Modal.error({ content: res, okText: "Đồng ý" });
                     }
                 })
-                .catch(error => {
+                .catch((error) => {
                     Modal.error({ content: error.message, okText: "Đồng ý" });
                     //errors.value = error.response.data.errors;
                 })
                 .finally(() => {
                     loading.value = false;
                 });
-        }
+        };
 
         const handleSaveAndAddNew = function () {
             loading.value = true;
             result = true;
 
-            careerService.createOrEdit(item.value)
-                .then(res => {
+            careerService
+                .createOrEdit(item.value)
+                .then((res) => {
                     if (res) {
                         result = true;
                     } else {
                         Modal.error({ content: res, okText: "Đồng ý" });
                     }
                 })
-                .catch(error => {
+                .catch((error) => {
                     Modal.error({ content: error.message, okText: "Đồng ý" });
                     //errors.value = error.response.data.errors;
                 })
@@ -125,25 +157,25 @@ export default defineComponent({
                 });
 
             reset();
-        }
+        };
 
         const handleCancel = function () {
             toggle();
-        }
+        };
 
         const reset = function () {
             item.value = {
-                id: undefined,
+                id: null,
                 code: "",
                 name: "",
                 description: "",
-                inactive: false
-            }
-        }
+                inactive: false,
+            };
+        };
 
         const toggle = function () {
             emit("toggle", result);
-        }
+        };
 
         const show = computed(() => props.visible);
 
@@ -156,18 +188,21 @@ export default defineComponent({
 
                 if (props.data !== null && props.data?.id !== undefined) {
                     let data = props.data!;
-                    careerService.getById(data.id!)
-                        .then(res => {
+                    careerService
+                        .getById(data.id!)
+                        .then((res) => {
                             item.value = res.data.result;
                             title.value = "Sửa mã bệnh";
                             loading.value = false;
                         })
-                        .catch(error => {
-                            Modal.error({ content: error.message, okText: 'Đồng ý' });
+                        .catch((error) => {
+                            Modal.error({
+                                content: error.message,
+                                okText: "Đồng ý",
+                            });
                             toggle();
                         });
-                }
-                else {
+                } else {
                     loading.value = false;
                 }
             }
@@ -182,7 +217,7 @@ export default defineComponent({
             handleSave,
             handleSaveAndAddNew,
             handleCancel,
-        }
-    }
-})
+        };
+    },
+});
 </script>

@@ -82,7 +82,7 @@
                     <a-select
                         class="grid-column-columnspan-2-7"
                         showSearch
-                        @change="handleitemStockChanged"
+                        @change="handleItemStockChanged"
                         v-model:value="inOutStockitemSelected.itemId"
                         :field-names="fieldMedistocks"
                         :options="itemStocks"
@@ -399,6 +399,7 @@ import {
     itemStockService,
     inOutStockService,
 } from "@/services";
+import { CommodityType } from "@/enums/commodityType";
 
 export default defineComponent({
     name: "ImportFromAnotherStocksView",
@@ -564,11 +565,64 @@ export default defineComponent({
 
         const itemStockSelected = ref<ItemStockModel>({
             id: null,
+            code: null,
+            name: null,
             stockId: null,
             itemId: null,
             quantity: null,
             availableQuantity: null,
+            inactive: false,
             item: null,
+
+            commodityType: 0,
+            // Mã BH
+            heInCode: null,
+            // Đường dùng thuốc
+            itemLineId: null,
+            // Nhóm thuốc
+            itemGroupId: null,
+            // Nhóm thuốc
+            itemTypeId: null,
+            // Đơn vị tính
+            unitId: null,
+            // Hướng dẫn
+            tutorial: null,
+            // Nước sản xuất
+            countryId: null,
+            // Giá nhập
+            impPrice: null,
+            // Số lượng nhập
+            impQuantity: null,
+            // Phần trăm vat giá nhập
+            impVatRate: null,
+            // Phần trăm thuế
+            impTaxRate: null,
+            // Phần trăm thuế
+            impAmount: null,
+            // Hoạt chất
+            activeSubstance: null,
+            // Nồng độ
+            concentration: null,
+            // Hàm lượng
+            content: null,
+            // Hãng sản xuất
+            manufacturer: null,
+            // Quy cách đóng gói
+            packagingSpecifications: null,
+            // Số ĐK
+            registrationNumber: null,
+            // Lô
+            lot: null,
+            // Hạn dùng
+            dueDate: null,
+            // Quyệt định thầu
+            tenderDecision: null,
+            // Gói thầu
+            tenderPackage: null,
+            // Nhóm thầu
+            tenderGroup: null,
+            // Năm thầu
+            tenderYear: null,
         });
 
         const impMestitemColumns = reactive([
@@ -755,12 +809,7 @@ export default defineComponent({
             if (source.value.expStockId !== null) {
                 itemStocks.value = [];
 
-                let params: any = {
-                    params: {
-                        CommodityTypeFilter: null,
-                        StockIdFilter: source.value.expStockId,
-                    },
-                };
+                let commodityType: CommodityType | undefined;
 
                 if (source.value.impStockId !== null) {
                     let impStock = sStocks.value.find(
@@ -770,25 +819,29 @@ export default defineComponent({
                     if (impStock) {
                         switch (impStock.roomTypeId) {
                             case RoomType.CentralWarehouse:
-                                params.params.CommodityTypeFilter = null;
+                                commodityType = undefined;
                                 break;
                             case RoomType.OutpatientPharmacy:
                             case RoomType.InpatientPharmacy:
                             case RoomType.EmergencyCabinet:
-                                params.params.CommodityTypeFilter = 0;
+                                commodityType = 0;
                                 break;
                             case RoomType.OutpatientInventory:
                             case RoomType.InventoryCabinet:
-                                params.params.CommodityTypeFilter = 1;
+                                commodityType = 1;
                                 break;
                             case RoomType.BloodBack:
-                                params.params.CommodityTypeFilter = 2;
+                                commodityType = 2;
                                 break;
                         }
                     }
                 }
 
-                itemStocks.value = await getItemByStocks(params);
+                itemStocks.value = await getItemByStocks(
+                    source.value.impStockId ?? "",
+                    true,
+                    commodityType
+                );
             }
 
             // Theo dõi thuốc thay đổi
@@ -801,11 +854,64 @@ export default defineComponent({
                 } else {
                     itemStockSelected.value = {
                         id: null,
+                        code: null,
+                        name: null,
                         stockId: null,
                         itemId: null,
                         quantity: null,
                         availableQuantity: null,
+                        inactive: false,
                         item: null,
+
+                        commodityType: 0,
+                        // Mã BH
+                        heInCode: null,
+                        // Đường dùng thuốc
+                        itemLineId: null,
+                        // Nhóm thuốc
+                        itemGroupId: null,
+                        // Nhóm thuốc
+                        itemTypeId: null,
+                        // Đơn vị tính
+                        unitId: null,
+                        // Hướng dẫn
+                        tutorial: null,
+                        // Nước sản xuất
+                        countryId: null,
+                        // Giá nhập
+                        impPrice: null,
+                        // Số lượng nhập
+                        impQuantity: null,
+                        // Phần trăm vat giá nhập
+                        impVatRate: null,
+                        // Phần trăm thuế
+                        impTaxRate: null,
+                        // Phần trăm thuế
+                        impAmount: null,
+                        // Hoạt chất
+                        activeSubstance: null,
+                        // Nồng độ
+                        concentration: null,
+                        // Hàm lượng
+                        content: null,
+                        // Hãng sản xuất
+                        manufacturer: null,
+                        // Quy cách đóng gói
+                        packagingSpecifications: null,
+                        // Số ĐK
+                        registrationNumber: null,
+                        // Lô
+                        lot: null,
+                        // Hạn dùng
+                        dueDate: null,
+                        // Quyệt định thầu
+                        tenderDecision: null,
+                        // Gói thầu
+                        tenderPackage: null,
+                        // Nhóm thầu
+                        tenderGroup: null,
+                        // Năm thầu
+                        tenderYear: null,
                     };
                 }
             }
@@ -942,8 +1048,18 @@ export default defineComponent({
             };
         };
 
-        async function getItemByStocks(params: any): Promise<ItemStockModel[]> {
-            return (await itemStockService.getAll(params)).data.result;
+        async function getItemByStocks(
+            stockId: string,
+            isGroup: boolean,
+            commodityType?: CommodityType
+        ): Promise<ItemStockModel[]> {
+            return (
+                await itemStockService.getItemStockByStocks(
+                    stockId,
+                    isGroup,
+                    commodityType
+                )
+            ).data.result;
         }
 
         async function getStocks(): Promise<RoomModel[]> {
@@ -968,70 +1084,68 @@ export default defineComponent({
             toggle();
         };
 
-        const handleitemStockChanged = (itemId: string) => {
+        /* eslint-disable */
+        const handleItemStockChanged = (itemId: string) => {
+            debugger;
             if (itemId !== null) {
-                let ditemStock = itemStocks.value.find(
+                let itemStock = itemStocks.value.find(
                     (f) => f.itemId === itemId
                 );
-                if (ditemStock !== undefined && ditemStock !== null) {
-                    itemStockSelected.value = { ...ditemStock };
+                if (itemStock !== undefined && itemStock !== null) {
+                    itemStockSelected.value = { ...itemStock };
 
                     if (inOutStockitemSelected.value !== undefined) {
                         inOutStockitemSelected.value.id = null;
                         inOutStockitemSelected.value.itemId =
                             itemStockSelected.value.itemId;
 
-                        if (itemStockSelected.value.item !== null) {
-                            inOutStockitemSelected.value.code =
-                                itemStockSelected.value.item.code;
-                            inOutStockitemSelected.value.heInCode =
-                                itemStockSelected.value.item.heInCode;
-                            inOutStockitemSelected.value.name =
-                                itemStockSelected.value.item.name;
-                            inOutStockitemSelected.value.itemLineId =
-                                itemStockSelected.value.item.itemLineId;
-                            inOutStockitemSelected.value.itemGroupId =
-                                itemStockSelected.value.item.itemGroupId;
-                            inOutStockitemSelected.value.itemTypeId =
-                                itemStockSelected.value.item.itemTypeId;
-                            inOutStockitemSelected.value.unitId =
-                                itemStockSelected.value.item.unitId;
-                            inOutStockitemSelected.value.tutorial =
-                                itemStockSelected.value.item.tutorial;
-                            inOutStockitemSelected.value.countryId =
-                                itemStockSelected.value.item.countryId;
-                            inOutStockitemSelected.value.impPrice =
-                                itemStockSelected.value.item.impPrice;
-                            inOutStockitemSelected.value.activeSubstance =
-                                itemStockSelected.value.item.activeSubstance;
-                            inOutStockitemSelected.value.concentration =
-                                itemStockSelected.value.item.concentration;
-                            inOutStockitemSelected.value.impVatRate =
-                                itemStockSelected.value.item.impVatRate;
-                            inOutStockitemSelected.value.impTaxRate =
-                                itemStockSelected.value.item.impTaxRate;
-                            inOutStockitemSelected.value.activeSubstance =
-                                itemStockSelected.value.item.activeSubstance;
-                            inOutStockitemSelected.value.concentration =
-                                itemStockSelected.value.item.concentration;
-                            inOutStockitemSelected.value.content =
-                                itemStockSelected.value.item.content;
-                            inOutStockitemSelected.value.manufacturer =
-                                itemStockSelected.value.item.manufacturer;
-                            inOutStockitemSelected.value.packagingSpecifications =
-                                itemStockSelected.value.item.packagingSpecifications;
-                            inOutStockitemSelected.value.registrationNumber =
-                                itemStockSelected.value.item.registrationNumber;
-                            inOutStockitemSelected.value.lot =
-                                itemStockSelected.value.item.lot;
-                            inOutStockitemSelected.value.commodityType =
-                                itemStockSelected.value.item.commodityType;
-                            if (itemStockSelected.value.item.dueDate !== null) {
-                                inOutStockitemSelected.value.dueDate =
-                                    itemStockSelected.value.item.dueDate.split(
-                                        "T"
-                                    )[0];
-                            }
+                        inOutStockitemSelected.value.code =
+                            itemStockSelected.value.code;
+                        inOutStockitemSelected.value.heInCode =
+                            itemStockSelected.value.heInCode;
+                        inOutStockitemSelected.value.name =
+                            itemStockSelected.value.name;
+                        inOutStockitemSelected.value.itemLineId =
+                            itemStockSelected.value.itemLineId;
+                        inOutStockitemSelected.value.itemGroupId =
+                            itemStockSelected.value.itemGroupId;
+                        inOutStockitemSelected.value.itemTypeId =
+                            itemStockSelected.value.itemTypeId;
+                        inOutStockitemSelected.value.unitId =
+                            itemStockSelected.value.unitId;
+                        inOutStockitemSelected.value.tutorial =
+                            itemStockSelected.value.tutorial;
+                        inOutStockitemSelected.value.countryId =
+                            itemStockSelected.value.countryId;
+                        inOutStockitemSelected.value.impPrice =
+                            itemStockSelected.value.impPrice;
+                        inOutStockitemSelected.value.activeSubstance =
+                            itemStockSelected.value.activeSubstance;
+                        inOutStockitemSelected.value.concentration =
+                            itemStockSelected.value.concentration;
+                        inOutStockitemSelected.value.impVatRate =
+                            itemStockSelected.value.impVatRate;
+                        inOutStockitemSelected.value.impTaxRate =
+                            itemStockSelected.value.impTaxRate;
+                        inOutStockitemSelected.value.activeSubstance =
+                            itemStockSelected.value.activeSubstance;
+                        inOutStockitemSelected.value.concentration =
+                            itemStockSelected.value.concentration;
+                        inOutStockitemSelected.value.content =
+                            itemStockSelected.value.content;
+                        inOutStockitemSelected.value.manufacturer =
+                            itemStockSelected.value.manufacturer;
+                        inOutStockitemSelected.value.packagingSpecifications =
+                            itemStockSelected.value.packagingSpecifications;
+                        inOutStockitemSelected.value.registrationNumber =
+                            itemStockSelected.value.registrationNumber;
+                        inOutStockitemSelected.value.lot =
+                            itemStockSelected.value.lot;
+                        inOutStockitemSelected.value.commodityType =
+                            itemStockSelected.value.commodityType;
+                        if (itemStockSelected.value.dueDate !== null) {
+                            inOutStockitemSelected.value.dueDate =
+                                itemStockSelected.value.dueDate.split("T")[0];
                         }
                     }
                 }
@@ -1089,7 +1203,7 @@ export default defineComponent({
             }
         };
 
-        const formatNumber = (value: number | string) => {
+        const formatNumber = (value: string) => {
             if (value === null || value === "") {
                 return null;
             }
@@ -1357,7 +1471,7 @@ export default defineComponent({
             inOutStockitemSelected,
 
             impMestitemColumns,
-            handleitemStockChanged,
+            handleItemStockChanged,
             handleUpdateImMest,
             handleRowClickImpMestitem,
             calculateTotalAmout,

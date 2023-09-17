@@ -1,5 +1,5 @@
 export default interface DictionaryBase {
-    id: string | undefined,
+    id: string | null,
     code: string | null,
     name: string | null,
     description?: string,

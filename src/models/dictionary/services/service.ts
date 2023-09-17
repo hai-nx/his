@@ -4,15 +4,15 @@ import ExecutionRoomModel from './executionRoom'
 import ServiceResultIndiceModel from './serviceResultIndice'
 
 export default interface ServiceModel extends DictionaryBase {
-    heInCode: string,
-    heInName: string
-    unitId: string | undefined,
-    serviceGroupHeInId: string | undefined,
-    serviceGroupId: string | undefined,
-    surgicalProcedureTypeId: string | undefined
+    heInCode: string | null,
+    heInName: string | null,
+    unitId: string | null,
+    serviceGroupHeInId: string | null,
+    serviceGroupId: string | null,
+    surgicalProcedureTypeId: string | null,
 
-    unitName: string,
-    serviceGroupName: string,
+    unitName: string | null,
+    serviceGroupName: string | null,
 
     sServicePricePolicies: ServicePricePolicyModel[],
     sExecutionRooms: ExecutionRoomModel[],
