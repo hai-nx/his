@@ -6,7 +6,7 @@ export default interface InOutStockModel {
     code: string | null
 
     // Trạng thái phiếu
-    status: number | null
+    status: number
 
     // Loại phiếu: 0 - Nhập, 1 - xuất
     type: number | null

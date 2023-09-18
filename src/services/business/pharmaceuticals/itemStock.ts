@@ -10,6 +10,9 @@ const dItemStockService = {
         return request.get<ApiResult<ItemStockModel[]>>("api/ItemStock/GetItemByStocks?stockId=" + stockId);
     },
     getItemStockByStocks(stockId: string, isGroup: boolean, commodityType?: CommodityType) {
+        if (!commodityType) {
+            return request.get<ApiResult<ItemStockModel[]>>("api/ItemStock/GetItemStockByStocks?stockId=" + stockId + "&isGroup=" + isGroup);
+        }
         return request.get<ApiResult<ItemStockModel[]>>("api/ItemStock/GetItemStockByStocks?stockId=" + stockId + "&commodityType=" + commodityType + "&isGroup=" + isGroup);
     },
 }

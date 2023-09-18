@@ -83,7 +83,7 @@
                         class="grid-column-columnspan-2-7"
                         showSearch
                         @change="handleItemStockChanged"
-                        v-model:value="inOutStockitemSelected.itemTypeId"
+                        v-model:value="inOutStockitemSelected.itemId"
                         :field-names="fieldMedistocks"
                         :options="itemStocks"
                         :disabled="isDisabled"
@@ -424,7 +424,7 @@ export default defineComponent({
         const fields = ref({ value: "id", label: "name" });
         const userColumns = ref({ value: "id", label: "userName" });
         const fieldMedistocks = ref({
-            value: "itemTypeId",
+            value: "itemId",
             label: "itemName",
         });
 
@@ -801,7 +801,9 @@ export default defineComponent({
             }
         });
 
+        /* eslint-disable */
         watchEffect(async () => {
+            debugger;
             // Theo dõi expStockId thay đổi
             if (source.value.expStockId !== null) {
                 itemStocks.value = [];
@@ -834,9 +836,20 @@ export default defineComponent({
                     }
                 }
 
+                let isGroup = true;
+                if (
+                    source.value.id === null ||
+                    source.value.id === "" ||
+                    source.value.status === 0
+                ) {
+                    isGroup = true;
+                } else {
+                    isGroup = false;
+                }
+
                 itemStocks.value = await getItemByStocks(
                     source.value.expStockId ?? "",
-                    true,
+                    isGroup,
                     commodityType
                 );
             }
@@ -1082,11 +1095,11 @@ export default defineComponent({
         };
 
         /* eslint-disable */
-        const handleItemStockChanged = (itemTypeId: string) => {
+        const handleItemStockChanged = (itemId: string) => {
             debugger;
-            if (itemTypeId !== null) {
+            if (itemId !== null) {
                 let itemStock = itemStocks.value.find(
-                    (f) => f.itemTypeId === itemTypeId
+                    (f) => f.itemId === itemId
                 );
                 if (itemStock !== undefined && itemStock !== null) {
                     itemStockSelected.value = { ...itemStock };
