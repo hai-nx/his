@@ -294,14 +294,19 @@
 
             <template #footer>
                 <a-button
-                    v-if="source.status === 0 && isImport"
+                    v-if="source.status === 0 && isImport && !isDisabled"
                     class="btn-save"
                     :loading="loading"
                     @click.prevent="handleSave"
                     >Lưu tạm</a-button
                 >
                 <a-button
-                    v-if="source.status === 0 && isImport && source.id !== null"
+                    v-if="
+                        source.status === 0 &&
+                        isImport &&
+                        source.id !== null &&
+                        isDisabled
+                    "
                     class="btn-save"
                     :loading="loading"
                     @click.prevent="handleEdit"
@@ -746,44 +751,7 @@ export default defineComponent({
                     if (resultDto.data.isSuccessed) {
                         title.value = "Nhập thuốc từ nhà cung cấp";
                         source.value = resultDto.data.result;
-
-                        if (source.value.reqTime !== null) {
-                            source.value.reqTime =
-                                source.value.reqTime.split("T")[0];
-                        }
-                        if (source.value.invTime !== null) {
-                            source.value.invTime =
-                                source.value.invTime.split("T")[0];
-                        }
-                        if (source.value.approverTime !== null) {
-                            source.value.approverTime =
-                                source.value.approverTime.split("T")[0];
-                        }
-                        if (source.value.stockImpTime !== null) {
-                            source.value.stockImpTime =
-                                source.value.stockImpTime.split("T")[0];
-                        }
-
-                        if (
-                            source.value.inOutStockItems !== null &&
-                            source.value.inOutStockItems &&
-                            source.value.inOutStockItems.length > 0
-                        ) {
-                            source.value.inOutStockItems.forEach(
-                                (inOutStockItem) => {
-                                    if (inOutStockItem.dueDate !== null) {
-                                        inOutStockItem.dueDate =
-                                            inOutStockItem.dueDate.split(
-                                                "T"
-                                            )[0];
-                                    }
-                                }
-                            );
-
-                            inOutStockitemSelected.value = {
-                                ...source.value.inOutStockItems[0],
-                            };
-                        }
+                        afterLoadSource();
                     } else {
                         Modal.error({
                             content: resultDto.data.message,
@@ -837,6 +805,8 @@ export default defineComponent({
                 }
 
                 let isGroup = true;
+                let isAvailableQuantity = false;
+
                 if (
                     source.value.id === null ||
                     source.value.id === "" ||
@@ -846,10 +816,14 @@ export default defineComponent({
                 } else {
                     isGroup = false;
                 }
+                if (source.value.id !== null && source.value.id !== "") {
+                    isAvailableQuantity = true;
+                }
 
                 itemStocks.value = await getItemByStocks(
                     source.value.expStockId ?? "",
                     isGroup,
+                    isAvailableQuantity,
                     commodityType
                 );
             }
@@ -932,6 +906,40 @@ export default defineComponent({
             sUnits.value = await getUnits();
             sUsers.value = await getUsers();
             sCountries.value = await getCountries();
+        }
+
+        function afterLoadSource() {
+            if (source.value.reqTime !== null) {
+                source.value.reqTime = source.value.reqTime.split("T")[0];
+            }
+            if (source.value.invTime !== null) {
+                source.value.invTime = source.value.invTime.split("T")[0];
+            }
+            if (source.value.approverTime !== null) {
+                source.value.approverTime =
+                    source.value.approverTime.split("T")[0];
+            }
+            if (source.value.stockImpTime !== null) {
+                source.value.stockImpTime =
+                    source.value.stockImpTime.split("T")[0];
+            }
+
+            if (
+                source.value.inOutStockItems !== null &&
+                source.value.inOutStockItems &&
+                source.value.inOutStockItems.length > 0
+            ) {
+                source.value.inOutStockItems.forEach((inOutStockItem) => {
+                    if (inOutStockItem.dueDate !== null) {
+                        inOutStockItem.dueDate =
+                            inOutStockItem.dueDate.split("T")[0];
+                    }
+                });
+
+                inOutStockitemSelected.value = {
+                    ...source.value.inOutStockItems[0],
+                };
+            }
         }
 
         const reset = () => {
@@ -1061,12 +1069,14 @@ export default defineComponent({
         async function getItemByStocks(
             stockId: string,
             isGroup: boolean,
+            isAvailableQuantity: boolean,
             commodityType?: CommodityType
         ): Promise<ItemStockModel[]> {
             return (
                 await itemStockService.getItemStockByStocks(
                     stockId,
                     isGroup,
+                    isAvailableQuantity,
                     commodityType
                 )
             ).data.result;
@@ -1248,7 +1258,7 @@ export default defineComponent({
         };
 
         const handleSave = async () => {
-            loading.value = true;
+            // loading.value = true;
             result.value = false;
 
             var resultDto =
@@ -1261,8 +1271,10 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                result.value = true;
-                toggle();
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
             }
 
             loading.value = false;
@@ -1273,7 +1285,7 @@ export default defineComponent({
         };
 
         const handleSendRequest = async () => {
-            result.value = false;
+            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1286,15 +1298,17 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                result.value = true;
-                toggle();
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
             }
 
             loading.value = false;
         };
 
         const handleCanceledRequest = async () => {
-            result.value = false;
+            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1307,15 +1321,17 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                result.value = true;
-                toggle();
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
             }
 
             loading.value = false;
         };
 
         const handleApproved = async () => {
-            result.value = false;
+            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1328,15 +1344,17 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                result.value = true;
-                toggle();
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
             }
 
             loading.value = false;
         };
 
         const handleCancelApproved = async () => {
-            result.value = false;
+            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1349,15 +1367,16 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                result.value = true;
-                toggle();
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
             }
 
             loading.value = false;
         };
 
         const handleStockOut = async () => {
-            result.value = false;
+            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1370,15 +1389,17 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                result.value = true;
-                toggle();
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
             }
 
             loading.value = false;
         };
 
         const handleCancelStockOut = async () => {
-            result.value = false;
+            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1391,15 +1412,17 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                result.value = true;
-                toggle();
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
             }
 
             loading.value = false;
         };
 
         const handleStockIn = async () => {
-            result.value = false;
+            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1412,15 +1435,19 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                result.value = true;
-                toggle();
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
             }
 
             loading.value = false;
         };
 
+        /* eslint-disable */
         const handleCancelStockIn = async () => {
-            result.value = false;
+            debugger;
+            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1433,8 +1460,10 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                result.value = true;
-                toggle();
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
             }
 
             loading.value = false;

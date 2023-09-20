@@ -510,7 +510,9 @@
             </div>
             <template #footer>
                 <a-button
-                    v-if="source.status === 0"
+                    v-if="
+                        source.status === 0 && source.id !== null && !isDisabled
+                    "
                     class="btn-save"
                     :loading="loading"
                     :disabled="isDisabled"
@@ -518,7 +520,7 @@
                     >Lưu tạm</a-button
                 >
                 <a-button
-                    v-if="source.status === 0"
+                    v-if="source.status === 0 && isDisabled"
                     class="btn-save"
                     :loading="loading"
                     @click.prevent="handleEdit"
