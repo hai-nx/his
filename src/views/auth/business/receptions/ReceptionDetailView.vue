@@ -28,6 +28,13 @@
                 </a-button>
             </div>
         </template>
+
+        <div>
+            <div>
+                <label>Mã bệnh nhân</label>
+            </div>
+        </div>
+
     </x-layout>
 </template>
 

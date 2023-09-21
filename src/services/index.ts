@@ -31,7 +31,6 @@ import medicineLineService from './dictionary/medicineLine'
 import medicinePricePolicyService from './dictionary/medicinePricePolicy'
 
 import receptionService from './business/receptions/reception'
-import patientService from './business/patient'
 
 import impMestService from './business/pharmaceuticals/imMest'
 import impExpMestTypeService from './business/pharmaceuticals/impExpMestType'
@@ -73,7 +72,6 @@ export {
     medicinePricePolicyService,
 
     receptionService,
-    patientService,
     impMestService,
     impExpMestTypeService,
     dMedicineStockService,
