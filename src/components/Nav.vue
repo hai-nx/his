@@ -1,16 +1,37 @@
 <template>
     <nav class="x-nav">
-        <div class="x-nav-brand">
-            <a href="#">logo is here</a>
-        </div>
-        <ul class="x-nav-list">
-            <li v-for="(item, index) in dataSource" :key="index">
-                <x-nav-item :itemSource="item" :depth="0"/>
-            </li>
-        </ul>
+        <div class="x-nav-top">
+            <label class="x-nav-top-toggle" for="x-nav-sidebar-check">
+                <i class="bi bi-list"></i>
+            </label>
+            <a href="#" class="x-nav-brand">
+                <img src="../assets//logo.png" alt="logo">
+            </a>
 
-        <div class="x-nav-right">
-            <slot></slot>
+            <ul class="x-nav-list">
+                <li class="x-nav-list-item" v-for="(item, index) in dataSource" :key="index">
+                    <!-- <x-nav-item :data-source="item"></x-nav-item> --> {{ item.label }}
+                </li>
+            </ul>
+        </div>
+
+        <input type="checkbox" hidden id="x-nav-sidebar-check" class="x-nav-sidebar-check">
+
+        <label for="x-nav-sidebar-check" class="x-nav-overlay"></label>
+
+        <div class="x-nav-sidebar">
+            <label for="x-nav-sidebar-check">
+                <i class="bi bi-list"></i>
+            </label>
+            <a href="#" class="x-nav-brand">
+                <img src="../assets//logo.png" alt="logo">
+            </a>
+
+            <ul class="x-nav-sidebar-list">
+                <li class="x-nav-sidebar-list-item" v-for="(item, index) in dataSource" :key="index">
+                    <!-- <x-nav-item :data-source="item"></x-nav-item> --> {{ item.label }}
+                </li>
+            </ul>
         </div>
     </nav>
 </template>
@@ -18,13 +39,9 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { XItemType } from './'
-import XNavItem from './NavItem.vue'
 
 export default defineComponent({
     name: 'XNav',
-    components: {
-        XNavItem
-    },
     props: {
         dataSource: {
             type: Object as PropType<Array<XItemType>>
@@ -42,3 +59,89 @@ export default defineComponent({
     }
 })
 </script>
+
+<style>
+.x-nav {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    width: 100%;
+}
+
+.x-nav-top .x-nav-top-toggle {
+    display: none;
+}
+
+.x-nav-brand img {
+    height: 30px;
+}
+
+
+.x-nav-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+
+    animation: fadein linear 0.2s;
+}
+
+.x-nav-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 320px;
+    max-width: 100%;
+    background-color: #fff;
+
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform linear 0.2s, opacity linear 0.2s;
+}
+
+.x-nav-sidebar-check:checked ~ .x-nav-overlay {
+    display: block;
+}
+
+.x-nav-sidebar-check:checked ~ .x-nav-sidebar {
+    transform: translateX(0%);
+    opacity: 1;
+}
+
+.x-nav-sidebar-list {
+    margin-top: 40px;
+}
+
+.x-nav-sidebar-list-item {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 8px;
+}
+
+@media (max-width: 1023px) {
+    .x-nav-top .x-nav-top-toggle {
+        display: block;
+    }
+
+    .x-nav-list {
+        display: none;
+    }
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+</style>

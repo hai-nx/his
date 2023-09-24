@@ -1,19 +1,13 @@
 <template>
-    <x-menu :items="items"></x-menu>
     <slot></slot>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-
-import XMenu from "@/components/XMenu.vue"
 import { XItemType } from '@/components';
 
 export default defineComponent({
     name: 'DefaultLayout',
-    components: {
-        XMenu
-    },
     setup() {
         const items = ref<Array<XItemType>>([
             {

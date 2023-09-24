@@ -1,5 +1,15 @@
 <template>
-    <div>
+    <div class="app-layout">
+        <x-nav :data-source="items2"></x-nav>
+        <div class="app-layout-content">
+            <slot></slot>
+        </div>
+    </div>
+
+
+
+
+    <!-- <div>
         <x-nav :data-source="items2">
             <a-dropdown>
                 <a-button type="text" class="text-white">
@@ -30,7 +40,7 @@
                 </template>
             </a-dropdown>
         </x-nav>
-    </div>
+    </div> -->
 
 
     <!-- <a-layout class="app-layout">
@@ -296,6 +306,10 @@ export default defineComponent({
 <style scoped>
 .app-layout {
     min-height: 100%;
+}
+
+.app-layout-content {
+    margin-top: 40px;
 }
 
 .x-layout-header {
