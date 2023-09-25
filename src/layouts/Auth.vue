@@ -255,29 +255,29 @@ export default defineComponent({
                 ]
             },
             {
-                key: "3", label: "item 2", path: "", children: [
+                key: "3", label: "item 3", path: "", children: [
                     {
-                        key: "3.1", label: "item 1.2", path: ""
+                        key: "3.1", label: "item 3.1", path: ""
                     },
                     {
-                        key: "3.2", label: "item 1.2", path: ""
+                        key: "3.2", label: "item 3.2", path: ""
                     },
                     {
-                        key: "3.3", label: "item 1.2", path: ""
+                        key: "3.3", label: "item 3.3", path: ""
                     },
                     {
-                        key: "3.4", label: "item 1.2", path: ""
+                        key: "3.4", label: "item 3.4", path: ""
                     },
                 ]
             },
             {
-                key: "4", label: "item 2", path: "", children: []
+                key: "4", label: "item 4", path: "", children: []
             },
             {
-                key: "5", label: "item 2", path: "", children: []
+                key: "5", label: "item 5", path: "", children: []
             },
             {
-                key: "6", label: "item 2", path: "", children: []
+                key: "6", label: "item 6", path: "", children: []
             }
         ]);
 
