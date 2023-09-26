@@ -16,6 +16,7 @@ import departmentView from '@/views/auth/dictionary/department/DepartmentView.vu
 import departmentTypeView from '@/views/auth/dictionary/department-type/DepartmentTypeView.vue'
 import districtView from '@/views/auth/dictionary/district/DistrictView.vue'
 import employeeView from '@/views/auth/dictionary/employee/EmployeeView.vue'
+import supplierView from '@/views/auth/dictionary/supplier/SupplierView.vue'
 import ethnicView from '@/views/auth/dictionary/ethnic/EthnicView.vue'
 import genderView from '@/views/auth/dictionary/gender/GenderView.vue'
 import hospitalView from '@/views/auth/dictionary/hospital/HospitalView.vue'
@@ -51,6 +52,7 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/department-type', name: 'department-type', component: departmentTypeView, meta: { layout: LAYOUT_AUTH } },
     { path: '/district', name: 'district', component: districtView, meta: { layout: LAYOUT_AUTH } },
     { path: '/employee', name: 'employee', component: employeeView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/supplier', name: 'supplier', component: supplierView, meta: { layout: LAYOUT_AUTH } },
     { path: '/ethnic', name: 'ethnic', component: ethnicView, meta: { layout: LAYOUT_AUTH } },
     { path: '/gender', name: 'gender', component: genderView, meta: { layout: LAYOUT_AUTH } },
     { path: '/hospital', name: 'hospital', component: hospitalView, meta: { layout: LAYOUT_AUTH } },

@@ -42,6 +42,22 @@
             </div>
             <div class="row mb-1">
                 <div class="col-12 col-md-4 text-start text-md-end">
+                    <label> Mã số thuế </label>
+                </div>
+                <div class="col-12 col-md-8">
+                    <a-input v-model:value="item.taxCode" :disabled="loading" />
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-12 col-md-4 text-start text-md-end">
+                    <label> Địa chỉ </label>
+                </div>
+                <div class="col-12 col-md-8">
+                    <a-input v-model:value="item.address" :disabled="loading" />
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
                         <span>Mô tả</span>
                     </label>

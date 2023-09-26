@@ -52,7 +52,7 @@
         </a-table>
 
         <teleport to="body">
-            <EmployeeDetailView
+            <SupplierDetailView
                 :visible="visible"
                 :data="record"
                 @toggle="handleToggle"
@@ -64,9 +64,9 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { Modal } from "ant-design-vue";
-import { EmployeeModel } from "@/models";
-import { employeeService } from "@/services";
-import EmployeeDetailView from "./EmployeeDetailView.vue";
+import { SupplierModel } from "@/models";
+import { supplierService } from "@/services";
+import SupplierDetailView from "./SupplierDetailView.vue";
 
 export default defineComponent({
     name: "SupplierView",
@@ -104,14 +104,14 @@ export default defineComponent({
             },
             { title: "Xử lý", key: "action", width: 100 },
         ]);
-        const items = ref<EmployeeModel[]>([]);
-        const record = ref<EmployeeModel>();
+        const items = ref<SupplierModel[]>([]);
+        const record = ref<SupplierModel>();
         const visible = ref<boolean>(false);
 
         // lấy dữ liệu
         const handleLoad = () => {
             items.value = [];
-            employeeService.getAll().then((res) => {
+            supplierService.getAll().then((res) => {
                 items.value = res.data.result;
             });
         };
@@ -122,12 +122,12 @@ export default defineComponent({
         };
 
         // sửa
-        const handleEdit = (item: EmployeeModel) => {
+        const handleEdit = (item: SupplierModel) => {
             show(true, item);
         };
 
         // xóa
-        const handleDelete = (item: EmployeeModel) => {
+        const handleDelete = (item: SupplierModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
                 Modal.confirm({
@@ -138,7 +138,7 @@ export default defineComponent({
                     okText: "Đồng ý",
                     cancelText: "Bỏ qua",
                     onOk() {
-                        employeeService
+                        supplierService
                             .delete(id)
                             .catch((error) => {
                                 Modal.error({
@@ -166,7 +166,7 @@ export default defineComponent({
             }
         };
 
-        const show = (v: boolean, r: EmployeeModel | undefined) => {
+        const show = (v: boolean, r: SupplierModel | undefined) => {
             record.value = r;
             visible.value = v;
         };
@@ -187,7 +187,7 @@ export default defineComponent({
         this.handleLoad();
     },
     components: {
-        EmployeeDetailView,
+        SupplierDetailView,
     },
 });
 </script>
