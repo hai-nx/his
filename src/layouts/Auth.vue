@@ -1,6 +1,35 @@
 <template>
     <div class="app-layout">
-        <x-nav :data-source="items2"></x-nav>
+        <x-nav :data-source="items2">
+            <a-dropdown>
+                <a-button type="text">
+                    <h6 class="text-white">{{ user.username }}</h6>
+                </a-button>
+                <template #overlay>
+                    <a-menu @click="handleMenuClick">
+                        <a-menu-item key="1">
+                            <template #icon>
+                                <desktop-outlined />
+                            </template>
+                            Chọn đơn vị làm việc
+                        </a-menu-item>
+                        <a-menu-item key="2">
+                            <template #icon>
+                                <user-outlined />
+                            </template>
+                            Tài khoản
+                        </a-menu-item>
+                        <a-menu-divider />
+                        <a-menu-item key="3" danger>
+                            <template #icon>
+                                <logout-outlined />
+                            </template>
+                            Đăng xuất
+                        </a-menu-item>
+                    </a-menu>
+                </template>
+            </a-dropdown>
+        </x-nav>
         <div class="app-layout-content">
             <slot></slot>
         </div>

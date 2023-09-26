@@ -1,6 +1,8 @@
 <template>
     <div class="x-nav-item" :class="depth !== 0 ? 'sub' : ''">
-        <span class="x-nav-item-label">{{ dataSource.label }}</span>
+        <div class="x-nav-item-label" @click="handleClick">
+            <span>{{ dataSource.label }}</span>
+        </div>
         
         <ul class="x-nav-item-dropdown" v-if="dataSource.children?.length">
             <li v-for="(item, index) in dataSource.children" :key="index">
@@ -27,9 +29,9 @@ export default defineComponent({
         }
     },
     setup(props, { emit }) {
-        const handleClick = (key: string) => {
+        const handleClick = () => {
             // emit('click', key)
-            console.log(props.dataSource.path + ' ---- ' + props.depth)
+            console.log(props.dataSource.key + ' ---- ' + props.depth)
         }
 
         return {
@@ -84,15 +86,4 @@ export default defineComponent({
     top: 0;
     left: 100%;
 }
-
-/* .x-nav-item:hover {
-    background-color: #333;
-    color: #fff;
-    transition: all linear 0.2s;
-}
-.x-nav-item:hover > .x-nav-item-dropdown {
-    display: block;
-    position: absolute;
-    
-} */
 </style>

@@ -13,6 +13,10 @@
                     <x-nav-item :data-source="item"></x-nav-item>
                 </li>
             </ul>
+
+            <div class="x-nav-right">
+                <slot></slot>
+            </div>
         </nav>
 
         <input type="checkbox" hidden id="x-nav-sidebar-check" class="x-nav-sidebar-check">
@@ -114,6 +118,12 @@ export default defineComponent({
 
 .x-nav-list > li {
     display: inline-block;
+}
+
+.x-nav-right {
+    float: right;
+    height: 40px;
+    line-height: 40px;
 }
 
 /* .x-nav-list-item:hover {
