@@ -69,6 +69,7 @@ export default defineComponent({
     display: none;
     position: absolute;
     padding-left: 0;
+    padding-top: 4px;
     list-style: none;
     top: 100%;
     left: 0;
@@ -85,5 +86,7 @@ export default defineComponent({
 .sub > .x-nav-item-dropdown {
     top: 0;
     left: 100%;
+    padding-left: 4px;
+    padding-top: 0;
 }
 </style>
