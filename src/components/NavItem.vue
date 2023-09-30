@@ -1,12 +1,12 @@
 <template>
     <div class="x-nav-item" :class="depth !== 0 ? 'sub' : ''">
         <div class="x-nav-item-label" @click.stop="handleClick">
-            <span>{{ dataSource.label }}</span>
+            <span href="#">{{ dataSource.label }}</span>
 
             <i v-if="dataSource.children?.length" class="bi bi-chevron-down ms-2"></i>
         </div>
         
-        <ul class="x-nav-item-dropdown" v-if="dataSource.children?.length">
+        <ul class="x-nav-item-dropdown" v-if="allowShowChildren && dataSource.children?.length">
             <li v-for="(item, index) in dataSource.children" :key="index">
                 <x-nav-item :dataSource="item" :depth="depth + 1" @click="handleChildrenClick"/>
             </li>
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent } from 'vue'
+import { PropType, defineComponent, ref } from 'vue'
 import { XItemType } from './'
 
 export default defineComponent({
@@ -31,20 +31,35 @@ export default defineComponent({
         }
     },
     setup(props, { emit }) {
+        const allowShowChildren = ref(true);
+
         const handleClick = () => {
             emit('click', props.dataSource);
             // console.log('handleClick' + props.dataSource.key + ' ---- ' + props.depth)
         }
 
         const handleChildrenClick = (item: XItemType) => {
-            emit('click', item);
-
+            if (props.depth === 0) {
+                try {
+                    allowShowChildren.value = false
+                    emit('click', item)
+                } catch (error) {
+                    console.log(error)
+                }
+                finally {
+                    // delay 1s để có thời gian đóng các item con.
+                    setTimeout(() => allowShowChildren.value = true, 1000)
+                }
+            } else {
+                emit('click', item);
+            }
             // console.log('handleChildenClick: ' + item.key + ' ---- ' + props.depth)
         }
 
         return {
             handleClick,
-            handleChildrenClick
+            handleChildrenClick,
+            allowShowChildren
         }
     }
 })
@@ -84,6 +99,7 @@ export default defineComponent({
 
 .sub .x-nav-item-label > i {
     transform: rotate(-90deg);
+    margin-right: -0.5rem;
 }
 
 .x-nav-item-dropdown {
