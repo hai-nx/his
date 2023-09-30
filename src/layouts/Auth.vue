@@ -1,6 +1,6 @@
 <template>
     <div class="app-layout">
-        <x-nav :data-source="items2">
+        <x-nav :data-source="items2" @click="handleClick">
             <a-dropdown>
                 <a-button type="text">
                     <h6 class="text-white">{{ user.username }}</h6>
@@ -185,10 +185,10 @@ export default defineComponent({
         const user = computed(() => authStore.user);
 
         // xử lý khi chọn item
-        const handleClick = (key: string) => {
-            console.log('router: ' + key);
-            if (key !== '')
-                router.push({ name: key });
+        const handleClick = (item: XItemType) => {
+            let path = item?.path;
+            if (path !== null)
+                router.push({ name: path });
         }
 
         const handleMenuClick: MenuProps['onClick'] = e => {
@@ -204,16 +204,16 @@ export default defineComponent({
 
         const items2 = ref<Array<XItemType>>([
             {
-                key: "1", label: "item 1", path: "", children: [
+                key: "1", label: "Tieeps ddons", path: "", children: [
                     {
-                        key: "1.1", label: "item 1.1", path: "1123123123", children: [
+                        key: "1.1", label: "item 1.1.... sdasd asd asxdxxxz", path: "1123123123", children: [
                             {
                                 key: "1.1.1", label: "item 1.1.1", path: "1231231 231 23 123", children: [
                                     {
-                                        key: "1.1.1.1", label: "item 1.1.1.1", path: ""
+                                        key: "1.1.1.1", label: "item 1.1.1.1", path: "reception"
                                     },
                                     {
-                                        key: "1.1.1.2", label: "item 1.1.1.2", path: ""
+                                        key: "1.1.1.2", label: "item 1.1.1.2", path: "dashboard"
                                     },
                                     {
                                         key: "1.1.1.3", label: "item 1.1.1.3", path: ""

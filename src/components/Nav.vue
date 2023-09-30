@@ -1,18 +1,21 @@
 <template>
     <div class="x-nav">
         <nav class="x-nav-top">
-            <label class="x-nav-top-toggle" for="x-nav-sidebar-check">
-                <i class="bi bi-list"></i>
-            </label>
-            <a href="#" class="x-nav-brand">
-                <img src="../assets//logo.png" alt="logo">
-            </a>
+            <div class="x-nav-top-left">
+                <label class="x-nav-top-toggle" for="x-nav-sidebar-check">
+                    <i class="bi bi-list"></i>
+                </label>
 
-            <ul class="x-nav-list">
-                <li class="x-nav-list-item" v-for="(item, index) in dataSource" :key="index">
-                    <x-nav-item :data-source="item"></x-nav-item>
-                </li>
-            </ul>
+                <a href="#" class="x-nav-brand">
+                    <img src="../assets//logo.png" alt="logo">
+                </a>
+
+                <ul class="x-nav-list">
+                    <li class="x-nav-list-item" v-for="(item, index) in dataSource" :key="index">
+                        <x-nav-item :data-source="item" @click="handleClick"></x-nav-item>
+                    </li>
+                </ul>
+            </div>
 
             <div class="x-nav-right">
                 <slot></slot>
@@ -43,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import { XItemType } from './'
 
 export default defineComponent({
@@ -54,9 +57,8 @@ export default defineComponent({
         }
     },
     setup(props, { emit }) {
-        const handleClick = (key: string) => {
-            // emit('click', key)
-            console.log(key)
+        const handleClick = (item: XItemType) => {
+            emit('click', item)
         }
 
         return {
@@ -68,56 +70,61 @@ export default defineComponent({
 
 <style>
 .x-nav-top {
-    display: block;
+    background-color: var(--x-nav-background-color);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    color: var(--x-nav-color);
+    display: flex;
+    height: var(--x-nav-height);
+    line-height: var(--x-nav-height);
+    justify-content: space-between;
     position: fixed;
     top: 0;
     right: 0;
     left: 0;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     width: 100%;
-
-    height: 40px;
-    line-height: 40px;
+    z-index: 9;
 }
 
 .x-nav-top-toggle {
     display: none;
     cursor: pointer;
     float: left;
-    margin-left: .5rem;
-    margin-right: .5rem;
-    padding-left: 12px;
-    padding-right: 12px;
+    height: var(--x-nav-height);
+    line-height: var(--x-nav-height);
+    padding: 0 12px;
 }
+
 .x-nav-top-toggle:hover {
-    background-color: red;
+    background-color: var(--x-nav-background-color-active);
+}
+
+.x-nav-top-toggle i {
+    font-size: 20px;
 }
 
 .x-nav-brand {
     float: left;
     text-align: center;
-    background-color: red;
-    height: 40px;
-    line-height: 40px;
-    margin: 0px;
+    display: flex;
+    align-items: center;
+    height: var(--x-nav-height);
+    line-height: var(--x-nav-height);
+    margin: 0 12px;
 }
 
 .x-nav-brand img {
-    display: block;
-    max-height: 40px;
-    padding: 0 8px;
+    max-height: 32px;
 }
 
 .x-nav-list {
-    display: block;
     float: left;
-    line-height: 40px;
     list-style: none;
     padding-left: 0;
 }
 
 .x-nav-list > li {
     display: inline-block;
+    vertical-align: top;
 }
 
 .x-nav-right {
@@ -126,12 +133,7 @@ export default defineComponent({
     line-height: 40px;
 }
 
-/* .x-nav-list-item:hover {
-    background-color: #333;
-    color: #fff;
-    transition: all linear 0.2s;
-} */
-
+/* nav sidebar */
 .x-nav-overlay {
     display: none;
     position: fixed;
@@ -142,6 +144,7 @@ export default defineComponent({
     background-color: rgba(0, 0, 0, 0.3);
 
     animation: fadein linear 0.2s;
+    z-index: 9;
 }
 
 .x-nav-sidebar {
@@ -156,6 +159,7 @@ export default defineComponent({
     transform: translateX(-100%);
     opacity: 0;
     transition: transform linear 0.2s, opacity linear 0.2s;
+    z-index: 9;
 }
 
 .x-nav-sidebar-check:checked~.x-nav-overlay {

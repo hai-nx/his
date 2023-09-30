@@ -9,9 +9,6 @@ export function defineAsyncLayoutComponents (app: App<Element>) {
 export function defineAsyncComponents(app: App<Element>) {
     app.component("XDateRangePicker", defineAsyncComponent(() => import('@/components/XDateRangePicker.vue')));
     app.component("XLayout", defineAsyncComponent(() => import('@/components/XLayout.vue')));
-    app.component("XMenu", defineAsyncComponent(() => import('@/components/XMenu.vue')));
-    app.component("XMenuItem", defineAsyncComponent(() => import('@/components/XMenuItem.vue')));
-
     app.component("XNav", defineAsyncComponent(() => import('@/components/Nav.vue')));
     app.component("XNavItem", defineAsyncComponent(() => import('@/components/NavItem.vue')));
 }

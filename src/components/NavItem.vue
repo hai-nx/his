@@ -1,12 +1,14 @@
 <template>
     <div class="x-nav-item" :class="depth !== 0 ? 'sub' : ''">
-        <div class="x-nav-item-label" @click="handleClick">
+        <div class="x-nav-item-label" @click.stop="handleClick">
             <span>{{ dataSource.label }}</span>
+
+            <i v-if="dataSource.children?.length" class="bi bi-chevron-down ms-2"></i>
         </div>
         
         <ul class="x-nav-item-dropdown" v-if="dataSource.children?.length">
             <li v-for="(item, index) in dataSource.children" :key="index">
-                <x-nav-item :dataSource="item" :depth="depth + 1" />
+                <x-nav-item :dataSource="item" :depth="depth + 1" @click="handleChildrenClick"/>
             </li>
         </ul>
     </div>
@@ -30,12 +32,19 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const handleClick = () => {
-            // emit('click', key)
-            console.log(props.dataSource.key + ' ---- ' + props.depth)
+            emit('click', props.dataSource);
+            // console.log('handleClick' + props.dataSource.key + ' ---- ' + props.depth)
+        }
+
+        const handleChildrenClick = (item: XItemType) => {
+            emit('click', item);
+
+            // console.log('handleChildenClick: ' + item.key + ' ---- ' + props.depth)
         }
 
         return {
-            handleClick
+            handleClick,
+            handleChildrenClick
         }
     }
 })
@@ -43,16 +52,18 @@ export default defineComponent({
 
 <style scoped>
 .x-nav-item {
+    background-color: var(--x-nav-background-color);
+    color: var(--x-nav-color);
+    font-size: var(--x-nav-font-size);
+    /* height: var(--x-nav-height); */
     display: block;
     position: relative;
     cursor: pointer;
-    background-color: aqua;
-    color: red;
 }
 
 .x-nav-item:hover {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--x-nav-background-color-active);
+    color: var(--x-nav-color-active);
     transition: all linear 0.2s;
 }
 
@@ -61,26 +72,35 @@ export default defineComponent({
 }
 
 .x-nav-item-label {
-    padding-left: 12px;
-    padding-right: 12px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+.x-nav-item-label > span {
+    font-size: var(--x-nav-font-size);
+    white-space: nowrap;
+}
+
+.sub .x-nav-item-label > i {
+    transform: rotate(-90deg);
 }
 
 .x-nav-item-dropdown {
     display: none;
+    min-width: 200px;
     position: absolute;
     padding-left: 0;
     padding-top: 4px;
     list-style: none;
     top: 100%;
     left: 0;
-
-    background-color: blue;
 }
 
 .x-nav-item-dropdown > li {
-    min-width: 200px;
     height: 36px;
     line-height: 36px;
+    width: 100%;
 }
 
 .sub > .x-nav-item-dropdown {
