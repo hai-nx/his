@@ -3,7 +3,7 @@ import request from '@/utils/request'
 
 const surgicalProcedureTypeService = {
     getAll() {
-        return request.get<ApiResult<SurgicalProcedureTypeModel[]>>('api/SSurgicalProcedureType/GetAll');
+        return request.get<ApiResult<SurgicalProcedureTypeModel[]>>('api/SurgicalProcedureType/GetAll');
     },
 }
 

@@ -61,14 +61,16 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                     // { key: 'ethnic', title: 'Dân tộc', router: 'ethnic' },
                     // { key: 'gender', title: 'Giới tính', router: 'gender' },
                     { key: 'employee', title: 'Nhân viên', router: 'employee' },
+                    { key: 'supplier', title: 'Nhà cung cấp', router: 'supplier' },
                     // { key: 'country', title: 'Quốc gia', router: 'country' },
                     // { key: 'province', title: 'Tỉnh, thành phố', router: 'province' },
                     // { key: 'district', title: 'Quận, huyện', router: 'district' },
                     // { key: 'ward', title: 'Xã, phường', router: 'ward' },
                     { key: 'service', title: 'Dịch vụ', router: 'service' },
 
-                    { key: 'medicine-group', title: 'Nhóm thuốc', router: 'medicine-group' },
+                    { key: 'item-group', title: 'Nhóm thuốc', router: 'item-group' },
                     { key: 'medicine-type', title: 'Thuốc', router: 'medicine-type' },
+                    { key: 'material-type', title: 'Vật tư', router: 'material-type' },
 
                     { key: 'other', title: 'Khác', router: 'dictionary' },
                 ]

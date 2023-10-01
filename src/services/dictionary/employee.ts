@@ -3,16 +3,16 @@ import request from '@/utils/request'
 
 const employeeService = {
     getAll() {
-        return request.get<ApiResult<EmployeeModel[]>>('api/SEmployee/GetAll')
+        return request.get<ApiResult<EmployeeModel[]>>('api/Employee/GetAll')
     },
     getById(id: string) {
-        return request.get<ApiResult<EmployeeModel>>('api/SEmployee/GetById?id=' + id);
+        return request.get<ApiResult<EmployeeModel>>('api/Employee/GetById?id=' + id);
     },
     createOrEdit(input: EmployeeModel) {
-        return request.post<ApiResult<EmployeeModel>>('api/SEmployee/CreateOrEdit', input);
+        return request.post<ApiResult<EmployeeModel>>('api/Employee/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post('api/SEmployee/Delete', id);
+        return request.delete('api/Employee/Delete?id=' + id);
     }
 }
 

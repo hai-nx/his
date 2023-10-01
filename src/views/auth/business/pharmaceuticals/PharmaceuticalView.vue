@@ -1,13 +1,24 @@
 <template>
     <div>
         <div class="header">
-            <div class="function grid-col-1">
+            <a-select
+                class="grid-column-1"
+                :field-names="fields"
+                :options="stocks"
+                showSearch
+                optionFilterProp="label"
+                style="width: 180px"
+                placeholder="Chọn kho"
+                v-model:value="stockId"
+            />
+
+            <div class="function grid-col-3">
                 <a-dropdown>
                     <template #overlay>
                         <a-menu>
                             <a-menu-item
                                 @click="handlGegenerateDocumentClick(menuItem)"
-                                v-for="menuItem in dImpExpMestTypes"
+                                v-for="menuItem in inOutStockTypes"
                                 :key="menuItem.id"
                                 :data-item="menuItem"
                             >
@@ -23,16 +34,6 @@
                     </a-button>
                 </a-dropdown>
             </div>
-
-            <a-select
-                class="grid-column-3"
-                :field-names="fields"
-                :options="sStocks"
-                showSearch
-                style="width: 180px"
-                placeholder="Chọn kho"
-                v-model:value="sStockId"
-            />
 
             <div class="search grid-col-6">
                 <label>Từ ngày:</label>
@@ -58,65 +59,57 @@
         <a-table
             class="ant-table-striped"
             size="middle"
-            :columns="columns"
+            :columns="columnImps"
             :data-source="itemSources"
             bordered
         >
             <template #bodyCell="{ column, record }">
-                <template v-if="column.key === 'impMestStatus'">
+                <template v-if="column.key === 'status'">
                     <span>
-                        <a-tag
-                            v-if="record.impMestStatus === 0"
-                            color="success"
-                        >
+                        <a-tag v-if="record.status === -1" color="error">
+                            <span>Đã hủy</span>
+                        </a-tag>
+                        <a-tag v-else-if="record.status === 0" color="success">
                             <span>Mới tạo</span>
                         </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 1"
-                            color="success"
-                        >
+                        <a-tag v-else-if="record.status === 1" color="success">
                             <span>Đã gửi yêu cầu</span>
                         </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 2"
-                            color="success"
-                        >
+                        <a-tag v-else-if="record.status === 2" color="success">
                             <span>Đã duyệt</span>
                         </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 3"
-                            color="success"
-                        >
-                            <span>Đã nhập kho</span>
+                        <a-tag v-else-if="record.status === 3" color="success">
+                            <span>Đã xuất kho</span>
                         </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 4"
-                            color="success"
-                        >
+                        <a-tag v-else-if="record.status === 4" color="success">
                             <span>Đã nhập kho</span>
-                        </a-tag>
-                        <a-tag
-                            v-else-if="record.impMestStatus === 5"
-                            color="error"
-                        >
-                            <span>Đã hủy</span>
                         </a-tag>
                     </span>
                 </template>
-                <template v-if="column.key === 'impTime'">
+                <template v-if="column.key === 'commodityType'">
+                    <span v-if="record.commodityType === 0">Thuốc</span>
+                    <span v-else-if="record.commodityType === 1">Vật tư</span>
+                    <span v-else-if="record.commodityType === 3">Máu</span>
+                </template>
+                <template v-if="column.key === 'reqTime'">
                     <span>{{
-                        record.impTime === null
-                            ? record.impTime
-                            : new Date(record.impTime).toLocaleDateString()
+                        record.reqTime === null
+                            ? null
+                            : new Date(record.reqTime).toLocaleDateString()
                     }}</span>
                 </template>
-                <template v-if="column.key === 'stockReceiptTime'">
+                <template v-if="column.key === 'invTime'">
                     <span>{{
-                        record.stockReceiptTime === null
-                            ? record.stockReceiptTime
-                            : new Date(
-                                  record.stockReceiptTime
-                              ).toLocaleDateString()
+                        record.invTime === null
+                            ? null
+                            : new Date(record.invTime).toLocaleDateString()
+                    }}</span>
+                </template>
+                <template v-if="column.key === 'stockImpTime'">
+                    <span>{{
+                        record.stockImpTime === null
+                            ? null
+                            : new Date(record.stockImpTime).toLocaleDateString()
                     }}</span>
                 </template>
 
@@ -135,95 +128,151 @@
         </a-table>
 
         <teleport to="body">
-            <PharmaceuticalImportFromSupplierView
-                :visible="visible"
-                :impExMestTypeId="impExMestTypeId"
+            <ImportFromSupplierView
+                :visible="visibleImportFromSupplier"
                 :data="source"
-                @toggle="handleToggle"
+                :roomType="roomType"
+                @toggle="handleToggleImportFromSupplier"
+            />
+            <ImportFromAnotherStockView
+                :visible="visibleImportFromAnotherStock"
+                :isImport="isImport"
+                :data="source"
+                @toggle="handleToggleImportFromAnotherStock"
             />
         </teleport>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { Modal } from "ant-design-vue";
+import { defineComponent, ref, reactive, computed, watch } from "vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
-import { RoomModel, DImpMestModel, DImpExpMestTypeModel } from "@/models";
-import { roomService, impMestService, impExpMestTypeService } from "@/services";
+import { RoomModel, InOutStockModel, InOutStockTypeModel } from "@/models";
+import {
+    roomService,
+    inOutStockService,
+    inOutStockTypeService,
+} from "@/services";
 import dayjs, { Dayjs } from "dayjs";
-import PharmaceuticalImportFromSupplierView from "./PharmaceuticalImportFromSupplierView.vue";
+import ImportFromSupplierView from "./ImportFromSupplierView.vue";
+import ImportFromAnotherStockView from "./ImportFromAnotherStocksView.vue";
 
 export default defineComponent({
     name: "PharmaceuticalView",
     setup() {
-        const columns = ref([
-            {
-                title: "Trạng thái phiếu",
-                key: "impMestStatus",
-                dataIndex: "impMestStatus",
-                width: 100,
-                className: "column-header-center",
-            },
-            {
-                title: "Mã phiếu",
-                key: "code",
-                dataIndex: "code",
-                width: 200,
-                className: "column-header-center",
-            },
-            {
-                title: "Loại phiếu",
-                key: "impExpMestTypeName",
-                dataIndex: "impExpMestTypeName",
-                width: 250,
-                className: "column-header-center",
-            },
-            {
-                title: "Ngày tạo",
-                key: "impTime",
-                dataIndex: "impTime",
-                width: 70,
-                className: "column-header-center",
-            },
-            {
-                title: "Ngày nhập kho",
-                key: "stockReceiptTime",
-                dataIndex: "stockReceiptTime",
-                width: 70,
-                className: "column-header-center",
-            },
-
-            { title: "Xử lý", key: "action", width: 100, align: "center" },
-        ]);
-
-        const visible = ref<boolean>(false);
-        const source = ref<DImpMestModel>();
+        // const type = ref<string>("0");
+        const visibleImportFromSupplier = ref<boolean>(false);
+        const visibleImportFromAnotherStock = ref<boolean>(false);
+        const source = ref<InOutStockModel>();
         const fields = ref({ value: "id", label: "name" });
-        const sStocks = ref<RoomModel[]>([]);
-        const itemSources = ref<DImpMestModel[]>([]);
-        const dImpExpMestTypes = ref<DImpExpMestTypeModel[]>([]);
-        const sStockId = ref<string>("");
+        const stocks = ref<RoomModel[]>([]);
+        const itemSources = ref<InOutStockModel[]>([]);
+        const stockId = ref<string>("");
         const fromDate = ref<Dayjs>(
             dayjs().set("hour", 0).set("minute", 0).set("second", 0)
         );
         const toDate = ref<Dayjs>(
             dayjs().set("hour", 23).set("minute", 59).set("second", 59)
         );
-        const impExMestTypeId = ref<number>(0);
+
+        const inOutStockTypes = ref<InOutStockTypeModel[]>([]);
+
+        const inOutStockTypeId = ref<number>(0);
+        const visibleExportFromAnotherStock = ref<boolean>(false);
+
+        const roomType = ref<number>(0);
+
+        const columnImps = ref([
+            {
+                title: "Trạng thái phiếu",
+                key: "status",
+                dataIndex: "status",
+                width: 50,
+                className: "column-header-center",
+            },
+            {
+                title: "Mã phiếu",
+                key: "code",
+                dataIndex: "code",
+                width: 50,
+                className: "column-header-center",
+            },
+            {
+                title: "Loại hàng hóa",
+                key: "commodityType",
+                dataIndex: "commodityType",
+                width: 50,
+                className: "column-header-center",
+            },
+            {
+                title: "Loại phiếu nhập xuất",
+                key: "inOutStockTypeName",
+                dataIndex: "inOutStockTypeName",
+                width: 250,
+                className: "column-header-center",
+            },
+            {
+                title: "Kho nhập",
+                key: "impStockName",
+                dataIndex: "impStockName",
+                width: 100,
+                className: "column-header-center",
+            },
+            {
+                title: "Kho xuất",
+                key: "expStockName",
+                dataIndex: "expStockName",
+                width: 100,
+                className: "column-header-center",
+            },
+            {
+                title: "Ngày tạo",
+                key: "reqTime",
+                dataIndex: "reqTime",
+                width: 50,
+                className: "column-header-center",
+                align: "center",
+            },
+            {
+                title: "Ngày hóa đơn",
+                key: "invTime",
+                dataIndex: "invTime",
+                width: 50,
+                className: "column-header-center",
+                align: "center",
+            },
+            {
+                title: "Ngày nhập kho",
+                key: "stockImpTime",
+                dataIndex: "stockImpTime",
+                width: 50,
+                className: "column-header-center",
+                align: "center",
+            },
+
+            { title: "Xử lý", key: "action", width: 70, align: "center" },
+        ]);
 
         //#region Function
         async function inItData() {
-            sStocks.value = await getStocks();
-            dImpExpMestTypes.value = await getImpExpMestTypes();
+            stocks.value = await getStocks();
+            inOutStockTypes.value = await getInOutStockTypes();
+
+            if (
+                stocks.value !== null &&
+                stocks.value.length > 0 &&
+                stocks.value[0].id
+            ) {
+                stockId.value = stocks.value[0].id;
+            }
         }
 
         async function getStocks(): Promise<RoomModel[]> {
             return (await roomService.getByStocks()).data.result;
         }
 
-        async function getImpExpMestTypes(): Promise<DImpExpMestTypeModel[]> {
-            return (await impExpMestTypeService.getAll()).data.result;
+        async function getInOutStockTypes(): Promise<InOutStockTypeModel[]> {
+            return (await inOutStockTypeService.getAll()).data.result;
         }
 
         // lấy dữ liệu
@@ -232,8 +281,8 @@ export default defineComponent({
             let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
 
             itemSources.value = (
-                await impMestService.getByStock(
-                    sStockId.value,
+                await inOutStockService.getByStock(
+                    stockId.value,
                     fromDateString,
                     toDateString
                 )
@@ -241,13 +290,33 @@ export default defineComponent({
         };
 
         // sửa
-        const handleEdit = (item: DImpMestModel) => {
+        const handleEdit = (item: InOutStockModel) => {
             show(true, item);
         };
 
-        // ẩn / hiện chi tiết
-        const handleToggle = (result: boolean) => {
-            visible.value = !visible.value;
+        // ẩn, hiện nhập thuốc từ nhà cung cấp
+        const handleToggleImportFromSupplier = (result: boolean) => {
+            visibleImportFromSupplier.value = !visibleImportFromSupplier.value;
+
+            if (result) {
+                handleLoad();
+            }
+        };
+
+        // Ẩn, hiện nhập thuốc từ kho khác
+        const handleToggleImportFromAnotherStock = (result: boolean) => {
+            visibleImportFromAnotherStock.value =
+                !visibleImportFromAnotherStock.value;
+
+            if (result) {
+                handleLoad();
+            }
+        };
+
+        // Ẩn, hiện xuất kho thuốc của phiếu nhập từ kho khác
+        const handleToggleExportFromSupplier = (result: boolean) => {
+            visibleExportFromAnotherStock.value =
+                !visibleExportFromAnotherStock.value;
 
             if (result) {
                 handleLoad();
@@ -261,49 +330,76 @@ export default defineComponent({
         };
         //#endregion
 
-        const handlGegenerateDocumentClick = (type: DImpExpMestTypeModel) => {
-            impExMestTypeId.value = type.id;
-            visible.value = true;
+        const handlGegenerateDocumentClick = (type: InOutStockTypeModel) => {
+            inOutStockTypeId.value = type.id;
             show(true, undefined);
         };
 
-        const show = (v: boolean, s: DImpMestModel | undefined) => {
+        const show = (v: boolean, s: InOutStockModel | undefined) => {
             if (
-                (s !== undefined && s.impExpMestTypeId === 1) ||
-                impExMestTypeId.value === 1
+                (s !== undefined && s.inOutStockTypeId === 1) ||
+                inOutStockTypeId.value === 1
             ) {
-                visible.value = v;
+                visibleImportFromSupplier.value = v;
+            } else if (
+                (s !== undefined && s.inOutStockTypeId === 3) ||
+                inOutStockTypeId.value === 3
+            ) {
+                visibleImportFromAnotherStock.value = v;
             }
 
             source.value = s;
         };
 
+        const isImport = computed(() => {
+            return source.value?.impStockId === stockId.value;
+        });
+
+        watch(stockId, (newValue, oldValue) => {
+            if (newValue !== oldValue && newValue !== "") {
+                let stock = stocks.value.find((f) => f.id == newValue);
+                if (stock) {
+                    roomType.value = stock.roomTypeId;
+                }
+            }
+        });
+
         return {
+            // type,
             fromDate,
             toDate,
-            columns,
-            visible,
+            columnImps,
+            visibleImportFromSupplier,
+            visibleImportFromAnotherStock,
             fields,
-            sStocks,
-            dImpExpMestTypes,
+            stocks,
+            inOutStockTypes,
             itemSources,
             source,
-            sStockId,
-            impExMestTypeId,
+            stockId,
+            inOutStockTypeId,
+            isImport,
+            roomType,
             handleLoad,
             handleEdit,
             inItData,
-            handleToggle,
+            handleToggleImportFromSupplier,
             handleStocksChanged,
             handlGegenerateDocumentClick,
+            handleToggleImportFromAnotherStock,
+
+            visibleExportFromAnotherStock,
+            handleToggleExportFromSupplier,
         };
     },
-    mounted() {
-        this.inItData();
+    async mounted() {
+        await this.inItData();
+        await this.handleLoad();
     },
     components: {
         PlusOutlined,
-        PharmaceuticalImportFromSupplierView,
+        ImportFromSupplierView,
+        ImportFromAnotherStockView,
     },
 });
 </script>

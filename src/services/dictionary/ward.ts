@@ -3,16 +3,16 @@ import request from '@/utils/request'
 
 const wardService = {
     getAll() {
-        return request.get<ApiResult<WardModel[]>>('api/SWard/GetAll');
+        return request.get<ApiResult<WardModel[]>>('api/Ward/GetAll');
     },
     getById(id: string) {
-        return request.get<ApiResult<WardModel>>('api/SWard/GetById?id=' + id);
+        return request.get<ApiResult<WardModel>>('api/Ward/GetById?id=' + id);
     },
     createOrEdit(input: WardModel) {
-        return request.post<ApiResult<WardModel>>('api/SWard/CreateOrEdit', input);
+        return request.post<ApiResult<WardModel>>('api/Ward/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post<ApiResult<WardModel>>('api/SWard/Delete?id=' + id);
+        return request.post<ApiResult<WardModel>>('api/Ward/Delete?id=' + id);
     }
 }
 

@@ -3,16 +3,16 @@ import request from '@/utils/request'
 
 const departmentService = {
     getAll() {
-        return request.get<ApiResult<DepartmentModel[]>>('api/SDepartment/GetAll')
+        return request.get<ApiResult<DepartmentModel[]>>('api/Department/GetAll')
     },
     getById(id: string) {
-        return request.get<ApiResult<DepartmentModel>>('api/SDepartment/GetById?id=' + id);
+        return request.get<ApiResult<DepartmentModel>>('api/Department/GetById?id=' + id);
     },
     createOrEdit(input: DepartmentModel) {
-        return request.post<ApiResult<DepartmentModel>>('api/SDepartment/CreateOrEdit', input);
+        return request.post<ApiResult<DepartmentModel>>('api/Department/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.delete('api/SDepartment/Delete?id=' + id);
+        return request.delete('api/Department/Delete?id=' + id);
     }
 }
 

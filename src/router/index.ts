@@ -16,6 +16,7 @@ import departmentView from '@/views/auth/dictionary/department/DepartmentView.vu
 import departmentTypeView from '@/views/auth/dictionary/department-type/DepartmentTypeView.vue'
 import districtView from '@/views/auth/dictionary/district/DistrictView.vue'
 import employeeView from '@/views/auth/dictionary/employee/EmployeeView.vue'
+import supplierView from '@/views/auth/dictionary/supplier/SupplierView.vue'
 import ethnicView from '@/views/auth/dictionary/ethnic/EthnicView.vue'
 import genderView from '@/views/auth/dictionary/gender/GenderView.vue'
 import hospitalView from '@/views/auth/dictionary/hospital/HospitalView.vue'
@@ -27,8 +28,9 @@ import wardView from '@/views/auth/dictionary/ward/WardView.vue'
 import dictionaryView from '@/views/auth/dictionary/DictionaryView.vue'
 import serviceView from '@/views/auth/dictionary/service/ServiceView.vue'
 import chapterView from '@/views/auth/dictionary/chapter/ChapterView.vue'
-import medicineGroupView from '@/views/auth/dictionary/medicineGroup/MedicineGroupView.vue'
-import medicineTypeView from '@/views/auth/dictionary/medicineType/MedicineTypeView.vue'
+import itemGroupView from '@/views/auth/dictionary/itemGroup/ItemGroupView.vue'
+import medicienTypeView from '@/views/auth/dictionary/itemType/medicineType/MedicienTypeView.vue'
+import materialTypeView from '@/views/auth/dictionary/itemType/materialType/MaterialTypeView.vue'
 
 import errorView from '@/views/public/error.vue'
 
@@ -50,6 +52,7 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/department-type', name: 'department-type', component: departmentTypeView, meta: { layout: LAYOUT_AUTH } },
     { path: '/district', name: 'district', component: districtView, meta: { layout: LAYOUT_AUTH } },
     { path: '/employee', name: 'employee', component: employeeView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/supplier', name: 'supplier', component: supplierView, meta: { layout: LAYOUT_AUTH } },
     { path: '/ethnic', name: 'ethnic', component: ethnicView, meta: { layout: LAYOUT_AUTH } },
     { path: '/gender', name: 'gender', component: genderView, meta: { layout: LAYOUT_AUTH } },
     { path: '/hospital', name: 'hospital', component: hospitalView, meta: { layout: LAYOUT_AUTH } },
@@ -62,8 +65,9 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/service', name: 'service', component: serviceView, meta: { layout: LAYOUT_AUTH } },
     { path: '/chapter', name: 'chapter', component: chapterView, meta: { layout: LAYOUT_AUTH } },
 
-    { path: '/medicine-group', name: 'medicine-group', component: medicineGroupView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/medicine-type', name: 'medicine-type', component: medicineTypeView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/item-group', name: 'item-group', component: itemGroupView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/medicine-type', name: 'medicine-type', component: medicienTypeView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/material-type', name: 'material-type', component: materialTypeView, meta: { layout: LAYOUT_AUTH } },
 
     // bệnh nhân
     { path: '/reception', name: 'reception', component: () => import('@/views/auth/business/receptions/ReceptionView.vue'), meta: { layout: LAYOUT_AUTH } },

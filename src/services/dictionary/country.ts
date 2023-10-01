@@ -3,16 +3,16 @@ import request from '@/utils/request'
 
 const countryService = {
     getAll() {
-        return request.get<ApiResult<CountryModel[]>>('api/SCountry/GetAll');
+        return request.get<ApiResult<CountryModel[]>>('api/Country/GetAll');
     },
     getById(id: string) {
-        return request.get<ApiResult<CountryModel>>('api/SCountry/GetById?id=' + id);
+        return request.get<ApiResult<CountryModel>>('api/Country/GetById?id=' + id);
     },
     createOrEdit(input: CountryModel) {
-        return request.post<ApiResult<CountryModel>>('api/SCountry/CreateOrEdit', input);
+        return request.post<ApiResult<CountryModel>>('api/Country/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post<ApiResult<CountryModel>>('api/SCountry/Delete?id=' + id);
+        return request.delete<ApiResult<CountryModel>>('api/Country/Delete?id=' + id);
     }
 }
 

@@ -81,7 +81,7 @@ export default defineComponent({
     setup(props, { emit }) {
         const title = ref<string>("Thêm mới chương ICD10");
         const item = ref<ChapterIcdModel>({
-            id: undefined,
+            id: null,
             code: "",
             name: "",
             sortOrder: undefined,
@@ -130,7 +130,7 @@ export default defineComponent({
 
         const reset = function () {
             item.value = {
-                id: undefined,
+                id: null,
                 code: "",
                 name: "",
                 sortOrder: undefined,

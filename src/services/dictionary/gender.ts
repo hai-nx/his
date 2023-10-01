@@ -3,16 +3,16 @@ import request from '@/utils/request'
 
 const ethnicService = {
     getAll() {
-        return request.get<ApiResult<GenderModel[]>>('api/SGender/GetAll');
+        return request.get<ApiResult<GenderModel[]>>('api/Gender/GetAll');
     },
     getById(id: string) {
-        return request.get<ApiResult<GenderModel>>('api/SGender/GetById?id=' + id);
+        return request.get<ApiResult<GenderModel>>('api/Gender/GetById?id=' + id);
     },
     createOrEdit(input: GenderModel) {
-        return request.post<ApiResult<GenderModel>>('api/SGender/CreateOrEdit', input);
+        return request.post<ApiResult<GenderModel>>('api/Gender/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post<ApiResult<GenderModel>>('api/SGender/Delete?id=' + id);
+        return request.delete<ApiResult<GenderModel>>('api/Gender/Delete?id=' + id);
     }
 }
 
