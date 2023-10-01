@@ -3,7 +3,7 @@
         <div class="x-nav-item-label" @click.stop="handleClick">
             <span href="#">{{ dataSource.label }}</span>
 
-            <i v-if="dataSource.children?.length" class="bi bi-chevron-down ms-2"></i>
+            <i v-if="dataSource.children?.length" class="bi bi-chevron-down ms-1"></i>
         </div>
         
         <ul class="x-nav-item-dropdown" v-if="allowShowChildren && dataSource.children?.length">
@@ -95,6 +95,10 @@ export default defineComponent({
 .x-nav-item-label > span {
     font-size: var(--x-nav-font-size);
     white-space: nowrap;
+}
+
+.x-nav-item-label > i {
+    font-size: 10px;
 }
 
 .sub .x-nav-item-label > i {

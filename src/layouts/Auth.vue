@@ -1,9 +1,9 @@
 <template>
     <div class="app-layout">
-        <x-nav :data-source="items2" @click="handleClick">
+        <x-nav :data-source="items" @click="handleClick">
             <a-dropdown>
                 <a-button type="text" class="h100">
-                    <h6 class="text-white">{{ user.username }}</h6>
+                    <span class="text-white">{{ user.username }}</span>
                 </a-button>
                 <template #overlay>
                     <a-menu @click="handleMenuClick">
@@ -39,9 +39,9 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useLayout } from '../stores/layout'
 import { storeToRefs } from 'pinia'
 import { useAuth } from '@/stores/auth'
-import { useLayoutMenu } from '@/stores/layout-menu'
 import type { MenuProps } from 'ant-design-vue';
 import { LogoutOutlined, UserOutlined, DesktopOutlined } from '@ant-design/icons-vue';
 import { XItemType } from '@/components';
@@ -56,9 +56,9 @@ export default defineComponent({
     setup() {
         const router = useRouter();
         const authStore = useAuth();
-        const layoutSiderStore = useLayoutMenu();
-        const { collapsed, selectedKeys, openKeys, items } = storeToRefs(layoutSiderStore);
-        const { toggleCollapsed } = layoutSiderStore;
+        const layout = useLayout();
+
+        const { items } = storeToRefs(layout);
         const user = computed(() => authStore.user);
 
         // xử lý khi chọn item
@@ -189,11 +189,7 @@ export default defineComponent({
 
         return {
             user,
-            collapsed,
-            selectedKeys,
-            openKeys,
             items,
-            toggleCollapsed,
             handleClick,
             handleMenuClick,
             items2

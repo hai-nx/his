@@ -1,5 +1,5 @@
 <template>
-    <x-layout :title="title">
+    <x-layout :title="title" :routes="breadcrumbs">
         <template #action>
             <a-button type="primary" @click="showReceptionDetail">Đón tiếp</a-button>
             <a-dropdown-button class="ms-2">
@@ -39,14 +39,18 @@
 </template>
 
 <script lang="ts">
-import { ReceptionModel, ReceptionRequestModel } from '@/models';
-import router from '@/router'
+import { ReceptionModel, ReceptionRequestModel } from '@/models'
 import { defineComponent, ref } from 'vue'
-import { receptionService } from '@/services';
+import { receptionService } from '@/services'
+import { XItemType } from '@/components';
 
 export default defineComponent({
     name: 'ReceptionView',
     setup() {
+        const breadcrumbs = ref<Array<XItemType>>([
+            { key: '1', label: 'Đón tiếp', icon: '', path: '' },
+            { key: '2', label: 'Danh sách bệnh nhân', icon: '', path: '' }
+        ]);
         const title = ref<string>('Danh sách bệnh nhân đăng ký khám');
         const columns = ref([
             { title: 'Ngày đón tiếp', key: 'code', dataIndex: 'code', width: 150 },
@@ -82,6 +86,7 @@ export default defineComponent({
 
         return {
             title,
+            breadcrumbs,
             columns,
             items,
             showReceptionDetail,
