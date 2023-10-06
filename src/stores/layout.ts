@@ -15,7 +15,7 @@ export const useLayout = defineStore('layout', {
             {
                 key: '2', label: 'Đón tiếp', icon: '',
                 children: [
-                    { key: '2.1', label: 'Đăng ký khám bệnh', icon: '', path: 'reception-detail' },
+                    { key: '2.1', label: 'Đăng ký khám', icon: '', path: 'reception-detail' },
                     { key: '2.2', label: 'Danh sách tiếp đón', icon: '', path: 'reception' }
                 ]
             },

@@ -1,9 +1,9 @@
 :root {
     --x-layout-header-height: 40px;
 
-    --x-nav-background-color: #001529;
-    --x-nav-color:#EEEEEE;
-    --x-nav-background-color-active: #1890ff;
+    --x-nav-background-color: #013E65;
+    --x-nav-color:#CCCCCC;
+    --x-nav-background-color-active: #013E65;
     --x-nav-color-active: #FFFFFF;
     --x-nav-height: 40px;
     --x-nav-font-size: 14px;
@@ -12,7 +12,7 @@
 html,
 body,
 #app {
-    height: 100%;
+    height: 100vh;
     font-size: var(--x-nav-font-size);
 }
 

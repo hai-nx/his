@@ -23,18 +23,23 @@
                 </template>
             </a-dropdown-button>
         </template>
-        <div class="d-flex flex-column p-2">
-            <div>
-                <label class="ms-2">Từ</label>
-                <a-date-picker class="ms-2"></a-date-picker>
-                <label class="ms-2">Đến</label>
-                <a-date-picker class="ms-2"></a-date-picker>
-                <a-input placeholder="Tìm kiếm" class="ms-2 mb-2 x-w-200"></a-input>
-                <XDateRangePicker class="ms-2" />
-            </div>
-            <a-table :columns="columns" :data-source="items" bordered scroll={{ x: 400 }}>
-            </a-table>
-        </div>
+
+        <form class="form-inline" action="/action_page.php">
+            <label for="fromDate">Từ ngày:</label>
+            <a-date-picker id="fromDate" format="DD/MM/YYYY HH:mm" :allowClear="false" :showTime="true"></a-date-picker>
+            <label for="toDate">Đến ngày:</label>
+            <a-date-picker id="toDate" format="DD/MM/YYYY HH:mm" :allowClear="false" :showTime="true"></a-date-picker>
+            <label for="toDate">Trạng thái:</label>
+            <a-select>
+              <a-select-option key="1" value="Chưa bắt đầu"></a-select-option>
+              <a-select-option key="2" value="Chưa bắt đầu 123123 1"></a-select-option>
+              <a-select-option key="3" value="Chưa bắt đầu 12312312312312"></a-select-option>
+            </a-select>
+            <a-input type="text" id="search" placeholder="Tìm kiếm theo mã bệnh nhân, tên bệnh nhân, ..."></a-input>
+            <a-button>Tìm kiếm</a-button>
+        </form>
+
+        <a-table :columns="columns" :data-source="items" bordered scroll={{ x: 1000 }} class="m-2"></a-table>
     </x-layout>
 </template>
 
@@ -96,3 +101,42 @@ export default defineComponent({
 })
 
 </script>
+
+<style>
+.form-inline {  
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  padding: .5rem;
+}
+
+.form-inline > * {
+    margin-right: .5rem;
+}
+
+.form-inline input {
+  width: 320px;
+}
+
+.table {
+    margin-left: .5px;
+    margin-right: .5px;
+}
+
+@media (max-width: 800px) {
+  .form-inline > * {
+    margin-right: 0;
+    margin-bottom: .5rem;
+    width: 100%;
+  }
+
+  .form-inline input {
+  width: 100%;
+}
+  
+  .form-inline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+</style>

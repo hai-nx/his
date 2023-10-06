@@ -1,6 +1,7 @@
 <template>
+    
     <div class="app-layout">
-        <x-nav :data-source="items" @click="handleClick">
+        <x-nav :data-source="items" @click="handleClick" @brandClick="handleBrandClick">
             <a-dropdown>
                 <a-button type="text" class="h100">
                     <span class="text-white">{{ user.username }}</span>
@@ -30,6 +31,7 @@
                 </template>
             </a-dropdown>
         </x-nav>
+
         <div class="app-layout-content">
             <slot></slot>
         </div>
@@ -79,120 +81,16 @@ export default defineComponent({
             // }
         }
 
-        const items2 = ref<Array<XItemType>>([
-            {
-                key: "1", label: "Tieeps ddons", path: "", children: [
-                    {
-                        key: "1.1", label: "item 1.1.... sdasd asd asxdxxxz", path: "1123123123", children: [
-                            {
-                                key: "1.1.1", label: "item 1.1.1", path: "1231231 231 23 123", children: [
-                                    {
-                                        key: "1.1.1.1", label: "item 1.1.1.1", path: "reception"
-                                    },
-                                    {
-                                        key: "1.1.1.2", label: "item 1.1.1.2", path: "dashboard"
-                                    },
-                                    {
-                                        key: "1.1.1.3", label: "item 1.1.1.3", path: ""
-                                    },
-                                    {
-                                        key: "1.1.1.4", label: "item 1.1.1.4", path: ""
-                                    }
-                                ]
-                            },
-                            {
-                                key: "1.1.2", label: "item 1.1.2", path: ""
-                            }
-                        ]
-                    },
-                    {
-                        key: "1.2", label: "item 1.2", path: ""
-                    },
-                    {
-                        key: "1.3", label: "item 1.3", path: "", children: [
-                            {
-                                key: "1.3.1", label: "item 1.3.1", path: ""
-                            }
-                        ]
-                    },
-                    {
-                        key: "1.2", label: "item 1.2", path: ""
-                    },
-                    {
-                        key: "1.3", label: "item 1.2", path: ""
-                    },
-                    {
-                        key: "1.4", label: "item 1.2", path: ""
-                    },
-                    {
-                        key: "1.5", label: "item 1.2", path: ""
-                    },
-                    {
-                        key: "1.6", label: "item 1.2", path: ""
-                    },
-                    {
-                        key: "1.7", label: "item 1.2", path: ""
-                    },
-                    {
-                        key: "1.8", label: "item 1.2", path: ""
-                    },
-                    {
-                        key: "1.9", label: "item 1.2", path: ""
-                    },
-                    {
-                        key: "1.10", label: "item 1.2", path: ""
-                    },
-                ]
-            },
-            {
-                key: "2", label: "item 2", path: "", children: [
-                    {
-                        key: "2.1", label: "item 1.2", path: ""
-                    },
-                    {
-                        key: "2.2", label: "item 1.2", path: ""
-                    },
-                    {
-                        key: "2.3", label: "item 1.2", path: ""
-                    },
-                    {
-                        key: "2.4", label: "item 1.2", path: ""
-                    },
-                ]
-            },
-            {
-                key: "3", label: "item 3", path: "", children: [
-                    {
-                        key: "3.1", label: "item 3.1", path: ""
-                    },
-                    {
-                        key: "3.2", label: "item 3.2", path: ""
-                    },
-                    {
-                        key: "3.3", label: "item 3.3", path: ""
-                    },
-                    {
-                        key: "3.4", label: "item 3.4", path: ""
-                    },
-                ]
-            },
-            {
-                key: "4", label: "item 4", path: "", children: []
-            },
-            {
-                key: "5", label: "item 5", path: "", children: []
-            },
-            {
-                key: "6", label: "item 6", path: "", children: []
-            }
-        ]);
+        const handleBrandClick = () => {
+            router.push({ name: 'dashboard' });
+        }
 
         return {
             user,
             items,
             handleClick,
             handleMenuClick,
-            items2
+            handleBrandClick
         }
     }
 });
@@ -201,10 +99,13 @@ export default defineComponent({
 <style scoped>
 .app-layout {
     min-height: 100%;
+    background-color: #ECECEC;
+    display: flex;
+    flex-direction: column;
 }
 
 .app-layout-content {
     margin-top: var(--x-layout-header-height);
-    padding: .5rem .5rem;
+    padding: .5rem;
 }
 </style>

@@ -6,9 +6,9 @@
                     <i class="bi bi-list"></i>
                 </label>
 
-                <a href="#" class="x-nav-brand">
+                <div class="x-nav-brand" @click="handleBrandClick">
                     <img src="../assets//logo.png" alt="logo">
-                </a>
+                </div>
 
                 <ul class="x-nav-list">
                     <li class="x-nav-list-item" v-for="(item, index) in dataSource" :key="index">
@@ -61,8 +61,13 @@ export default defineComponent({
             emit('click', item)
         }
 
+        const handleBrandClick = () => {
+            emit('brandClick')
+        }
+
         return {
-            handleClick
+            handleClick,
+            handleBrandClick
         }
     }
 })
@@ -79,8 +84,6 @@ export default defineComponent({
     justify-content: space-between;
     position: fixed;
     top: 0;
-    right: 0;
-    left: 0;
     width: 100%;
     z-index: 9;
 }
