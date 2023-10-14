@@ -5,8 +5,8 @@
                 <div class="d-flex justify-content-between align-items-center mb-1">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0">
-                            <template v-for="(route, index) in routes" :key="index">
-                                <template v-if="index + 1 === routes?.length">
+                            <template v-for="(route, index) in breadcrumbs" :key="index">
+                                <template v-if="index + 1 === breadcrumbLength">
                                     <li class="breadcrumb-item" :class="route.path ? 'active' : ''" aria-current="page">{{ route.label }}</li>
                                 </template>
                                 <template v-else>
@@ -26,7 +26,7 @@
                 </div>
             </slot>
         </div>
-        <div class="x-layout-content border shadow-sm rounded">
+        <div class="x-layout-content border shadow rounded">
             <div class="p-2 border-bottom">
                 <slot name="header">
                     <div class="d-flex justify-content-between align-items-center">
@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent } from "vue"
+import { PropType, defineComponent, computed } from "vue"
 import { XItemType } from "@/components"
 
 export default defineComponent({
@@ -54,13 +54,15 @@ export default defineComponent({
         title: {
             type: String
         },
-        routes: {
+        breadcrumbs: {
             type: Object as PropType<Array<XItemType>>
         }
     },
-    setup() {
-        return {
+    setup(props) {
+        const breadcrumbLength = computed(() => props.breadcrumbs?.length)
 
+        return {
+            breadcrumbLength
         }
     }
 });
@@ -74,7 +76,7 @@ export default defineComponent({
 
 .x-layout-content {
     background-color: #fff;
-    align-items: stretch;
+    /* align-items: stretch; */
     min-height: 500px;
 }
 

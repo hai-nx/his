@@ -1,5 +1,5 @@
 <template>
-    <x-layout :title="title" :routes="breadcrumbs">
+    <x-layout :title="title" :breadcrumbs="breadcrumbs">
         <template #action>
             <a-button type="primary" @click="showReceptionDetail">Đón tiếp</a-button>
             <a-dropdown-button class="ms-2">
@@ -30,16 +30,19 @@
             <label for="toDate">Đến ngày:</label>
             <a-date-picker id="toDate" format="DD/MM/YYYY HH:mm" :allowClear="false" :showTime="true"></a-date-picker>
             <label for="toDate">Trạng thái:</label>
-            <a-select>
-              <a-select-option key="1" value="Chưa bắt đầu"></a-select-option>
-              <a-select-option key="2" value="Chưa bắt đầu 123123 1"></a-select-option>
-              <a-select-option key="3" value="Chưa bắt đầu 12312312312312"></a-select-option>
+            <a-select style="width: 220px">
+                <a-select-option key="1" value="Chưa bắt đầu"></a-select-option>
+                <a-select-option key="2" value="Chưa bắt đầu 123123 1"></a-select-option>
+                <a-select-option key="3" value="Chưa bắt đầu 12312312312312"></a-select-option>
             </a-select>
             <a-input type="text" id="search" placeholder="Tìm kiếm theo mã bệnh nhân, tên bệnh nhân, ..."></a-input>
             <a-button>Tìm kiếm</a-button>
         </form>
 
         <a-table :columns="columns" :data-source="items" bordered scroll={{ x: 1000 }} class="m-2"></a-table>
+
+        <a-pagination :total="500" />
+
     </x-layout>
 </template>
 
@@ -103,19 +106,19 @@ export default defineComponent({
 </script>
 
 <style>
-.form-inline {  
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  padding: .5rem;
+.form-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    padding: .5rem;
 }
 
-.form-inline > * {
+.form-inline>* {
     margin-right: .5rem;
 }
 
 .form-inline input {
-  width: 320px;
+    width: 320px;
 }
 
 .table {
@@ -124,19 +127,19 @@ export default defineComponent({
 }
 
 @media (max-width: 800px) {
-  .form-inline > * {
-    margin-right: 0;
-    margin-bottom: .5rem;
-    width: 100%;
-  }
+    .form-inline>* {
+        margin-right: 0;
+        margin-bottom: .5rem;
+        width: 100%;
+    }
 
-  .form-inline input {
-  width: 100%;
-}
-  
-  .form-inline {
-    flex-direction: column;
-    align-items: stretch;
-  }
+    .form-inline input {
+        width: 100%;
+    }
+
+    .form-inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }
 </style>

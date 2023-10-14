@@ -1,9 +1,9 @@
 :root {
     --x-layout-header-height: 40px;
 
-    --x-nav-background-color: #013E65;
+    --x-nav-background-color: #252f3f;
     --x-nav-color:#CCCCCC;
-    --x-nav-background-color-active: #013E65;
+    --x-nav-background-color-active: #161e2e;
     --x-nav-color-active: #FFFFFF;
     --x-nav-height: 40px;
     --x-nav-font-size: 14px;

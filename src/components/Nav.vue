@@ -38,7 +38,7 @@
             </div>
             <ul class="x-nav-sidebar-list">
                 <li class="x-nav-sidebar-list-item" v-for="(item, index) in dataSource" :key="index">
-                    <!-- <x-nav-item :data-source="item"></x-nav-item> --> {{ item.label }}
+                    <x-nav-item :data-source="item"></x-nav-item>
                 </li>
             </ul>
         </nav>
@@ -157,7 +157,8 @@ export default defineComponent({
     bottom: 0;
     width: 320px;
     max-width: 100%;
-    background-color: #fff;
+    background-color: var(--x-nav-background-color);
+    color: var(--x-nav-color);
 
     transform: translateX(-100%);
     opacity: 0;
@@ -183,18 +184,22 @@ export default defineComponent({
 .x-nav-sidebar-toggle {
     cursor: pointer;
     float: left;
-    margin-left: .5rem;
-    margin-right: .5rem;
-    padding-left: 12px;
-    padding-right: 12px;
+    height: var(--x-nav-height);
+    line-height: var(--x-nav-height);
+    padding: 0 12px;
+}
+
+.x-nav-sidebar-toggle i {
+    font-size: 20px;
 }
 
 .x-nav-sidebar-toggle:hover {
-    background-color: red;
+    background-color: var(--x-nav-background-color-active);
 }
 
 .x-nav-sidebar-list {
     margin-top: 40px;
+    list-style: none;
 }
 
 /* .x-nav-sidebar-list-item {
