@@ -16,10 +16,13 @@
                         </ol>
                     </nav>
                     <div>
-                        <button class="btn btn-sm py-0 text-primary">
+                        <button class="btn btn-sm py-0 text-muted">
+                            <i class="bi bi-gear-fill h6"></i>
+                        </button>
+                        <button class="btn btn-sm py-0 text-muted">
                             <i class="bi bi-question-circle-fill h6"></i>
                         </button>
-                        <button class="btn btn-sm py-0 text-primary">
+                        <button class="btn btn-sm py-0 text-muted">
                             <i class="bi bi-chat-left-dots h6"></i>
                         </button>
                     </div>
@@ -27,7 +30,7 @@
             </slot>
         </div>
         <div class="x-layout-content border shadow rounded">
-            <div class="p-2 border-bottom">
+            <div class="p-2 border-bottom" v-if="showHeader">
                 <slot name="header">
                     <div class="d-flex justify-content-between align-items-center">
                         <slot name="extra">
@@ -40,6 +43,14 @@
                 </slot>
             </div>
             <slot></slot>
+
+            <div class="p-2 border-top" v-if="showFooter">
+                <slot name="footer"></slot>
+            </div>
+        </div>
+
+        <div>
+            <slot name="bottom"></slot>
         </div>
     </div>
 </template>
@@ -56,6 +67,14 @@ export default defineComponent({
         },
         breadcrumbs: {
             type: Object as PropType<Array<XItemType>>
+        },
+        showHeader: {
+            type: Boolean,
+            default: true
+        },
+        showFooter: {
+            type: Boolean,
+            default: true
         }
     },
     setup(props) {
@@ -78,6 +97,11 @@ export default defineComponent({
     background-color: #fff;
     /* align-items: stretch; */
     min-height: 500px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
 }
 
 .breadcrumb-item-link {
