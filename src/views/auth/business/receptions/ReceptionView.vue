@@ -1,5 +1,5 @@
 <template>
-    <x-layout :title="title" :breadcrumbs="breadcrumbs">
+    <x-layout :title="title" :breadcrumbs="breadcrumbs" :show-footer="false">
         <template #action>
             <a-button type="primary" @click="showReceptionDetail">Đón tiếp</a-button>
             <a-dropdown-button class="ms-2">
@@ -24,24 +24,29 @@
             </a-dropdown-button>
         </template>
 
-        <form class="form-inline" action="/action_page.php">
-            <label for="fromDate">Từ ngày:</label>
-            <a-date-picker id="fromDate" format="DD/MM/YYYY HH:mm" :allowClear="false" :showTime="true"></a-date-picker>
-            <label for="toDate">Đến ngày:</label>
-            <a-date-picker id="toDate" format="DD/MM/YYYY HH:mm" :allowClear="false" :showTime="true"></a-date-picker>
-            <label for="toDate">Trạng thái:</label>
-            <a-select style="width: 220px">
-                <a-select-option key="1" value="Chưa bắt đầu"></a-select-option>
-                <a-select-option key="2" value="Chưa bắt đầu 123123 1"></a-select-option>
-                <a-select-option key="3" value="Chưa bắt đầu 12312312312312"></a-select-option>
-            </a-select>
-            <a-input type="text" id="search" placeholder="Tìm kiếm theo mã bệnh nhân, tên bệnh nhân, ..."></a-input>
-            <a-button>Tìm kiếm</a-button>
-        </form>
+        <div class="py-3 px-2">
+            <form class="form-inline" action="/action_page.php">
+                <label for="fromDate">Từ ngày:</label>
+                <a-date-picker id="fromDate" format="DD/MM/YYYY HH:mm" :allowClear="false" :showTime="true"></a-date-picker>
+                <label for="toDate">Đến ngày:</label>
+                <a-date-picker id="toDate" format="DD/MM/YYYY HH:mm" :allowClear="false" :showTime="true"></a-date-picker>
+                <label for="toDate">Trạng thái:</label>
+                <a-select style="width: 220px">
+                    <a-select-option key="1" value="Chưa bắt đầu"></a-select-option>
+                    <a-select-option key="2" value="Chưa bắt đầu 123123 1"></a-select-option>
+                    <a-select-option key="3" value="Chưa bắt đầu 12312312312312"></a-select-option>
+                </a-select>
+                <a-input type="text" id="search" placeholder="Tìm kiếm theo mã bệnh nhân, tên bệnh nhân, ..."></a-input>
+                <a-button>Tìm kiếm</a-button>
+            </form>
 
-        <a-table :columns="columns" :data-source="items" bordered scroll={{ x: 1000 }} class="m-2"></a-table>
+            <a-table :columns="columns" :data-source="items" bordered scroll={{ x: 1000 }} class="mb-2"></a-table>
 
-        <a-pagination :total="500" />
+            <div style="display: flex; justify-content: end; align-items:">
+                <a-pagination :total="pageTotal" :page-size="pageSize" :current="pageCurrent"/>
+            </div>
+        </div>
+
 
     </x-layout>
 </template>
@@ -76,6 +81,10 @@ export default defineComponent({
         ]);
         const items = ref<ReceptionModel[]>([]);
 
+        const pageTotal = ref(500)
+        const pageSize = ref(20)
+        const pageCurrent = ref(1)
+
 
         const showReceptionDetail = () => {
             //router.push({ name: 'reception-detail' });
@@ -97,6 +106,9 @@ export default defineComponent({
             breadcrumbs,
             columns,
             items,
+            pageSize,
+            pageCurrent,
+            pageTotal,
             showReceptionDetail,
             getAll
         }

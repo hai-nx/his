@@ -42,7 +42,10 @@
                     </div>
                 </slot>
             </div>
-            <slot></slot>
+            
+            <div>
+                <slot></slot>
+            </div>
 
             <div class="p-2 border-top" v-if="showFooter">
                 <slot name="footer"></slot>
@@ -98,10 +101,11 @@ export default defineComponent({
     /* align-items: stretch; */
     min-height: 500px;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: stretch;
+    display: grid;
+    grid-template-rows: max-content 1fr max-content;
+    /* flex-direction: column; */
+    /* justify-content: space-between; */
+    /* align-items: stretch; */
 }
 
 .breadcrumb-item-link {

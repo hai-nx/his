@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.js'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 // ant
-import 'ant-design-vue/dist/reset.css'
+import 'ant-design-vue/dist/antd.css'
 
 import './assets/style/global.css'
 
