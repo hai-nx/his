@@ -35,7 +35,8 @@ import materialTypeView from '@/views/auth/dictionary/itemType/materialType/Mate
 import errorView from '@/views/public/error.vue'
 
 import pharmaceuticalView from '@/views/auth/business/pharmaceuticals/PharmaceuticalView.vue'
-
+import diagnosticImagingView from '@/views/auth/business/diagnosticImagings/DiagnosticImagingView.vue'
+import testingView from '@/views/auth/business/testings/TestingView.vue'
 
 const routes: Array<RouteRecordRaw> = [
     { path: '/', name: 'home', component: homeView, meta: { layout: LAYOUT_DEFAULT } },
@@ -78,6 +79,13 @@ const routes: Array<RouteRecordRaw> = [
 
     // Dược
     { path: '/pharmaceutical', name: 'pharmaceutical', component: pharmaceuticalView, meta: { layout: LAYOUT_AUTH } },
+
+    // Chẩn đoán hình ảnh - Thăm dò chức năng
+    { path: '/diagnosticImaging', name: 'diagnosticImaging', component: diagnosticImagingView, meta: { layout: LAYOUT_AUTH } },
+
+    // Xét nghiệm
+    { path: '/testing', name: 'testing', component: testingView, meta: { layout: LAYOUT_AUTH } },
+
 ]
 
 const router = createRouter({
