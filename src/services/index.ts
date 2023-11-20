@@ -37,6 +37,7 @@ import inOutStockTypeService from './business/pharmaceuticals/inOutStockType'
 import itemStockService from './business/pharmaceuticals/itemStock'
 
 import userService from './system/user'
+import dbOptionService from './system/dbOption'
 
 export {
     authService,
@@ -77,4 +78,5 @@ export {
     itemStockService,
 
     userService,
+    dbOptionService
 }
