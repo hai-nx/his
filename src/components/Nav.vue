@@ -123,6 +123,7 @@ export default defineComponent({
     float: left;
     list-style: none;
     padding-left: 0;
+    margin-bottom: 0;
 }
 
 .x-nav-list > li {

@@ -36,6 +36,8 @@
             <slot></slot>
         </div>
     </div>
+
+    <subsystem-option-view :visible="visibleSubsystemOptionView" @cancel="handleVisibleSubsystemOptionView"/>
 </template>
 
 <script lang="ts">
@@ -44,21 +46,25 @@ import { useRouter } from 'vue-router'
 import { useLayout } from '../stores/layout'
 import { storeToRefs } from 'pinia'
 import { useAuth } from '@/stores/auth'
-import type { MenuProps } from 'ant-design-vue';
+import { Modal, type MenuProps } from 'ant-design-vue';
 import { LogoutOutlined, UserOutlined, DesktopOutlined } from '@ant-design/icons-vue';
 import { XItemType } from '@/components';
+
+import SubsystemOptionView from '@/views/auth/system/SubsystemOptionView.vue'
 
 export default defineComponent({
     name: 'AuthLayout',
     components: {
         LogoutOutlined,
         UserOutlined,
-        DesktopOutlined
+        DesktopOutlined,
+        SubsystemOptionView
     },
     setup() {
         const router = useRouter();
         const authStore = useAuth();
         const layout = useLayout();
+        // const [modal, contextHolder] = Modal.useModal();
 
         const { items } = storeToRefs(layout);
         const user = computed(() => authStore.user);
@@ -72,17 +78,31 @@ export default defineComponent({
 
         const handleMenuClick: MenuProps['onClick'] = e => {
             if (e.key === '1') {
-                router.push({ name: 'workplace-option' });
+                // router.push({ name: 'workplace-option' });
+                visibleSubsystemOptionView.value = true;
             } else if (e.key === '2') {
                 router.push({ name: 'option' });
             }
-            //else if (e.key === '3') {
-            //     router.push({ name: 'login' })
-            // }
+            else if (e.key === '3') {
+                Modal.confirm({
+                    title: 'Xác nhận',
+                    content: 'Xác nhận thoát phần mềm?',
+                    onOk: () => {
+                        router.push({ name: 'login' })
+                    }
+                })
+
+                
+            }
         }
 
         const handleBrandClick = () => {
             router.push({ name: 'dashboard' });
+        }
+
+        const visibleSubsystemOptionView = ref(true)
+        const handleVisibleSubsystemOptionView = () => {
+            visibleSubsystemOptionView.value = false
         }
 
         return {
@@ -90,7 +110,11 @@ export default defineComponent({
             items,
             handleClick,
             handleMenuClick,
-            handleBrandClick
+            handleBrandClick,
+
+
+            visibleSubsystemOptionView,
+            handleVisibleSubsystemOptionView
         }
     }
 });
