@@ -55,26 +55,28 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                             { key: 'ward', title: 'Xã, phường', router: 'ward' },
                         ]
                     },
-                    // { key: 'icd', title: 'ICD', router: 'icd' },
-                    // { key: 'career', title: 'Nghề nghiệp', router: 'career' },
-                    // { key: 'hospital', title: 'Bệnh viện', router: 'hospital' },
-                    // { key: 'ethnic', title: 'Dân tộc', router: 'ethnic' },
-                    // { key: 'gender', title: 'Giới tính', router: 'gender' },
                     { key: 'employee', title: 'Nhân viên', router: 'employee' },
                     { key: 'supplier', title: 'Nhà cung cấp', router: 'supplier' },
-                    // { key: 'country', title: 'Quốc gia', router: 'country' },
-                    // { key: 'province', title: 'Tỉnh, thành phố', router: 'province' },
-                    // { key: 'district', title: 'Quận, huyện', router: 'district' },
-                    // { key: 'ward', title: 'Xã, phường', router: 'ward' },
                     { key: 'service', title: 'Dịch vụ', router: 'service' },
-
                     { key: 'item-group', title: 'Nhóm thuốc', router: 'item-group' },
                     { key: 'medicine-type', title: 'Thuốc', router: 'medicine-type' },
                     { key: 'material-type', title: 'Vật tư', router: 'material-type' },
-
                     { key: 'other', title: 'Khác', router: 'dictionary' },
                 ]
             },
+
+            {
+                key: 'admission', title: 'Đón tiếp', icon: 'bi-house',
+                children: [
+                    { key: 'registerExamDetail', title: 'Đăng ký khám bệnh', icon: 'bi-house', router: 'registerExamDetail' },
+                    { key: 'registerExam', title: 'Danh sách tiếp đón', icon: 'bi-house', router: 'registerExam' }
+                ]
+            },
+            { key: 'exam', title: 'Khám bệnh', icon: 'bi-house', router: 'exam' },
+            { key: 'payment', title: 'Viện phí', icon: 'bi-bank', router: 'payment' },
+
+            { key: 'diagnosticImaging', title: "CĐHA - TDCN", icon: 'bi-camera', router: 'diagnosticImaging' },
+            { key: 'testing', title: "Xét nghiệm", icon: 'bi-modem', router: 'testing' },
 
             { key: 'pharmaceutical', title: 'Dược', icon: 'bi-capsule', router: 'pharmaceutical' },
 
@@ -83,6 +85,8 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                 children: [
                     { key: 'role', title: 'Vai trò và quyền hạn', router: 'role' },
                     { key: 'user', title: 'Người dùng', router: 'user' },
+                    { key: 'dbOption', title: 'Cấu hình hệ thống', router: 'dbOption' },
+                    { key: 'autoNumber', title: 'Đánh số chứng từ', router: 'autoNumber' },
                 ]
             }
         ] as Array<LayoutMenuItem>

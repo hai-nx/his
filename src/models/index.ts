@@ -48,7 +48,8 @@ import InOutStockItemModel from './business/pharmaceuticals/inOutStockItem';
 import InOutStockModel from './business/pharmaceuticals/inOutStock';
 import ItemStockModel from './business/pharmaceuticals/itemStock';
 
-import UserModel from './system/user'
+import UserModel from './system/user';
+import DbOptionModel from './system/dbOption'
 
 export {
     ApiResult,
@@ -102,5 +103,6 @@ export {
     InOutStockModel,
     ItemStockModel,
 
-    UserModel
+    UserModel,
+    DbOptionModel,
 }

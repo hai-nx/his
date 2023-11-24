@@ -436,7 +436,6 @@ export default defineComponent({
 
         const handleSave = async () => {
             loading.value = true;
-
             let isImport = await itemTypeService.import(datas.value);
             isResult.value = isImport.data.isSuccessed;
 
@@ -575,13 +574,13 @@ export default defineComponent({
                                     heInCode:
                                         row[2] == undefined? "": row[2].toString(),
                                     serviceGroupHeInId:
-                                        row[3] == undefined? null: serviceGroupHeIns.value.find(f => f.code === row[3].toString())?.id ?? "",
+                                        row[3] == undefined? null: serviceGroupHeIns.value.find(f => f.code === row[3].toString())?.id ?? null,
                                     itemGroupId:
-                                        row[4] == undefined? null: itemGroups.value.find(f => f.code === row[4].toString())?.id ?? "",
+                                        row[4] == undefined? null: itemGroups.value === null ? null : itemGroups.value.find(f => f.code === row[4].toString())?.id ?? null,
                                     unitCode:
-                                        row[5] == undefined? "": units.value.find(f => f.code === row[5].toString())?.id ?? "",
+                                        row[5] == undefined? "": units.value.find(f => f.code === row[5].toString())?.code ?? units.value[0]?.code?.toString(),
                                     itemLineId:
-                                        row[6] == undefined? null: itemLines.value.find(f => f.code === row[6].toString())?.id ?? "",
+                                        row[6] == undefined? null: itemLines.value.find(f => f.code === row[6].toString())?.id ?? null,
                                     activeSubstance:
                                         row[7] == undefined? "": row[7].toString(),
                                     content:
@@ -595,7 +594,7 @@ export default defineComponent({
                                     manufacturer:
                                         row[12] == undefined? "": row[12].toString(),
                                     countryId:
-                                        row[13] == undefined? null: countries.value.find(f => f.code === row[13].toString())?.id ?? "",
+                                        row[13] == undefined? null: countries.value.find(f => f.code === row[13].toString())?.id ?? null,
                                     impPrice:
                                         row[14] === undefined? 0 : parseFloat(row[14].toString()),
                                     impVatRate:
