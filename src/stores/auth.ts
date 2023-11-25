@@ -21,11 +21,13 @@ export const useAuth = defineStore('auth', {
         },
         error: '' as string
     }),
+    /* eslint-disable */
     actions: {
         async login(username: string, password: string, remember: boolean) {
             this.loading = true;
             await authService.login(username, password)
                 .then(response => {
+                    debugger;
                     if (response.data.isSuccessed) {
                         this.error = '';
                         this.isAuthenticated = true;
@@ -34,8 +36,8 @@ export const useAuth = defineStore('auth', {
                             firstname: '',
                             lastname: '',
                             fullname: '',
-                            token: '',
-                            refreshToken: ''
+                            token: response.data.result.acceptToken,
+                            refreshToken: response.data.result.refreshToken
                         }
                         router.push({ name: 'workplace-option' });
 
