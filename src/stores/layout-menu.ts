@@ -75,6 +75,8 @@ export const useLayoutMenu = defineStore('layoutMenu', {
                 children: [
                     { key: 'role', title: 'Vai trò và quyền hạn', router: 'role' },
                     { key: 'user', title: 'Người dùng', router: 'user' },
+                    { key: 'dbOption', title: 'Cấu hình hệ thống', router: 'dbOption' },
+                    { key: 'autoNumber', title: 'Đánh số chứng từ', router: 'autoNumber' },
                 ]
             }
         ] as Array<LayoutMenuItem>

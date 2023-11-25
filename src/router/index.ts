@@ -7,6 +7,7 @@ import loginView from '@/views/public/LoginView.vue'
 
 import dashboardView from '@/views/auth/system/DashboardView.vue'
 import optionView from '@/views/auth/system/OptionView.vue'
+import dboptionView from '@/views/auth/system/dbOption/DbOptionView.vue'
 import workplaceOptionView from '@/views/auth/system/WorkplaceOptionView.vue'
 
 import branchView from '@/views/auth/dictionary/branch/BranchView.vue'
@@ -44,6 +45,7 @@ const routes: Array<RouteRecordRaw> = [
 
     { path: '/dashboard', name: 'dashboard', component: dashboardView, meta: { layout: LAYOUT_AUTH } },
     { path: '/option', name: 'option', component: optionView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/dboption', name: 'dboption', component: dboptionView, meta: { layout: LAYOUT_AUTH } },
     { path: '/workplace-option', name: 'workplace-option', component: workplaceOptionView, meta: { layout: LAYOUT_AUTH } },
 
     { path: '/dictionary', name: 'dictionary', component: dictionaryView, meta: { layout: LAYOUT_AUTH } },
