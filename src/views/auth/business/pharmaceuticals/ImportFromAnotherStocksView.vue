@@ -1541,7 +1541,6 @@ export default defineComponent({
 
 <style scoped>
 .card-body {
-    /* margin: 0px -24px; */
     max-height: 650px;
     height: 650px;
     overflow-y: auto;

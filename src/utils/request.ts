@@ -8,13 +8,11 @@ const request = axios.create({
         'content-type': 'application/json',
     },
 });
-/* eslint-disable */
 request.interceptors.request.use(async (config) => {
     const { params } = config;
     if (params && Object.keys(params).length !== 0) {
         config.paramsSerializer = (params) => queryString.stringify(params);
     }
-    debugger;
     const store = useAuth();
     const token = store.user.token;
     if (token) {
@@ -33,7 +31,6 @@ request.interceptors.response.use(response => {
         if (error.response.status === 401 && !originalConfig._retry) {
             originalConfig._retry = true;
             try {
-                debugger;
                 const store = useAuth();
                 const rs = await request.post("api/Login/Refreshtoken", {
                     acceptToken: store.user.token,

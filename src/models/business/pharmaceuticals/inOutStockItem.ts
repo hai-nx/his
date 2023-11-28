@@ -65,5 +65,16 @@ export default interface InOutStockItemModel {
     itemId: string | null
     inOutStockId: string | null
     commodityType: number
+
+    /// <summary>
+    /// Số lượng tồn kho
+    /// </summary>
+    quantity?: number | null
+
+    /// <summary>
+    /// Số lượng khả dụng
+    /// </summary>
+    availableQuantity?: number | null
+
     itemPricePolicies: ItemPricePolicyModel[]
 }
