@@ -18,7 +18,10 @@
                     <span>Giá trị</span>
                     <span class="text-danger me-1">*</span>
                 </label>
-                <a-input v-model:value="item.dbOptionValue" :disabled="loading" />
+                <a-input
+                    v-model:value="item.dbOptionValue"
+                    :disabled="loading"
+                />
 
                 <label>
                     <span>Diễn giải</span>
@@ -34,7 +37,6 @@
                     :disabled="loading"
                     class="w-100"
                 /> -->
-
             </div>
 
             <template #footer>
@@ -68,7 +70,7 @@ import { DbOptionModel } from "@/models";
 import { dbOptionService } from "@/services";
 
 export default defineComponent({
-    name: "MedicineGroupDetailView",
+    name: "DbOptionDetailView",
     props: {
         visible: {
             type: Boolean,
@@ -87,7 +89,7 @@ export default defineComponent({
             description: "",
             dbOptionType: 0,
             isParent: false,
-            parentId: null
+            parentId: null,
         });
         const errors = ref({ code: "", name: "" });
         const loading = ref<boolean>(false);
@@ -138,7 +140,7 @@ export default defineComponent({
                 description: "",
                 dbOptionType: 0,
                 isParent: false,
-                parentId: null
+                parentId: null,
             };
         };
 

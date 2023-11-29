@@ -45,7 +45,7 @@ const routes: Array<RouteRecordRaw> = [
 
     { path: '/dashboard', name: 'dashboard', component: dashboardView, meta: { layout: LAYOUT_AUTH } },
     { path: '/option', name: 'option', component: optionView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/dboption', name: 'dboption', component: dboptionView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/dboption', name: 'dbOption', component: dboptionView, meta: { layout: LAYOUT_AUTH } },
     { path: '/workplace-option', name: 'workplace-option', component: workplaceOptionView, meta: { layout: LAYOUT_AUTH } },
 
     { path: '/dictionary', name: 'dictionary', component: dictionaryView, meta: { layout: LAYOUT_AUTH } },
