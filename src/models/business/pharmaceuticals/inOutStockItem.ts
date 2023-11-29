@@ -23,17 +23,17 @@ export default interface InOutStockItemModel {
     // Nước sản xuất
     countryId: string | null
     // Giá nhập
-    impPrice: number | null
+    impPrice: number
     // Số lượng YC
-    requestQuantity: number | null
+    requestQuantity: number
     // Số lượng duyệt
-    approvedQuantity: number | null
+    approvedQuantity: number
     // Phần trăm vat giá nhập
-    impVatRate: number | null
+    impVatRate: number
     // Phần trăm thuế
-    impTaxRate: number | null
+    impTaxRate: number
     // Thành tiền
-    impAmount: number | null
+    impAmount: number
     // Diễn giải
     description: string | null
     // Hoạt chất

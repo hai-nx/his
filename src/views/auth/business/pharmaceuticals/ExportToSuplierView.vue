@@ -120,12 +120,24 @@
                     <a-select
                         class="grid-column-columnspan-2-7"
                         showSearch
+                        @change="handleItemStockChanged"
+                        v-model:value="inOutStockItemSelected.itemId"
                         :field-names="fieldMedistocks"
                         :options="itemStocks"
-                        @change="handleItemTypeChanged"
-                        v-model:value="inOutStockItemSelected.itemTypeId"
                         :disabled="isDisabled"
-                    />
+                    >
+                        <template #option="{ itemCode, itemName }">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span>{{ itemCode }}</span>
+                                </div>
+                                <div class="col-md-9">
+                                    <span>{{ itemName }}</span>
+                                </div>
+                            </div>
+                        </template>
+                    </a-select>
+
                     <label class="grid-column-7"> Mã hàng: </label>
                     <a-input
                         class="grid-column-8"
@@ -217,28 +229,28 @@
                     <a-input-number
                         class="grid-column-6 w-100"
                         disabled
-                        v-model:value="inOutStockItemSelected.availableQuantity"
                         min="0"
+                        v-model:value="itemStockSelected.availableQuantity"
                     />
 
-                    <label class="grid-column-7">Số đăng ký: </label>
+                    <!-- <label class="grid-column-7">Số đăng ký: </label>
                     <a-input
                         class="grid-column-8"
                         v-model:value="
                             inOutStockItemSelected.registrationNumber
                         "
                         disabled
-                    />
+                    /> -->
 
-                    <label class="grid-column-9">Số Lô: </label>
+                    <label class="grid-column-7">Số Lô: </label>
                     <a-input
-                        class="grid-column-10"
+                        class="grid-column-8"
                         v-model:value="inOutStockItemSelected.lot"
                         :disabled="isDisabled"
                     />
-                    <label class="grid-column-11">Hạn dùng: </label>
+                    <label class="grid-column-9">Hạn dùng: </label>
                     <input
-                        class="datetime grid-column-12"
+                        class="datetime grid-column-10"
                         type="date"
                         v-model="inOutStockItemSelected.dueDate"
                         :disabled="isDisabled"
@@ -247,7 +259,6 @@
                     <a-button
                         type="primary"
                         class="grid-column-columnspan-11-13"
-                        @click="handleUpdateImMest()"
                     >
                         Cập nhật (Ctl + A)
                     </a-button>
@@ -303,6 +314,7 @@
 </template>
 
 <script lang="ts">
+import { Modal } from "ant-design-vue";
 import {
     defineComponent,
     ref,
@@ -353,7 +365,7 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const isDisabled = ref<boolean>(false);
-        const title = ref<string>("Nhập từ kho khác");
+        const title = ref<string>("Xuất thuốc trả nhà cung cấp");
         const loading = ref<boolean>(false);
         const result = ref<boolean>(false);
         const fields = ref({ value: "id", label: "name" });
@@ -363,13 +375,25 @@ export default defineComponent({
             label: "itemName",
         });
 
+        const activeKey = ref<string>("1");
+        const isOK = ref<boolean>(false);
+        const isImport = computed(
+            () => props.isImport || source.value.id === null
+        );
+
         const sSuppliers = ref<SupplierModel[]>([]);
         const sStocks = ref<RoomModel[]>([]);
         const sUnits = ref<UnitModel[]>([]);
         const sUsers = ref<UserModel[]>([]);
         const sCountries = ref<CountryModel[]>([]);
         const itemStocks = ref<ItemStockModel[]>([]);
-        const sItemTypes = ref<ItemTypeModel[]>([]);
+
+        const supplierSelected = ref<SupplierModel>({
+            id: null,
+            code: null,
+            name: null,
+            inactive: false,
+        });
 
         const show = computed(() => props.visible);
         const source = ref<InOutStockModel>({
@@ -448,17 +472,17 @@ export default defineComponent({
             // Nước sản xuất
             countryId: null,
             // Giá nhập
-            impPrice: null,
+            impPrice: 0,
             // Số lượng YC
-            requestQuantity: null,
+            requestQuantity: 0,
             // Số lượng duyệt
-            approvedQuantity: null,
+            approvedQuantity: 0,
             // Phần trăm vat giá nhập
-            impVatRate: null,
+            impVatRate: 0,
             // Phần trăm thuế
-            impTaxRate: null,
+            impTaxRate: 0,
             // Thành tiền
-            impAmount: null,
+            impAmount: 0,
             // Diễn giải
             description: null,
             // Hoạt chất
@@ -493,22 +517,383 @@ export default defineComponent({
             commodityType: 0,
             itemPricePolicies: [],
         });
-        const sItemTypeSelected = ref<ItemTypeModel>();
-        const supplierSelected = ref<SupplierModel>({
+
+        const itemStockSelected = ref<ItemStockModel>({
             id: null,
             code: null,
             name: null,
+            stockId: null,
+            itemId: null,
+            quantity: null,
+            availableQuantity: null,
             inactive: false,
+            item: null,
+
+            commodityType: 0,
+            // Mã BH
+            heInCode: null,
+            // Đường dùng thuốc
+            itemLineId: null,
+            // Nhóm thuốc
+            itemGroupId: null,
+            // Nhóm thuốc
+            itemTypeId: null,
+            // Đơn vị tính
+            unitId: null,
+            // Hướng dẫn
+            tutorial: null,
+            // Nước sản xuất
+            countryId: null,
+            // Giá nhập
+            impPrice: 0,
+            // Số lượng nhập
+            impQuantity: 0,
+            // Phần trăm vat giá nhập
+            impVatRate: 0,
+            // Phần trăm thuế
+            impTaxRate: 0,
+            // Phần trăm thuế
+            impAmount: 0,
+            // Hoạt chất
+            activeSubstance: null,
+            // Nồng độ
+            concentration: null,
+            // Hàm lượng
+            content: null,
+            // Hãng sản xuất
+            manufacturer: null,
+            // Quy cách đóng gói
+            packagingSpecifications: null,
+            // Số ĐK
+            registrationNumber: null,
+            // Lô
+            lot: null,
+            // Hạn dùng
+            dueDate: null,
+            // Quyệt định thầu
+            tenderDecision: null,
+            // Gói thầu
+            tenderPackage: null,
+            // Nhóm thầu
+            tenderGroup: null,
+            // Năm thầu
+            tenderYear: null,
         });
 
-        const reset = () => {
-            supplierSelected.value = {
-                id: null,
-                code: null,
-                name: null,
-                inactive: false,
-            };
+        const impMestitemColumns = reactive([
+            {
+                title: "Mã hàng",
+                key: "code",
+                dataIndex: "code",
+                width: 100,
+                className: "column-header-center",
+            },
+            {
+                title: "Tên hàng",
+                key: "name",
+                dataIndex: "name",
+                width: 250,
+                className: "column-header-center",
+            },
+            {
+                title: "ĐVT",
+                key: "unitId",
+                dataIndex: "unitId",
+                width: 100,
+                className: "column-header-center",
+            },
+            {
+                title: "Giá nhập",
+                key: "impPrice",
+                dataIndex: "impPrice",
+                width: 150,
+                className: "column-header-center",
+                align: "right",
+            },
+            {
+                title: "Số lượng",
+                key: "requestQuantity",
+                dataIndex: "requestQuantity",
+                width: 100,
+                className: "column-header-center",
+                align: "right",
+            },
+            {
+                title: "VAT(%)",
+                key: "impVatRate",
+                dataIndex: "impVatRate",
+                width: 100,
+                className: "column-header-center",
+                align: "right",
+            },
+            {
+                title: "Thành tiền",
+                key: "impAmount",
+                dataIndex: "impAmount",
+                width: 150,
+                className: "column-header-center",
+                align: "right",
+                customRender: (text: any) => {
+                    /* eslint-disable */
+                    if (
+                        text === null ||
+                        text === undefined ||
+                        text.value === undefined
+                    ) {
+                        return 0;
+                    } else {
+                        return new Intl.NumberFormat(navigator.language, {
+                            style: "decimal",
+                            minimumFractionDigits: 2,
+                        }).format(text.value);
+                    }
+                },
+            },
+            {
+                title: "Số lô",
+                key: "lot",
+                dataIndex: "lot",
+                width: 150,
+                className: "column-header-center",
+            },
+            {
+                title: "Hạn dùng",
+                key: "dueDate",
+                dataIndex: "dueDate",
+                width: 120,
+                className: "column-header-center",
+            },
+            {
+                title: "#",
+                key: "action",
+                dataIndex: "action",
+                width: 70,
+                align: "center",
+                className: "column-header-center",
+            },
+        ]);
 
+        //#region Funtion
+        const toggle = function () {
+            emit("toggle", result);
+        };
+
+        watch(show, async (value) => {
+            if (value) {
+                reset();
+                inItData();
+
+                result.value = false;
+                loading.value = true;
+                isDisabled.value = true;
+
+                if (
+                    props.data !== null &&
+                    props.data?.id !== null &&
+                    props.data?.id !== undefined
+                ) {
+                    isDisabled.value = true;
+
+                    var resultDto =
+                        await inOutStockService.importFromAnotherStockGetById(
+                            props.data.id
+                        );
+                    if (resultDto.data.isSuccessed) {
+                        title.value = "Nhập thuốc từ nhà cung cấp";
+                        source.value = resultDto.data.result;
+                        afterLoadSource();
+                    } else {
+                        Modal.error({
+                            content: resultDto.data.message,
+                            okText: "Đồng ý",
+                        });
+                        toggle();
+                    }
+
+                    loading.value = false;
+                } else {
+                    isDisabled.value = false;
+                }
+
+                loading.value = false;
+            }
+        });
+
+        /* eslint-disable */
+        watchEffect(async () => {
+            debugger;
+            // Theo dõi expStockId thay đổi
+            if (source.value.expStockId !== null) {
+                itemStocks.value = [];
+
+                let commodityType: CommodityType | undefined;
+
+                if (source.value.impStockId !== null) {
+                    let impStock = sStocks.value.find(
+                        (f) => f.id == source.value.impStockId
+                    );
+
+                    if (impStock) {
+                        switch (impStock.roomTypeId) {
+                            case RoomType.CentralWarehouse:
+                                commodityType = undefined;
+                                break;
+                            case RoomType.OutpatientPharmacy:
+                            case RoomType.InpatientPharmacy:
+                            case RoomType.EmergencyCabinet:
+                                commodityType = 0;
+                                break;
+                            case RoomType.OutpatientInventory:
+                            case RoomType.InventoryCabinet:
+                                commodityType = 1;
+                                break;
+                            case RoomType.BloodBack:
+                                commodityType = 2;
+                                break;
+                        }
+                    }
+                }
+
+                let isGroup = true;
+                let isAvailableQuantity = false;
+
+                if (
+                    source.value.id === null ||
+                    source.value.id === "" ||
+                    source.value.status === 0
+                ) {
+                    isGroup = true;
+                } else {
+                    isGroup = false;
+                }
+                if (source.value.id !== null && source.value.id !== "") {
+                    isAvailableQuantity = true;
+                }
+
+                itemStocks.value = await getItemByStocks(
+                    source.value.expStockId ?? "",
+                    isGroup,
+                    isAvailableQuantity,
+                    commodityType
+                );
+            }
+
+            // Theo dõi thuốc thay đổi
+            if (inOutStockItemSelected.value.itemId != null) {
+                let itemStock = itemStocks.value.find(
+                    (f) => f.itemId == inOutStockItemSelected.value.itemId
+                );
+                if (itemStock != null) {
+                    itemStockSelected.value = { ...itemStock };
+                } else {
+                    itemStockSelected.value = {
+                        id: null,
+                        code: null,
+                        name: null,
+                        stockId: null,
+                        itemId: null,
+                        quantity: null,
+                        availableQuantity: null,
+                        inactive: false,
+                        item: null,
+
+                        commodityType: 0,
+                        // Mã BH
+                        heInCode: null,
+                        // Đường dùng thuốc
+                        itemLineId: null,
+                        // Nhóm thuốc
+                        itemGroupId: null,
+                        // Nhóm thuốc
+                        itemTypeId: null,
+                        // Đơn vị tính
+                        unitId: null,
+                        // Hướng dẫn
+                        tutorial: null,
+                        // Nước sản xuất
+                        countryId: null,
+                        // Giá nhập
+                        impPrice: 0,
+                        // Số lượng nhập
+                        impQuantity: 0,
+                        // Phần trăm vat giá nhập
+                        impVatRate: 0,
+                        // Phần trăm thuế
+                        impTaxRate: 0,
+                        // Phần trăm thuế
+                        impAmount: 0,
+                        // Hoạt chất
+                        activeSubstance: null,
+                        // Nồng độ
+                        concentration: null,
+                        // Hàm lượng
+                        content: null,
+                        // Hãng sản xuất
+                        manufacturer: null,
+                        // Quy cách đóng gói
+                        packagingSpecifications: null,
+                        // Số ĐK
+                        registrationNumber: null,
+                        // Lô
+                        lot: null,
+                        // Hạn dùng
+                        dueDate: null,
+                        // Quyệt định thầu
+                        tenderDecision: null,
+                        // Gói thầu
+                        tenderPackage: null,
+                        // Nhóm thầu
+                        tenderGroup: null,
+                        // Năm thầu
+                        tenderYear: null,
+                    };
+                }
+            }
+        });
+
+        async function inItData() {
+            sSuppliers.value = await getSuppliers();
+            sStocks.value = await getStocks();
+            sUnits.value = await getUnits();
+            sUsers.value = await getUsers();
+            sCountries.value = await getCountries();
+        }
+
+        function afterLoadSource() {
+            if (source.value.reqTime !== null) {
+                source.value.reqTime = source.value.reqTime.split("T")[0];
+            }
+            if (source.value.invTime !== null) {
+                source.value.invTime = source.value.invTime.split("T")[0];
+            }
+            if (source.value.approverTime !== null) {
+                source.value.approverTime =
+                    source.value.approverTime.split("T")[0];
+            }
+            if (source.value.stockImpTime !== null) {
+                source.value.stockImpTime =
+                    source.value.stockImpTime.split("T")[0];
+            }
+
+            if (
+                source.value.inOutStockItems !== null &&
+                source.value.inOutStockItems &&
+                source.value.inOutStockItems.length > 0
+            ) {
+                source.value.inOutStockItems.forEach((inOutStockItem) => {
+                    if (inOutStockItem.dueDate !== null) {
+                        inOutStockItem.dueDate =
+                            inOutStockItem.dueDate.split("T")[0];
+                    }
+                });
+
+                inOutStockItemSelected.value = {
+                    ...source.value.inOutStockItems[0],
+                };
+            }
+        }
+
+        const reset = () => {
             source.value = {
                 id: null,
                 // Mã phiếu
@@ -585,17 +970,17 @@ export default defineComponent({
                 // Nước sản xuất
                 countryId: null,
                 // Giá nhập
-                impPrice: null,
+                impPrice: 0,
                 // Số lượng YC
-                requestQuantity: null,
+                requestQuantity: 0,
                 // Số lượng duyệt
-                approvedQuantity: null,
+                approvedQuantity: 0,
                 // Phần trăm vat giá nhập
-                impVatRate: null,
+                impVatRate: 0,
                 // Phần trăm thuế
-                impTaxRate: null,
+                impTaxRate: 0,
                 // Thành tiền
-                impAmount: null,
+                impAmount: 0,
                 // Diễn giải
                 description: null,
                 // Hoạt chất
@@ -632,218 +1017,6 @@ export default defineComponent({
             };
         };
 
-        //#region Function
-        async function inItData() {
-            sSuppliers.value = await getSuppliers();
-            // sItemTypes.value = await getItemTypes();
-            sStocks.value = await getStocks();
-            sCountries.value = await getCountries();
-            sUnits.value = await getUnits();
-            sUsers.value = await getUsers();
-        }
-
-        async function getSuppliers(): Promise<SupplierModel[]> {
-            return (await supplierService.getAll()).data.result;
-        }
-
-        async function getItemTypes(params: any): Promise<ItemTypeModel[]> {
-            return (await itemTypeService.getAll(params)).data.result;
-        }
-
-        async function getStocks(): Promise<RoomModel[]> {
-            return (await roomService.getByStocks()).data.result;
-        }
-
-        async function getCountries(): Promise<CountryModel[]> {
-            return (await countryService.getAll()).data.result;
-        }
-
-        async function getUnits(): Promise<UnitModel[]> {
-            return (await unitService.getAll()).data.result;
-        }
-
-        async function getUsers(): Promise<UserModel[]> {
-            return (await userService.getAll()).data.result;
-        }
-
-        watch(show, async (value) => {
-            if (value) {
-                reset();
-                inItData();
-
-                result.value = false;
-                loading.value = true;
-                isDisabled.value = false;
-            }
-
-            loading.value = false;
-        });
-
-        watchEffect(async () => {
-            // Theo dõi expStockId thay đổi
-            if (source.value.expStockId !== null) {
-                itemStocks.value = [];
-
-                let commodityType: CommodityType | undefined;
-
-                if (source.value.impStockId !== null) {
-                    let impStock = sStocks.value.find(
-                        (f) => f.id == source.value.expStockId
-                    );
-
-                    if (impStock) {
-                        switch (impStock.roomTypeId) {
-                            case RoomType.CentralWarehouse:
-                                commodityType = undefined;
-                                break;
-                            case RoomType.OutpatientPharmacy:
-                            case RoomType.InpatientPharmacy:
-                            case RoomType.EmergencyCabinet:
-                                commodityType = 0;
-                                break;
-                            case RoomType.OutpatientInventory:
-                            case RoomType.InventoryCabinet:
-                                commodityType = 1;
-                                break;
-                            case RoomType.BloodBack:
-                                commodityType = 2;
-                                break;
-                        }
-                    }
-                }
-
-                let isGroup = true;
-                let isAvailableQuantity = false;
-
-                if (
-                    source.value.id === null ||
-                    source.value.id === "" ||
-                    source.value.status === 0
-                ) {
-                    isGroup = true;
-                } else {
-                    isGroup = false;
-                }
-                if (source.value.id !== null && source.value.id !== "") {
-                    isAvailableQuantity = true;
-                }
-
-                itemStocks.value = await getItemByStocks(
-                    source.value.expStockId ?? "",
-                    isGroup,
-                    isAvailableQuantity,
-                    commodityType
-                );
-            }
-        });
-
-        const handleSupplierChanged = (value: string) => {
-            if (value !== null) {
-                let supplier = sSuppliers.value.find((f) => f.id === value);
-                if (supplier !== undefined && supplier !== null) {
-                    supplierSelected.value = { ...supplier };
-                }
-            }
-        };
-
-        const handleItemTypeChanged = (value: string) => {
-            if (value !== null) {
-                let sItemType = sItemTypes.value.find((f) => f.id === value);
-                if (sItemType !== undefined && sItemType !== null) {
-                    sItemTypeSelected.value = { ...sItemType };
-
-                    if (inOutStockItemSelected.value !== undefined) {
-                        inOutStockItemSelected.value.id = null;
-                        inOutStockItemSelected.value.itemId = null;
-                        inOutStockItemSelected.value.code =
-                            sItemTypeSelected.value.code;
-                        inOutStockItemSelected.value.heInCode =
-                            sItemTypeSelected.value.heInCode;
-                        inOutStockItemSelected.value.name =
-                            sItemTypeSelected.value.name;
-                        inOutStockItemSelected.value.itemLineId =
-                            sItemTypeSelected.value.itemLineId;
-                        inOutStockItemSelected.value.itemGroupId =
-                            sItemTypeSelected.value.itemGroupId;
-                        inOutStockItemSelected.value.itemTypeId =
-                            sItemTypeSelected.value.id !== undefined
-                                ? sItemTypeSelected.value.id
-                                : null;
-                        inOutStockItemSelected.value.unitId =
-                            sItemTypeSelected.value.unitId;
-                        inOutStockItemSelected.value.tutorial =
-                            sItemTypeSelected.value.tutorial;
-                        inOutStockItemSelected.value.countryId =
-                            sItemTypeSelected.value.countryId;
-                        inOutStockItemSelected.value.impPrice =
-                            sItemTypeSelected.value.impPrice;
-                        inOutStockItemSelected.value.activeSubstance =
-                            sItemTypeSelected.value.activeSubstance;
-                        inOutStockItemSelected.value.concentration =
-                            sItemTypeSelected.value.concentration;
-                        inOutStockItemSelected.value.impVatRate =
-                            sItemTypeSelected.value.impVatRate;
-                        inOutStockItemSelected.value.impTaxRate =
-                            sItemTypeSelected.value.impTaxRate;
-                        inOutStockItemSelected.value.activeSubstance =
-                            sItemTypeSelected.value.activeSubstance;
-                        inOutStockItemSelected.value.concentration =
-                            sItemTypeSelected.value.concentration;
-                        inOutStockItemSelected.value.content =
-                            sItemTypeSelected.value.content;
-                        inOutStockItemSelected.value.manufacturer =
-                            sItemTypeSelected.value.manufacturer;
-                        inOutStockItemSelected.value.packagingSpecifications =
-                            sItemTypeSelected.value.packagingSpecifications;
-                        inOutStockItemSelected.value.registrationNumber =
-                            sItemTypeSelected.value.registrationNumber;
-                        inOutStockItemSelected.value.commodityType =
-                            sItemTypeSelected.value.commodityType;
-                        // inOutStockItemSelected.value.itemPricePolicies =
-                        //     JSON.parse(
-                        //         JSON.stringify(sItemPricePolicies.value)
-                        //     );
-                    }
-                }
-            }
-        };
-
-        const calculateTotalAmout = () => {
-            if (
-                inOutStockItemSelected.value.requestQuantity !== null &&
-                inOutStockItemSelected.value.impVatRate !== null &&
-                inOutStockItemSelected.value.impPrice !== null &&
-                inOutStockItemSelected.value.impTaxRate !== null
-            ) {
-                let vatRate = inOutStockItemSelected.value.impVatRate / 100;
-                let taxRate = inOutStockItemSelected.value.impTaxRate / 100;
-                let impAmount =
-                    inOutStockItemSelected.value.requestQuantity *
-                    inOutStockItemSelected.value.impPrice;
-
-                inOutStockItemSelected.value.impAmount = Number(
-                    (impAmount * (1 + vatRate + taxRate)).toFixed(2)
-                );
-            }
-        };
-
-        const handleUpdateImMest = () => {
-            let inOutStockItem = source.value.inOutStockItems.find(
-                (f) => f.code == inOutStockItemSelected.value.code
-            );
-            if (inOutStockItem !== null && inOutStockItem != undefined) {
-                const index =
-                    source.value.inOutStockItems.indexOf(inOutStockItem);
-                source.value.inOutStockItems[index] = {
-                    ...inOutStockItemSelected.value,
-                };
-            } else if (inOutStockItemSelected.value.itemTypeId !== null) {
-                source.value.inOutStockItems.push({
-                    ...inOutStockItemSelected.value,
-                });
-            }
-        };
-
         async function getItemByStocks(
             stockId: string,
             isGroup: boolean,
@@ -860,17 +1033,432 @@ export default defineComponent({
             ).data.result;
         }
 
-        //#region
+        async function getSuppliers(): Promise<SupplierModel[]> {
+            return (await supplierService.getAll()).data.result;
+        }
+
+        async function getStocks(): Promise<RoomModel[]> {
+            return (await roomService.getByStocks()).data.result;
+        }
+
+        async function getUnits(): Promise<UnitModel[]> {
+            return (await unitService.getAll()).data.result;
+        }
+
+        async function getUsers(): Promise<UserModel[]> {
+            return (await userService.getAll()).data.result;
+        }
+
+        async function getCountries(): Promise<CountryModel[]> {
+            return (await countryService.getAll()).data.result;
+        }
+        //#endregion
+
+        //#region Event
         const handleCancel = function () {
             toggle();
         };
 
-        const toggle = function () {
-            emit("toggle", result);
+        const handleSupplierChanged = (value: string) => {
+            if (value !== null) {
+                let supplier = sSuppliers.value.find((f) => f.id === value);
+                if (supplier !== undefined && supplier !== null) {
+                    supplierSelected.value = { ...supplier };
+                }
+            }
         };
+
+        /* eslint-disable */
+        const handleItemStockChanged = (itemId: string) => {
+            debugger;
+            if (itemId !== null) {
+                let itemStock = itemStocks.value.find(
+                    (f) => f.itemId === itemId
+                );
+                if (itemStock !== undefined && itemStock !== null) {
+                    itemStockSelected.value = { ...itemStock };
+
+                    if (inOutStockItemSelected.value !== undefined) {
+                        inOutStockItemSelected.value.id = null;
+                        inOutStockItemSelected.value.itemId =
+                            itemStockSelected.value.itemId;
+                        inOutStockItemSelected.value.code =
+                            itemStockSelected.value.code;
+                        inOutStockItemSelected.value.heInCode =
+                            itemStockSelected.value.heInCode;
+                        inOutStockItemSelected.value.name =
+                            itemStockSelected.value.name;
+                        inOutStockItemSelected.value.itemLineId =
+                            itemStockSelected.value.itemLineId;
+                        inOutStockItemSelected.value.itemGroupId =
+                            itemStockSelected.value.itemGroupId;
+                        inOutStockItemSelected.value.itemTypeId =
+                            itemStockSelected.value.itemTypeId;
+                        inOutStockItemSelected.value.unitId =
+                            itemStockSelected.value.unitId;
+                        inOutStockItemSelected.value.tutorial =
+                            itemStockSelected.value.tutorial;
+                        inOutStockItemSelected.value.countryId =
+                            itemStockSelected.value.countryId;
+                        inOutStockItemSelected.value.impPrice =
+                            itemStockSelected.value.impPrice;
+                        inOutStockItemSelected.value.activeSubstance =
+                            itemStockSelected.value.activeSubstance;
+                        inOutStockItemSelected.value.concentration =
+                            itemStockSelected.value.concentration;
+                        inOutStockItemSelected.value.impVatRate =
+                            itemStockSelected.value.impVatRate;
+                        inOutStockItemSelected.value.impTaxRate =
+                            itemStockSelected.value.impTaxRate;
+                        inOutStockItemSelected.value.activeSubstance =
+                            itemStockSelected.value.activeSubstance;
+                        inOutStockItemSelected.value.concentration =
+                            itemStockSelected.value.concentration;
+                        inOutStockItemSelected.value.content =
+                            itemStockSelected.value.content;
+                        inOutStockItemSelected.value.manufacturer =
+                            itemStockSelected.value.manufacturer;
+                        inOutStockItemSelected.value.packagingSpecifications =
+                            itemStockSelected.value.packagingSpecifications;
+                        inOutStockItemSelected.value.registrationNumber =
+                            itemStockSelected.value.registrationNumber;
+                        inOutStockItemSelected.value.lot =
+                            itemStockSelected.value.lot;
+                        inOutStockItemSelected.value.commodityType =
+                            itemStockSelected.value.commodityType;
+                        if (itemStockSelected.value.dueDate !== null) {
+                            inOutStockItemSelected.value.dueDate =
+                                itemStockSelected.value.dueDate.split("T")[0];
+                        }
+                    }
+                }
+            }
+        };
+
+        function handleKeydown(event: KeyboardEvent) {
+            if (event.ctrlKey && event.key.toUpperCase() === "A") {
+                handleUpdateInOutStocks();
+            }
+        }
+
+        /* eslint-disable */
+        function handleUpdateInOutStocks() {
+            debugger;
+            let inOutStockItem = source.value.inOutStockItems.find(
+                (f) => f.itemTypeId == inOutStockItemSelected.value.itemTypeId
+            );
+            if (inOutStockItem !== null && inOutStockItem != undefined) {
+                const index =
+                    source.value.inOutStockItems.indexOf(inOutStockItem);
+                source.value.inOutStockItems[index] = {
+                    ...inOutStockItemSelected.value,
+                };
+            } else if (inOutStockItemSelected.value.itemTypeId !== null) {
+                source.value.inOutStockItems.push({
+                    ...inOutStockItemSelected.value,
+                });
+            }
+
+            if (
+                inOutStockItem &&
+                inOutStockItem.requestQuantity !== null &&
+                inOutStockItem.impVatRate !== null &&
+                inOutStockItem.impPrice !== null &&
+                inOutStockItem.impTaxRate !== null
+            ) {
+                let vatRate = inOutStockItem.impVatRate / 100;
+                let taxRate = inOutStockItem.impTaxRate / 100;
+                let impAmount =
+                    inOutStockItem.requestQuantity * inOutStockItem.impPrice;
+
+                inOutStockItem.impAmount = impAmount * (1 + vatRate + taxRate);
+            }
+        }
+
+        const calculateTotalAmout = () => {
+            if (
+                inOutStockItemSelected.value.requestQuantity !== null &&
+                inOutStockItemSelected.value.impVatRate !== null &&
+                inOutStockItemSelected.value.impPrice !== null &&
+                inOutStockItemSelected.value.impTaxRate !== null
+            ) {
+                let vatRate = inOutStockItemSelected.value.impVatRate / 100;
+                let taxRate = inOutStockItemSelected.value.impTaxRate / 100;
+                let impAmount =
+                    inOutStockItemSelected.value.requestQuantity *
+                    inOutStockItemSelected.value.impPrice;
+
+                inOutStockItemSelected.value.impAmount =
+                    impAmount * (1 + vatRate + taxRate);
+            }
+        };
+
+        const formatNumber = (value: string) => {
+            if (value === null || value === "") {
+                return null;
+            }
+            return parseFloat(value.toString()).toFixed(2);
+        };
+
+        /* eslint-disable */
+        const handleModalOkClick = (value: boolean) => {
+            debugger;
+            isOK.value = false;
+        };
+
+        const handleRowClickImpMestitem = (record: InOutStockItemModel) => {
+            return {
+                onClick: () => {
+                    setInoutStockitem(record);
+                },
+            };
+        };
+
+        const setInoutStockitem = (data: InOutStockItemModel | undefined) => {
+            if (data !== undefined) {
+                const dataCopy = { ...data };
+                inOutStockItemSelected.value = dataCopy;
+            }
+        };
+
+        const handleSave = async () => {
+            // loading.value = true;
+            result.value = false;
+
+            var resultDto =
+                await inOutStockService.importFromAnotherStockSaveAsDraft(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
+            }
+
+            loading.value = false;
+        };
+
+        const handleEdit = async () => {
+            isDisabled.value = false;
+        };
+
+        const handleSendRequest = async () => {
+            // result.value = false;
+            loading.value = true;
+
+            let resultDto =
+                await inOutStockService.importFromAnotherStockRequest(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
+            }
+
+            loading.value = false;
+        };
+
+        const handleCanceledRequest = async () => {
+            // result.value = false;
+            loading.value = true;
+
+            let resultDto =
+                await inOutStockService.importFromAnotherStockCancelRequest(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
+            }
+
+            loading.value = false;
+        };
+
+        const handleApproved = async () => {
+            // result.value = false;
+            loading.value = true;
+
+            let resultDto =
+                await inOutStockService.importFromAnotherStockApproved(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
+            }
+
+            loading.value = false;
+        };
+
+        const handleCancelApproved = async () => {
+            // result.value = false;
+            loading.value = true;
+
+            let resultDto =
+                await inOutStockService.importFromAnotherStockCancelApproved(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+            }
+
+            loading.value = false;
+        };
+
+        const handleStockOut = async () => {
+            // result.value = false;
+            loading.value = true;
+
+            let resultDto =
+                await inOutStockService.importFromAnotherStockStockOut(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
+            }
+
+            loading.value = false;
+        };
+
+        const handleCancelStockOut = async () => {
+            // result.value = false;
+            loading.value = true;
+
+            let resultDto =
+                await inOutStockService.importFromAnotherStockCanCelStockOut(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
+            }
+
+            loading.value = false;
+        };
+
+        const handleStockIn = async () => {
+            // result.value = false;
+            loading.value = true;
+
+            let resultDto =
+                await inOutStockService.importFromAnotherStockStockIn(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
+            }
+
+            loading.value = false;
+        };
+
+        /* eslint-disable */
+        const handleCancelStockIn = async () => {
+            debugger;
+            // result.value = false;
+            loading.value = true;
+
+            let resultDto =
+                await inOutStockService.importFromAnotherStockCancelStockIn(
+                    source.value
+                );
+            if (!resultDto.data.isSuccessed) {
+                Modal.error({
+                    content: resultDto.data.message,
+                    okText: "Đồng ý",
+                });
+            } else {
+                // result.value = true;
+                // toggle();
+                source.value = resultDto.data.result;
+                afterLoadSource();
+            }
+
+            loading.value = false;
+        };
+
+        const handleDeleted = async () => {
+            result.value = false;
+            loading.value = true;
+
+            if (source.value.id !== null) {
+                let resultDto =
+                    await inOutStockService.importFromAnotherStockDeleted(
+                        source.value.id
+                    );
+                if (!resultDto.data.isSuccessed) {
+                    Modal.error({
+                        content: resultDto.data.message,
+                        okText: "Đồng ý",
+                    });
+                } else {
+                    result.value = true;
+                    toggle();
+                }
+            }
+            loading.value = false;
+        };
+
         //#endregion
 
         return {
+            isImport,
             isDisabled,
             show,
             title,
@@ -878,27 +1466,41 @@ export default defineComponent({
             fieldMedistocks,
             loading,
             userColumns,
-            result,
+            activeKey,
             source,
 
             sSuppliers,
             sStocks,
             sUnits,
             sUsers,
-            sCountries,
             itemStocks,
-            sItemTypes,
+            sCountries,
+            formatNumber,
 
-            sItemTypeSelected,
-            supplierSelected,
+            itemStockSelected,
             inOutStockItemSelected,
+            supplierSelected,
 
-            handleItemTypeChanged,
+            impMestitemColumns,
+            handleItemStockChanged,
+            handleUpdateInOutStocks,
+            handleKeydown,
+            handleRowClickImpMestitem,
             calculateTotalAmout,
-            handleSupplierChanged,
-            handleUpdateImMest,
 
+            handleSave,
+            handleEdit,
+            handleSendRequest,
+            handleCanceledRequest,
+            handleApproved,
+            handleCancelApproved,
+            handleStockOut,
+            handleCancelStockOut,
+            handleStockIn,
+            handleCancelStockIn,
             handleCancel,
+            handleDeleted,
+            handleSupplierChanged,
         };
     },
 });
