@@ -259,6 +259,7 @@
                     <a-button
                         type="primary"
                         class="grid-column-columnspan-11-13"
+                        @click="handleUpdateInOutStocks()"
                     >
                         Cập nhật (Ctl + A)
                     </a-button>
@@ -266,6 +267,8 @@
                     <a-table
                         class="ant-table-striped grid-column-columnspan-1-13 mt-3 table-overflow-x"
                         size="middle"
+                        :customRow="handleRowClickImpMestitem"
+                        :columns="impMestitemColumns"
                         :data-source="source.inOutStockItems"
                         bordered
                         :pagination="false"
@@ -309,6 +312,34 @@
                     </a-table>
                 </div>
             </div>
+            <template #footer>
+                <a-button
+                    v-if="source.status === 0 && !isDisabled"
+                    class="btn-save"
+                    :loading="loading"
+                    @click.prevent="handleSave"
+                    >Lưu tạm</a-button
+                >
+                <a-button
+                    v-if="source.status === 0"
+                    class="btn-save"
+                    type="primary"
+                    @click.prevent="handleStockOut"
+                    >Xuất kho</a-button
+                >
+                <a-button
+                    v-if="source.status === 3"
+                    class="btn-save"
+                    @click.prevent="handleCancelStockOut"
+                    >Hủy xuất</a-button
+                >
+                <a-button
+                    v-if="source.status === 0 && source.id !== null"
+                    class="btn-save"
+                    @click.prevent="handleDeleted"
+                    >Hủy phiếu</a-button
+                >
+            </template>
         </a-modal>
     </form>
 </template>
@@ -1200,12 +1231,6 @@ export default defineComponent({
             return parseFloat(value.toString()).toFixed(2);
         };
 
-        /* eslint-disable */
-        const handleModalOkClick = (value: boolean) => {
-            debugger;
-            isOK.value = false;
-        };
-
         const handleRowClickImpMestitem = (record: InOutStockItemModel) => {
             return {
                 onClick: () => {
@@ -1222,7 +1247,6 @@ export default defineComponent({
         };
 
         const handleSave = async () => {
-            // loading.value = true;
             result.value = false;
 
             var resultDto =
@@ -1235,8 +1259,6 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                // result.value = true;
-                // toggle();
                 source.value = resultDto.data.result;
                 afterLoadSource();
             }
@@ -1249,7 +1271,6 @@ export default defineComponent({
         };
 
         const handleSendRequest = async () => {
-            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1262,8 +1283,6 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                // result.value = true;
-                // toggle();
                 source.value = resultDto.data.result;
                 afterLoadSource();
             }
@@ -1272,7 +1291,6 @@ export default defineComponent({
         };
 
         const handleCanceledRequest = async () => {
-            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1285,8 +1303,6 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                // result.value = true;
-                // toggle();
                 source.value = resultDto.data.result;
                 afterLoadSource();
             }
@@ -1295,7 +1311,6 @@ export default defineComponent({
         };
 
         const handleApproved = async () => {
-            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1308,8 +1323,6 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                // result.value = true;
-                // toggle();
                 source.value = resultDto.data.result;
                 afterLoadSource();
             }
@@ -1318,7 +1331,6 @@ export default defineComponent({
         };
 
         const handleCancelApproved = async () => {
-            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1331,8 +1343,6 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                // result.value = true;
-                // toggle();
                 source.value = resultDto.data.result;
             }
 
@@ -1340,7 +1350,6 @@ export default defineComponent({
         };
 
         const handleStockOut = async () => {
-            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1353,8 +1362,6 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                // result.value = true;
-                // toggle();
                 source.value = resultDto.data.result;
                 afterLoadSource();
             }
@@ -1363,7 +1370,6 @@ export default defineComponent({
         };
 
         const handleCancelStockOut = async () => {
-            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1376,8 +1382,6 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                // result.value = true;
-                // toggle();
                 source.value = resultDto.data.result;
                 afterLoadSource();
             }
@@ -1386,7 +1390,6 @@ export default defineComponent({
         };
 
         const handleStockIn = async () => {
-            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1399,8 +1402,6 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                // result.value = true;
-                // toggle();
                 source.value = resultDto.data.result;
                 afterLoadSource();
             }
@@ -1408,10 +1409,7 @@ export default defineComponent({
             loading.value = false;
         };
 
-        /* eslint-disable */
         const handleCancelStockIn = async () => {
-            debugger;
-            // result.value = false;
             loading.value = true;
 
             let resultDto =
@@ -1424,8 +1422,6 @@ export default defineComponent({
                     okText: "Đồng ý",
                 });
             } else {
-                // result.value = true;
-                // toggle();
                 source.value = resultDto.data.result;
                 afterLoadSource();
             }
