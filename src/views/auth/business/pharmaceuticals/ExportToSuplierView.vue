@@ -321,6 +321,15 @@
                     >Lưu tạm</a-button
                 >
                 <a-button
+                    v-if="
+                        source.status === 0 && source.id !== null && isDisabled
+                    "
+                    class="btn-save"
+                    :loading="loading"
+                    @click.prevent="handleEdit"
+                    >Sửa</a-button
+                >
+                <a-button
                     v-if="source.status === 0"
                     class="btn-save"
                     type="primary"
@@ -364,10 +373,8 @@ import {
     CountryModel,
     InOutStockItemModel,
     SupplierModel,
-    ItemTypeModel,
 } from "@/models";
 import {
-    itemTypeService,
     roomService,
     supplierService,
     countryService,
@@ -726,7 +733,7 @@ export default defineComponent({
                     isDisabled.value = true;
 
                     var resultDto =
-                        await inOutStockService.importFromAnotherStockGetById(
+                        await inOutStockService.exportToSupplierGetById(
                             props.data.id
                         );
                     if (resultDto.data.isSuccessed) {
@@ -750,9 +757,7 @@ export default defineComponent({
             }
         });
 
-        /* eslint-disable */
         watchEffect(async () => {
-            debugger;
             // Theo dõi expStockId thay đổi
             if (source.value.expStockId !== null) {
                 itemStocks.value = [];
@@ -1099,9 +1104,7 @@ export default defineComponent({
             }
         };
 
-        /* eslint-disable */
         const handleItemStockChanged = (itemId: string) => {
-            debugger;
             if (itemId !== null) {
                 let itemStock = itemStocks.value.find(
                     (f) => f.itemId === itemId
@@ -1172,9 +1175,7 @@ export default defineComponent({
             }
         }
 
-        /* eslint-disable */
         function handleUpdateInOutStocks() {
-            debugger;
             let inOutStockItem = source.value.inOutStockItems.find(
                 (f) => f.itemTypeId == inOutStockItemSelected.value.itemTypeId
             );
@@ -1249,10 +1250,9 @@ export default defineComponent({
         const handleSave = async () => {
             result.value = false;
 
-            var resultDto =
-                await inOutStockService.importFromAnotherStockSaveAsDraft(
-                    source.value
-                );
+            var resultDto = await inOutStockService.exportToSupplierSaveAsDraft(
+                source.value
+            );
             if (!resultDto.data.isSuccessed) {
                 Modal.error({
                     content: resultDto.data.message,
@@ -1261,6 +1261,7 @@ export default defineComponent({
             } else {
                 source.value = resultDto.data.result;
                 afterLoadSource();
+                isDisabled.value = true;
             }
 
             loading.value = false;
@@ -1270,92 +1271,12 @@ export default defineComponent({
             isDisabled.value = false;
         };
 
-        const handleSendRequest = async () => {
-            loading.value = true;
-
-            let resultDto =
-                await inOutStockService.importFromAnotherStockRequest(
-                    source.value
-                );
-            if (!resultDto.data.isSuccessed) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
-            } else {
-                source.value = resultDto.data.result;
-                afterLoadSource();
-            }
-
-            loading.value = false;
-        };
-
-        const handleCanceledRequest = async () => {
-            loading.value = true;
-
-            let resultDto =
-                await inOutStockService.importFromAnotherStockCancelRequest(
-                    source.value
-                );
-            if (!resultDto.data.isSuccessed) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
-            } else {
-                source.value = resultDto.data.result;
-                afterLoadSource();
-            }
-
-            loading.value = false;
-        };
-
-        const handleApproved = async () => {
-            loading.value = true;
-
-            let resultDto =
-                await inOutStockService.importFromAnotherStockApproved(
-                    source.value
-                );
-            if (!resultDto.data.isSuccessed) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
-            } else {
-                source.value = resultDto.data.result;
-                afterLoadSource();
-            }
-
-            loading.value = false;
-        };
-
-        const handleCancelApproved = async () => {
-            loading.value = true;
-
-            let resultDto =
-                await inOutStockService.importFromAnotherStockCancelApproved(
-                    source.value
-                );
-            if (!resultDto.data.isSuccessed) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
-            } else {
-                source.value = resultDto.data.result;
-            }
-
-            loading.value = false;
-        };
-
         const handleStockOut = async () => {
             loading.value = true;
 
-            let resultDto =
-                await inOutStockService.importFromAnotherStockStockOut(
-                    source.value
-                );
+            let resultDto = await inOutStockService.exportToSupplierStockOut(
+                source.value
+            );
             if (!resultDto.data.isSuccessed) {
                 Modal.error({
                     content: resultDto.data.message,
@@ -1373,47 +1294,7 @@ export default defineComponent({
             loading.value = true;
 
             let resultDto =
-                await inOutStockService.importFromAnotherStockCanCelStockOut(
-                    source.value
-                );
-            if (!resultDto.data.isSuccessed) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
-            } else {
-                source.value = resultDto.data.result;
-                afterLoadSource();
-            }
-
-            loading.value = false;
-        };
-
-        const handleStockIn = async () => {
-            loading.value = true;
-
-            let resultDto =
-                await inOutStockService.importFromAnotherStockStockIn(
-                    source.value
-                );
-            if (!resultDto.data.isSuccessed) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
-            } else {
-                source.value = resultDto.data.result;
-                afterLoadSource();
-            }
-
-            loading.value = false;
-        };
-
-        const handleCancelStockIn = async () => {
-            loading.value = true;
-
-            let resultDto =
-                await inOutStockService.importFromAnotherStockCancelStockIn(
+                await inOutStockService.exportToSupplierCanCelStockOut(
                     source.value
                 );
             if (!resultDto.data.isSuccessed) {
@@ -1434,10 +1315,9 @@ export default defineComponent({
             loading.value = true;
 
             if (source.value.id !== null) {
-                let resultDto =
-                    await inOutStockService.importFromAnotherStockDeleted(
-                        source.value.id
-                    );
+                let resultDto = await inOutStockService.exportToSupplierDeleted(
+                    source.value.id
+                );
                 if (!resultDto.data.isSuccessed) {
                     Modal.error({
                         content: resultDto.data.message,
@@ -1486,14 +1366,8 @@ export default defineComponent({
 
             handleSave,
             handleEdit,
-            handleSendRequest,
-            handleCanceledRequest,
-            handleApproved,
-            handleCancelApproved,
             handleStockOut,
             handleCancelStockOut,
-            handleStockIn,
-            handleCancelStockIn,
             handleCancel,
             handleDeleted,
             handleSupplierChanged,
