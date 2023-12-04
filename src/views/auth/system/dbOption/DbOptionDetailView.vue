@@ -12,7 +12,7 @@
                     <span>Tên cấu hình</span>
                     <span class="text-danger me-1">*</span>
                 </label>
-                <a-input v-model:value="item.dDbOptionId" :disabled="loading" />
+                <a-input v-model:value="item.dbOptionId" :disabled="loading" />
 
                 <label>
                     <span>Giá trị</span>
@@ -32,11 +32,20 @@
                 <label>
                     <span>Thuộc</span>
                 </label>
-                <!-- <
-                    v-model:value="item."
-                    :disabled="loading"
-                    class="w-100"
-                /> -->
+                <a-select
+                                    showSearch
+                                    class="grid-column-2"
+                                    v-model:value="item.parentId"
+                                    :options="optionParents"
+                                    :field-names="fields"
+                                    :disabled="loading"
+                                >
+                                    <template #option="{ dbOptionId }">
+                                        <div class="row">
+                                            <span>{{ dbOptionId }}</span>
+                                        </div>
+                                    </template>
+                                </a-select>
             </div>
 
             <template #footer>
@@ -81,10 +90,10 @@ export default defineComponent({
         },
     },
     setup(props, { emit }) {
-        const title = ref<string>("Thêm mới chương ICD10");
+        const title = ref<string>("Thêm mới chương cấu hình");
         const item = ref<DbOptionModel>({
             id: null,
-            dDbOptionId: null,
+            dbOptionId: null,
             dbOptionValue: "",
             description: "",
             dbOptionType: 0,
@@ -94,6 +103,10 @@ export default defineComponent({
         const errors = ref({ code: "", name: "" });
         const loading = ref<boolean>(false);
         const result = ref<boolean>(false);
+
+        const fields = ref({ value: "id", label: "dbOptionId" });
+
+        const optionParents = ref<DbOptionModel[]>([]);
 
         const handleSave = async function () {
             loading.value = true;
@@ -135,7 +148,7 @@ export default defineComponent({
         const reset = function () {
             item.value = {
                 id: null,
-                dDbOptionId: null,
+                dbOptionId: null,
                 dbOptionValue: "",
                 description: "",
                 dbOptionType: 0,
@@ -150,11 +163,22 @@ export default defineComponent({
 
         const show = computed(() => props.visible);
 
+        async function inItData() {
+            optionParents.value = await getOptionParents();
+            
+        }
+
+        async function getOptionParents(): Promise<DbOptionModel[]> {
+            return (await dbOptionService.getAll()).data.result;
+        }
+
+
         watch(show, (value) => {
             if (value) {
                 result.value = false;
                 loading.value = true;
 
+                inItData();
                 reset();
 
                 console.log("ádasd", props.data);
@@ -193,6 +217,8 @@ export default defineComponent({
             errors,
             show,
             loading,
+            fields,
+            optionParents,
             handleSave,
             handleSaveAndAddNew,
             handleCancel,
