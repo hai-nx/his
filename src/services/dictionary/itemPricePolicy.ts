@@ -1,9 +1,9 @@
-import { ApiResult, ItemPricePolicyModel } from '@/models'
+import { ResultModel, ItemPricePolicyModel } from '@/models'
 import request from '@/utils/request'
 
 const ItemPricePolicyService = {
     getAll() {
-        return request.get<ApiResult<ItemPricePolicyModel[]>>('api/ItemPricePolicy/GetAll')
+        return request.get<ResultModel<ItemPricePolicyModel[]>>('api/ItemPricePolicy/GetAll')
     },
 }
 

@@ -748,7 +748,7 @@ export default defineComponent({
                         await inOutStockService.importFromAnotherStockGetById(
                             props.data.id
                         );
-                    if (resultDto.data.isSuccessed) {
+                    if (resultDto.data.isSucceeded) {
                         title.value = "Nhập thuốc từ nhà cung cấp";
                         source.value = resultDto.data.result;
                         afterLoadSource();
@@ -1265,7 +1265,7 @@ export default defineComponent({
                 await inOutStockService.importFromAnotherStockSaveAsDraft(
                     source.value
                 );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1292,7 +1292,7 @@ export default defineComponent({
                 await inOutStockService.importFromAnotherStockRequest(
                     source.value
                 );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1315,7 +1315,7 @@ export default defineComponent({
                 await inOutStockService.importFromAnotherStockCancelRequest(
                     source.value
                 );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1338,7 +1338,7 @@ export default defineComponent({
                 await inOutStockService.importFromAnotherStockApproved(
                     source.value
                 );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1361,7 +1361,7 @@ export default defineComponent({
                 await inOutStockService.importFromAnotherStockCancelApproved(
                     source.value
                 );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1383,7 +1383,7 @@ export default defineComponent({
                 await inOutStockService.importFromAnotherStockStockOut(
                     source.value
                 );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1406,7 +1406,7 @@ export default defineComponent({
                 await inOutStockService.importFromAnotherStockCanCelStockOut(
                     source.value
                 );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1429,7 +1429,7 @@ export default defineComponent({
                 await inOutStockService.importFromAnotherStockStockIn(
                     source.value
                 );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1454,7 +1454,7 @@ export default defineComponent({
                 await inOutStockService.importFromAnotherStockCancelStockIn(
                     source.value
                 );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1478,7 +1478,7 @@ export default defineComponent({
                     await inOutStockService.importFromAnotherStockDeleted(
                         source.value.id
                     );
-                if (!resultDto.data.isSuccessed) {
+                if (!resultDto.data.isSucceeded) {
                     Modal.error({
                         content: resultDto.data.message,
                         okText: "Đồng ý",

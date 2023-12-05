@@ -30,7 +30,7 @@ import itemTypeService from './dictionary/itemType'
 import itemLineService from './dictionary/itemLine'
 import itemPricePolicyService from './dictionary/itemPricePolicy'
 
-import patientService from './business/patient'
+import receptionService from './business/receptions/reception'
 
 import inOutStockService from './business/pharmaceuticals/inOutStock'
 import inOutStockTypeService from './business/pharmaceuticals/inOutStockType'
@@ -72,7 +72,7 @@ export {
     itemLineService,
     itemPricePolicyService,
 
-    patientService,
+    receptionService,
     inOutStockService,
     inOutStockTypeService,
     itemStockService,

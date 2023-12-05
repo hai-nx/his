@@ -1,18 +1,18 @@
-import { ApiResult, ItemTypeImportModel, ItemTypeModel } from '@/models'
+import { ResultModel, ItemTypeImportModel, ItemTypeModel } from '@/models'
 import request from '@/utils/request'
 
 const itemTypeService = {
     getAll(params: any = null) {
-        return request.get<ApiResult<ItemTypeModel[]>>('api/ItemType/GetAll', params)
+        return request.get<ResultModel<ItemTypeModel[]>>('api/ItemType/GetAll', params)
     },
     getById(id: string) {
-        return request.get<ApiResult<ItemTypeModel>>('api/ItemType/GetById?id=' + id);
+        return request.get<ResultModel<ItemTypeModel>>('api/ItemType/GetById?id=' + id);
     },
     createOrEdit(input: ItemTypeModel) {
-        return request.post<ApiResult<ItemTypeModel>>('api/ItemType/CreateOrEdit', input);
+        return request.post<ResultModel<ItemTypeModel>>('api/ItemType/CreateOrEdit', input);
     },
     import(input: ItemTypeImportModel[]) {
-        return request.post<ApiResult<boolean>>('api/ItemType/Import', input);
+        return request.post<ResultModel<boolean>>('api/ItemType/Import', input);
     },
     delete(id: string) {
         return request.delete('api/ItemType/Delete?id=' + id);

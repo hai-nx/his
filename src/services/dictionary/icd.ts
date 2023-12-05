@@ -1,15 +1,15 @@
-import { ApiResult, ICDModel } from '@/models'
+import { ResultModel, ICDModel } from '@/models'
 import request from '@/utils/request'
 
 const icdService = {
     getAll() {
-        return request.get<ApiResult<ICDModel[]>>('api/Icd/GetAll')
+        return request.get<ResultModel<ICDModel[]>>('api/Icd/GetAll')
     },
     getById(id: string) {
-        return request.get<ApiResult<ICDModel>>('api/Icd/GetById?id=' + id);
+        return request.get<ResultModel<ICDModel>>('api/Icd/GetById?id=' + id);
     },
     createOrEdit(input: ICDModel) {
-        return request.post<ApiResult<ICDModel>>('api/Icd/CreateOrEdit', input);
+        return request.post<ResultModel<ICDModel>>('api/Icd/CreateOrEdit', input);
     },
     delete(id: string) {
         return request.delete('api/Icd/Delete?id=' + id);

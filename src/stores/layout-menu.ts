@@ -17,6 +17,16 @@ export const useLayoutMenu = defineStore('layoutMenu', {
             { key: 'dashboard', title: 'Trang chủ', icon: 'bi-house', router: 'dashboard' },
 
             {
+                key: 'admission', title: 'Đón tiếp', icon: 'bi-house',
+                children: [
+                    { key: 'registerExamDetail', title: 'Đăng ký khám bệnh', icon: 'bi-house', router: 'reception-detail' },
+                    { key: 'registerExam', title: 'Danh sách tiếp đón', icon: 'bi-house', router: 'reception' }
+                ]
+            },
+            { key: 'exam', title: 'Khám bệnh', icon: 'bi-house', router: 'exam' },
+            { key: 'payment', title: 'Viện phí', icon: 'bi-house', router: 'payment' },
+
+            {
                 key: 'dictionary', title: 'Danh mục', icon: 'bi-collection', router: '',
                 children: [
                     {

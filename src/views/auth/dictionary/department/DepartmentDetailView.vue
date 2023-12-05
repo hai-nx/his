@@ -190,7 +190,7 @@ export default defineComponent({
             departmentService
                 .createOrEdit(item.value)
                 .then((res) => {
-                    if (res.data.isSuccessed) {
+                    if (res.data.isSucceeded) {
                         result = true;
                         toggle();
                     } else {

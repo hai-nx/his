@@ -916,7 +916,7 @@ export default defineComponent({
         async function getServiceById(id: string | null) {
             reset();
             var resultDto = await serviceService.getById(id!);
-            if (resultDto.data.isSuccessed == true) {
+            if (resultDto.data.isSucceeded == true) {
                 service.id = resultDto.data.result.id;
                 service.code = resultDto.data.result.code;
                 service.name = resultDto.data.result.name;
@@ -1122,7 +1122,7 @@ export default defineComponent({
             });
 
             let resultSave = await serviceService.createOrEdit(service);
-            if (resultSave.data.isSuccessed) {
+            if (resultSave.data.isSucceeded) {
                 result.value = true;
                 toggle();
             } else {

@@ -1,9 +1,9 @@
 import request from '@/utils/request'
-import { ApiResult, InOutStockTypeModel } from '@/models'
+import { ResultModel, InOutStockTypeModel } from '@/models'
 
 const inOutStockTypeService = {
     getAll() {
-        return request.get<ApiResult<InOutStockTypeModel[]>>('api/InOutStockType/GetAll');
+        return request.get<ResultModel<InOutStockTypeModel[]>>('api/InOutStockType/GetAll');
     },
 }
 

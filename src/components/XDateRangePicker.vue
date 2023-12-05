@@ -1,6 +1,6 @@
 <template>
     <a-dropdown-button>
-        Dropdown
+        Tìm kiếm
         <template #overlay>
             <a-menu>
                 <a-menu-item key="1">
@@ -23,32 +23,14 @@
     </a-modal>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { defineProps, defineEmits } from "vue";
 
-export default defineComponent({
-    name: "VDateRangePicker",
-    props: {
-        period: {
-            type: Number,
-            default: 0
-        },
-        from: {
-            type: Date
-        },
-        to: {
-            type: Date
-        },
-        showOptionArea: {
+const props = defineProps({
+    fromDate: Date,
+    toDate: Date
+})
 
-        }
-    },
-    setup() {
-        return {
+const emit = defineEmits(['change'])
 
-        }
-    },
-});
 </script>
-
-<style></style>

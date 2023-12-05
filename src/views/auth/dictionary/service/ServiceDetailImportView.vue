@@ -243,12 +243,12 @@ export default defineComponent({
             loading.value = true;
 
             let isImport = await serviceService.import(datas.value);
-            isResult.value = isImport.data.isSuccessed;
+            isResult.value = isImport.data.isSucceeded;
 
             loading.value = false;
 
-            if (isImport.data.isSuccessed) {
-                console.log("isSuccessed: " + isImport.data.isSuccessed);
+            if (isImport.data.isSucceeded) {
+                console.log("isSuccessed: " + isImport.data.isSucceeded);
                 toggle();
             }
         };

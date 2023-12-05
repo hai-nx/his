@@ -1,18 +1,18 @@
-import { ApiResult, ProvinceModel } from '@/models'
+import { ResultModel, ProvinceModel } from '@/models'
 import request from '@/utils/request'
 
 const countryService = {
     getAll() {
-        return request.get<ApiResult<ProvinceModel[]>>('api/Province/GetAll');
+        return request.get<ResultModel<ProvinceModel[]>>('api/Province/GetAll');
     },
     getById(id: string) {
-        return request.get<ApiResult<ProvinceModel>>('api/Province/GetById?id=' + id);
+        return request.get<ResultModel<ProvinceModel>>('api/Province/GetById?id=' + id);
     },
     createOrEdit(input: ProvinceModel) {
-        return request.post<ApiResult<ProvinceModel>>('api/Province/CreateOrEdit', input);
+        return request.post<ResultModel<ProvinceModel>>('api/Province/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.delete<ApiResult<ProvinceModel>>('api/Province/Delete?id=' + id);
+        return request.delete<ResultModel<ProvinceModel>>('api/Province/Delete?id=' + id);
     }
 }
 
