@@ -1,18 +1,18 @@
-import { ApiResult, DistrictModel } from '@/models'
+import { ResultModel, DistrictModel } from '@/models'
 import request from '@/utils/request'
 
 const districtService = {
     getAll() {
-        return request.get<ApiResult<DistrictModel[]>>('api/District/GetAll');
+        return request.get<ResultModel<DistrictModel[]>>('api/District/GetAll');
     },
     getById(id: string) {
-        return request.get<ApiResult<DistrictModel>>('api/District/GetById?id=' + id);
+        return request.get<ResultModel<DistrictModel>>('api/District/GetById?id=' + id);
     },
     createOrEdit(input: DistrictModel) {
-        return request.post<ApiResult<DistrictModel>>('api/District/CreateOrEdit', input);
+        return request.post<ResultModel<DistrictModel>>('api/District/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.delete<ApiResult<DistrictModel>>('api/District/Delete?id=' + id);
+        return request.delete<ResultModel<DistrictModel>>('api/District/Delete?id=' + id);
     }
 }
 

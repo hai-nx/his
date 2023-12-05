@@ -1,22 +1,21 @@
-import ApiResult from '@/models/ApiResult'
-import { RoomModel } from '@/models'
+import { ResultModel, RoomModel } from '@/models'
 import request from '@/utils/request'
 
 const roomService = {
     getAll() {
-        return request.get<ApiResult<RoomModel[]>>('api/Room/GetAll')
+        return request.get<ResultModel<RoomModel[]>>('api/Room/GetAll')
     },
     getById(id: string) {
-        return request.get<ApiResult<RoomModel>>('api/Room/GetById?id=' + id);
+        return request.get<ResultModel<RoomModel>>('api/Room/GetById?id=' + id);
     },
     createOrEdit(input: RoomModel) {
-        return request.post<ApiResult<RoomModel>>('api/Room/CreateOrEdit', input);
+        return request.post<ResultModel<RoomModel>>('api/Room/CreateOrEdit', input);
     },
     delete(id: string) {
         return request.delete('api/Room/Delete?id=' + id);
     },
     getByStocks() {
-        return request.get<ApiResult<RoomModel[]>>('api/Room/GetByStocks')
+        return request.get<ResultModel<RoomModel[]>>('api/Room/GetByStocks')
     }
 }
 

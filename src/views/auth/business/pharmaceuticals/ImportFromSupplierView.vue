@@ -899,7 +899,7 @@ export default defineComponent({
                         await inOutStockService.importFromSupplierGetById(
                             props.data.id
                         );
-                    if (resultDto.data.isSuccessed) {
+                    if (resultDto.data.isSucceeded) {
                         title.value = "Nhập thuốc từ nhà cung cấp";
                         source.value = resultDto.data.result;
 
@@ -1325,7 +1325,7 @@ export default defineComponent({
                 await inOutStockService.importFromSupplierSaveAsDraft(
                     source.value
                 );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1349,7 +1349,7 @@ export default defineComponent({
             let resultDto = await inOutStockService.importFromSupplierStockIn(
                 source.value
             );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1371,7 +1371,7 @@ export default defineComponent({
                     await inOutStockService.importFromSupplierCanceled(
                         source.value
                     );
-                if (!resultDto.data.isSuccessed) {
+                if (!resultDto.data.isSucceeded) {
                     Modal.error({
                         content: resultDto.data.message,
                         okText: "Đồng ý",
@@ -1394,7 +1394,7 @@ export default defineComponent({
                     await inOutStockService.importFromSupplierDeleted(
                         source.value.id
                     );
-                if (!resultDto.data.isSuccessed) {
+                if (!resultDto.data.isSucceeded) {
                     Modal.error({
                         content: resultDto.data.message,
                         okText: "Đồng ý",

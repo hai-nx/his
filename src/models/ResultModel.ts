@@ -1,6 +1,6 @@
 export default interface ResultModel<T> {
     message: string,
-    isSuccessed: boolean,
-    item: T,
+    isSucceeded: boolean,
+    result: T,
     errors: []
 }

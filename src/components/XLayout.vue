@@ -43,7 +43,7 @@
                 </slot>
             </div>
             
-            <div>
+            <div class="p-2">
                 <slot></slot>
             </div>
 
@@ -73,11 +73,11 @@ export default defineComponent({
         },
         showHeader: {
             type: Boolean,
-            default: true
+            default: false
         },
         showFooter: {
             type: Boolean,
-            default: true
+            default: false
         }
     },
     setup(props) {

@@ -26,7 +26,8 @@ export const useAuth = defineStore('auth', {
             this.loading = true;
             await authService.login(username, password)
                 .then(response => {
-                    if (response.data.isSuccessed) {
+                    console.log(response.data)
+                    if (response.data.isSucceeded) {
                         this.error = '';
                         this.isAuthenticated = true;
                         this.user = {
@@ -37,6 +38,9 @@ export const useAuth = defineStore('auth', {
                             token: '',
                             refreshToken: ''
                         }
+
+                        console.log('pust' + this.isAuthenticated)
+
                         router.push({ name: 'workplace-option' });
 
                         // xử lý lưu tài khoản

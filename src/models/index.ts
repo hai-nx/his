@@ -1,10 +1,8 @@
-import ApiResult from './ApiResult'
 import ResultModel from './ResultModel'
 import PagedResultModel from './PagedResultModel'
 
-import ReceptionModel from './business/receprions/reception'
-import ReceptionRequestModel from './business/receprions/request'
 import PatientModel from './business/patient'
+import PatientRecordModel, { PatientRecordRequestModel } from './business/patientRecord'
 import TreatmentModel, { TreatmentFilterModel } from './business/treatment'
 
 import BranchModel from './dictionary/administratives/branch'
@@ -15,7 +13,7 @@ import DepartmentTypeModel from './dictionary/administratives/department-type'
 import DistrictModel from './dictionary/administratives/district'
 import EmployeeModel from './dictionary/others/employee'
 import DictionaryBase from './dictionary/base'
-import EthnicModel from './dictionary/administratives/ethnic'
+import EthnicModel, { EthnicRequestModel } from './dictionary/administratives/ethnic'
 import GenderModel from './dictionary/administratives/gender'
 import HospitalModel from './dictionary/administratives/hospital'
 import ICDModel from './dictionary/administratives/icd'
@@ -52,13 +50,12 @@ import UserModel from './system/user';
 import DbOptionModel from './system/dbOption'
 
 export {
-    ApiResult,
     ResultModel,
     PagedResultModel,
 
-    ReceptionModel,
-    ReceptionRequestModel,
     PatientModel,
+    PatientRecordModel,
+    PatientRecordRequestModel,
     TreatmentModel,
     TreatmentFilterModel,
 
@@ -71,6 +68,7 @@ export {
     EmployeeModel,
     DictionaryBase,
     EthnicModel,
+    EthnicRequestModel,
     GenderModel,
     HospitalModel,
     ICDModel,

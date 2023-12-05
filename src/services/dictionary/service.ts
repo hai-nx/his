@@ -1,24 +1,24 @@
-import { ApiResult, ServiceModel, ServiceImportModel, ServiceResultIndiceModel } from '@/models'
+import { ResultModel, ServiceModel, ServiceImportModel, ServiceResultIndiceModel } from '@/models'
 import request from '@/utils/request'
 
 const serviceService = {
     getAll() {
-        return request.get<ApiResult<ServiceModel[]>>('api/Service/GetAll');
+        return request.get<ResultModel<ServiceModel[]>>('api/Service/GetAll');
     },
     getById(id: string) {
-        return request.get<ApiResult<ServiceModel>>('api/Service/GetById?id=' + id);
+        return request.get<ResultModel<ServiceModel>>('api/Service/GetById?id=' + id);
     },
     createOrEdit(input: ServiceModel) {
-        return request.post<ApiResult<ServiceModel>>('api/Service/CreateOrEdit', input);
+        return request.post<ResultModel<ServiceModel>>('api/Service/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.delete<ApiResult<ServiceModel>>('api/Service/Delete?id=' + id);
+        return request.delete<ResultModel<ServiceModel>>('api/Service/Delete?id=' + id);
     },
     import(input: ServiceImportModel[]) {
-        return request.post<ApiResult<boolean>>('api/Service/Import', input);
+        return request.post<ResultModel<boolean>>('api/Service/Import', input);
     },
     importServiceResultIndexs(sServiceResultIndexs: ServiceResultIndiceModel[]) {
-        return request.post<ApiResult<boolean>>('api/Service/ImportServiceResultIndices', sServiceResultIndexs);
+        return request.post<ResultModel<boolean>>('api/Service/ImportServiceResultIndices', sServiceResultIndexs);
     }
 }
 

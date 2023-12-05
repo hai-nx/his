@@ -94,7 +94,7 @@ export default defineComponent({
         const handleSave = async function () {
             loading.value = true;
             let resultSave = await chapterService.createOrEdit(item.value);
-            if (resultSave.data.isSuccessed) {
+            if (resultSave.data.isSucceeded) {
                 result.value = true;
                 toggle();
             } else {
@@ -111,7 +111,7 @@ export default defineComponent({
             result.value = true;
 
             let resultSave = await chapterService.createOrEdit(item.value);
-            if (resultSave.data.isSuccessed) {
+            if (resultSave.data.isSucceeded) {
                 result.value = true;
             } else {
                 Modal.error({

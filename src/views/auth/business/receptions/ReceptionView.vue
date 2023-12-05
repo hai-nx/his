@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { ReceptionModel, ReceptionRequestModel } from '@/models'
+import { PatientRecordModel, PatientRecordRequestModel } from '@/models'
 import { defineComponent, ref } from 'vue'
 import { receptionService } from '@/services'
 import { XItemType } from '@/components';
@@ -79,7 +79,7 @@ export default defineComponent({
             { title: 'STT khám', key: 'action', width: 100 },
             { title: 'Người đăng ký', key: 'action', width: 150 },
         ]);
-        const items = ref<ReceptionModel[]>([]);
+        const items = ref<PatientRecordModel[]>([]);
 
         const pageTotal = ref(500)
         const pageSize = ref(20)
@@ -92,13 +92,13 @@ export default defineComponent({
         }
 
         const getAll = () => {
-            let input: ReceptionRequestModel = {
-                departmentId: "142ECB02-836B-4824-9B71-F18BCA299658",
-                roomId: "991184C1-3FD2-4D15-8977-D1DDA4EC5ACB",
-                receptionFromDate: new Date(),
-                receptionToDate: new Date()
+            let input: PatientRecordRequestModel = {
+                departmentFilter: "142ECB02-836B-4824-9B71-F18BCA299658",
+                rooomFilter: "991184C1-3FD2-4D15-8977-D1DDA4EC5ACB",
+                maxPatientRecordDateFilter: new Date(),
+                minPatientRecordDateFilter: new Date()
             }
-            receptionService.getAll(input).then(res => { items.value = res.data.items })
+            receptionService.getAll(input).then(res => { items.value = res.data.result })
         }
 
         return {

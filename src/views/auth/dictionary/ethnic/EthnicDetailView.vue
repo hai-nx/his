@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-12 col-md-8">
                     <a-input
-                        v-model:value="item.code"
+                        v-model:value="item.ethnicCode"
                         :disabled="loading"
                         :class="{
                             'input-danger': errors.code,
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-12 col-md-8">
                     <a-input
-                        v-model:value="item.name"
+                        v-model:value="item.ethnicName"
                         :disabled="loading"
                         :class="{
                             'input-danger': errors.name,

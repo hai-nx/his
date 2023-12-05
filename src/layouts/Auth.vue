@@ -130,6 +130,6 @@ export default defineComponent({
 
 .app-layout-content {
     margin-top: var(--x-layout-header-height);
-    padding: .5rem;
+    padding: .5rem 1rem;
 }
 </style>

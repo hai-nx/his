@@ -1,18 +1,18 @@
-import { ApiResult, ServiceGroupModel } from '@/models'
+import { ResultModel, ServiceGroupModel } from '@/models'
 import request from '@/utils/request'
 
 const serviceGroupService = {
     getAll() {
-        return request.get<ApiResult<ServiceGroupModel[]>>('api/ServiceGroup/GetAll');
+        return request.get<ResultModel<ServiceGroupModel[]>>('api/ServiceGroup/GetAll');
     },
     getById(id: string) {
-        return request.get<ApiResult<ServiceGroupModel>>('api/ServiceGroup/GetById?id=' + id);
+        return request.get<ResultModel<ServiceGroupModel>>('api/ServiceGroup/GetById?id=' + id);
     },
     createOrEdit(input: ServiceGroupModel) {
-        return request.post<ApiResult<ServiceGroupModel>>('api/ServiceGroup/CreateOrEdit', input);
+        return request.post<ResultModel<ServiceGroupModel>>('api/ServiceGroup/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.delete<ApiResult<ServiceGroupModel>>('api/ServiceGroup/Delete?id=' + id);
+        return request.delete<ResultModel<ServiceGroupModel>>('api/ServiceGroup/Delete?id=' + id);
     }
 }
 

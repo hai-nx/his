@@ -1,18 +1,18 @@
-import { PagedResultModel, ResultModel, ReceptionModel, ReceptionRequestModel } from '@/models'
+import { PagedResultModel, ResultModel, PatientRecordModel, PatientRecordRequestModel } from '@/models'
 import request from '@/utils/request'
 
 const receptionService = {
-    getAll(input: ReceptionRequestModel) {
-        return request.get<PagedResultModel<ReceptionModel>>('api/Reception/GetAll', { params: input });
+    getAll(input: PatientRecordRequestModel) {
+        return request.get<PagedResultModel<PatientRecordModel>>('api/Reception/GetAll', { params: input });
     },
     getById(id: string) {
-        return request.get<ResultModel<ReceptionModel>>('api/Reception/GetById?id=' + id);
+        return request.get<ResultModel<PatientRecordModel>>('api/Reception/GetById?id=' + id);
     },
-    createOrEdit(input: ReceptionModel) {
-        return request.post<ResultModel<ReceptionModel>>('api/Reception/CreateOrEdit', input);
+    createOrEdit(input: PatientRecordModel) {
+        return request.post<ResultModel<PatientRecordModel>>('api/Reception/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post<ResultModel<ReceptionModel>>('api/Reception/Delete?id=' + id);
+        return request.post<ResultModel<PatientRecordModel>>('api/Reception/Delete?id=' + id);
     }
 }
 
