@@ -55,9 +55,27 @@ const impMestService = {
     importFromAnotherStockCancelStockIn(input: InOutStockModel) {
         return request.post<ResultModel<InOutStockModel>>('api/InOutStock/ImportFromAnotherStockCancelStockIn', input);
     },
-    importFromAnotherStockDeleted(id:string){
+    importFromAnotherStockDeleted(id: string) {
         return request.delete<ResultModel<boolean>>('api/InOutStock/ImportFromAnotherStockDeleted?id=' + id);
-    }
+    },
+    //#endregion
+
+    //#region Xuất trả NCC
+    exportToSupplierGetById(id: string) {
+        return request.get<ResultModel<InOutStockModel>>('api/InOutStock/ExportToSupplierGetById?id=' + id);
+    },
+    exportToSupplierSaveAsDraft(input: InOutStockModel) {
+        return request.post<ResultModel<InOutStockModel>>('api/InOutStock/ExportToSupplierSaveAsDraft', input);
+    },
+    exportToSupplierStockOut(input: InOutStockModel) {
+        return request.post<ResultModel<InOutStockModel>>('api/InOutStock/ExportToSupplierStockOut', input);
+    },
+    exportToSupplierCanCelStockOut(input: InOutStockModel) {
+        return request.post<ResultModel<InOutStockModel>>('api/InOutStock/ExportToSupplierCanCelStockOut', input);
+    },
+    exportToSupplierDeleted(id: string) {
+        return request.delete<ResultModel<boolean>>('api/InOutStock/ExportToSupplierDeleted?id=' + id);
+    },
     //#endregion
 }
 

@@ -384,9 +384,9 @@ export default defineComponent({
             countryId: null, // Nước sản xuất
             manufacturer: null, // Hãng sản xuất
             packagingSpecifications: null, // Quy cách đóng gói
-            impPrice: null, // Giá nhập
-            impVatRate: null, // Phần trăm vat giá nhập
-            impTaxRate: null, // Phần trăm thuế
+            impPrice: 0, // Giá nhập
+            impVatRate: 0, // Phần trăm vat giá nhập
+            impTaxRate: 0, // Phần trăm thuế
             isAntibiotics: false, // Thuốc kháng sinh
             isNewDrug: false, // Thuốc tân dược
             isPrescriptionDrug: false, // Thuốc kê đơn
@@ -517,9 +517,9 @@ export default defineComponent({
                 countryId: null, // Nước sản xuất
                 manufacturer: null, // Hãng sản xuất
                 packagingSpecifications: null, // Quy cách đóng gói
-                impPrice: null, // Giá nhập
-                impVatRate: null, // Phần trăm vat giá nhập
-                impTaxRate: null, // Phần trăm thuế
+                impPrice: 0, // Giá nhập
+                impVatRate: 0, // Phần trăm vat giá nhập
+                impTaxRate: 0, // Phần trăm thuế
                 isAntibiotics: false, // Thuốc kháng sinh
                 isNewDrug: false, // Thuốc tân dược
                 isPrescriptionDrug: false, // Thuốc kê đơn

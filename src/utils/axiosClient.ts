@@ -1,32 +1,57 @@
 import axios from 'axios';
 import queryString from 'query-string';
+import { useAuth } from '@/stores/auth';
 
-// Set up default config for http requests here
-// Please have a look at here `https://github.com/axios/axios#request-config` for the full list of configs
-const axiosClient = axios.create({
-    // baseURL: import.meta.env.VUE_APP_API_BASE_URL,
+const axiosInstance = axios.create({
     baseURL: process.env.VUE_APP_API_BASE_URL,
     headers: {
         'content-type': 'application/json',
     },
-    // paramsSerializer: params => queryString.stringify(params),
 });
-axiosClient.interceptors.request.use(async (config) => {
+axiosInstance.interceptors.request.use(async (config) => {
     const { params } = config;
     if (params && Object.keys(params).length !== 0) {
         config.paramsSerializer = (params) => queryString.stringify(params);
     }
+    const store = useAuth();
+    const token = store.user.token;
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
 
-    // Handle token here ...
     return config;
 });
-axiosClient.interceptors.response.use((response) => {
+axiosInstance.interceptors.response.use(response => {
     if (response && response.data) {
         return response.data;
     }
     return response;
-}, (error) => {
-    // Handle errors
-    throw error;
+}, async error => {
+    const originalConfig = error.config;
+
+    if (originalConfig.url !== "api/Login/Authenticate" && error.response) {
+        // Access Token was expired
+        if (error.response.status === 401 && !originalConfig._retry) {
+            originalConfig._retry = true;
+            try {
+                const store = useAuth();
+                const rs = await axiosInstance.post("api/Login/Refreshtoken", {
+                    acceptToken: store.user.token,
+                    refreshToken: store.user.refreshToken,
+                });
+
+                if (rs && rs.data.isSuccessed) {
+                    store.user.token = rs.data.result.acceptToken;
+                }
+
+                return axiosInstance(originalConfig);
+            } catch (_error) {
+                return Promise.reject(_error);
+            }
+        }
+    }
+
+    return Promise.reject(error);
 });
-export default axiosClient;
+
+export default axiosInstance;

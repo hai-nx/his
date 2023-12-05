@@ -102,7 +102,7 @@ export default defineComponent({
         const visible = ref<boolean>(false);
 
          // lấy dữ liệu
-         const handleLoad = () => {
+        const handleLoad = () => {
             items.value = [];
             dbOptionService.getAll().then((res) => {
                 items.value = res.data.result;
@@ -131,7 +131,7 @@ export default defineComponent({
                 Modal.confirm({
                     content:
                         "Bạn có thực sự muốn xóa cấu hình <" +
-                        item.dDbOptionId +
+                        item.dbOptionId +
                         "> đã chọn không?",
                     okText: "Đồng ý",
                     cancelText: "Bỏ qua",

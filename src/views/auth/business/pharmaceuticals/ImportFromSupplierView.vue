@@ -699,17 +699,17 @@ export default defineComponent({
             // Nước sản xuất
             countryId: null,
             // Giá nhập
-            impPrice: null,
+            impPrice: 0,
             // Số lượng YC
-            requestQuantity: null,
+            requestQuantity: 0,
             // Số lượng duyệt
-            approvedQuantity: null,
+            approvedQuantity: 0,
             // Phần trăm vat giá nhập
-            impVatRate: null,
+            impVatRate: 0,
             // Phần trăm thuế
-            impTaxRate: null,
+            impTaxRate: 0,
             // Thành tiền
-            impAmount: null,
+            impAmount: 0,
             // Diễn giải
             description: null,
             // Hoạt chất
@@ -1135,17 +1135,17 @@ export default defineComponent({
                 // Nước sản xuất
                 countryId: null,
                 // Giá nhập
-                impPrice: null,
+                impPrice: 0,
                 // Số lượng YC
-                requestQuantity: null,
+                requestQuantity: 0,
                 // Số lượng duyệt
-                approvedQuantity: null,
+                approvedQuantity: 0,
                 // Phần trăm vat giá nhập
-                impVatRate: null,
+                impVatRate: 0,
                 // Phần trăm thuế
-                impTaxRate: null,
+                impTaxRate: 0,
                 // Thành tiền
-                impAmount: null,
+                impAmount: 0,
                 // Diễn giải
                 description: null,
                 // Hoạt chất

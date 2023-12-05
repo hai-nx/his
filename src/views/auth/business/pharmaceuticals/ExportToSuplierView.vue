@@ -3,14 +3,14 @@
         <a-modal
             :visible="show"
             :title="title"
-            @cancel="handleCancel"
             width="1280px"
             :mask-closable="false"
+            @cancel="handleCancel"
         >
-            <div class="container card-body" @keydown="handleKeydown">
-                <div class="container card-container">
+            <div class="container card-body">
+                <div class="grid-genaral">
                     <label class="grid-column-1">
-                        <span>Kho nhập:</span>
+                        <span>Kho xuất:</span>
                         <span class="text-danger me-1">*</span>
                     </label>
                     <a-select
@@ -18,9 +18,10 @@
                         :field-names="fields"
                         :options="sStocks"
                         showSearch
-                        v-model:value="source.impStockId"
+                        v-model:value="source.expStockId"
                         :disabled="isDisabled"
-                    />
+                    >
+                    </a-select>
                     <label class="grid-column-5">
                         <span>Ngày lập:</span>
                         <span class="text-danger me-1">*</span>
@@ -31,42 +32,79 @@
                         v-model="source.reqTime"
                         :disabled="isDisabled"
                     />
+
                     <label class="grid-column-7">
-                        <span>Người lập:</span>
+                        <span>Ngày HĐ:</span>
+                        <span class="text-danger me-1">*</span>
+                    </label>
+                    <input
+                        class="datetime rid-column-8"
+                        type="date"
+                        v-model="source.invTime"
+                        :disabled="isDisabled"
+                    />
+
+                    <label class="grid-column-9"> Số HĐ: </label>
+                    <a-input
+                        class="grid-column-10"
+                        v-model:value="source.invNo"
+                        :disabled="isDisabled"
+                    />
+                    <label class="grid-column-11"> Mã phiếu: </label>
+                    <a-input
+                        class="grid-column-12"
+                        v-model:value="source.code"
+                        :disabled="isDisabled"
+                    />
+
+                    <label class="grid-column-1">
+                        <span>Tên NCC:</span>
                         <span class="text-danger me-1">*</span>
                     </label>
                     <a-select
-                        class="grid-column-columnspan-8-11"
+                        class="grid-column-columnspan-2-5"
+                        showSearch
+                        :options="sSuppliers"
+                        :field-names="fields"
+                        @change="handleSupplierChanged"
+                        v-model:value="source.supplierId"
+                        :disabled="isDisabled"
+                    >
+                    </a-select>
+                    <label class="grid-column-5"> Địa chỉ: </label>
+                    <a-input
+                        class="grid-column-columnspan-6-9"
+                        v-model:value="supplierSelected.address"
+                        disabled
+                    />
+                    <label class="grid-column-9"> Mã số thuế: </label>
+                    <a-input
+                        class="grid-column-10"
+                        v-model:value="supplierSelected.taxCode"
+                        disabled
+                    />
+                    <label class="grid-column-11"> Nội dung: </label>
+                    <a-input
+                        class="grid-column-12"
+                        v-model:value="source.description"
+                        :disabled="isDisabled"
+                    />
+
+                    <label class="grid-column-1"> Người lập: </label>
+                    <a-select
+                        class="grid-column-columnspan-2-5"
                         :options="sUsers"
                         :field-names="userColumns"
                         show-search
                         v-model:value="source.creationUserId"
                         :disabled="isDisabled"
-                    />
+                    >
+                    </a-select>
 
-                    <label class="grid-column-1">
-                        <span>Kho xuất:</span>
-                        <span class="text-danger me-1">*</span>
-                    </label>
-                    <a-select
-                        class="grid-column-columnspan-2-5"
-                        :field-names="fields"
-                        :options="sStocks"
-                        showSearch
-                        v-model:value="source.expStockId"
-                        :disabled="isDisabled"
-                    />
-                    <label class="grid-column-5"> Mã phiếu: </label>
+                    <label class="grid-column-5"> Người nhận: </label>
                     <a-input
-                        class="grid-column-6"
-                        v-model:value="source.code"
-                        :disabled="isDisabled"
-                    />
-
-                    <label class="grid-column-7"> Nội dung: </label>
-                    <a-input
-                        class="grid-column-columnspan-8-13"
-                        v-model:value="source.description"
+                        class="grid-column-columnspan-6-9"
+                        v-model:value="source.deliverer"
                         :disabled="isDisabled"
                     />
 
@@ -83,7 +121,7 @@
                         class="grid-column-columnspan-2-7"
                         showSearch
                         @change="handleItemStockChanged"
-                        v-model:value="inOutStockitemSelected.itemId"
+                        v-model:value="inOutStockItemSelected.itemId"
                         :field-names="fieldMedistocks"
                         :options="itemStocks"
                         :disabled="isDisabled"
@@ -99,134 +137,95 @@
                             </div>
                         </template>
                     </a-select>
-                    <label class="grid-column-7">
-                        <span>Mã hàng:</span>
-                        <span class="text-danger me-1">*</span>
-                    </label>
+
+                    <label class="grid-column-7"> Mã hàng: </label>
                     <a-input
                         class="grid-column-8"
-                        v-model:value="inOutStockitemSelected.code"
+                        v-model:value="inOutStockItemSelected.code"
+                        :disabled="isDisabled"
+                    />
+                    <label class="grid-column-9"> Nồng độ: </label>
+                    <a-input
+                        class="grid-column-10"
+                        v-model:value="inOutStockItemSelected.concentration"
                         disabled
                     />
-
-                    <label class="grid-column-9"> ĐVT: </label>
-                    <a-select
-                        class="grid-column-610"
-                        :field-names="fields"
-                        :options="sUnits"
-                        v-model:value="inOutStockitemSelected.unitId"
-                        disabled
-                    />
-                    <label class="grid-column-11"> Nồng độ: </label>
+                    <label class="grid-column-11"> Hàm lượng: </label>
                     <a-input
                         class="grid-column-12"
+                        v-model:value="inOutStockItemSelected.content"
                         disabled
-                        v-model:value="inOutStockitemSelected.concentration"
                     />
 
-                    <label class="grid-column-1"> Hàm lượng: </label>
-                    <a-input
-                        class="grid-column-2"
-                        disabled
-                        v-model:value="inOutStockitemSelected.content"
-                    />
-
-                    <label class="grid-column-3"> Hoạt chất: </label>
-                    <a-input
-                        class="grid-column-4"
-                        disabled
-                        v-model:value="inOutStockitemSelected.activeSubstance"
-                    />
-
-                    <label class="grid-column-5"> Nước SX: </label>
+                    <label class="grid-column-1"> Nước SX: </label>
                     <a-select
-                        class="grid-column-6"
+                        class="grid-column-2"
                         :field-names="fields"
                         :options="sCountries"
                         showSearch
-                        v-model:value="inOutStockitemSelected.countryId"
+                        v-model:value="inOutStockItemSelected.countryId"
                         disabled
                     />
 
-                    <label class="grid-column-7"> Hãng SX: </label>
+                    <label class="grid-column-3"> Hãng SX: </label>
                     <a-input
-                        class="grid-column-columnspan-8-13"
+                        class="grid-column-4"
+                        v-model:value="inOutStockItemSelected.manufacturer"
                         disabled
-                        v-model:value="inOutStockitemSelected.manufacturer"
+                    />
+                    <label class="grid-column-5"> Đơn vị tính: </label>
+                    <a-select
+                        class="grid-column-6"
+                        :field-names="fields"
+                        :options="sUnits"
+                        :value="inOutStockItemSelected.unitId"
+                        disabled
+                    />
+                    <label class="grid-column-7">Giá nhập: </label>
+                    <a-input-number
+                        @input="calculateTotalAmout"
+                        class="grid-column-8 w-100"
+                        v-model:value="inOutStockItemSelected.impPrice"
+                        :disabled="isDisabled"
+                        min="0"
+                    />
+                    <label class="grid-column-9">VAT nhập (%): </label>
+                    <a-input-number
+                        @input="calculateTotalAmout"
+                        class="grid-column-10 w-100"
+                        v-model:value="inOutStockItemSelected.impVatRate"
+                        :disabled="isDisabled"
+                        min="0"
+                        max="100"
+                    />
+
+                    <label class="grid-column-11">Thuế nhập (%): </label>
+                    <a-input-number
+                        @input="calculateTotalAmout"
+                        class="grid-column-12 w-100"
+                        v-model:value="inOutStockItemSelected.impTaxRate"
+                        :disabled="isDisabled"
+                        min="0"
+                        max="100"
                     />
 
                     <label class="grid-column-1">Số lượng: </label>
                     <a-input-number
                         @input="calculateTotalAmout"
                         class="grid-column-2 w-100"
+                        v-model:value="inOutStockItemSelected.requestQuantity"
                         :disabled="isDisabled"
                         min="0"
-                        v-model:value="inOutStockitemSelected.requestQuantity"
                     />
-
-                    <label class="grid-column-3">Giá nhập: </label>
+                    <label class="grid-column-3">Thành tiền: </label>
                     <a-input-number
-                        @input="calculateTotalAmout"
                         class="grid-column-4 w-100"
-                        disabled
+                        v-model:value="inOutStockItemSelected.impAmount"
+                        :disabled="isDisabled"
                         min="0"
-                        v-model:value="inOutStockitemSelected.impPrice"
                     />
 
-                    <label class="grid-column-5">VAT (%): </label>
-                    <a-input-number
-                        @input="calculateTotalAmout"
-                        class="grid-column-6 w-100"
-                        disabled
-                        min="0"
-                        max="100"
-                        v-model:value="inOutStockitemSelected.impVatRate"
-                    />
-
-                    <label class="grid-column-7">Thuế (%): </label>
-                    <a-input-number
-                        @input="calculateTotalAmout"
-                        class="grid-column-8 w-100"
-                        disabled
-                        min="0"
-                        max="100"
-                        v-model:value="inOutStockitemSelected.impTaxRate"
-                    />
-
-                    <label class="grid-column-9">Thành tiền: </label>
-                    <a-input-number
-                        class="grid-column-columnspan-10-13 w-100"
-                        disabled
-                        min="0"
-                        :formatter="formatNumber"
-                        v-model:value="inOutStockitemSelected.impAmount"
-                    />
-
-                    <!-- <label class="grid-column-1"> Số ĐK: </label>
-                    <a-input
-                        class="grid-column-2"
-                        disabled
-                        v-model:value="
-                            inOutStockitemSelected.registrationNumber
-                        "
-                    /> -->
-
-                    <label class="grid-column-1"> Số lô: </label>
-                    <a-input
-                        class="grid-column-2"
-                        disabled
-                        v-model:value="inOutStockitemSelected.lot"
-                    />
-
-                    <label class="grid-column-3">Hạn dùng: </label>
-                    <input
-                        class="datetime grid-column-4"
-                        type="date"
-                        disabled
-                        v-model="inOutStockitemSelected.dueDate"
-                    />
-
-                    <label class="grid-column-5">SL tồn: </label>
+                    <label class="grid-column-5">Tồn kho: </label>
                     <a-input-number
                         class="grid-column-6 w-100"
                         disabled
@@ -234,10 +233,32 @@
                         v-model:value="itemStockSelected.availableQuantity"
                     />
 
+                    <!-- <label class="grid-column-7">Số đăng ký: </label>
+                    <a-input
+                        class="grid-column-8"
+                        v-model:value="
+                            inOutStockItemSelected.registrationNumber
+                        "
+                        disabled
+                    /> -->
+
+                    <label class="grid-column-7">Số Lô: </label>
+                    <a-input
+                        class="grid-column-8"
+                        v-model:value="inOutStockItemSelected.lot"
+                        :disabled="isDisabled"
+                    />
+                    <label class="grid-column-9">Hạn dùng: </label>
+                    <input
+                        class="datetime grid-column-10"
+                        type="date"
+                        v-model="inOutStockItemSelected.dueDate"
+                        :disabled="isDisabled"
+                    />
+
                     <a-button
                         type="primary"
                         class="grid-column-columnspan-11-13"
-                        :disabled="isDisabled"
                         @click="handleUpdateInOutStocks()"
                     >
                         Cập nhật (Ctl + A)
@@ -291,10 +312,9 @@
                     </a-table>
                 </div>
             </div>
-
             <template #footer>
                 <a-button
-                    v-if="source.status === 0 && isImport && !isDisabled"
+                    v-if="source.status === 0 && !isDisabled"
                     class="btn-save"
                     :loading="loading"
                     @click.prevent="handleSave"
@@ -302,10 +322,7 @@
                 >
                 <a-button
                     v-if="
-                        source.status === 0 &&
-                        isImport &&
-                        source.id !== null &&
-                        isDisabled
+                        source.status === 0 && source.id !== null && isDisabled
                     "
                     class="btn-save"
                     :loading="loading"
@@ -313,59 +330,20 @@
                     >Sửa</a-button
                 >
                 <a-button
-                    v-if="source.status === 0 && isImport"
+                    v-if="source.status === 0"
+                    class="btn-save"
                     type="primary"
-                    class="btn-save"
-                    @click.prevent="handleSendRequest"
-                    >Gửi yêu cầu</a-button
-                >
-                <a-button
-                    v-if="source.status === 1 && isImport"
-                    class="btn-save"
-                    @click.prevent="handleCanceledRequest"
-                    >Hủy yêu cầu</a-button
-                >
-                <a-button
-                    v-if="source.status === 3 && isImport"
-                    type="primary"
-                    class="btn-save"
-                    @click.prevent="handleStockIn"
-                    >Nhập kho</a-button
-                >
-                <a-button
-                    v-if="source.status === 4 && isImport"
-                    class="btn-save"
-                    @click.prevent="handleCancelStockIn"
-                    >Hủy nhập</a-button
-                >
-
-                <a-button
-                    v-if="source.status === 1 && !isImport"
-                    class="btn-save"
-                    @click.prevent="handleApproved"
-                    >Duyệt</a-button
-                >
-                <a-button
-                    v-if="source.status === 2 && !isImport"
-                    class="btn-save"
-                    @click.prevent="handleCancelApproved"
-                    >Hủy duyệt</a-button
-                >
-                <a-button
-                    v-if="source.status === 2 && !isImport"
-                    class="btn-save"
                     @click.prevent="handleStockOut"
                     >Xuất kho</a-button
                 >
                 <a-button
-                    v-if="source.status === 3 && !isImport"
+                    v-if="source.status === 3"
                     class="btn-save"
                     @click.prevent="handleCancelStockOut"
                     >Hủy xuất</a-button
                 >
-
                 <a-button
-                    v-if="source.status === 0 && isImport && source.id !== null"
+                    v-if="source.status === 0 && source.id !== null"
                     class="btn-save"
                     @click.prevent="handleDeleted"
                     >Hủy phiếu</a-button
@@ -377,7 +355,6 @@
 
 <script lang="ts">
 import { Modal } from "ant-design-vue";
-import { RoomType } from "@/enums/roomtypes";
 import {
     defineComponent,
     ref,
@@ -395,19 +372,22 @@ import {
     UserModel,
     CountryModel,
     InOutStockItemModel,
+    SupplierModel,
 } from "@/models";
 import {
     roomService,
-    userService,
-    unitService,
+    supplierService,
     countryService,
-    itemStockService,
+    unitService,
+    userService,
     inOutStockService,
+    itemStockService,
 } from "@/services";
 import { CommodityType } from "@/enums/commodityType";
+import { RoomType } from "@/enums/roomtypes";
 
 export default defineComponent({
-    name: "ImportFromAnotherStocksView",
+    name: "ExportToSuplierView",
     props: {
         visible: {
             type: Boolean,
@@ -423,7 +403,7 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const isDisabled = ref<boolean>(false);
-        const title = ref<string>("Nhập từ kho khác");
+        const title = ref<string>("Xuất thuốc trả nhà cung cấp");
         const loading = ref<boolean>(false);
         const result = ref<boolean>(false);
         const fields = ref({ value: "id", label: "name" });
@@ -439,11 +419,19 @@ export default defineComponent({
             () => props.isImport || source.value.id === null
         );
 
+        const sSuppliers = ref<SupplierModel[]>([]);
         const sStocks = ref<RoomModel[]>([]);
         const sUnits = ref<UnitModel[]>([]);
         const sUsers = ref<UserModel[]>([]);
         const sCountries = ref<CountryModel[]>([]);
         const itemStocks = ref<ItemStockModel[]>([]);
+
+        const supplierSelected = ref<SupplierModel>({
+            id: null,
+            code: null,
+            name: null,
+            inactive: false,
+        });
 
         const show = computed(() => props.visible);
         const source = ref<InOutStockModel>({
@@ -499,7 +487,7 @@ export default defineComponent({
             inOutStockItems: [],
         });
 
-        const inOutStockitemSelected = ref<InOutStockItemModel>({
+        const inOutStockItemSelected = ref<InOutStockItemModel>({
             id: null,
             // Mã thuốc
             code: null,
@@ -745,10 +733,10 @@ export default defineComponent({
                     isDisabled.value = true;
 
                     var resultDto =
-                        await inOutStockService.importFromAnotherStockGetById(
+                        await inOutStockService.exportToSupplierGetById(
                             props.data.id
                         );
-                    if (resultDto.data.isSucceeded) {
+                    if (resultDto.data.isSuccessed) {
                         title.value = "Nhập thuốc từ nhà cung cấp";
                         source.value = resultDto.data.result;
                         afterLoadSource();
@@ -769,9 +757,7 @@ export default defineComponent({
             }
         });
 
-        /* eslint-disable */
         watchEffect(async () => {
-            debugger;
             // Theo dõi expStockId thay đổi
             if (source.value.expStockId !== null) {
                 itemStocks.value = [];
@@ -829,9 +815,9 @@ export default defineComponent({
             }
 
             // Theo dõi thuốc thay đổi
-            if (inOutStockitemSelected.value.itemId != null) {
+            if (inOutStockItemSelected.value.itemId != null) {
                 let itemStock = itemStocks.value.find(
-                    (f) => f.itemId == inOutStockitemSelected.value.itemId
+                    (f) => f.itemId == inOutStockItemSelected.value.itemId
                 );
                 if (itemStock != null) {
                     itemStockSelected.value = { ...itemStock };
@@ -902,6 +888,7 @@ export default defineComponent({
         });
 
         async function inItData() {
+            sSuppliers.value = await getSuppliers();
             sStocks.value = await getStocks();
             sUnits.value = await getUnits();
             sUsers.value = await getUsers();
@@ -936,7 +923,7 @@ export default defineComponent({
                     }
                 });
 
-                inOutStockitemSelected.value = {
+                inOutStockItemSelected.value = {
                     ...source.value.inOutStockItems[0],
                 };
             }
@@ -996,7 +983,7 @@ export default defineComponent({
                 inOutStockItems: [],
             };
 
-            inOutStockitemSelected.value = {
+            inOutStockItemSelected.value = {
                 id: null,
                 // Mã thuốc
                 code: null,
@@ -1082,6 +1069,10 @@ export default defineComponent({
             ).data.result;
         }
 
+        async function getSuppliers(): Promise<SupplierModel[]> {
+            return (await supplierService.getAll()).data.result;
+        }
+
         async function getStocks(): Promise<RoomModel[]> {
             return (await roomService.getByStocks()).data.result;
         }
@@ -1104,9 +1095,16 @@ export default defineComponent({
             toggle();
         };
 
-        /* eslint-disable */
+        const handleSupplierChanged = (value: string) => {
+            if (value !== null) {
+                let supplier = sSuppliers.value.find((f) => f.id === value);
+                if (supplier !== undefined && supplier !== null) {
+                    supplierSelected.value = { ...supplier };
+                }
+            }
+        };
+
         const handleItemStockChanged = (itemId: string) => {
-            debugger;
             if (itemId !== null) {
                 let itemStock = itemStocks.value.find(
                     (f) => f.itemId === itemId
@@ -1114,56 +1112,56 @@ export default defineComponent({
                 if (itemStock !== undefined && itemStock !== null) {
                     itemStockSelected.value = { ...itemStock };
 
-                    if (inOutStockitemSelected.value !== undefined) {
-                        inOutStockitemSelected.value.id = null;
-                        inOutStockitemSelected.value.itemId =
+                    if (inOutStockItemSelected.value !== undefined) {
+                        inOutStockItemSelected.value.id = null;
+                        inOutStockItemSelected.value.itemId =
                             itemStockSelected.value.itemId;
-                        inOutStockitemSelected.value.code =
+                        inOutStockItemSelected.value.code =
                             itemStockSelected.value.code;
-                        inOutStockitemSelected.value.heInCode =
+                        inOutStockItemSelected.value.heInCode =
                             itemStockSelected.value.heInCode;
-                        inOutStockitemSelected.value.name =
+                        inOutStockItemSelected.value.name =
                             itemStockSelected.value.name;
-                        inOutStockitemSelected.value.itemLineId =
+                        inOutStockItemSelected.value.itemLineId =
                             itemStockSelected.value.itemLineId;
-                        inOutStockitemSelected.value.itemGroupId =
+                        inOutStockItemSelected.value.itemGroupId =
                             itemStockSelected.value.itemGroupId;
-                        inOutStockitemSelected.value.itemTypeId =
+                        inOutStockItemSelected.value.itemTypeId =
                             itemStockSelected.value.itemTypeId;
-                        inOutStockitemSelected.value.unitId =
+                        inOutStockItemSelected.value.unitId =
                             itemStockSelected.value.unitId;
-                        inOutStockitemSelected.value.tutorial =
+                        inOutStockItemSelected.value.tutorial =
                             itemStockSelected.value.tutorial;
-                        inOutStockitemSelected.value.countryId =
+                        inOutStockItemSelected.value.countryId =
                             itemStockSelected.value.countryId;
-                        inOutStockitemSelected.value.impPrice =
+                        inOutStockItemSelected.value.impPrice =
                             itemStockSelected.value.impPrice;
-                        inOutStockitemSelected.value.activeSubstance =
+                        inOutStockItemSelected.value.activeSubstance =
                             itemStockSelected.value.activeSubstance;
-                        inOutStockitemSelected.value.concentration =
+                        inOutStockItemSelected.value.concentration =
                             itemStockSelected.value.concentration;
-                        inOutStockitemSelected.value.impVatRate =
+                        inOutStockItemSelected.value.impVatRate =
                             itemStockSelected.value.impVatRate;
-                        inOutStockitemSelected.value.impTaxRate =
+                        inOutStockItemSelected.value.impTaxRate =
                             itemStockSelected.value.impTaxRate;
-                        inOutStockitemSelected.value.activeSubstance =
+                        inOutStockItemSelected.value.activeSubstance =
                             itemStockSelected.value.activeSubstance;
-                        inOutStockitemSelected.value.concentration =
+                        inOutStockItemSelected.value.concentration =
                             itemStockSelected.value.concentration;
-                        inOutStockitemSelected.value.content =
+                        inOutStockItemSelected.value.content =
                             itemStockSelected.value.content;
-                        inOutStockitemSelected.value.manufacturer =
+                        inOutStockItemSelected.value.manufacturer =
                             itemStockSelected.value.manufacturer;
-                        inOutStockitemSelected.value.packagingSpecifications =
+                        inOutStockItemSelected.value.packagingSpecifications =
                             itemStockSelected.value.packagingSpecifications;
-                        inOutStockitemSelected.value.registrationNumber =
+                        inOutStockItemSelected.value.registrationNumber =
                             itemStockSelected.value.registrationNumber;
-                        inOutStockitemSelected.value.lot =
+                        inOutStockItemSelected.value.lot =
                             itemStockSelected.value.lot;
-                        inOutStockitemSelected.value.commodityType =
+                        inOutStockItemSelected.value.commodityType =
                             itemStockSelected.value.commodityType;
                         if (itemStockSelected.value.dueDate !== null) {
-                            inOutStockitemSelected.value.dueDate =
+                            inOutStockItemSelected.value.dueDate =
                                 itemStockSelected.value.dueDate.split("T")[0];
                         }
                     }
@@ -1177,30 +1175,28 @@ export default defineComponent({
             }
         }
 
-        /* eslint-disable */
         function handleUpdateInOutStocks() {
-            debugger;
             let inOutStockItem = source.value.inOutStockItems.find(
-                (f) => f.itemTypeId == inOutStockitemSelected.value.itemTypeId
+                (f) => f.itemTypeId == inOutStockItemSelected.value.itemTypeId
             );
             if (inOutStockItem !== null && inOutStockItem != undefined) {
                 const index =
                     source.value.inOutStockItems.indexOf(inOutStockItem);
                 source.value.inOutStockItems[index] = {
-                    ...inOutStockitemSelected.value,
+                    ...inOutStockItemSelected.value,
                 };
-            } else if (inOutStockitemSelected.value.itemTypeId !== null) {
+            } else if (inOutStockItemSelected.value.itemTypeId !== null) {
                 source.value.inOutStockItems.push({
-                    ...inOutStockitemSelected.value,
+                    ...inOutStockItemSelected.value,
                 });
             }
 
             if (
                 inOutStockItem &&
-                inOutStockItem.requestQuantity &&
-                inOutStockItem.impVatRate &&
-                inOutStockItem.impPrice &&
-                inOutStockItem.impTaxRate
+                inOutStockItem.requestQuantity !== null &&
+                inOutStockItem.impVatRate !== null &&
+                inOutStockItem.impPrice !== null &&
+                inOutStockItem.impTaxRate !== null
             ) {
                 let vatRate = inOutStockItem.impVatRate / 100;
                 let taxRate = inOutStockItem.impTaxRate / 100;
@@ -1213,18 +1209,18 @@ export default defineComponent({
 
         const calculateTotalAmout = () => {
             if (
-                inOutStockitemSelected.value.requestQuantity &&
-                inOutStockitemSelected.value.impVatRate &&
-                inOutStockitemSelected.value.impPrice &&
-                inOutStockitemSelected.value.impTaxRate
+                inOutStockItemSelected.value.requestQuantity !== null &&
+                inOutStockItemSelected.value.impVatRate !== null &&
+                inOutStockItemSelected.value.impPrice !== null &&
+                inOutStockItemSelected.value.impTaxRate !== null
             ) {
-                let vatRate = inOutStockitemSelected.value.impVatRate / 100;
-                let taxRate = inOutStockitemSelected.value.impTaxRate / 100;
+                let vatRate = inOutStockItemSelected.value.impVatRate / 100;
+                let taxRate = inOutStockItemSelected.value.impTaxRate / 100;
                 let impAmount =
-                    inOutStockitemSelected.value.requestQuantity *
-                    inOutStockitemSelected.value.impPrice;
+                    inOutStockItemSelected.value.requestQuantity *
+                    inOutStockItemSelected.value.impPrice;
 
-                inOutStockitemSelected.value.impAmount =
+                inOutStockItemSelected.value.impAmount =
                     impAmount * (1 + vatRate + taxRate);
             }
         };
@@ -1234,12 +1230,6 @@ export default defineComponent({
                 return null;
             }
             return parseFloat(value.toString()).toFixed(2);
-        };
-
-        /* eslint-disable */
-        const handleModalOkClick = (value: boolean) => {
-            debugger;
-            isOK.value = false;
         };
 
         const handleRowClickImpMestitem = (record: InOutStockItemModel) => {
@@ -1253,28 +1243,25 @@ export default defineComponent({
         const setInoutStockitem = (data: InOutStockItemModel | undefined) => {
             if (data !== undefined) {
                 const dataCopy = { ...data };
-                inOutStockitemSelected.value = dataCopy;
+                inOutStockItemSelected.value = dataCopy;
             }
         };
 
         const handleSave = async () => {
-            // loading.value = true;
             result.value = false;
 
-            var resultDto =
-                await inOutStockService.importFromAnotherStockSaveAsDraft(
-                    source.value
-                );
-            if (!resultDto.data.isSucceeded) {
+            var resultDto = await inOutStockService.exportToSupplierSaveAsDraft(
+                source.value
+            );
+            if (!resultDto.data.isSuccessed) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
                 });
             } else {
-                // result.value = true;
-                // toggle();
                 source.value = resultDto.data.result;
                 afterLoadSource();
+                isDisabled.value = true;
             }
 
             loading.value = false;
@@ -1284,113 +1271,18 @@ export default defineComponent({
             isDisabled.value = false;
         };
 
-        const handleSendRequest = async () => {
-            // result.value = false;
-            loading.value = true;
-
-            let resultDto =
-                await inOutStockService.importFromAnotherStockRequest(
-                    source.value
-                );
-            if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
-            } else {
-                // result.value = true;
-                // toggle();
-                source.value = resultDto.data.result;
-                afterLoadSource();
-            }
-
-            loading.value = false;
-        };
-
-        const handleCanceledRequest = async () => {
-            // result.value = false;
-            loading.value = true;
-
-            let resultDto =
-                await inOutStockService.importFromAnotherStockCancelRequest(
-                    source.value
-                );
-            if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
-            } else {
-                // result.value = true;
-                // toggle();
-                source.value = resultDto.data.result;
-                afterLoadSource();
-            }
-
-            loading.value = false;
-        };
-
-        const handleApproved = async () => {
-            // result.value = false;
-            loading.value = true;
-
-            let resultDto =
-                await inOutStockService.importFromAnotherStockApproved(
-                    source.value
-                );
-            if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
-            } else {
-                // result.value = true;
-                // toggle();
-                source.value = resultDto.data.result;
-                afterLoadSource();
-            }
-
-            loading.value = false;
-        };
-
-        const handleCancelApproved = async () => {
-            // result.value = false;
-            loading.value = true;
-
-            let resultDto =
-                await inOutStockService.importFromAnotherStockCancelApproved(
-                    source.value
-                );
-            if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
-            } else {
-                // result.value = true;
-                // toggle();
-                source.value = resultDto.data.result;
-            }
-
-            loading.value = false;
-        };
-
         const handleStockOut = async () => {
-            // result.value = false;
             loading.value = true;
 
-            let resultDto =
-                await inOutStockService.importFromAnotherStockStockOut(
-                    source.value
-                );
-            if (!resultDto.data.isSucceeded) {
+            let resultDto = await inOutStockService.exportToSupplierStockOut(
+                source.value
+            );
+            if (!resultDto.data.isSuccessed) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
                 });
             } else {
-                // result.value = true;
-                // toggle();
                 source.value = resultDto.data.result;
                 afterLoadSource();
             }
@@ -1399,69 +1291,18 @@ export default defineComponent({
         };
 
         const handleCancelStockOut = async () => {
-            // result.value = false;
             loading.value = true;
 
             let resultDto =
-                await inOutStockService.importFromAnotherStockCanCelStockOut(
+                await inOutStockService.exportToSupplierCanCelStockOut(
                     source.value
                 );
-            if (!resultDto.data.isSucceeded) {
+            if (!resultDto.data.isSuccessed) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
                 });
             } else {
-                // result.value = true;
-                // toggle();
-                source.value = resultDto.data.result;
-                afterLoadSource();
-            }
-
-            loading.value = false;
-        };
-
-        const handleStockIn = async () => {
-            // result.value = false;
-            loading.value = true;
-
-            let resultDto =
-                await inOutStockService.importFromAnotherStockStockIn(
-                    source.value
-                );
-            if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
-            } else {
-                // result.value = true;
-                // toggle();
-                source.value = resultDto.data.result;
-                afterLoadSource();
-            }
-
-            loading.value = false;
-        };
-
-        /* eslint-disable */
-        const handleCancelStockIn = async () => {
-            debugger;
-            // result.value = false;
-            loading.value = true;
-
-            let resultDto =
-                await inOutStockService.importFromAnotherStockCancelStockIn(
-                    source.value
-                );
-            if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
-            } else {
-                // result.value = true;
-                // toggle();
                 source.value = resultDto.data.result;
                 afterLoadSource();
             }
@@ -1474,11 +1315,10 @@ export default defineComponent({
             loading.value = true;
 
             if (source.value.id !== null) {
-                let resultDto =
-                    await inOutStockService.importFromAnotherStockDeleted(
-                        source.value.id
-                    );
-                if (!resultDto.data.isSucceeded) {
+                let resultDto = await inOutStockService.exportToSupplierDeleted(
+                    source.value.id
+                );
+                if (!resultDto.data.isSuccessed) {
                     Modal.error({
                         content: resultDto.data.message,
                         okText: "Đồng ý",
@@ -1505,6 +1345,7 @@ export default defineComponent({
             activeKey,
             source,
 
+            sSuppliers,
             sStocks,
             sUnits,
             sUsers,
@@ -1513,7 +1354,8 @@ export default defineComponent({
             formatNumber,
 
             itemStockSelected,
-            inOutStockitemSelected,
+            inOutStockItemSelected,
+            supplierSelected,
 
             impMestitemColumns,
             handleItemStockChanged,
@@ -1524,16 +1366,11 @@ export default defineComponent({
 
             handleSave,
             handleEdit,
-            handleSendRequest,
-            handleCanceledRequest,
-            handleApproved,
-            handleCancelApproved,
             handleStockOut,
             handleCancelStockOut,
-            handleStockIn,
-            handleCancelStockIn,
             handleCancel,
             handleDeleted,
+            handleSupplierChanged,
         };
     },
 });
@@ -1545,7 +1382,7 @@ export default defineComponent({
     height: 650px;
     overflow-y: auto;
 }
-.card-container {
+.grid-genaral {
     display: grid;
     grid-template-columns: repeat(6, auto minmax(50px, 1fr));
     grid-row-gap: 5px;
@@ -1567,14 +1404,6 @@ export default defineComponent({
 
 .grid-column-columnspan-6-9 {
     grid-column: 6/9;
-}
-
-.grid-column-columnspan-8-13 {
-    grid-column: 8/13;
-}
-
-.grid-column-columnspan-8-11 {
-    grid-column: 8/11;
 }
 
 .grid-column-columnspan-10-13 {
@@ -1635,5 +1464,95 @@ export default defineComponent({
 
 .ant-divider-horizontal {
     margin: 5px 0;
+}
+
+@media (max-width: 768px) {
+    .grid-genaral {
+        grid-template-columns: 1fr;
+    }
+    .grid-column-columnspan-1-13 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-columnspan-2-5 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-columnspan-2-7 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-columnspan-6-9 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-columnspan-10-13 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-columnspan-11-13 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-1 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-2 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-3 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-4 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-5 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-6 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-7 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-8 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-9 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-10 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-11 {
+        grid-column: 1/1;
+    }
+
+    .grid-column-12 {
+        grid-column: 1/1;
+    }
+}
+
+.table-overflow-x {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.grid-pricePolicy {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto 1fr;
+    grid-row-gap: 5px;
+    align-items: top;
 }
 </style>

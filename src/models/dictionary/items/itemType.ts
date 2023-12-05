@@ -18,9 +18,9 @@ export default interface ItemTypeModel extends DictionaryBase {
     proprietaryDrug: string | null, // Biệt dược
     manufacturer: string | null, // Hãng sản xuất
     packagingSpecifications: string | null, // Quy cách đóng gói
-    impPrice: number | null, // Giá nhập
-    impVatRate: number | null, // Phần trăm vat giá nhập
-    impTaxRate: number | null, // Phần trăm thuế
+    impPrice: number, // Giá nhập
+    impVatRate: number, // Phần trăm vat giá nhập
+    impTaxRate: number, // Phần trăm thuế
     isAntibiotics: boolean, // Thuốc kháng sinh
     isNewDrug: boolean, // Thuốc tân dược
     isPrescriptionDrug: boolean, // Thuốc kê đơn

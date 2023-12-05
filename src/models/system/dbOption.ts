@@ -2,7 +2,7 @@ import { Dayjs } from 'dayjs'
 
 export default interface DbOptionModel {
     id: string | null,
-    dDbOptionId: string | null,
+    dbOptionId: string | null,
     dbOptionValue: string | null,
     dbOptionType: number,
     description?: string,

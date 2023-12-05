@@ -20,15 +20,15 @@ export default interface ItemModel extends DictionaryBase {
     // Nước sản xuất
     countryId: string | null,
     // Giá nhập
-    impPrice: number | null,
+    impPrice: number,
     // Số lượng nhập
-    impQuantity: number | null,
+    impQuantity: number,
     // Phần trăm vat giá nhập
-    impVatRate: number | null,
+    impVatRate: number,
     // Phần trăm thuế
-    impTaxRate: number | null,
+    impTaxRate: number,
     // Phần trăm thuế
-    impAmount: number | null,
+    impAmount: number,
     // Hoạt chất
     activeSubstance: string | null,
     // Nồng độ

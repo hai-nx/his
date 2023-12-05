@@ -140,6 +140,13 @@
                 :data="source"
                 @toggle="handleToggleImportFromAnotherStock"
             />
+
+            <ExportToSuplierView
+                :visible="visibleExportToSuplier"
+                :isImport="isImport"
+                :data="source"
+                @toggle="handleToggleExportFromSupplier"
+            />
         </teleport>
     </div>
 </template>
@@ -157,12 +164,15 @@ import dayjs, { Dayjs } from "dayjs";
 import ImportFromSupplierView from "./ImportFromSupplierView.vue";
 import ImportFromAnotherStockView from "./ImportFromAnotherStocksView.vue";
 
+import ExportToSuplierView from "./ExportToSuplierView.vue";
+
 export default defineComponent({
     name: "PharmaceuticalView",
     setup() {
         // const type = ref<string>("0");
         const visibleImportFromSupplier = ref<boolean>(false);
         const visibleImportFromAnotherStock = ref<boolean>(false);
+        const visibleExportToSuplier = ref<boolean>(false);
         const source = ref<InOutStockModel>();
         const fields = ref({ value: "id", label: "name" });
         const stocks = ref<RoomModel[]>([]);
@@ -176,10 +186,7 @@ export default defineComponent({
         );
 
         const inOutStockTypes = ref<InOutStockTypeModel[]>([]);
-
         const inOutStockTypeId = ref<number>(0);
-        const visibleExportFromAnotherStock = ref<boolean>(false);
-
         const roomType = ref<number>(0);
 
         const columnImps = ref([
@@ -313,10 +320,9 @@ export default defineComponent({
             }
         };
 
-        // Ẩn, hiện xuất kho thuốc của phiếu nhập từ kho khác
+        // ẩn, hiện xuất trả thuốc từ nhà cung cấp
         const handleToggleExportFromSupplier = (result: boolean) => {
-            visibleExportFromAnotherStock.value =
-                !visibleExportFromAnotherStock.value;
+            visibleExportToSuplier.value = !visibleExportToSuplier.value;
 
             if (result) {
                 handleLoad();
@@ -341,6 +347,11 @@ export default defineComponent({
                 inOutStockTypeId.value === 1
             ) {
                 visibleImportFromSupplier.value = v;
+            } else if (
+                (s !== undefined && s.inOutStockTypeId === 2) ||
+                inOutStockTypeId.value === 2
+            ) {
+                visibleExportToSuplier.value = v;
             } else if (
                 (s !== undefined && s.inOutStockTypeId === 3) ||
                 inOutStockTypeId.value === 3
@@ -371,6 +382,7 @@ export default defineComponent({
             columnImps,
             visibleImportFromSupplier,
             visibleImportFromAnotherStock,
+            visibleExportToSuplier,
             fields,
             stocks,
             inOutStockTypes,
@@ -387,8 +399,6 @@ export default defineComponent({
             handleStocksChanged,
             handlGegenerateDocumentClick,
             handleToggleImportFromAnotherStock,
-
-            visibleExportFromAnotherStock,
             handleToggleExportFromSupplier,
         };
     },
@@ -400,6 +410,8 @@ export default defineComponent({
         PlusOutlined,
         ImportFromSupplierView,
         ImportFromAnotherStockView,
+
+        ExportToSuplierView,
     },
 });
 </script>
