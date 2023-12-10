@@ -11,5 +11,6 @@ export function defineAsyncComponents(app: App<Element>) {
     app.component("XLayout", defineAsyncComponent(() => import('@/components/XLayout.vue')));
     app.component("XNav", defineAsyncComponent(() => import('@/components/Nav.vue')));
     app.component("XNavItem", defineAsyncComponent(() => import('@/components/NavItem.vue')));
+    app.component("XPagination", defineAsyncComponent(() => import('@/components/XPagination.vue')));
 }
 

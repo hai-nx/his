@@ -13,9 +13,11 @@ html,
 body,
 #app {
     height: 100vh;
-    min-width: 100vw;
+    min-width: 768px;
+    width: 100vw;
     font-size: var(--x-nav-font-size);
 }
+/*đặt min width vì chưa xây dựng được giao diện cho mobile */
 
 /* Đặt css khoảng cách cell trong table */
 .ant-table.ant-table-middle .ant-table-tbody>tr>td {

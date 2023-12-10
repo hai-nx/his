@@ -736,7 +736,7 @@ export default defineComponent({
                         await inOutStockService.exportToSupplierGetById(
                             props.data.id
                         );
-                    if (resultDto.data.isSuccessed) {
+                    if (resultDto.data.isSucceeded) {
                         title.value = "Nhập thuốc từ nhà cung cấp";
                         source.value = resultDto.data.result;
                         afterLoadSource();
@@ -1253,7 +1253,7 @@ export default defineComponent({
             var resultDto = await inOutStockService.exportToSupplierSaveAsDraft(
                 source.value
             );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1277,7 +1277,7 @@ export default defineComponent({
             let resultDto = await inOutStockService.exportToSupplierStockOut(
                 source.value
             );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1297,7 +1297,7 @@ export default defineComponent({
                 await inOutStockService.exportToSupplierCanCelStockOut(
                     source.value
                 );
-            if (!resultDto.data.isSuccessed) {
+            if (!resultDto.data.isSucceeded) {
                 Modal.error({
                     content: resultDto.data.message,
                     okText: "Đồng ý",
@@ -1318,7 +1318,7 @@ export default defineComponent({
                 let resultDto = await inOutStockService.exportToSupplierDeleted(
                     source.value.id
                 );
-                if (!resultDto.data.isSuccessed) {
+                if (!resultDto.data.isSucceeded) {
                     Modal.error({
                         content: resultDto.data.message,
                         okText: "Đồng ý",
