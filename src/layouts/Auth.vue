@@ -1,5 +1,4 @@
 <template>
-    
     <div class="app-layout">
         <x-nav :data-source="items" @click="handleClick" @brandClick="handleBrandClick">
             <a-dropdown>

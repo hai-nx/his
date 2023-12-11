@@ -48,10 +48,10 @@
 </template>
 
 <script setup lang="ts">
-import { PatientRecordModel, PatientRecordRequestModel } from '@/models'
 import { ref } from 'vue'
-import { receptionService } from '@/services'
+import { PatientRecordModel, PatientRecordRequestModel } from '@/models'
 import { XItemType } from '@/components';
+import { receptionService } from '@/services'
 import router from '@/router';
 
 const title = ref('Danh sách bệnh nhân đăng ký khám');

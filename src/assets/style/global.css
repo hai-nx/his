@@ -20,6 +20,10 @@ body,
 /*đặt min width vì chưa xây dựng được giao diện cho mobile */
 
 /* Đặt css khoảng cách cell trong table */
+.ant-table-thead .ant-table-cell {
+    background-color: #ddf3fb;
+  }
+
 .ant-table.ant-table-middle .ant-table-tbody>tr>td {
     padding: 3px 3px !important;
 }

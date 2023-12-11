@@ -34,7 +34,10 @@
                 <slot name="header">
                     <div class="d-flex justify-content-between align-items-center">
                         <slot name="extra">
-                            <h5 class="mb-0">{{ title }}</h5>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-file-earmark-text h5 mb-0 me-1 text-primary"></i>
+                                <h5 class="mb-0">{{ title }}</h5>
+                            </div>
                         </slot>
                         <div>
                             <slot name="action"></slot>

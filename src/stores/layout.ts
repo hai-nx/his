@@ -20,7 +20,7 @@ export const useLayout = defineStore('layout', {
                 ]
             },
 
-            { key: '3', label: 'Khám bệnh', icon: '', path: 'exam' },
+            { key: '3', label: 'Khám bệnh', icon: '', path: 'clinical' },
 
             { key: 'pharmaceutical', label: 'Dược', icon: '', path: 'pharmaceutical' },
 
