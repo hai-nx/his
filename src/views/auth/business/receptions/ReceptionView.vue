@@ -1,8 +1,11 @@
 <template>
     <x-layout :title="title" :breadcrumbs="breadcrumbs" :show-header="true">
         <template #action>
-            <a-button type="primary" @click="onShowReceptionDetail">Đón tiếp</a-button>
-            <a-dropdown-button class="ms-2">
+            <a-button type="primary" class="mx-1" @click="onShowReceptionDetail">
+                Đón tiếp
+            </a-button>
+
+            <a-dropdown-button class="mx-1">
                 Báo cáo
                 <template #overlay>
                     <a-menu>
@@ -24,10 +27,20 @@
             </a-dropdown-button>
         </template>
 
-        <div class="py-3 px-2">
-            <div class="row mb-3">
-                <label>Tuwf ngayf</label>
-                <label>Ddeens ngayf</label>
+        <div  class="d-flex flex-column p-3">
+            <div class="row">
+                <div class="d-flex flex-row align-items-center mb-3">
+                <label>Từ ngày</label>
+                <a-date-picker class="ms-2"></a-date-picker>
+                <label class="ms-2">Đến ngày</label>
+                <a-date-picker class="ms-2"></a-date-picker>
+                <label class="ms-2">Trạng thái</label>
+                <a-select class="w-150 ms-2"></a-select>
+                <label class="ms-2">Phòng khám</label>
+                <a-select class="w-150 ms-2"></a-select>
+                <a-input class="w-200 ms-2"></a-input>
+                <a-button class="ms-2">Tìm kiếm</a-button>
+            </div>
             </div>
 
             <div class="row mb-3">
@@ -48,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, h } from 'vue'
 import { PatientRecordModel, PatientRecordRequestModel } from '@/models'
 import { XItemType } from '@/components';
 import { receptionService } from '@/services'
@@ -76,17 +89,22 @@ const columns = ref([
 ]);
 const items = ref<PatientRecordModel[]>([]);
 
-const totalRowCount = ref(200);
-const currentPage = ref(2);
+const totalRowCount = ref(0);
+const currentPage = ref(1);
 const pageSize = ref(20);
-
 
 function loadSource() {
     let input: PatientRecordRequestModel = {
+        maxResultCount: pageSize.value,
+        skipCount: pageSize.value  * (currentPage.value - 1),
         maxPatientRecordDateFilter: new Date(),
         minPatientRecordDateFilter: new Date()
     }
-    receptionService.getAll(input).then(res => { items.value = res.data.result });
+    receptionService.getAll(input)
+        .then(res => { 
+            items.value = res.data.result;
+            totalRowCount.value = res.data.totalCount;
+        });
 }
 
 
@@ -104,5 +122,9 @@ function onCurrentPageChange(value: number) {
     currentPage.value = value
     loadSource();
 }
+
+
+
+onMounted(() => loadSource())
 
 </script>

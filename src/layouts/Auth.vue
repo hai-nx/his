@@ -121,14 +121,16 @@ export default defineComponent({
 
 <style scoped>
 .app-layout {
-    min-height: 100%;
-    background-color: #ECECEC;
     display: flex;
     flex-direction: column;
+    align-items: stretch;
+    background-color: #ECECEC;
 }
 
 .app-layout-content {
     margin-top: var(--x-layout-header-height);
+    margin-bottom: 0;
     padding: .5rem 1rem;
+    min-height: calc(100vh - var(--x-layout-header-height));
 }
 </style>

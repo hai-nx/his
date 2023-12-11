@@ -9,7 +9,7 @@
             <a-button type="primary" class="ms-2" @click="onShowExaminationDetail">Thanh toán</a-button>
         </template>
 
-        <div class="d-flex flex-column py-3 px-2">
+        <div class="d-flex flex-column p-3">
             <div class="d-flex flex-row align-items-center mb-3">
                 <label>Từ ngày</label>
                 <a-date-picker class="ms-2"></a-date-picker>
@@ -18,29 +18,33 @@
                 <label class="ms-2">Trạng thái</label>
                 <a-select class="w-150 ms-2" :options="statusOptions"></a-select>
                 <label class="ms-2">Phòng khám</label>
-                <a-select class="w-150 ms-2" :options="statusOptions"></a-select>
+                <a-select class="w-150 ms-2" :options="roomOptions"></a-select>
                 <a-input class="w-200 ms-2"></a-input>
                 <a-button class="ms-2">Tìm kiếm</a-button>
             </div>
 
-            <div class="d-flex align-items-stretch">
-                <div class="flex-grow-1 align-items-stretch">
+            <div class="d-flex flex-row">
+                <div class="flex-fill">
                     <div>
                         <a-table 
                             :columns="columns" 
                             :data-source="items" 
                             :pagination="false" 
-                            :scroll="{ x: 'max-content' }"
                             select
                             bordered 
                             size="middle" 
-                            :customRow="customRow"
-                            :rowClassName="'bg-primary'">
+                            :customRow="customRow">
                         </a-table>
                     </div>
 
-                    <x-pagination class="mt-3" :current="currentPage" :page-size="pageSize" :total="totalRowCount"
-                        @change="onCurrentPageChange" @pageSizeChange="onPageSizeChange" />
+                    <x-pagination 
+                        class="mt-3" 
+                        :current="currentPage" 
+                        :page-size="pageSize" 
+                        :total="totalRowCount"
+                        @change="onCurrentPageChange" 
+                        @pageSizeChange="onPageSizeChange" 
+                        />
                 </div>
 
                 <div class="border ms-2 px-3">
@@ -69,6 +73,7 @@ import router from "@/router";
 
 import { SelectProps } from "ant-design-vue";
 
+
 const title = ref('Khám bệnh');
 const breadcrumbs = ref<Array<XItemType>>([
     { key: '1', label: 'Đón tiếp', icon: '', path: '' },
@@ -82,6 +87,8 @@ const statusOptions = ref<SelectProps['options']>([
     { value: '2', label: 'Đang khám' },
     { value: '3', label: 'Đã xử trí' },
 ])
+
+const roomOptions = ref<SelectProps['options']>([])
 
 const columns = ref([
     { title: 'STT', key: 'name', dataIndex: 'name', width: 50, maxWidth: 50 },
@@ -110,7 +117,6 @@ const current = ref<PatientRecordModel>({});
 const totalRowCount = ref(0);
 const currentPage = ref(1);
 const pageSize = ref(20);
-
 
 function loadSource() {
     console.log('load')
@@ -148,7 +154,7 @@ function onCurrentPageChange(value: number) {
 
 </script>
 
-<style>
+<style scoped>
 .w-150 {
     width: 150px;
 }

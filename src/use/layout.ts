@@ -1,6 +1,6 @@
 import { ref } from "vue"
 
-export default function () {
+export default function useLayout () {
     const columns = ref([])
 
     const getCollumn = async () => {

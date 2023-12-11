@@ -1,3 +1,5 @@
+import PagedResultRequestModel from "@/models/PagedResultRequestModel"
+
 export default interface PatientRecordModel {
     id?: string,
     patientRecordCode?: string | undefined
@@ -21,7 +23,7 @@ export default interface PatientRecordModel {
     issueBy?: string
 }
 
-export interface PatientRecordRequestModel {
+export interface PatientRecordRequestModel extends PagedResultRequestModel {
     patientFilter?: string,
     patientCodeFilter?: string,
     patientNameFilter?: string,

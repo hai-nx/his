@@ -10,14 +10,15 @@
 }
 
 html,
-body,
-#app {
-    height: 100vh;
-    min-width: 768px;
-    width: 100vw;
+body {
+    width: 100%;
     font-size: var(--x-nav-font-size);
 }
-/*đặt min width vì chưa xây dựng được giao diện cho mobile */
+
+#app {
+    min-width: 768px;
+    font-size: var(--x-nav-font-size);
+}
 
 /* Đặt css khoảng cách cell trong table */
 .ant-table-thead .ant-table-cell {

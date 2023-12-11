@@ -29,6 +29,7 @@
                 </div>
             </slot>
         </div>
+
         <div class="x-layout-content border shadow rounded">
             <div class="p-2 border-bottom" v-if="showHeader">
                 <slot name="header">
@@ -46,7 +47,7 @@
                 </slot>
             </div>
             
-            <div class="p-2">
+            <div>
                 <slot></slot>
             </div>
 
@@ -58,7 +59,7 @@
         <div>
             <slot name="bottom"></slot>
         </div>
-    </div>
+    </div>   
 </template>
 
 <script lang="ts">
@@ -102,7 +103,6 @@ export default defineComponent({
 .x-layout-content {
     background-color: #fff;
     /* align-items: stretch; */
-    min-height: 500px;
 
     display: grid;
     grid-template-rows: max-content 1fr max-content;
