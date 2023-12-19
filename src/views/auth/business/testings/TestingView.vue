@@ -49,11 +49,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, ref } from "vue";
+import dayjs, { Dayjs } from "dayjs";
 
 export default defineComponent({
     name: "TestingView",
     setup() {
+        const fromDate = ref<Dayjs>(
+            dayjs().set("hour", 0).set("minute", 0).set("second", 0)
+        );
+        const toDate = ref<Dayjs>(
+            dayjs().set("hour", 23).set("minute", 59).set("second", 59)
+        );
+
         const columnMasters = reactive([
             {
                 title: "Số phiếu",
@@ -163,8 +171,18 @@ export default defineComponent({
             },
         ]);
 
+        // lấy dữ liệu
+        const handleLoad = async () => {
+            let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
+            let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
+        };
+
         return {
+            fromDate,
+            toDate,
             columnMasters,
+
+            handleLoad,
         };
     },
 });
