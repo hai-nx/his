@@ -1,15 +1,15 @@
-import { ApiResult, DepartmentModel } from '@/models'
+import { ResultModel, DepartmentModel } from '@/models'
 import request from '@/utils/request'
 
 const departmentService = {
     getAll() {
-        return request.get<ApiResult<DepartmentModel[]>>('api/Department/GetAll')
+        return request.get<ResultModel<DepartmentModel[]>>('api/Department/GetAll')
     },
     getById(id: string) {
-        return request.get<ApiResult<DepartmentModel>>('api/Department/GetById?id=' + id);
+        return request.get<ResultModel<DepartmentModel>>('api/Department/GetById?id=' + id);
     },
     createOrEdit(input: DepartmentModel) {
-        return request.post<ApiResult<DepartmentModel>>('api/Department/CreateOrEdit', input);
+        return request.post<ResultModel<DepartmentModel>>('api/Department/CreateOrEdit', input);
     },
     delete(id: string) {
         return request.delete('api/Department/Delete?id=' + id);

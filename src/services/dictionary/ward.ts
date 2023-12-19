@@ -1,18 +1,18 @@
-import { ApiResult, WardModel } from '@/models'
+import { ResultModel, WardModel } from '@/models'
 import request from '@/utils/request'
 
 const wardService = {
     getAll() {
-        return request.get<ApiResult<WardModel[]>>('api/Ward/GetAll');
+        return request.get<ResultModel<WardModel[]>>('api/Ward/GetAll');
     },
     getById(id: string) {
-        return request.get<ApiResult<WardModel>>('api/Ward/GetById?id=' + id);
+        return request.get<ResultModel<WardModel>>('api/Ward/GetById?id=' + id);
     },
     createOrEdit(input: WardModel) {
-        return request.post<ApiResult<WardModel>>('api/Ward/CreateOrEdit', input);
+        return request.post<ResultModel<WardModel>>('api/Ward/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post<ApiResult<WardModel>>('api/Ward/Delete?id=' + id);
+        return request.post<ResultModel<WardModel>>('api/Ward/Delete?id=' + id);
     }
 }
 

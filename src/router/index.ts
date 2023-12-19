@@ -8,7 +8,6 @@ import loginView from '@/views/public/LoginView.vue'
 import dashboardView from '@/views/auth/system/DashboardView.vue'
 import optionView from '@/views/auth/system/OptionView.vue'
 import dboptionView from '@/views/auth/system/dbOption/DbOptionView.vue'
-import workplaceOptionView from '@/views/auth/system/WorkplaceOptionView.vue'
 
 import branchView from '@/views/auth/dictionary/branch/BranchView.vue'
 import careerView from '@/views/auth/dictionary/career/CareerView.vue'
@@ -45,8 +44,8 @@ const routes: Array<RouteRecordRaw> = [
 
     { path: '/dashboard', name: 'dashboard', component: dashboardView, meta: { layout: LAYOUT_AUTH } },
     { path: '/option', name: 'option', component: optionView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/dboption', name: 'dbOption', component: dboptionView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/workplace-option', name: 'workplace-option', component: workplaceOptionView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/dboption', name: 'dboption', component: dboptionView, meta: { layout: LAYOUT_AUTH } },
+    { path: '/workplace-option', name: 'workplace-option', component: () => import('@/views/auth/system/SubsystemOptionView.vue'), meta: { layout: LAYOUT_AUTH } },
 
     { path: '/dictionary', name: 'dictionary', component: dictionaryView, meta: { layout: LAYOUT_AUTH } },
     { path: '/branch', name: 'branch', component: branchView, meta: { layout: LAYOUT_AUTH } },
@@ -72,8 +71,11 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/medicine-type', name: 'medicine-type', component: medicienTypeView, meta: { layout: LAYOUT_AUTH } },
     { path: '/material-type', name: 'material-type', component: materialTypeView, meta: { layout: LAYOUT_AUTH } },
 
-    { path: '/patient/register-exam', name: 'registerExam', component: () => import('@/views/auth/patient/register/RegisterExam.vue'), meta: { layout: LAYOUT_AUTH } },
-    { path: '/patient/register-exam-detail', name: 'registerExamDetail', component: () => import('@/views/auth/patient/register/RegisterExamDetail.vue'), meta: { layout: LAYOUT_AUTH } },
+    // bệnh nhân
+    { path: '/reception', name: 'reception', component: () => import('@/views/auth/business/receptions/ReceptionView.vue'), meta: { layout: LAYOUT_AUTH } },
+    { path: '/reception-detail', name: 'reception-detail', component: () => import('@/views/auth/business/receptions/ReceptionDetailView.vue'), meta: { layout: LAYOUT_AUTH } },
+
+    { path: '/exam', name: 'exam', component: () => import('@/views/auth/business/exams/ExamView.vue'), meta: { layout: LAYOUT_AUTH } },
 
     { path: '/payment', name: 'payment', component: () => import('@/views/auth/payment/Payment.vue'), meta: { layout: LAYOUT_AUTH } },
 

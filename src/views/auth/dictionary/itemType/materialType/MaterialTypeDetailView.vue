@@ -460,7 +460,7 @@ export default defineComponent({
             loading.value = true;
             let resultSave = await itemTypeService.createOrEdit(item.value);
 
-            if (resultSave.data.isSuccessed) {
+            if (resultSave.data.isSucceeded) {
                 result.value = true;
                 toggle();
             } else {
@@ -477,7 +477,7 @@ export default defineComponent({
             result.value = true;
 
             let resultSave = await itemTypeService.createOrEdit(item.value);
-            if (resultSave.data.isSuccessed) {
+            if (resultSave.data.isSucceeded) {
                 result.value = true;
             } else {
                 Modal.error({

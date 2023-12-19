@@ -3,6 +3,6 @@ export default interface DictionaryBase {
     code: string | null,
     name: string | null,
     description?: string,
-    inactive: boolean,
     sortOrder?: number
+    inactive: boolean,
 }

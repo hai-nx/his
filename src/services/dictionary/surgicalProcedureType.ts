@@ -1,9 +1,9 @@
-import { ApiResult, SurgicalProcedureTypeModel } from '@/models'
+import { ResultModel, SurgicalProcedureTypeModel } from '@/models'
 import request from '@/utils/request'
 
 const surgicalProcedureTypeService = {
     getAll() {
-        return request.get<ApiResult<SurgicalProcedureTypeModel[]>>('api/SurgicalProcedureType/GetAll');
+        return request.get<ResultModel<SurgicalProcedureTypeModel[]>>('api/SurgicalProcedureType/GetAll');
     },
 }
 

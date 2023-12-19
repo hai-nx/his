@@ -182,11 +182,11 @@ export default defineComponent({
             let isImport = await serviceService.importServiceResultIndexs(
                 datas.value
             );
-            isResult.value = isImport.data.isSuccessed;
+            isResult.value = isImport.data.isSucceeded;
 
             // loading.value = false;
 
-            if (isImport.data.isSuccessed) {
+            if (isImport.data.isSucceeded) {
                 toggle();
             }
         };
