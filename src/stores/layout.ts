@@ -4,8 +4,8 @@ import { defineStore } from 'pinia'
 export const useLayout = defineStore('layout', {
     state: () => ({
         items: [
-            { 
-                key:'1', label:'Hệ thống', icon:'', path:'',
+            {
+                key: '1', label: 'Hệ thống', icon: '', path: '',
                 children: [
                     { key: 'role', label: 'Vai trò và quyền hạn', path: 'role' },
                     { key: 'user', label: 'Người dùng', path: 'user' },
@@ -22,12 +22,15 @@ export const useLayout = defineStore('layout', {
 
             { key: '3', label: 'Khám bệnh', icon: '', path: 'exam' },
 
+            { key: 'diagnosticImaging', label: "CĐHA - TDCN", path: 'diagnosticImaging' },
+            { key: 'testing', label: "Xét nghiệm", path: 'testing' },
+
             { key: 'pharmaceutical', label: 'Dược', icon: '', path: 'pharmaceutical' },
 
             { key: '8', label: 'Báo cáo', icon: '', path: '' },
 
-            { 
-                key:'9', label:'Danh mục', icon:'', path:'', 
+            {
+                key: '9', label: 'Danh mục', icon: '', path: '',
                 children: [
                     {
                         key: '9.1', label: 'Cơ cấu tổ chức', path: '',
@@ -56,13 +59,15 @@ export const useLayout = defineStore('layout', {
                         ]
                     },
                     { key: 'employee', label: 'Nhân viên', path: 'employee' },
+                    { key: 'supplier', label: 'Nhà cung cấp', path: 'supplier' },
                     { key: 'service', label: 'Dịch vụ', path: 'service' },
 
-                    { key: 'medicine-group', label: 'Nhóm thuốc', path: 'medicine-group' },
+                    { key: 'item-group', label: 'Nhóm thuốc', path: 'item-group' },
                     { key: 'medicine-type', label: 'Thuốc', path: 'medicine-type' },
+                    { key: 'material-type', label: 'Vật tư', path: 'material-type' },
 
                     { key: 'other', label: 'Khác', path: 'dictionary' },
-                ] 
+                ]
             }
         ] as Array<XItemType>
     })

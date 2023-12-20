@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="header">
             <div class="procedure-room">
                 <label>Phòng thực hiện:</label>
@@ -190,10 +190,10 @@ export default defineComponent({
 
 
 <style scoped>
-.container {
+.container-fluid {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Chiều cao 100% của màn hình */
+    height: 100vh;
 }
 .header {
     display: flex;
