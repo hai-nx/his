@@ -143,7 +143,6 @@ body {
     margin-top: var(--x-layout-header-height);
     padding: 0.5rem 1rem;
     flex: 1;
-    overflow-y: auto; /* Nếu nội dung quá dài, tạo thanh cuộn */
 }
 </style>
 

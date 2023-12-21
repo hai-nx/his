@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="layout">
         <div class="header">
             <div class="procedure-room">
                 <label>Phòng thực hiện:</label>
@@ -40,7 +40,7 @@
                 <a-table
                     class="ant-table-striped"
                     size="middle"
-                    :columns="columnImps"
+                    :columns="columnDetails"
                     :data-source="itemSources"
                 ></a-table>
             </div>
@@ -88,7 +88,7 @@ export default defineComponent({
                 title: "Mã điều trị",
                 key: "treatmentCode",
                 dataIndex: "treatmentCode",
-                width: 250,
+                width: 50,
                 className: "column-header-center",
             },
             {
@@ -109,7 +109,7 @@ export default defineComponent({
                 title: "Phòng",
                 key: "roomName",
                 dataIndex: "roomName",
-                width: 50,
+                width: 100,
                 className: "column-header-center",
                 align: "center",
             },
@@ -171,6 +171,44 @@ export default defineComponent({
             },
         ]);
 
+        const columnDetails = reactive([
+            {
+                title: "Mã XN",
+                key: "code",
+                dataIndex: "code",
+                width: 50,
+                className: "column-header-center",
+            },
+            {
+                title: "Tên XN",
+                key: "name",
+                dataIndex: "name",
+                width: 250,
+                className: "column-header-center",
+            },
+            {
+                title: "Kết quả",
+                key: "result",
+                dataIndex: "result",
+                width: 100,
+                className: "column-header-center",
+            },
+            {
+                title: "Bình thường",
+                key: "normalRange",
+                dataIndex: "normalRange",
+                width: 150,
+                className: "column-header-center",
+            },
+            {
+                title: "Máy XN",
+                key: "testingMachine",
+                dataIndex: "testingMachine",
+                width: 150,
+                className: "column-header-center",
+            },
+        ]);
+
         // lấy dữ liệu
         const handleLoad = async () => {
             let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
@@ -181,6 +219,7 @@ export default defineComponent({
             fromDate,
             toDate,
             columnMasters,
+            columnDetails,
 
             handleLoad,
         };
@@ -190,10 +229,11 @@ export default defineComponent({
 
 
 <style scoped>
-.container-fluid {
+.layout {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    /* height: 100%; */
+    /* height: 100vh; */
 }
 .header {
     display: flex;
@@ -228,8 +268,4 @@ export default defineComponent({
     flex: 1;
     overflow: auto;
 }
-/* .a-divider {
-    height: 1px;
-    background-color: #f8f8f8;
-} */
 </style>
