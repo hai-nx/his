@@ -1,5 +1,7 @@
 :root {
-    --x-layout-header-height: 40px;
+    --x-breakpoint-sm: 730px;
+    --x-breakpoint-md: 1024px;
+    --x-breakpoint-lg: 1400px;
 
     --x-nav-background-color: #252f3f;
     --x-nav-color:#CCCCCC;
@@ -7,31 +9,24 @@
     --x-nav-color-active: #FFFFFF;
     --x-nav-height: 40px;
     --x-nav-font-size: 13px;
+
+    --x-sidebar-width: 320px;
 }
 
+/* global style */
 html,
 body {
-    width: 100%;
     font-size: var(--x-nav-font-size);
 }
 
 #app {
-    min-width: 768px;
+    width: auto;
+    min-width: 100%;
+    min-height: 100%;
     font-size: var(--x-nav-font-size);
 }
 
-/* Đặt css khoảng cách cell trong table */
-.ant-table-thead .ant-table-cell {
-    background-color: #ddf3fb;
-  }
 
-.ant-table.ant-table-middle .ant-table-tbody>tr>td {
-    padding: 3px 3px !important;
-}
-
-.ant-table.ant-table-middle .ant-table-thead>tr>th {
-    padding: 6px 3px !important;
-}
 
 .btn-save {
     width: 100px;

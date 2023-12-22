@@ -1,183 +1,180 @@
 <template>
-    <x-layout class="x-container" :title="title" :breadcrumbs="breadcrumbs" :show-footer="true">
+    <x-layout class="x-container" :title="title" :breadcrumbs="breadcrumbs" :show-header="true" :show-footer="true">
         <template #action>
-            <a-button type="primary">
-                <i class="bi bi-plus-lg me-2"></i>
-                <span>Lưu (Ctrl + S)</span>
-            </a-button>
+            <a-space>
+                <label>Phòng tiếp đón:</label>
+                <a-select class="x-w160">
+                    <a-select-option key="1" value="Phòng đón tiếp"></a-select-option>
+                    <a-select-option key="2" value="Đón tiếp cấp cứu"></a-select-option>
+                </a-select>
+                <label>Số cửa:</label>
+                <a-input-number class="x-w100" :value="gate"></a-input-number>
+                <label>Lấy số:</label>
+                <a-input-number class="x-w100" />
+                <a-button type="primary" @click="onCall">
+                    <template #icon>
+                        <i class="bi bi-megaphone me-2"></i>
+                    </template>
+                    <span>Gọi</span>
+                </a-button>
+            </a-space>
         </template>
 
         <template #footer>
-            <a-button type="primary">
-                <i class="bi bi-plus-lg me-2"></i>
-                <span>Lưu (Ctrl + S)</span>
-            </a-button>
+            <a-space align="end">
+                <a-button type="primary" @click="onSave">
+                    <i class="bi bi-save me-2"></i>
+                    <span>Lưu</span>
+                </a-button>
+            </a-space>
         </template>
 
-        <div class="x-grid">
+        <div class="x-info">
+            <div class="x-patient-info">
+                <label>Mã bệnh nhân:</label>
+                <a-input></a-input>
 
-            <h6>Hành chính</h6>
-
-            <label class="x-col-1">Mã bệnh nhân</label>
-            <!-- <a-input></a-input> -->
-            <a-input/>
-            <label for="">Họ tên</label>
-            <a-input class="x-col-4"></a-input>
-            <!-- <label for="">*</label>
-            <a-input></a-input>
-            <label for="">*</label>
-            <a-input></a-input> -->
-
-            <label class="x-col-1">Giới tính</label>
-            <a-select>
-              <a-select-option key="0" value="Nam"></a-select-option>
-              <a-select-option key="1" value="Nữ"></a-select-option>
-              <a-select-option key="2" value="Không xác định"></a-select-option>
-            </a-select>
-            <label for="">Ngày sinh</label>
-            <input type="date" class="datetime"/>
-            <a-input class="x-age"/>
-            <!-- <label>(Tuổi)</label> -->
-            <label for="">Nơi sinh</label>
-            <a-input></a-input>
-
-            <label class="x-col-1">Số nhà, thôn</label>
-            <a-input></a-input>
-            <label for="">Ttp/Hq/Xp</label>
-            <a-input></a-input>
-            <a-input style="grid-column: 5/ span 4;"></a-input>
-
-            <label class="x-col-1">Dân tộc</label>
-            <a-input></a-input>
-            <label for="">Quốc tịch</label>
-            <a-input></a-input>
-            <label for="">Nghề nghiệp</label>
-            <a-input></a-input>
-            <label for="">Nơi làm việc</label>
-            <a-input></a-input>
-
-            <label for="">Điện thoại</label>
-            <a-input></a-input>
-            <label for="">CMND/CCCD</label>
-            <a-input></a-input>
-            <label for="">Ngày cấp</label>
-            <a-input></a-input>
-            <label for="">Nơi cấp</label>
-            <a-input></a-input>
-
-            <label for="">Người nhà</label>
-            <a-input></a-input>
-            <label for="">CMND/CCCD</label>
-            <a-input></a-input>
-            <label for="">Điện thoại</label>
-            <a-input></a-input>
-            <label for="">Địa chỉ</label>
-            <a-input></a-input>
+                <label>Họ và tên:</label>
+                <a-input></a-input>
 
 
+                <label>Ngày sinh:</label>
+                <a-input></a-input>
 
-            <h6>Thông tin khám</h6>
-
-            <label class="x-col-1">Đăng ký khám</label>
-            <a-input></a-input>
-            <label for="">Ngày khám</label>
-            <a-input></a-input>
-            <label for="">Lý do khám</label>
-            <a-input style="grid-column: 6/ span 3;"></a-input>
-
-            <label for="">Dịch vụ</label>
-            <a-input style="grid-column: 2/ span 3;"></a-input>
-            <label for="">Phòng khám</label>
-            <a-input style="grid-column: 6/ span 3;"></a-input>
+                <label>Năm sinh:</label>
+                <a-input></a-input>
+                <label>Tuổi:</label>
+                <a-input></a-input>
+                <a-select></a-select>
 
 
+                <label>Giới tính:</label>
+                <a-input></a-input>
 
-            <h6>Thông tin thẻ BHYT</h6>
+                <label>Nghề nghiệp:</label>
+                <a-input></a-input>
 
-            <label class="x-col-1">Đối tượng</label>
-            <a-input></a-input>
-            <label for="">Lúc</label>
-            <a-input></a-input>
-            <label for="">Lý do khám</label>
-            <a-input></a-input>
-            <label for="">*</label>
-            <a-input></a-input>
 
-            <label for="">Đăng ký khám</label>
-            <a-input></a-input>
-            <label for="">Lúc</label>
-            <a-input></a-input>
-            <label for="">Lý do khám</label>
-            <a-input></a-input>
-            <label for="">*</label>
-            <a-input></a-input>
+                <label>Dân tộc:</label>
+                <a-input></a-input>
 
-            <label for="">Đăng ký khám</label>
-            <a-input></a-input>
-            <label for="">Lúc</label>
-            <a-input></a-input>
-            <label for="">Lý do khám</label>
-            <a-input></a-input>
-            <label for="">*</label>
-            <a-input></a-input>
+                <label>Quốc tịch:</label>
+                <a-input></a-input>
+
+
+                <label>Địa chỉ:</label>
+                <a-input></a-input>
+
+
+                <label>Ttp/Hq/Xp:</label>
+                <a-input></a-input>
+                <a-input></a-input>
+
+
+                <label>Nơi làm việc:</label>
+                <a-input></a-input>
+
+                <label>Điện thoại:</label>
+                <a-input style="width: 12rem;" size="small"></a-input>
+            </div>
+            <div class="x-patient-type-info">
+                <label>Ngày khám:</label>
+                <a-input></a-input>
+            </div>
         </div>
+
     </x-layout>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { XItemType } from '@/components';
+import { PatientRecordModel } from "@/models";
 
-const title = ref('Đăng ký khám');
-const breadcrumbs = ref<Array<XItemType>>([
-    { key: '1', label: 'Đón tiếp', icon: '', path: '' },
-    { key: '2', label: 'Danh sách tiếp đón', icon: '', path: '' },
-    { key: '3', label: 'Đăng ký khám', icon: '', path: '' }
-]);
+import useLayoutDetail from "@/uses/layoutDetail";
+
+const { title, breadcrumbs } = useLayoutDetail(loadSource);
 
 
+title.value = "hahaha";
 
-const size = "small";
+function loadSource() {
+    console.log('gọi bệnh nhân')
+}
+
+
+// const title = ref('Đăng ký khám');
+// const breadcrumbs = ref<Array<XItemType>>([
+//     { key: '1', label: 'Đón tiếp', icon: '', path: '' },
+//     { key: '2', label: 'Danh sách tiếp đón', icon: '', path: '' },
+//     { key: '3', label: 'Đăng ký khám', icon: '', path: '' }
+// ]);
+
+const item = ref<PatientRecordModel>({});
+
+const gate = ref<number>(1);
+
+
+function onCall() {
+    console.log('gọi bệnh nhân')
+}
+
+function onNew() {
+    item.value = {};
+}
+
+function onSave() {
+    item.value = {};
+}
+
+
+function onNewInvoice() {
+    console.log('thêm hóa đơn thanh toán')
+}
 
 </script>
 
 <style scoped>
-.x-grid {
-    display: grid;
-    grid-template-columns: repeat(3, max-content 1fr) max-content 1.4fr;
-    column-gap: .5rem;
-    row-gap: .25rem;
-    align-items: center;
-    padding: 1rem;
-}
-
-.x-grid label {
-    margin-left: 1rem;
-}
-
-.x-grid label::after {
-    content: ':';
-}
-
-.x-col-1 {
-    grid-column: 1/1;
-}
-
-.x-col-4 {
-    grid-column: 4/ span 3;
-}
-
-.x-span-2 {
-    column-span: 4 / span 2;
-}
-
-.x-age {
-    grid-column: 5/ span 2;
-}
-
 .x-container {
-    max-width: 1320px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.x-info {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 8px;
+}
+
+@media screen and (max-width: 780px) {
+    /* .x-container {
+        max-width: 1320px;
+    } */
+
+    .x-info {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+
+
+.x-patient-info {
+    flex: 1;
+}
+
+.x-patient-type-info {
+    flex: 1;
+}
+
+
+
+.x-w100 {
+    width: 100px;
+}
+
+.x-w160 {
+    width: 160px;
 }
 </style>

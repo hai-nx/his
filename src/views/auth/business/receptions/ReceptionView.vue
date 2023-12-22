@@ -27,9 +27,8 @@
             </a-dropdown-button>
         </template>
 
-        <div  class="d-flex flex-column p-3">
-            <div class="row">
-                <div class="d-flex flex-row align-items-center mb-3">
+        <div class="d-flex flex-column p-3  overflow-auto">
+            <a-space class="mb-3">
                 <label>Từ ngày</label>
                 <a-date-picker class="ms-2"></a-date-picker>
                 <label class="ms-2">Đến ngày</label>
@@ -40,11 +39,10 @@
                 <a-select class="w-150 ms-2"></a-select>
                 <a-input class="w-200 ms-2"></a-input>
                 <a-button class="ms-2">Tìm kiếm</a-button>
-            </div>
-            </div>
+            </a-space>
 
             <div class="row mb-3">
-                <a-table :columns="columns" :data-source="items" bordered size="middle"></a-table>
+                <a-table :columns="columns" :data-source="items" bordered :pagination="false" :scroll="scroll"></a-table>
             </div>
 
             <div class="row">
@@ -61,11 +59,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, h } from 'vue'
+import { ref, onMounted, h, toRefs } from 'vue'
 import { PatientRecordModel, PatientRecordRequestModel } from '@/models'
 import { XItemType } from '@/components';
 import { receptionService } from '@/services'
 import router from '@/router';
+
+// import useLayout from "@/uses/layout";
+
+// const { currentPage, pageSize, totalRowCount, onPageSizeChange, onCurrentPageChange } = useLayout(loadSource);
+
+
 
 const title = ref('Danh sách bệnh nhân đăng ký khám');
 const breadcrumbs = ref<Array<XItemType>>([
@@ -75,8 +79,8 @@ const breadcrumbs = ref<Array<XItemType>>([
 
 const columns = ref([
     { title: 'Ngày đón tiếp', key: 'code', dataIndex: 'code', width: 150 },
-    { title: 'Mã BN', key: 'name', dataIndex: 'name', width: 150 },
-    { title: 'Tên bệnh nhân', key: 'description', dataIndex: 'description', width: 250 },
+    { title: 'Mã BN', key: 'patientRecordCode', dataIndex: 'patientRecordCode', width: 150 },
+    { title: 'Tên bệnh nhân', key: 'patientName', dataIndex: 'patientName', width: 250 },
     { title: 'Số BHYT', key: 'inactive', dataIndex: 'inactive', width: 200 },
     { title: 'Giới tính', key: 'action', width: 100 },
     { title: 'Tuổi', key: 'action', width: 100 },
@@ -93,18 +97,51 @@ const totalRowCount = ref(0);
 const currentPage = ref(1);
 const pageSize = ref(20);
 
+const scroll = ref({ x: 1200 });
+
 function loadSource() {
-    let input: PatientRecordRequestModel = {
-        maxResultCount: pageSize.value,
-        skipCount: pageSize.value  * (currentPage.value - 1),
-        maxPatientRecordDateFilter: new Date(),
-        minPatientRecordDateFilter: new Date()
+    // let input: PatientRecordRequestModel = {
+    //     maxResultCount: pageSize.value,
+    //     skipCount: pageSize.value  * (currentPage.value - 1),
+    //     maxPatientRecordDateFilter: new Date(),
+    //     minPatientRecordDateFilter: new Date()
+    // }
+    // receptionService.getAll(input)
+    //     .then(res => { 
+    //         items.value = res.data.result;
+    //         totalRowCount.value = res.data.totalCount;
+    //     });
+
+    if (pageSize.value === 10) {
+        totalRowCount.value = 12;
+        items.value = [
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+    ]
     }
-    receptionService.getAll(input)
-        .then(res => { 
-            items.value = res.data.result;
-            totalRowCount.value = res.data.totalCount;
-        });
+    else {
+    items.value = [
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" }
+    ]}
 }
 
 
@@ -127,4 +164,4 @@ function onCurrentPageChange(value: number) {
 
 onMounted(() => loadSource())
 
-</script>
+</script>@/uses/layout
