@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="header">
             <div class="procedure-room">
                 <label>Phòng thực hiện:</label>
@@ -49,11 +49,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, ref } from "vue";
+import dayjs, { Dayjs } from "dayjs";
 
 export default defineComponent({
     name: "TestingView",
     setup() {
+        const fromDate = ref<Dayjs>(
+            dayjs().set("hour", 0).set("minute", 0).set("second", 0)
+        );
+        const toDate = ref<Dayjs>(
+            dayjs().set("hour", 23).set("minute", 59).set("second", 59)
+        );
+
         const columnMasters = reactive([
             {
                 title: "Số phiếu",
@@ -163,8 +171,18 @@ export default defineComponent({
             },
         ]);
 
+        // lấy dữ liệu
+        const handleLoad = async () => {
+            let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
+            let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
+        };
+
         return {
+            fromDate,
+            toDate,
             columnMasters,
+
+            handleLoad,
         };
     },
 });
@@ -172,10 +190,10 @@ export default defineComponent({
 
 
 <style scoped>
-.container {
+.container-fluid {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Chiều cao 100% của màn hình */
+    height: 100vh;
 }
 .header {
     display: flex;

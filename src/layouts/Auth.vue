@@ -1,6 +1,10 @@
 <template>
     <div class="app-layout">
-        <x-nav :data-source="items" @click="handleClick" @brandClick="handleBrandClick">
+        <x-nav
+            :data-source="items"
+            @click="handleClick"
+            @brandClick="handleBrandClick"
+        >
             <a-dropdown>
                 <a-button type="text" class="h100">
                     <span class="text-white">{{ user.username }}</span>
@@ -36,28 +40,35 @@
         </div>
     </div>
 
-    <subsystem-option-view :visible="visibleSubsystemOptionView" @cancel="handleVisibleSubsystemOptionView"/>
+    <subsystem-option-view
+        :visible="visibleSubsystemOptionView"
+        @cancel="handleVisibleSubsystemOptionView"
+    />
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useLayout } from '../stores/layout'
-import { storeToRefs } from 'pinia'
-import { useAuth } from '@/stores/auth'
-import { Modal, type MenuProps } from 'ant-design-vue';
-import { LogoutOutlined, UserOutlined, DesktopOutlined } from '@ant-design/icons-vue';
-import { XItemType } from '@/components';
+import { defineComponent, computed, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useLayout } from "../stores/layout";
+import { storeToRefs } from "pinia";
+import { useAuth } from "@/stores/auth";
+import { Modal, type MenuProps } from "ant-design-vue";
+import {
+    LogoutOutlined,
+    UserOutlined,
+    DesktopOutlined,
+} from "@ant-design/icons-vue";
+import { XItemType } from "@/components";
 
-import SubsystemOptionView from '@/views/auth/system/SubsystemOptionView.vue'
+import SubsystemOptionView from "@/views/auth/system/SubsystemOptionView.vue";
 
 export default defineComponent({
-    name: 'AuthLayout',
+    name: "AuthLayout",
     components: {
         LogoutOutlined,
         UserOutlined,
         DesktopOutlined,
-        SubsystemOptionView
+        SubsystemOptionView,
     },
     setup() {
         const router = useRouter();
@@ -71,38 +82,34 @@ export default defineComponent({
         // xử lý khi chọn item
         const handleClick = (item: XItemType) => {
             let path = item?.path;
-            if (path !== null)
-                router.push({ name: path });
-        }
+            if (path !== null) router.push({ name: path });
+        };
 
-        const handleMenuClick: MenuProps['onClick'] = e => {
-            if (e.key === '1') {
+        const handleMenuClick: MenuProps["onClick"] = (e) => {
+            if (e.key === "1") {
                 // router.push({ name: 'workplace-option' });
                 visibleSubsystemOptionView.value = true;
-            } else if (e.key === '2') {
-                router.push({ name: 'option' });
-            }
-            else if (e.key === '3') {
+            } else if (e.key === "2") {
+                router.push({ name: "option" });
+            } else if (e.key === "3") {
                 Modal.confirm({
-                    title: 'Xác nhận',
-                    content: 'Xác nhận thoát phần mềm?',
+                    title: "Xác nhận",
+                    content: "Xác nhận thoát phần mềm?",
                     onOk: () => {
-                        router.push({ name: 'login' })
-                    }
-                })
-
-                
+                        router.push({ name: "login" });
+                    },
+                });
             }
-        }
+        };
 
         const handleBrandClick = () => {
-            router.push({ name: 'dashboard' });
-        }
+            router.push({ name: "dashboard" });
+        };
 
-        const visibleSubsystemOptionView = ref(true)
+        const visibleSubsystemOptionView = ref(true);
         const handleVisibleSubsystemOptionView = () => {
-            visibleSubsystemOptionView.value = false
-        }
+            visibleSubsystemOptionView.value = false;
+        };
 
         return {
             user,
@@ -111,16 +118,23 @@ export default defineComponent({
             handleMenuClick,
             handleBrandClick,
 
-
             visibleSubsystemOptionView,
-            handleVisibleSubsystemOptionView
-        }
-    }
+            handleVisibleSubsystemOptionView,
+        };
+    },
 });
 </script>
 
 <style scoped>
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 .app-layout {
+    min-height: 100%;
+    background-color: #ececec;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -136,3 +150,4 @@ export default defineComponent({
     overflow-y: auto;
 }
 </style>
+

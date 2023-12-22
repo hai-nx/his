@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="d-flex justify-content-between align-items-center">
-            <h3>Danh mục nhân viên</h3>
+            <h3>Danh mục Nhà cung cấp</h3>
 
             <div>
                 <a-button type="primary" @click="handleAdd">

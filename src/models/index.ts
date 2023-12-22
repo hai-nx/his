@@ -45,6 +45,9 @@ import InOutStockTypeModel from './business/pharmaceuticals/inOutStockType';
 import InOutStockItemModel from './business/pharmaceuticals/inOutStockItem';
 import InOutStockModel from './business/pharmaceuticals/inOutStock';
 import ItemStockModel from './business/pharmaceuticals/itemStock';
+import ServiceRequestModel from './business/serviceRequest';
+import ServiceRequestDataModel from './business/serviceRequestData';
+import ServiceResultDataModel from './business/serviceResultData';
 
 import UserModel from './system/user';
 import DbOptionModel from './system/dbOption'
@@ -100,6 +103,9 @@ export {
     InOutStockItemModel,
     InOutStockModel,
     ItemStockModel,
+    ServiceRequestModel,
+    ServiceRequestDataModel,
+    ServiceResultDataModel,
 
     UserModel,
     DbOptionModel,
