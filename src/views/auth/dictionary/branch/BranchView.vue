@@ -1,5 +1,5 @@
 <template>
-    <x-layout :title="title">
+    <x-layout :title="title" :breadcrumbs="breadcrumbs" :show-header="true">
         <template #action>
             <a-button type="primary" @click="handleAdd">
                 <i class="bi bi-plus-lg me-2"></i>
@@ -44,6 +44,7 @@
 import { defineComponent, ref } from 'vue'
 import { Modal } from 'ant-design-vue'
 import { BranchModel } from '@/models'
+import { XItemType } from '@/components';
 import { branchService } from '@/services';
 import BranchDetailView from './BranchDetailView.vue'
 import XLayout from "@/components/XLayout.vue"
@@ -52,6 +53,10 @@ export default defineComponent({
     name: 'BranchView',
     setup() {
         const title = "Chi nhánh";
+        const breadcrumbs = ref<Array<XItemType>>([
+            { key: '1', label: 'Danh mục', icon: '', path: '' },
+            { key: '2', label: 'Danh sách chi nhánh', icon: '', path: '' }
+        ]);
         const columns = ref([
             { title: 'Mã chi nhánh', key: 'code', dataIndex: 'code', width: 200 },
             { title: 'Tên chi nhánh', key: 'name', dataIndex: 'name', width: 500 },
@@ -120,6 +125,7 @@ export default defineComponent({
 
         return {
             title,
+            breadcrumbs,
             items,
             record,
             columns,

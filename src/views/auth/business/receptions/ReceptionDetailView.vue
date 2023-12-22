@@ -1,169 +1,180 @@
 <template>
-    <x-layout title="Đăng ký khám" :show-header="true" class="x-container">
-        <!-- <template #extra>
-            <div>
-                <a-button class="me-1">
-                    <i class="bi bi-plus-lg me-2"></i>
-                    Làm mới
-                </a-button>
-                <a-button class="me-1">
-                    <i class="bi bi-plus-lg me-2"></i>
-                    Thêm bênh nhân mới
-                </a-button>
-                <a-button class="me-1">
-                    <i class="bi bi-check me-2"></i>
-                    Kiểm tra thẻ BHYT
-                </a-button>
-            </div>
-        </template> -->
+    <x-layout class="x-container" :title="title" :breadcrumbs="breadcrumbs" :show-header="true" :show-footer="true">
         <template #action>
-            <div style="display: flex; align-items: center; text-wrap: nowrap;">
-                <label>Cửa số</label>
-                <a-input></a-input>
-                <label>Lấy số</label>
-                <a-input></a-input>
-                <a-button>
-                    <i class="bi bi-check me-2"></i>
-                    Gọi số tiếp theo
+            <a-space>
+                <label>Phòng tiếp đón:</label>
+                <a-select class="x-w160">
+                    <a-select-option key="1" value="Phòng đón tiếp"></a-select-option>
+                    <a-select-option key="2" value="Đón tiếp cấp cứu"></a-select-option>
+                </a-select>
+                <label>Số cửa:</label>
+                <a-input-number class="x-w100" :value="gate"></a-input-number>
+                <label>Lấy số:</label>
+                <a-input-number class="x-w100" />
+                <a-button type="primary" @click="onCall">
+                    <template #icon>
+                        <i class="bi bi-megaphone me-2"></i>
+                    </template>
+                    <span>Gọi</span>
                 </a-button>
-            </div>
+            </a-space>
         </template>
 
         <template #footer>
-            <div style="display: flex; justify-content: end;">
-                <a-button class="me-1">
-                    <i class="bi bi-plus-lg me-2"></i>
-                    Lưu
+            <a-space align="end">
+                <a-button type="primary" @click="onSave">
+                    <i class="bi bi-save me-2"></i>
+                    <span>Lưu</span>
                 </a-button>
-                <a-button class="me-1">
-                    <i class="bi bi-check me-2"></i>
-                    In phiếu khám
-                </a-button>
-                <a-button class="me-1">
-                    <i class="bi bi-check me-2"></i>
-                    Nhập mới
-                </a-button>
-                <a-button class="me-1">
-                    <i class="bi bi-check me-2"></i>
-                    Chuyển tuyến
-                </a-button>
-                <a-button class="me-1">
-                    <i class="bi bi-check me-2"></i>
-                    Sinh hiệu
-                </a-button>
-                <a-button class="me-1">
-                    <i class="bi bi-check me-2"></i>
-                    Danh sách hẹn khám
-                </a-button>
-            </div>
+            </a-space>
         </template>
 
-        <form class="py-3 px-2"
-            style="display: grid; grid-template-columns: max-content 160px max-content 160px max-content 160px max-content 1fr; column-gap: .5rem; row-gap: .25rem;">
-            <h6 style="grid-column: span 4;">HÀNH CHÍNH</h6>
+        <div class="x-info">
+            <div class="x-patient-info">
+                <label>Mã bệnh nhân:</label>
+                <a-input></a-input>
 
-            <label for="txtPatientCode" style="grid-column: 1;">Mã bệnh nhân</label>
-            <a-input id="txtPatientCode" :size="size"></a-input>
-            <a-label class="required">Họ tên</a-label>
-            <a-input style="grid-column: span 3;" :size="size"></a-input>
+                <label>Họ và tên:</label>
+                <a-input></a-input>
 
-            <a-label style="grid-column: 1;" class="required">Giới tính</a-label>
-            <a-input :size="size"></a-input>
-            <a-label class="required">Ngày sinh</a-label>
-            <a-input :size="size"></a-input>
-            <a-label style="grid-column: span 2; text-align: center;" class="text-primary">(Năm sinh)</a-label>
-            <a-label>Nơi sinh</a-label>
-            <a-input :size="size"></a-input>
 
-            <a-label class="required">Địa chỉ</a-label>
-            <a-input :size="size"></a-input>
-            <a-label>Tt/Hq/Xp:</a-label>
-            <a-input :size="size"></a-input>
+                <label>Ngày sinh:</label>
+                <a-input></a-input>
 
-            <a-label style="grid-column: 1;" class="required">Dân tộc</a-label>
-            <a-input :size="size"></a-input>
-            <a-label class="required">Quốc tịch</a-label>
-            <a-input :size="size"></a-input>
-            <a-label class="required">Nghề nghiệp</a-label>
-            <a-input :size="size"></a-input>
-            <a-label>Nơi làm việc:</a-label>
-            <a-input :size="size"></a-input>
+                <label>Năm sinh:</label>
+                <a-input></a-input>
+                <label>Tuổi:</label>
+                <a-input></a-input>
+                <a-select></a-select>
 
-            <a-label style="grid-column: 1;">Điện thoại:</a-label>
-            <a-input :size="size"></a-input>
-            <a-label>CMND/CCCD:</a-label>
-            <a-input :size="size"></a-input>
-            <a-label>Ngày cấp:</a-label>
-            <a-input :size="size"></a-input>
-            <a-label>Nơi cấp:</a-label>
-            <a-input :size="size"></a-input>
 
-            <h6 style="grid-column: span 4; margin-top: 1rem;">THÔNG TIN ĐẶNG KÝ KHÁM</h6>
-            <a-label style="grid-column: 1;" class="required">Đối tượng</a-label>
-            <a-input :size="size"></a-input>
-            <a-label class="required">Ngày khám</a-label>
-            <a-input :size="size"></a-input>
-            <a-label>Đăng ký khám</a-label>
-            <a-input :size="size"></a-input>
-            <a-checkbox style="grid-column: span 2;">Ưu tiên</a-checkbox>
+                <label>Giới tính:</label>
+                <a-input></a-input>
 
-            <a-label style="grid-column: 1;" class="required">Yêu cầu khám</a-label>
-            <a-input style="grid-column: span 3;" :size="size"></a-input>
-            <a-label class="required">Phòng khám</a-label>
-            <a-input style="grid-column:  span 3;" :size="size"></a-input>
-            <a-label style="grid-column: 1;">Lý do khám:</a-label>
-            <a-input style="grid-column: span 7;" :size="size"></a-input>
+                <label>Nghề nghiệp:</label>
+                <a-input></a-input>
 
-            <h6 style="grid-column: span 4; margin-top: 1rem;">THÔNG TIN THẺ BHYT</h6>
-            <a-label style="grid-column: 1;">Số thẻ:</a-label>
-            <a-input :size="size"></a-input>
-            <a-label>Nơi sống:</a-label>
-            <a-input :size="size">Nơi sống</a-input>
-            <a-label>KCBBD:</a-label>
-            <a-input style="grid-column:  span 3;" :size="size"></a-input>
-            <a-label style="grid-column: 1;">Hạn thẻ:</a-label>
-            <a-input style="grid-column: span 3;" :size="size"></a-input>
-            <a-label>Địa chỉ thẻ:</a-label>
-            <a-input style="grid-column:  span 3;" :size="size"></a-input>
-        </form>
+
+                <label>Dân tộc:</label>
+                <a-input></a-input>
+
+                <label>Quốc tịch:</label>
+                <a-input></a-input>
+
+
+                <label>Địa chỉ:</label>
+                <a-input></a-input>
+
+
+                <label>Ttp/Hq/Xp:</label>
+                <a-input></a-input>
+                <a-input></a-input>
+
+
+                <label>Nơi làm việc:</label>
+                <a-input></a-input>
+
+                <label>Điện thoại:</label>
+                <a-input style="width: 12rem;" size="small"></a-input>
+            </div>
+            <div class="x-patient-type-info">
+                <label>Ngày khám:</label>
+                <a-input></a-input>
+            </div>
+        </div>
 
     </x-layout>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
+import { XItemType } from '@/components';
+import { PatientRecordModel } from "@/models";
+
+import useLayoutDetail from "@/uses/layoutDetail";
+
+const { title, breadcrumbs } = useLayoutDetail(loadSource);
 
 
+title.value = "hahaha";
 
-export default defineComponent({
-    name: 'ReceptionDetailView',
-    setup() {
-        const size = ref('default')
+function loadSource() {
+    console.log('gọi bệnh nhân')
+}
 
-        return {
-            size
-        }
-    }
-})
+
+// const title = ref('Đăng ký khám');
+// const breadcrumbs = ref<Array<XItemType>>([
+//     { key: '1', label: 'Đón tiếp', icon: '', path: '' },
+//     { key: '2', label: 'Danh sách tiếp đón', icon: '', path: '' },
+//     { key: '3', label: 'Đăng ký khám', icon: '', path: '' }
+// ]);
+
+const item = ref<PatientRecordModel>({});
+
+const gate = ref<number>(1);
+
+
+function onCall() {
+    console.log('gọi bệnh nhân')
+}
+
+function onNew() {
+    item.value = {};
+}
+
+function onSave() {
+    item.value = {};
+}
+
+
+function onNewInvoice() {
+    console.log('thêm hóa đơn thanh toán')
+}
+
 </script>
 
 <style scoped>
 .x-container {
-    width: 100%;
     margin-left: auto;
     margin-right: auto;
-
 }
 
-.required:after {
-    content: "*";
-    padding-left:1%;
-    color: red;
+.x-info {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 8px;
 }
 
-@media (min-width: 1400px) {
-    .x-container {
+@media screen and (max-width: 780px) {
+    /* .x-container {
         max-width: 1320px;
+    } */
+
+    .x-info {
+        display: flex;
+        flex-direction: column;
     }
+}
+
+
+
+
+.x-patient-info {
+    flex: 1;
+}
+
+.x-patient-type-info {
+    flex: 1;
+}
+
+
+
+.x-w100 {
+    width: 100px;
+}
+
+.x-w160 {
+    width: 160px;
 }
 </style>

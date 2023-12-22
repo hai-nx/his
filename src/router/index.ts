@@ -75,6 +75,9 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/reception', name: 'reception', component: () => import('@/views/auth/business/receptions/ReceptionView.vue'), meta: { layout: LAYOUT_AUTH } },
     { path: '/reception-detail', name: 'reception-detail', component: () => import('@/views/auth/business/receptions/ReceptionDetailView.vue'), meta: { layout: LAYOUT_AUTH } },
 
+    { path: '/clinical', name: 'clinical', component: () => import('@/views/auth/business/clinicals/ClinicalView.vue'), meta: { layout: LAYOUT_AUTH } },
+    { path: '/clinical-detail', name: 'clinical-detail', component: () => import('@/views/auth/business/clinicals/ClinicalDetailView.vue'), meta: { layout: LAYOUT_AUTH } },
+
     { path: '/exam', name: 'exam', component: () => import('@/views/auth/business/exams/ExamView.vue'), meta: { layout: LAYOUT_AUTH } },
 
     { path: '/payment', name: 'payment', component: () => import('@/views/auth/payment/Payment.vue'), meta: { layout: LAYOUT_AUTH } },

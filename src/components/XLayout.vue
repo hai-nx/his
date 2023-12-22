@@ -1,16 +1,18 @@
 <template>
     <div class="x-layout">
-        <div>
+        <div class="x-layout-top">
             <slot name="top">
                 <div class="d-flex justify-content-between align-items-center mb-1">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0">
                             <template v-for="(route, index) in breadcrumbs" :key="index">
                                 <template v-if="index + 1 === breadcrumbLength">
-                                    <li class="breadcrumb-item" :class="route.path ? 'active' : ''" aria-current="page">{{ route.label }}</li>
+                                    <li class="breadcrumb-item" :class="route.path ? 'active' : ''" aria-current="page">{{
+                                        route.label }}</li>
                                 </template>
                                 <template v-else>
-                                    <li class="breadcrumb-item"><router-link class="breadcrumb-item-link" :to="{ name: route.path }">{{ route.label }}</router-link></li>
+                                    <li class="breadcrumb-item"><router-link class="breadcrumb-item-link"
+                                            :to="{ name: route.path }">{{ route.label }}</router-link></li>
                                 </template>
                             </template>
                         </ol>
@@ -29,30 +31,34 @@
                 </div>
             </slot>
         </div>
-        <div class="x-layout-content border shadow rounded">
-            <div class="p-2 border-bottom" v-if="showHeader">
+
+        <div class="border shadow rounded x-layout-content">
+            <div class="border-bottom x-layout-content-start" v-if="showHeader">
                 <slot name="header">
                     <div class="d-flex justify-content-between align-items-center">
                         <slot name="extra">
-                            <h5 class="mb-0">{{ title }}</h5>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-file-earmark-text h5 mb-0 me-1 text-primary"></i>
+                                <h5 class="mb-0">{{ title }}</h5>
+                            </div>
                         </slot>
-                        <div>
+                        <div class="x-layout-header-action">
                             <slot name="action"></slot>
                         </div>
                     </div>
                 </slot>
             </div>
-            
-            <div class="p-2">
+
+            <div>
                 <slot></slot>
             </div>
 
-            <div class="p-2 border-top" v-if="showFooter">
+            <div class="border-top x-layout-content-end">
                 <slot name="footer"></slot>
             </div>
         </div>
 
-        <div>
+        <div class="x-layout-bottom">
             <slot name="bottom"></slot>
         </div>
     </div>
@@ -98,20 +104,27 @@ export default defineComponent({
 
 .x-layout-content {
     background-color: #fff;
-    /* align-items: stretch; */
-    min-height: 500px;
-
     display: grid;
     grid-template-rows: max-content 1fr max-content;
-    /* flex-direction: column; */
-    /* justify-content: space-between; */
-    /* align-items: stretch; */
+}
+
+.x-layout-content-start {
+    padding: .5rem;
+}
+
+.x-layout-content-end {
+    padding: .5rem;
+}
+
+.x-layout-content-end:empty {
+    display: none;
 }
 
 .breadcrumb-item-link {
     text-decoration: none;
     color: var(--bs-breadcrumb-item-active-color);
 }
+
 .breadcrumb-item-link:hover {
     color: var(--bs-primary);
 }

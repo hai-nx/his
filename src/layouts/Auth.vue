@@ -137,13 +137,17 @@ body {
     background-color: #ececec;
     display: flex;
     flex-direction: column;
+    align-items: stretch;
+    background-color: #ECECEC;
+    overflow-y: auto;
 }
 
 .app-layout-content {
-    margin-top: var(--x-layout-header-height);
-    padding: 0.5rem 1rem;
-    flex: 1;
-    overflow-y: auto; /* Nếu nội dung quá dài, tạo thanh cuộn */
+    margin-top: var(--x-nav-height);
+    margin-bottom: 0;
+    padding: .5rem 1rem;
+    min-height: calc(100vh - var(--x-nav-height));
+    overflow-y: auto;
 }
 </style>
 
