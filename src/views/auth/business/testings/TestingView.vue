@@ -51,6 +51,8 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
 import dayjs, { Dayjs } from "dayjs";
+import { ServiceRequestModel } from "@/models";
+import { testingService } from "@/services";
 
 export default defineComponent({
     name: "TestingView",
@@ -62,11 +64,13 @@ export default defineComponent({
             dayjs().set("hour", 23).set("minute", 59).set("second", 59)
         );
 
+        const itemSources = ref<ServiceRequestModel[]>([]);
+
         const columnMasters = reactive([
             {
                 title: "Số phiếu",
-                key: "code",
-                dataIndex: "code",
+                key: "serviceRequestCode",
+                dataIndex: "serviceRequestCode",
                 width: 50,
                 className: "column-header-center",
             },
@@ -93,8 +97,8 @@ export default defineComponent({
             },
             {
                 title: "Tên bệnh nhân",
-                key: "impStockName",
-                dataIndex: "impStockName",
+                key: "patientName",
+                dataIndex: "patientName",
                 width: 100,
                 className: "column-header-center",
             },
@@ -115,32 +119,32 @@ export default defineComponent({
             },
             {
                 title: "TG chỉ định",
-                key: "invTime",
-                dataIndex: "invTime",
+                key: "serviceRequestDate",
+                dataIndex: "serviceRequestDate",
                 width: 50,
                 className: "column-header-center",
                 align: "center",
             },
             {
                 title: "BS chỉ định",
-                key: "stockImpTime",
-                dataIndex: "stockImpTime",
+                key: "userName",
+                dataIndex: "userName",
                 width: 50,
                 className: "column-header-center",
                 align: "center",
             },
             {
                 title: "TG thực hiện",
-                key: "stockImpTime",
-                dataIndex: "stockImpTime",
+                key: "executeUserName",
+                dataIndex: "executeUserName",
                 width: 50,
                 className: "column-header-center",
                 align: "center",
             },
             {
                 title: "BS thực hiện",
-                key: "stockImpTime",
-                dataIndex: "stockImpTime",
+                key: "executeUserName",
+                dataIndex: "executeUserName",
                 width: 50,
                 className: "column-header-center",
                 align: "center",
@@ -210,9 +214,15 @@ export default defineComponent({
         ]);
 
         // lấy dữ liệu
+        /* eslint-disable */
         const handleLoad = async () => {
             let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
             let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
+
+            let result = await testingService.getAll();
+            itemSources.value = result.data.result;
+
+            console.log(result);
         };
 
         return {
@@ -220,6 +230,7 @@ export default defineComponent({
             toDate,
             columnMasters,
             columnDetails,
+            itemSources,
 
             handleLoad,
         };

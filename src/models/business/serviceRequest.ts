@@ -21,4 +21,15 @@ export default interface ServiceRequestModel {
     executeDepartmentId?: string // khoa thực hiện
     executeRoomId?: string // phòng thực hiện
     executeUserId?: string // người thực hiện
+
+    patientCode?: string
+    patientName?: string
+    departmentCode?: string
+    departmentName?: string
+    roomCode?: string
+    roomName?: string
+    executeRoomCode?: string
+    executeRoomName?: string
+    executeUserCode?: string
+    executeUserName?: string
 }

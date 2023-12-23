@@ -80,7 +80,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, reactive } from "vue";
 import * as XLSX from "xlsx";
-import { ServiceResultIndiceModel } from "@/models";
+import { ServiceResultIndiceImportModel } from "@/models";
 import { serviceService } from "@/services";
 
 export default defineComponent({
@@ -102,7 +102,7 @@ export default defineComponent({
         const selectedFileName = ref<string>();
         const fileInput = ref<HTMLInputElement | null>(null);
         const show = computed(() => props.visible);
-        const datas = ref<ServiceResultIndiceModel[]>([]);
+        const datas = ref<ServiceResultIndiceImportModel[]>([]);
 
         const columnResultIndices = reactive([
             {
@@ -174,8 +174,10 @@ export default defineComponent({
             toggle();
         };
 
+        /* eslint-disable */
         const handleSave = async () => {
-            // loading.value = true;
+            loading.value = true;
+            debugger;
 
             console.log(JSON.stringify(datas.value));
 
@@ -184,7 +186,7 @@ export default defineComponent({
             );
             isResult.value = isImport.data.isSucceeded;
 
-            // loading.value = false;
+            loading.value = false;
 
             if (isImport.data.isSucceeded) {
                 toggle();
@@ -230,50 +232,50 @@ export default defineComponent({
                             let dataExcels = json.slice(2); // Lấy dữ liệu từ dòng thứ 3 trở đi
 
                             dataExcels.forEach((row) => {
-                                const excelData: ServiceResultIndiceModel = {
-                                    serviceCode:
-                                        row[0] == undefined
-                                            ? ""
-                                            : row[0].toString(),
-                                    code:
-                                        row[1] == undefined
-                                            ? ""
-                                            : row[1].toString(),
-                                    name:
-                                        row[2] == undefined
-                                            ? ""
-                                            : row[2].toString(),
-                                    unit:
-                                        row[3] == undefined
-                                            ? ""
-                                            : row[3].toString(),
-                                    maleFrom:
-                                        row[4] === undefined
-                                            ? 0
-                                            : parseFloat(row[4].toString()),
-                                    maleTo:
-                                        row[5] === undefined
-                                            ? 0
-                                            : parseFloat(row[5].toString()),
-                                    femaleFrom:
-                                        row[6] === undefined
-                                            ? 0
-                                            : parseFloat(row[6].toString()),
-                                    femaleTo:
-                                        row[7] === undefined
-                                            ? 0
-                                            : parseFloat(row[7].toString()),
-                                    sortOrder:
-                                        row[8] === undefined
-                                            ? 0
-                                            : parseInt(row[8].toString()),
-                                    inactive:
-                                        row[9] === undefined
-                                            ? false
-                                            : JSON.parse(row[9].toString()),
-                                    serviceId: undefined,
-                                    id: null,
-                                };
+                                const excelData: ServiceResultIndiceImportModel =
+                                    {
+                                        serviceCode:
+                                            row[0] == undefined
+                                                ? ""
+                                                : row[0].toString(),
+                                        code:
+                                            row[1] == undefined
+                                                ? ""
+                                                : row[1].toString(),
+                                        name:
+                                            row[2] == undefined
+                                                ? ""
+                                                : row[2].toString(),
+                                        unit:
+                                            row[3] == undefined
+                                                ? ""
+                                                : row[3].toString(),
+                                        maleFrom:
+                                            row[4] === undefined
+                                                ? 0
+                                                : parseFloat(row[4].toString()),
+                                        maleTo:
+                                            row[5] === undefined
+                                                ? 0
+                                                : parseFloat(row[5].toString()),
+                                        femaleFrom:
+                                            row[6] === undefined
+                                                ? 0
+                                                : parseFloat(row[6].toString()),
+                                        femaleTo:
+                                            row[7] === undefined
+                                                ? 0
+                                                : parseFloat(row[7].toString()),
+                                        sortOrder:
+                                            row[8] === undefined
+                                                ? 0
+                                                : parseInt(row[8].toString()),
+                                        inactive:
+                                            row[9] === undefined
+                                                ? false
+                                                : JSON.parse(row[9].toString()),
+                                        serviceId: undefined,
+                                    };
 
                                 datas.value?.push(excelData);
                             });

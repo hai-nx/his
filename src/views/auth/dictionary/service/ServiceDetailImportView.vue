@@ -242,6 +242,8 @@ export default defineComponent({
         const handleSave = async () => {
             loading.value = true;
 
+            console.log(JSON.stringify(datas.value));
+
             let isImport = await serviceService.import(datas.value);
             isResult.value = isImport.data.isSucceeded;
 
