@@ -33,6 +33,7 @@
                     size="middle"
                     :columns="columnMasters"
                     :data-source="itemSources"
+                    :customRow="mastersCustomRow"
                 ></a-table>
             </div>
             <!-- <a-divider style="height: 1px; background-color: #f8f8f8" /> -->
@@ -40,9 +41,18 @@
                 <a-table
                     class="ant-table-striped"
                     size="middle"
-                    :columns="columnDetails"
-                    :data-source="itemSources"
-                ></a-table>
+                    :columns="columnGroupDetails"
+                    :data-source="source?.serviceRequestDatas"
+                >
+                    <template #expandedRowRender="{ record }">
+                        <a-table
+                            :columns="columnDetails"
+                            :data-source="record.serviceResultDatas"
+                            :pagination="false"
+                        >
+                        </a-table>
+                    </template>
+                </a-table>
             </div>
         </div>
     </div>
@@ -65,6 +75,7 @@ export default defineComponent({
         );
 
         const itemSources = ref<ServiceRequestModel[]>([]);
+        const source = ref<ServiceRequestModel>();
 
         const columnMasters = reactive([
             {
@@ -72,49 +83,49 @@ export default defineComponent({
                 key: "serviceRequestCode",
                 dataIndex: "serviceRequestCode",
                 width: 50,
-                className: "column-header-center",
+                // className: "column-header-center",
             },
             {
                 title: "Barcode",
                 key: "barcode",
                 dataIndex: "barcode",
                 width: 50,
-                className: "column-header-center",
+                // className: "column-header-center",
             },
             {
                 title: "Mã BN",
                 key: "patientCode",
                 dataIndex: "patientCode",
                 width: 50,
-                className: "column-header-center",
+                // className: "column-header-center",
             },
             {
                 title: "Mã điều trị",
                 key: "treatmentCode",
                 dataIndex: "treatmentCode",
                 width: 50,
-                className: "column-header-center",
+                // className: "column-header-center",
             },
             {
                 title: "Tên bệnh nhân",
                 key: "patientName",
                 dataIndex: "patientName",
                 width: 100,
-                className: "column-header-center",
+                // className: "column-header-center",
             },
             {
                 title: "Khoa",
                 key: "departmentName",
                 dataIndex: "departmentName",
                 width: 100,
-                className: "column-header-center",
+                // className: "column-header-center",
             },
             {
                 title: "Phòng",
                 key: "roomName",
                 dataIndex: "roomName",
                 width: 100,
-                className: "column-header-center",
+                // className: "column-header-center",
                 align: "center",
             },
             {
@@ -122,7 +133,7 @@ export default defineComponent({
                 key: "serviceRequestDate",
                 dataIndex: "serviceRequestDate",
                 width: 50,
-                className: "column-header-center",
+                // className: "column-header-center",
                 align: "center",
             },
             {
@@ -130,7 +141,7 @@ export default defineComponent({
                 key: "userName",
                 dataIndex: "userName",
                 width: 50,
-                className: "column-header-center",
+                // className: "column-header-center",
                 align: "center",
             },
             {
@@ -138,7 +149,7 @@ export default defineComponent({
                 key: "executeUserName",
                 dataIndex: "executeUserName",
                 width: 50,
-                className: "column-header-center",
+                // className: "column-header-center",
                 align: "center",
             },
             {
@@ -146,7 +157,7 @@ export default defineComponent({
                 key: "executeUserName",
                 dataIndex: "executeUserName",
                 width: 50,
-                className: "column-header-center",
+                // className: "column-header-center",
                 align: "center",
             },
             {
@@ -154,7 +165,7 @@ export default defineComponent({
                 key: "stockImpTime",
                 dataIndex: "stockImpTime",
                 width: 50,
-                className: "column-header-center",
+                // className: "column-header-center",
                 align: "center",
             },
             {
@@ -162,7 +173,7 @@ export default defineComponent({
                 key: "stockImpTime",
                 dataIndex: "stockImpTime",
                 width: 50,
-                className: "column-header-center",
+                // className: "column-header-center",
                 align: "center",
             },
 
@@ -175,54 +186,120 @@ export default defineComponent({
             },
         ]);
 
+        const columnGroupDetails = reactive([
+            {
+                title: "Mã dịch vụ",
+                key: "serviceCode",
+                dataIndex: "serviceCode",
+                // width: 150,
+                // className: "column-header-center",
+            },
+            {
+                title: "Tên dịch vụ",
+                key: "serviceName",
+                dataIndex: "serviceName",
+                // width: 500,
+                // className: "column-header-center",
+            },
+        ]);
+
         const columnDetails = reactive([
             {
                 title: "Mã XN",
-                key: "code",
-                dataIndex: "code",
-                width: 50,
-                className: "column-header-center",
+                key: "serviceResultIndiceCode",
+                dataIndex: "serviceResultIndiceCode",
+                // width: 50,
+                // className: "column-header-center",
             },
             {
                 title: "Tên XN",
-                key: "name",
-                dataIndex: "name",
-                width: 250,
-                className: "column-header-center",
+                key: "serviceResultIndiceName",
+                dataIndex: "serviceResultIndiceName",
+                // width: 250,
+                // className: "column-header-center",
             },
             {
                 title: "Kết quả",
                 key: "result",
                 dataIndex: "result",
-                width: 100,
-                className: "column-header-center",
+                // width: 100,
+                // className: "column-header-center",
             },
             {
                 title: "Bình thường",
                 key: "normalRange",
                 dataIndex: "normalRange",
-                width: 150,
-                className: "column-header-center",
+                // width: 150,
+                // className: "column-header-center",
             },
             {
                 title: "Máy XN",
                 key: "testingMachine",
                 dataIndex: "testingMachine",
-                width: 150,
-                className: "column-header-center",
+                // width: 150,
+                // className: "column-header-center",
             },
         ]);
 
         // lấy dữ liệu
-        /* eslint-disable */
         const handleLoad = async () => {
             let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
             let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
 
             let result = await testingService.getAll();
             itemSources.value = result.data.result;
+        };
 
-            console.log(result);
+        const mastersCustomRow = async (
+            record: ServiceRequestModel,
+            index: number
+        ) => {
+            source.value = record;
+
+            if (record && record.id) {
+                let serviceRequestDataDtos =
+                    await testingService.getServiceRequestDataByServiceRequestId(
+                        record.id,
+                        1,
+                        true
+                    );
+
+                source.value.serviceRequestDatas =
+                    serviceRequestDataDtos.data.result;
+                console.log(serviceRequestDataDtos);
+            }
+        };
+
+        const itemSourceRowSelection = {
+            /* eslint-disable */
+            onChange: (
+                selectedRowKeys: (string | number)[],
+                selectedRows: ServiceRequestModel[]
+            ) => {
+                debugger;
+
+                console.log(
+                    `selectedRowKeys: ${selectedRowKeys}`,
+                    "selectedRows: ",
+                    selectedRows
+                );
+            },
+            onSelect: (
+                record: ServiceRequestModel,
+                selected: boolean,
+                selectedRows: ServiceRequestModel[]
+            ) => {
+                debugger;
+                console.log(record, selected, selectedRows);
+            },
+            onSelectAll: (
+                selected: boolean,
+                selectedRows: ServiceRequestModel[],
+                changeRows: ServiceRequestModel[]
+            ) => {
+                debugger;
+                console.log(selected, selectedRows, changeRows);
+            },
         };
 
         return {
@@ -230,7 +307,12 @@ export default defineComponent({
             toDate,
             columnMasters,
             columnDetails,
+            columnGroupDetails,
             itemSources,
+            source,
+
+            itemSourceRowSelection,
+            mastersCustomRow,
 
             handleLoad,
         };

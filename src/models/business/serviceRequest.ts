@@ -1,3 +1,5 @@
+import { ServiceRequestDataModel } from "@/models"
+
 export default interface ServiceRequestModel {
     id?: string
     serviceRequestCode?: string
@@ -32,4 +34,6 @@ export default interface ServiceRequestModel {
     executeRoomName?: string
     executeUserCode?: string
     executeUserName?: string
+
+    serviceRequestDatas?: ServiceRequestDataModel[]
 }
