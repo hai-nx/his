@@ -33,6 +33,7 @@ import UnitModel from './dictionary/others/unit'
 import ExecutionRoomModel from './dictionary/services/executionRoom'
 import ServiceImportModel from './dictionary/services/serviceImport'
 import ServiceResultIndiceModel from './dictionary/services/serviceResultIndice'
+import ServiceResultIndiceImportModel from './dictionary/services/serviceResultIndiceImport'
 
 import ItemGroupModel from './dictionary/items/itemGroup'
 import ItemTypeModel from './dictionary/items/itemType'
@@ -91,6 +92,7 @@ export {
     ExecutionRoomModel,
     ServiceImportModel,
     ServiceResultIndiceModel,
+    ServiceResultIndiceImportModel,
 
     ItemLineModel,
     ItemGroupModel,

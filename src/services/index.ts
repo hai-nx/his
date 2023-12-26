@@ -35,6 +35,7 @@ import receptionService from './business/receptions/reception'
 import inOutStockService from './business/pharmaceuticals/inOutStock'
 import inOutStockTypeService from './business/pharmaceuticals/inOutStockType'
 import itemStockService from './business/pharmaceuticals/itemStock'
+import testingService from './business/testings/testing'
 
 import userService from './system/user'
 import dbOptionService from './system/dbOption'
@@ -76,6 +77,7 @@ export {
     inOutStockService,
     inOutStockTypeService,
     itemStockService,
+    testingService,
 
     userService,
     dbOptionService

@@ -143,11 +143,9 @@ body {
 }
 
 .app-layout-content {
-    margin-top: var(--x-nav-height);
-    margin-bottom: 0;
-    padding: .5rem 1rem;
-    min-height: calc(100vh - var(--x-nav-height));
-    overflow-y: auto;
+    margin-top: var(--x-layout-header-height);
+    padding: 0.5rem 1rem;
+    flex: 1;
 }
 </style>
 
