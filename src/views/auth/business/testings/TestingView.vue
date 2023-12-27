@@ -35,6 +35,95 @@
                     :data-source="itemSources"
                     :customRow="mastersCustomRow"
                 ></a-table>
+                <!-- <DxDataGrid
+                    :allow-column-reordering="true"
+                    :data-source="itemSources"
+                >
+                    <DxColumn
+                        caption="Số phiếu"
+                        data-field="serviceRequestCode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Barcode"
+                        data-field="barcode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Mã bệnh nhân"
+                        data-field="patientCode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Mã điều trị"
+                        data-field="treatmentCode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Tên bệnh nhân"
+                        data-field="patientName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Khoa"
+                        data-field="departmentName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Phòng"
+                        data-field="roomName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="TG chỉ định"
+                        data-field="serviceRequestDate"
+                        :visible="true"
+                        data-type="date"
+                    />
+                    <DxColumn
+                        caption="BS chỉ định"
+                        data-field="userName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="TG thực hiện"
+                        data-field="executeDate"
+                        :visible="true"
+                        data-type="date"
+                    />
+                    <DxColumn
+                        caption="BS thực hiện"
+                        data-field="executeUserName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="TG trả KQ"
+                        data-field="resultDate"
+                        :visible="true"
+                        data-type="date"
+                    />
+                    <DxColumn
+                        caption="BS trả KQ"
+                        data-field="resultUserName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Trạng thái"
+                        data-field="status"
+                        :visible="true"
+                        data-type="string"
+                    />
+                </DxDataGrid> -->
             </div>
             <!-- <a-divider style="height: 1px; background-color: #f8f8f8" /> -->
             <div class="content-row">
@@ -53,6 +142,44 @@
                         </a-table>
                     </template>
                 </a-table>
+                <!-- <DxDataGrid :allow-column-reordering="true">
+                    <DxColumn
+                        data-field="serviceName"
+                        :visible="true"
+                        data-type="string"
+                        :group-index="0"
+                    />
+                    <DxColumn
+                        caption="Mã xét nghiệm"
+                        data-field="serviceResultIndiceCode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Tên xét nghiệm"
+                        data-field="serviceResultIndiceName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Kết quả"
+                        data-field="result"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Bình thường"
+                        data-field="normalRange"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Máy xét nghiệm"
+                        data-field="testingMachine"
+                        :visible="true"
+                        data-type="string"
+                    />
+                </DxDataGrid> -->
             </div>
         </div>
     </div>
@@ -63,6 +190,8 @@ import { defineComponent, reactive, ref } from "vue";
 import dayjs, { Dayjs } from "dayjs";
 import { ServiceRequestModel } from "@/models";
 import { testingService } from "@/services";
+
+import { DxDataGrid, DxColumn } from "devextreme-vue/data-grid";
 
 export default defineComponent({
     name: "TestingView",
@@ -317,9 +446,12 @@ export default defineComponent({
             handleLoad,
         };
     },
+    components: {
+        DxDataGrid,
+        DxColumn,
+    },
 });
 </script>
-
 
 <style scoped>
 .layout {
