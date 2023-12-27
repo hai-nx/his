@@ -28,17 +28,121 @@
         <!-- Nội dung tại đây -->
         <div class="content">
             <div class="content-row">
-                <a-table
+                <!-- <a-table
                     class="ant-table-striped"
                     size="middle"
                     :columns="columnMasters"
                     :data-source="itemSources"
                     :customRow="mastersCustomRow"
-                ></a-table>
+                ></a-table> -->
+                <DxDataGrid
+                    :allow-column-reordering="true"
+                    :data-source="itemSources"
+                    :show-borders="true"
+                    :hover-state-enabled="true"
+                    key-expr="id"
+                    @selection-changed="onSelectionChanged"
+                >
+                    <DxSelection mode="single" />
+                    <DxScrolling row-rendering-mode="virtual" />
+                    <DxPaging :page-size="10" />
+                    <DxPager
+                        :visible="true"
+                        :allowed-page-sizes="pageSizes"
+                        :display-mode="displayMode"
+                        :show-page-size-selector="showPageSizeSelector"
+                        :show-info="showInfo"
+                        :show-navigation-buttons="showNavButtons"
+                    />
+                    <DxColumn
+                        caption="Số phiếu"
+                        data-field="serviceRequestCode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Barcode"
+                        data-field="barcode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Mã bệnh nhân"
+                        data-field="patientCode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Mã điều trị"
+                        data-field="treatmentCode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Tên bệnh nhân"
+                        data-field="patientName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Khoa"
+                        data-field="departmentName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Phòng"
+                        data-field="roomName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="TG chỉ định"
+                        data-field="serviceRequestDate"
+                        :visible="true"
+                        data-type="date"
+                    />
+                    <DxColumn
+                        caption="BS chỉ định"
+                        data-field="userName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="TG thực hiện"
+                        data-field="executeDate"
+                        :visible="true"
+                        data-type="date"
+                    />
+                    <DxColumn
+                        caption="BS thực hiện"
+                        data-field="executeUserName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="TG trả KQ"
+                        data-field="resultDate"
+                        :visible="true"
+                        data-type="date"
+                    />
+                    <DxColumn
+                        caption="BS trả KQ"
+                        data-field="resultUserName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Trạng thái"
+                        data-field="status"
+                        :visible="true"
+                        data-type="string"
+                    />
+                </DxDataGrid>
             </div>
             <!-- <a-divider style="height: 1px; background-color: #f8f8f8" /> -->
             <div class="content-row">
-                <a-table
+                <!-- <a-table
                     class="ant-table-striped"
                     size="middle"
                     :columns="columnGroupDetails"
@@ -52,17 +156,67 @@
                         >
                         </a-table>
                     </template>
-                </a-table>
+                </a-table> -->
+                <DxDataGrid :allow-column-reordering="true">
+                    <DxColumn
+                        data-field="serviceName"
+                        :visible="true"
+                        data-type="string"
+                        :group-index="0"
+                    />
+                    <DxColumn
+                        caption="Mã xét nghiệm"
+                        data-field="serviceResultIndiceCode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Tên xét nghiệm"
+                        data-field="serviceResultIndiceName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Kết quả"
+                        data-field="result"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Bình thường"
+                        data-field="normalRange"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Máy xét nghiệm"
+                        data-field="testingMachine"
+                        :visible="true"
+                        data-type="string"
+                    />
+                </DxDataGrid>
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
+import { defineComponent, reactive, ref, computed } from "vue";
 import dayjs, { Dayjs } from "dayjs";
 import { ServiceRequestModel } from "@/models";
 import { testingService } from "@/services";
+
+import {
+    DxDataGrid,
+    DxScrolling,
+    DxPager,
+    DxPaging,
+    DxColumn,
+    DxDataGridTypes,
+    DxSelection,
+} from "devextreme-vue/data-grid";
+import DxSelectBox from "devextreme-vue/select-box";
+import DxCheckBox from "devextreme-vue/check-box";
 
 export default defineComponent({
     name: "TestingView",
@@ -73,6 +227,17 @@ export default defineComponent({
         const toDate = ref<Dayjs>(
             dayjs().set("hour", 23).set("minute", 59).set("second", 59)
         );
+
+        const displayModes = [
+            { text: "Display Mode 'full'", value: "full" },
+            { text: "Display Mode 'compact'", value: "compact" },
+        ];
+        const pageSizes = [5, 10, "all"];
+
+        const displayMode = ref("full");
+        const showPageSizeSelector = ref(true);
+        const showInfo = ref(true);
+        const showNavButtons = ref(true);
 
         const itemSources = ref<ServiceRequestModel[]>([]);
         const source = ref<ServiceRequestModel>();
@@ -242,12 +407,17 @@ export default defineComponent({
         ]);
 
         // lấy dữ liệu
+        /* eslint-disable */
         const handleLoad = async () => {
+            debugger;
+
             let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
             let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
 
             let result = await testingService.getAll();
             itemSources.value = result.data.result;
+
+            console.log(itemSources.value);
         };
 
         const mastersCustomRow = async (
@@ -271,13 +441,10 @@ export default defineComponent({
         };
 
         const itemSourceRowSelection = {
-            /* eslint-disable */
             onChange: (
                 selectedRowKeys: (string | number)[],
                 selectedRows: ServiceRequestModel[]
             ) => {
-                debugger;
-
                 console.log(
                     `selectedRowKeys: ${selectedRowKeys}`,
                     "selectedRows: ",
@@ -289,7 +456,6 @@ export default defineComponent({
                 selected: boolean,
                 selectedRows: ServiceRequestModel[]
             ) => {
-                debugger;
                 console.log(record, selected, selectedRows);
             },
             onSelectAll: (
@@ -297,10 +463,23 @@ export default defineComponent({
                 selectedRows: ServiceRequestModel[],
                 changeRows: ServiceRequestModel[]
             ) => {
-                debugger;
                 console.log(selected, selectedRows, changeRows);
             },
         };
+
+        const onSelectionChanged = ({
+            selectedRowsData,
+        }: DxDataGridTypes.SelectionChangedEvent<ServiceRequestModel>) => {
+            const data = selectedRowsData[0];
+
+            console.log(data);
+        };
+
+        // const onSelectionChanged = (
+        //     e: DxDataGridTypes.SelectionChangedEvent<ServiceRequestModel>
+        // ) => {
+        //     console.log(e);
+        // };
 
         return {
             fromDate,
@@ -315,7 +494,26 @@ export default defineComponent({
             mastersCustomRow,
 
             handleLoad,
+
+            pageSizes,
+            displayMode,
+            showPageSizeSelector,
+            showInfo,
+            showNavButtons,
+            displayModes,
+
+            onSelectionChanged,
         };
+    },
+    components: {
+        DxDataGrid,
+        DxColumn,
+        DxScrolling,
+        DxPager,
+        DxPaging,
+        DxSelectBox,
+        DxCheckBox,
+        DxSelection,
     },
 });
 </script>

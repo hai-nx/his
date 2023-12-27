@@ -14,6 +14,8 @@ import 'ant-design-vue/dist/antd.css'
 
 import './assets/style/global.css'
 
+import 'devextreme/dist/css/dx.light.css';
+
 const app = createApp(App);
 defineAsyncComponents(app);
 defineAsyncLayoutComponents(app);
