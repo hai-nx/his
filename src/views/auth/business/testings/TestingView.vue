@@ -28,13 +28,6 @@
         <!-- Nội dung tại đây -->
         <div class="content">
             <div class="content-row">
-                <!-- <a-table
-                    class="ant-table-striped"
-                    size="middle"
-                    :columns="columnMasters"
-                    :data-source="itemSources"
-                    :customRow="mastersCustomRow"
-                ></a-table> -->
                 <DxDataGrid
                     :allow-column-reordering="true"
                     :data-source="itemSources"
@@ -42,6 +35,8 @@
                     :hover-state-enabled="true"
                     key-expr="id"
                     @selection-changed="onSelectionChanged"
+                    @content-ready="selectFirstRow"
+                    :selected-row-keys="itemSourcesSelectedRowKeys"
                 >
                     <DxSelection mode="single" />
                     <DxScrolling row-rendering-mode="virtual" />
@@ -142,23 +137,15 @@
             </div>
             <!-- <a-divider style="height: 1px; background-color: #f8f8f8" /> -->
             <div class="content-row">
-                <!-- <a-table
-                    class="ant-table-striped"
-                    size="middle"
-                    :columns="columnGroupDetails"
-                    :data-source="source?.serviceRequestDatas"
+                <DxDataGrid
+                    :allow-column-reordering="true"
+                    :data-source="serviceResultDatas"
+                    :show-borders="true"
+                    :hover-state-enabled="true"
+                    key-expr="id"
                 >
-                    <template #expandedRowRender="{ record }">
-                        <a-table
-                            :columns="columnDetails"
-                            :data-source="record.serviceResultDatas"
-                            :pagination="false"
-                        >
-                        </a-table>
-                    </template>
-                </a-table> -->
-                <DxDataGrid :allow-column-reordering="true">
                     <DxColumn
+                        caption="Tên dịch vụ"
                         data-field="serviceName"
                         :visible="true"
                         data-type="string"
@@ -203,7 +190,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, computed } from "vue";
 import dayjs, { Dayjs } from "dayjs";
-import { ServiceRequestModel } from "@/models";
+import { ServiceRequestModel, ServiceResultDataModel } from "@/models";
 import { testingService } from "@/services";
 
 import {
@@ -241,170 +228,9 @@ export default defineComponent({
 
         const itemSources = ref<ServiceRequestModel[]>([]);
         const source = ref<ServiceRequestModel>();
+        const serviceResultDatas = ref<ServiceResultDataModel[]>([]);
 
-        const columnMasters = reactive([
-            {
-                title: "Số phiếu",
-                key: "serviceRequestCode",
-                dataIndex: "serviceRequestCode",
-                width: 50,
-                // className: "column-header-center",
-            },
-            {
-                title: "Barcode",
-                key: "barcode",
-                dataIndex: "barcode",
-                width: 50,
-                // className: "column-header-center",
-            },
-            {
-                title: "Mã BN",
-                key: "patientCode",
-                dataIndex: "patientCode",
-                width: 50,
-                // className: "column-header-center",
-            },
-            {
-                title: "Mã điều trị",
-                key: "treatmentCode",
-                dataIndex: "treatmentCode",
-                width: 50,
-                // className: "column-header-center",
-            },
-            {
-                title: "Tên bệnh nhân",
-                key: "patientName",
-                dataIndex: "patientName",
-                width: 100,
-                // className: "column-header-center",
-            },
-            {
-                title: "Khoa",
-                key: "departmentName",
-                dataIndex: "departmentName",
-                width: 100,
-                // className: "column-header-center",
-            },
-            {
-                title: "Phòng",
-                key: "roomName",
-                dataIndex: "roomName",
-                width: 100,
-                // className: "column-header-center",
-                align: "center",
-            },
-            {
-                title: "TG chỉ định",
-                key: "serviceRequestDate",
-                dataIndex: "serviceRequestDate",
-                width: 50,
-                // className: "column-header-center",
-                align: "center",
-            },
-            {
-                title: "BS chỉ định",
-                key: "userName",
-                dataIndex: "userName",
-                width: 50,
-                // className: "column-header-center",
-                align: "center",
-            },
-            {
-                title: "TG thực hiện",
-                key: "executeUserName",
-                dataIndex: "executeUserName",
-                width: 50,
-                // className: "column-header-center",
-                align: "center",
-            },
-            {
-                title: "BS thực hiện",
-                key: "executeUserName",
-                dataIndex: "executeUserName",
-                width: 50,
-                // className: "column-header-center",
-                align: "center",
-            },
-            {
-                title: "TG trả KQ",
-                key: "stockImpTime",
-                dataIndex: "stockImpTime",
-                width: 50,
-                // className: "column-header-center",
-                align: "center",
-            },
-            {
-                title: "BS trả KQ",
-                key: "stockImpTime",
-                dataIndex: "stockImpTime",
-                width: 50,
-                // className: "column-header-center",
-                align: "center",
-            },
-
-            {
-                title: "Trạng thái",
-                key: "status",
-                dataIndex: "stocstatuskImpTime",
-                width: 70,
-                align: "center",
-            },
-        ]);
-
-        const columnGroupDetails = reactive([
-            {
-                title: "Mã dịch vụ",
-                key: "serviceCode",
-                dataIndex: "serviceCode",
-                // width: 150,
-                // className: "column-header-center",
-            },
-            {
-                title: "Tên dịch vụ",
-                key: "serviceName",
-                dataIndex: "serviceName",
-                // width: 500,
-                // className: "column-header-center",
-            },
-        ]);
-
-        const columnDetails = reactive([
-            {
-                title: "Mã XN",
-                key: "serviceResultIndiceCode",
-                dataIndex: "serviceResultIndiceCode",
-                // width: 50,
-                // className: "column-header-center",
-            },
-            {
-                title: "Tên XN",
-                key: "serviceResultIndiceName",
-                dataIndex: "serviceResultIndiceName",
-                // width: 250,
-                // className: "column-header-center",
-            },
-            {
-                title: "Kết quả",
-                key: "result",
-                dataIndex: "result",
-                // width: 100,
-                // className: "column-header-center",
-            },
-            {
-                title: "Bình thường",
-                key: "normalRange",
-                dataIndex: "normalRange",
-                // width: 150,
-                // className: "column-header-center",
-            },
-            {
-                title: "Máy XN",
-                key: "testingMachine",
-                dataIndex: "testingMachine",
-                // width: 150,
-                // className: "column-header-center",
-            },
-        ]);
+        const itemSourcesSelectedRowKeys = ref<string[]>([]);
 
         // lấy dữ liệu
         /* eslint-disable */
@@ -416,63 +242,24 @@ export default defineComponent({
 
             let result = await testingService.getAll();
             itemSources.value = result.data.result;
-
-            console.log(itemSources.value);
         };
 
-        const mastersCustomRow = async (
-            record: ServiceRequestModel,
-            index: number
-        ) => {
-            source.value = record;
-
-            if (record && record.id) {
-                let serviceRequestDataDtos =
-                    await testingService.getServiceRequestDataByServiceRequestId(
-                        record.id,
-                        1,
-                        true
-                    );
-
-                source.value.serviceRequestDatas =
-                    serviceRequestDataDtos.data.result;
-                console.log(serviceRequestDataDtos);
-            }
-        };
-
-        const itemSourceRowSelection = {
-            onChange: (
-                selectedRowKeys: (string | number)[],
-                selectedRows: ServiceRequestModel[]
-            ) => {
-                console.log(
-                    `selectedRowKeys: ${selectedRowKeys}`,
-                    "selectedRows: ",
-                    selectedRows
-                );
-            },
-            onSelect: (
-                record: ServiceRequestModel,
-                selected: boolean,
-                selectedRows: ServiceRequestModel[]
-            ) => {
-                console.log(record, selected, selectedRows);
-            },
-            onSelectAll: (
-                selected: boolean,
-                selectedRows: ServiceRequestModel[],
-                changeRows: ServiceRequestModel[]
-            ) => {
-                console.log(selected, selectedRows, changeRows);
-            },
-        };
-
-        const onSelectionChanged = ({
+        const onSelectionChanged = async ({
             selectedRowsData,
         }: DxDataGridTypes.SelectionChangedEvent<ServiceRequestModel>) => {
-            const data = selectedRowsData[0];
+            source.value = selectedRowsData[0];
 
-            console.log(data);
+            if (source && source.value.id) {
+                let dtos =
+                    await testingService.getServiceResultDataByServiceRequestId(
+                        source.value.id,
+                        1
+                    );
+
+                serviceResultDatas.value = dtos.data.result;
+            } else {
+                serviceResultDatas.value = [];
+            }
         };
 
         // const onSelectionChanged = (
@@ -481,17 +268,23 @@ export default defineComponent({
         //     console.log(e);
         // };
 
+        const selectFirstRow = (e: any) => {
+            const rowKey = e.component.getKeyByRowIndex(0);
+            if (rowKey) {
+                itemSourcesSelectedRowKeys.value = [
+                    ...itemSourcesSelectedRowKeys.value,
+                    rowKey,
+                ];
+            }
+        };
+
         return {
             fromDate,
             toDate,
-            columnMasters,
-            columnDetails,
-            columnGroupDetails,
             itemSources,
             source,
-
-            itemSourceRowSelection,
-            mastersCustomRow,
+            serviceResultDatas,
+            itemSourcesSelectedRowKeys,
 
             handleLoad,
 
@@ -503,6 +296,7 @@ export default defineComponent({
             displayModes,
 
             onSelectionChanged,
+            selectFirstRow,
         };
     },
     components: {
