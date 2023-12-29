@@ -132,17 +132,22 @@ body {
     margin: 0;
     padding: 0;
 }
+
 .app-layout {
     min-height: 100%;
     background-color: #ececec;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    overflow: hidden;
 }
 
 .app-layout-content {
-    margin-top: var(--x-layout-header-height);
+    /* margin-top: var(--x-layout-header-height); */
+    margin-top: calc(var(--x-layout-header-height));
     padding: 0.5rem 1rem;
     flex: 1;
+    height: 100%;
+    overflow: hidden;
 }
 </style>
 

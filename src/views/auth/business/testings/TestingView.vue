@@ -314,11 +314,9 @@ export default defineComponent({
 
 
 <style scoped>
-.layout {
+/* .layout {
     display: flex;
     flex-direction: column;
-    /* height: 100%; */
-    /* height: 100vh; */
 }
 .header {
     display: flex;
@@ -352,5 +350,52 @@ export default defineComponent({
 .content-row {
     flex: 1;
     overflow: auto;
+} */
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    /*height: 100%;  Sử dụng 100vh thay vì flex: 1 để giữ chiều cao 100% của viewport */
+    flex: 1;
+    height: 100vh;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px; /* Thêm padding để tạo khoảng cách với phần nội dung */
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Ẩn overflow để ngăn scroll xuất hiện ở cấp độ cao hơn */
+}
+
+.content-row {
+    flex: 1;
+    overflow: auto;
+    margin-bottom: 10px; /* Thêm margin để tạo khoảng cách giữa các phần nội dung */
+}
+
+.search {
+    display: grid;
+    grid-template-columns: auto 170px auto 170px 100px;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+    margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
+}
+.procedure-room {
+    display: grid;
+    grid-template-columns: auto 170px;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+    margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
 }
 </style>
