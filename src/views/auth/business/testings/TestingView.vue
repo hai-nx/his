@@ -33,10 +33,13 @@
                     :data-source="itemSources"
                     :show-borders="true"
                     :hover-state-enabled="true"
+                    :focused-row-enabled="true"
+                    :focused-row-index="0"
                     key-expr="id"
                     @selection-changed="onSelectionChanged"
                     @content-ready="selectFirstRow"
                     :selected-row-keys="itemSourcesSelectedRowKeys"
+                    @row-dbl-click="onRowDblClick"
                 >
                     <DxSelection mode="single" />
                     <DxScrolling row-rendering-mode="virtual" />
@@ -185,6 +188,14 @@
             </div>
         </div>
     </div>
+    <teleport to="body">
+        <TestingDetail
+            :visible="visibleDetail"
+            :master-source-prop="source"
+            :detail-source-prop="serviceResultDatas"
+            @toggle="handleTestingDetail"
+        />
+    </teleport>
 </template>
 
 <script lang="ts">
@@ -192,6 +203,8 @@ import { defineComponent, reactive, ref, computed } from "vue";
 import dayjs, { Dayjs } from "dayjs";
 import { ServiceRequestModel, ServiceResultDataModel } from "@/models";
 import { testingService } from "@/services";
+
+import TestingDetail from "./TestingDetail.vue";
 
 import {
     DxDataGrid,
@@ -202,8 +215,9 @@ import {
     DxDataGridTypes,
     DxSelection,
 } from "devextreme-vue/data-grid";
-import DxSelectBox from "devextreme-vue/select-box";
-import DxCheckBox from "devextreme-vue/check-box";
+// import DxSelectBox from "devextreme-vue/select-box";
+// import DxCheckBox from "devextreme-vue/check-box";
+import { RowDblClickEvent } from "devextreme/ui/data_grid";
 
 export default defineComponent({
     name: "TestingView",
@@ -214,6 +228,8 @@ export default defineComponent({
         const toDate = ref<Dayjs>(
             dayjs().set("hour", 23).set("minute", 59).set("second", 59)
         );
+
+        const visibleDetail = ref<boolean>(false);
 
         const displayModes = [
             { text: "Display Mode 'full'", value: "full" },
@@ -233,12 +249,9 @@ export default defineComponent({
         const itemSourcesSelectedRowKeys = ref<string[]>([]);
 
         // lấy dữ liệu
-        /* eslint-disable */
         const handleLoad = async () => {
-            debugger;
-
-            let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
-            let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
+            // let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
+            // let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
 
             let result = await testingService.getAll();
             itemSources.value = result.data.result;
@@ -248,25 +261,17 @@ export default defineComponent({
             selectedRowsData,
         }: DxDataGridTypes.SelectionChangedEvent<ServiceRequestModel>) => {
             source.value = selectedRowsData[0];
-
-            if (source && source.value.id) {
+            if (source.value && source.value.id) {
                 let dtos =
                     await testingService.getServiceResultDataByServiceRequestId(
                         source.value.id,
                         1
                     );
-
                 serviceResultDatas.value = dtos.data.result;
             } else {
                 serviceResultDatas.value = [];
             }
         };
-
-        // const onSelectionChanged = (
-        //     e: DxDataGridTypes.SelectionChangedEvent<ServiceRequestModel>
-        // ) => {
-        //     console.log(e);
-        // };
 
         const selectFirstRow = (e: any) => {
             const rowKey = e.component.getKeyByRowIndex(0);
@@ -278,6 +283,17 @@ export default defineComponent({
             }
         };
 
+        const onRowDblClick = (e: RowDblClickEvent) => {
+            visibleDetail.value = true;
+        };
+
+        const handleTestingDetail = (result: boolean) => {
+            visibleDetail.value = !visibleDetail.value;
+            if (result) {
+                handleLoad();
+            }
+        };
+
         return {
             fromDate,
             toDate,
@@ -285,8 +301,7 @@ export default defineComponent({
             source,
             serviceResultDatas,
             itemSourcesSelectedRowKeys,
-
-            handleLoad,
+            visibleDetail,
 
             pageSizes,
             displayMode,
@@ -295,8 +310,11 @@ export default defineComponent({
             showNavButtons,
             displayModes,
 
+            handleLoad,
             onSelectionChanged,
             selectFirstRow,
+            handleTestingDetail,
+            onRowDblClick,
         };
     },
     components: {
@@ -305,9 +323,11 @@ export default defineComponent({
         DxScrolling,
         DxPager,
         DxPaging,
-        DxSelectBox,
-        DxCheckBox,
+        // DxSelectBox,
+        // DxCheckBox,
         DxSelection,
+
+        TestingDetail,
     },
 });
 </script>
