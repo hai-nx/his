@@ -3,7 +3,7 @@ import { ServiceRequestDataModel } from "@/models"
 export default interface ServiceRequestModel {
     id?: string
     serviceRequestCode?: string
-    serviceRequestDate?: string // ngày chỉ định (tạo phiếu)
+    serviceRequestDate?: Date // ngày chỉ định (tạo phiếu)
     serviceRequestUseDate?: string // ngày y lệnh
     barcode?: string
     numOrder?: number // số thứ tự chỉ định trong ngày (số thứ tự thực hiện)
@@ -24,6 +24,8 @@ export default interface ServiceRequestModel {
     executeRoomId?: string // phòng thực hiện
     executeUserId?: string // người thực hiện
 
+    userCode?: string
+    userName?: string
     patientCode?: string
     patientName?: string
     departmentCode?: string
