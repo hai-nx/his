@@ -156,7 +156,7 @@ export default defineComponent({
     top: 0;
     left: 0;
     bottom: 0;
-    width: 320px;
+    width: var(--x-sidebar-width);
     max-width: 100%;
     background-color: var(--x-nav-background-color);
     color: var(--x-nav-color);

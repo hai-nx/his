@@ -1,5 +1,5 @@
 <template>
-    <a-modal :visible="visible" :mask-closable="false" 
+    <a-modal :visible="props.visible" :mask-closable="false" 
     width="1000px" 
     title="Chọn phân hệ làm việc" 
     cancelText="Hủy bỏ"
@@ -16,10 +16,7 @@ import { defineProps, defineEmits } from "vue";
 
 const emit = defineEmits(['cancel'])
 const props = defineProps({
-    visible: {
-        type: Boolean,
-        required: true
-    }
+    visible: Boolean
 })
 
 function handleCancel () {
@@ -27,42 +24,7 @@ function handleCancel () {
 }
 
 function handleSave () {
-    console.log('sdasdasd')
-
     emit('cancel')
 }
 
 </script>
-
-
-<!-- <script lang="ts">
-import { defineComponent } from 'vue'
-export default defineComponent({
-    name: 'SubsystemOptionView',
-    props: {
-        visible: {
-            type: Boolean,
-            required: true,
-        }
-    },
-    emits: ['cancel'],
-    setup(props, {emit}) {
-        
-
-        const handleCancel = () => {
-            emit('cancel');
-        }
-
-        const handleSave = () => {
-            console.log('save')
-
-            emit('cancel')
-        }
-
-        return {
-            handleCancel,
-            handleSave
-        }
-    },
-})
-</script> -->

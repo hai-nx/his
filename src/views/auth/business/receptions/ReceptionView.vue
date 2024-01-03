@@ -1,8 +1,11 @@
 <template>
-    <x-layout :title="title" :breadcrumbs="breadcrumbs" :show-footer="false">
+    <x-layout :title="title" :breadcrumbs="breadcrumbs" :show-header="true">
         <template #action>
-            <a-button type="primary" @click="showReceptionDetail">Đón tiếp</a-button>
-            <a-dropdown-button class="ms-2">
+            <a-button type="primary" class="mx-1" @click="onShowReceptionDetail">
+                Đón tiếp
+            </a-button>
+
+            <a-dropdown-button class="mx-1">
                 Báo cáo
                 <template #overlay>
                     <a-menu>
@@ -24,134 +27,141 @@
             </a-dropdown-button>
         </template>
 
-        <div class="py-3 px-2">
-            <form class="form-inline" action="/action_page.php">
-                <label for="fromDate">Từ ngày:</label>
-                <a-date-picker id="fromDate" format="DD/MM/YYYY HH:mm" :allowClear="false" :showTime="true"></a-date-picker>
-                <label for="toDate">Đến ngày:</label>
-                <a-date-picker id="toDate" format="DD/MM/YYYY HH:mm" :allowClear="false" :showTime="true"></a-date-picker>
-                <label for="toDate">Trạng thái:</label>
-                <a-select style="width: 220px">
-                    <a-select-option key="1" value="Chưa bắt đầu"></a-select-option>
-                    <a-select-option key="2" value="Chưa bắt đầu 123123 1"></a-select-option>
-                    <a-select-option key="3" value="Chưa bắt đầu 12312312312312"></a-select-option>
-                </a-select>
-                <a-input type="text" id="search" placeholder="Tìm kiếm theo mã bệnh nhân, tên bệnh nhân, ..."></a-input>
-                <a-button>Tìm kiếm</a-button>
-            </form>
+        <div class="d-flex flex-column p-3  overflow-auto">
+            <a-space class="mb-3">
+                <label>Từ ngày</label>
+                <a-date-picker class="ms-2"></a-date-picker>
+                <label class="ms-2">Đến ngày</label>
+                <a-date-picker class="ms-2"></a-date-picker>
+                <label class="ms-2">Trạng thái</label>
+                <a-select class="w-150 ms-2"></a-select>
+                <label class="ms-2">Phòng khám</label>
+                <a-select class="w-150 ms-2"></a-select>
+                <a-input class="w-200 ms-2"></a-input>
+                <a-button class="ms-2">Tìm kiếm</a-button>
+            </a-space>
 
-            <a-table :columns="columns" :data-source="items" bordered scroll={{ x: 1000 }} class="mb-2"></a-table>
+            <div class="row mb-3">
+                <a-table :columns="columns" :data-source="items" bordered :pagination="false" :scroll="scroll"></a-table>
+            </div>
 
-            <div style="display: flex; justify-content: end; align-items:">
-                <a-pagination :total="pageTotal" :page-size="pageSize" :current="pageCurrent"/>
+            <div class="row">
+                <x-pagination 
+                    :current="currentPage" 
+                    :page-size="pageSize" 
+                    :total="totalRowCount"
+                    @change="onCurrentPageChange" 
+                    @pageSizeChange="onPageSizeChange" 
+                    />
             </div>
         </div>
-
-
     </x-layout>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, onMounted, h, toRefs } from 'vue'
 import { PatientRecordModel, PatientRecordRequestModel } from '@/models'
-import { defineComponent, ref } from 'vue'
-import { receptionService } from '@/services'
 import { XItemType } from '@/components';
+import { receptionService } from '@/services'
+import router from '@/router';
 
-export default defineComponent({
-    name: 'ReceptionView',
-    setup() {
-        const breadcrumbs = ref<Array<XItemType>>([
-            { key: '1', label: 'Đón tiếp', icon: '', path: '' },
-            { key: '2', label: 'Danh sách bệnh nhân', icon: '', path: '' }
-        ]);
-        const title = ref<string>('Danh sách bệnh nhân đăng ký khám');
-        const columns = ref([
-            { title: 'Ngày đón tiếp', key: 'code', dataIndex: 'code', width: 150 },
-            { title: 'Mã BN', key: 'name', dataIndex: 'name', width: 150 },
-            { title: 'Tên bệnh nhân', key: 'description', dataIndex: 'description', width: 250 },
-            { title: 'Số BHYT', key: 'inactive', dataIndex: 'inactive', width: 200 },
-            { title: 'Giới tính', key: 'action', width: 100 },
-            { title: 'Tuổi', key: 'action', width: 100 },
-            { title: 'Địa chỉ', key: 'action', width: 300 },
-            { title: 'Phòng khám', key: 'action', width: 150 },
-            { title: 'Dịch vụ khám', key: 'action', width: 150 },
-            { title: 'Bác sĩ khám bệnh', key: 'action', width: 150 },
-            { title: 'STT khám', key: 'action', width: 100 },
-            { title: 'Người đăng ký', key: 'action', width: 150 },
-        ]);
-        const items = ref<PatientRecordModel[]>([]);
+// import useLayout from "@/uses/layout";
 
-        const pageTotal = ref(500)
-        const pageSize = ref(20)
-        const pageCurrent = ref(1)
+// const { currentPage, pageSize, totalRowCount, onPageSizeChange, onCurrentPageChange } = useLayout(loadSource);
 
 
-        const showReceptionDetail = () => {
-            //router.push({ name: 'reception-detail' });
-            getAll();
-        }
 
-        const getAll = () => {
-            let input: PatientRecordRequestModel = {
-                departmentFilter: "142ECB02-836B-4824-9B71-F18BCA299658",
-                rooomFilter: "991184C1-3FD2-4D15-8977-D1DDA4EC5ACB",
-                maxPatientRecordDateFilter: new Date(),
-                minPatientRecordDateFilter: new Date()
-            }
-            receptionService.getAll(input).then(res => { items.value = res.data.result })
-        }
+const title = ref('Danh sách bệnh nhân đăng ký khám');
+const breadcrumbs = ref<Array<XItemType>>([
+    { key: '1', label: 'Đón tiếp', icon: '', path: '' },
+    { key: '2', label: 'Danh sách bệnh nhân', icon: '', path: '' }
+]);
 
-        return {
-            title,
-            breadcrumbs,
-            columns,
-            items,
-            pageSize,
-            pageCurrent,
-            pageTotal,
-            showReceptionDetail,
-            getAll
-        }
-    },
-})
+const columns = ref([
+    { title: 'Ngày đón tiếp', key: 'code', dataIndex: 'code', width: 150 },
+    { title: 'Mã BN', key: 'patientRecordCode', dataIndex: 'patientRecordCode', width: 150 },
+    { title: 'Tên bệnh nhân', key: 'patientName', dataIndex: 'patientName', width: 250 },
+    { title: 'Số BHYT', key: 'inactive', dataIndex: 'inactive', width: 200 },
+    { title: 'Giới tính', key: 'action', width: 100 },
+    { title: 'Tuổi', key: 'action', width: 100 },
+    { title: 'Địa chỉ', key: 'action', width: 300 },
+    { title: 'Phòng khám', key: 'action', width: 150 },
+    { title: 'Dịch vụ khám', key: 'action', width: 150 },
+    { title: 'Bác sĩ khám bệnh', key: 'action', width: 150 },
+    { title: 'STT khám', key: 'action', width: 100 },
+    { title: 'Người đăng ký', key: 'action', width: 150 },
+]);
+const items = ref<PatientRecordModel[]>([]);
 
-</script>
+const totalRowCount = ref(0);
+const currentPage = ref(1);
+const pageSize = ref(20);
 
-<style>
-.form-inline {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    padding: .5rem;
-}
+const scroll = ref({ x: 1200 });
 
-.form-inline>* {
-    margin-right: .5rem;
-}
+function loadSource() {
+    // let input: PatientRecordRequestModel = {
+    //     maxResultCount: pageSize.value,
+    //     skipCount: pageSize.value  * (currentPage.value - 1),
+    //     maxPatientRecordDateFilter: new Date(),
+    //     minPatientRecordDateFilter: new Date()
+    // }
+    // receptionService.getAll(input)
+    //     .then(res => { 
+    //         items.value = res.data.result;
+    //         totalRowCount.value = res.data.totalCount;
+    //     });
 
-.form-inline input {
-    width: 320px;
-}
-
-.table {
-    margin-left: .5px;
-    margin-right: .5px;
-}
-
-@media (max-width: 800px) {
-    .form-inline>* {
-        margin-right: 0;
-        margin-bottom: .5rem;
-        width: 100%;
+    if (pageSize.value === 10) {
+        totalRowCount.value = 12;
+        items.value = [
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+    ]
     }
-
-    .form-inline input {
-        width: 100%;
-    }
-
-    .form-inline {
-        flex-direction: column;
-        align-items: stretch;
-    }
+    else {
+    items.value = [
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" }
+    ]}
 }
-</style>
+
+
+function onShowReceptionDetail() {
+    router.push({ name: 'reception-detail' });
+}
+
+function onPageSizeChange(value: number) {
+    pageSize.value = value;
+    currentPage.value = 1;
+    loadSource();
+}
+
+function onCurrentPageChange(value: number) {
+    currentPage.value = value
+    loadSource();
+}
+
+
+
+onMounted(() => loadSource())
+
+</script>@/uses/layout

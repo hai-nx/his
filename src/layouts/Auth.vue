@@ -132,22 +132,21 @@ body {
     margin: 0;
     padding: 0;
 }
-
 .app-layout {
     min-height: 100%;
     background-color: #ececec;
     display: flex;
-    flex-direction: row;
-    overflow: hidden;
+    flex-direction: column;
+    align-items: stretch;
+    background-color: #ececec;
+    overflow-y: auto;
 }
 
 .app-layout-content {
-    /* margin-top: var(--x-layout-header-height); */
-    margin-top: calc(var(--x-layout-header-height));
+    margin-top: var(--x-nav-height);
+    margin-bottom: 0;
     padding: 0.5rem 1rem;
-    flex: 1;
-    height: 100%;
-    overflow: hidden;
+    min-height: calc(100vh - var(--x-nav-height));
+    overflow-y: auto;
 }
 </style>
-

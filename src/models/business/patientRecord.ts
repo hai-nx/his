@@ -1,24 +1,29 @@
-export default interface PatientRecordModel {
-    patientRecordCode: string | undefined
-    patientRecordDate: Date,
-    patientRecordStatusId: number,
-    patientId: string,
-    patientCode: string | undefined,
-    birthDate: Date,
-    birthYear: number,
-    birthplace: string,
+import PagedResultRequestModel from "@/models/PagedResultRequestModel"
 
-    address: string,
-    workplace: string,
-    tel: string,
-    mobile: string,
-    email: string,
-    identificationNumber: string,
-    issueDate: Date,
-    issueBy: string
+export default interface PatientRecordModel {
+    id?: string,
+    patientRecordCode?: string | undefined
+    patientRecordDate?: Date,
+    patientRecordStatusId?: number,
+    patientId?: string,
+    patientCode?: string | undefined,
+    patientName?: string | undefined,
+    birthDate?: Date,
+    birthYear?: number,
+    birthplace?: string,
+    genderName?: string,
+
+    address?: string,
+    workplace?: string,
+    tel?: string,
+    mobile?: string,
+    email?: string,
+    identificationNumber?: string,
+    issueDate?: Date,
+    issueBy?: string
 }
 
-export interface PatientRecordRequestModel {
+export interface PatientRecordRequestModel extends PagedResultRequestModel {
     patientFilter?: string,
     patientCodeFilter?: string,
     patientNameFilter?: string,

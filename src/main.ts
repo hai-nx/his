@@ -5,6 +5,8 @@ import App from './App.vue'
 import router from './router'
 import { defineAsyncComponents, defineAsyncLayoutComponents } from './utils'
 
+// reset css
+import './assets/style/reset.css'
 // bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.js'
@@ -13,6 +15,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import 'ant-design-vue/dist/antd.css'
 
 import './assets/style/global.css'
+import './assets/style/ant.css'
 
 import 'devextreme/dist/css/dx.light.css';
 
