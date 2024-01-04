@@ -13,24 +13,24 @@
                 >ádadsasd</DxLabel
             >
             <label class="grid-column-1"> Mã bệnh nhân: </label>
-            <label class="grid-column-2">
+            <label class="grid-column-2 bold">
                 {{ masterSource?.patientCode }}
             </label>
             <label class="grid-column-3"> Mã điều trị: </label>
-            <label class="grid-column-4">
+            <label class="grid-column-4 bold">
                 {{ masterSource?.patientCode }}
             </label>
             <label class="grid-column-5"> Tên bệnh nhân: </label>
-            <label class="grid-column-6">
+            <label class="grid-column-6 bold">
                 {{ masterSource?.patientName }}
             </label>
 
             <label class="grid-column-1"> Số phiếu: </label>
-            <label class="grid-column-2">
+            <label class="grid-column-2 bold">
                 {{ masterSource?.serviceRequestCode }}
             </label>
             <label class="grid-column-3"> Barcode: </label>
-            <label class="grid-column-4">
+            <label class="grid-column-4 bold">
                 {{ masterSource?.barcode }}
             </label>
             <label class="grid-column-5"> Thời gian chỉ định: </label>

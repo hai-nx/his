@@ -1,9 +1,9 @@
-import { PagedResultModel, ResultModel, ServiceRequestModel, ServiceRequestDataModel } from '@/models'
+import { PagedResultModel, ResultModel, ServiceRequestModel, ServiceRequestDataModel, ServiceRequestRequestModel } from '@/models'
 import axiosClient from '@/utils/request'
 
 const serviceRequestService = {
-    getAll(params: any = null) {
-        return axiosClient.get<PagedResultModel<ServiceRequestModel>>('api/Testing/GetAll', params);
+    getAll(input?: ServiceRequestRequestModel) {
+        return axiosClient.get<PagedResultModel<ServiceRequestModel>>('api/Testing/GetAll', { params: input });
     },
 
     getServiceRequestDataByServiceRequestId(serviceRequestId: string, genderType: number, isDetail: boolean) {

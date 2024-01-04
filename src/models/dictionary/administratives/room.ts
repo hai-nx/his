@@ -1,4 +1,5 @@
 import DictionaryBase from "../base";
+import PagedResultRequestModel from "@/models/PagedResultRequestModel"
 
 export default interface RoomModel extends DictionaryBase {
     mohCode?: string,
@@ -8,4 +9,12 @@ export default interface RoomModel extends DictionaryBase {
     departmentId: string,
     departmentCode?: string,
     departmentName?: string,
+}
+
+export interface RoomRequestModel extends PagedResultRequestModel {
+    codeFilter?: string
+    nameFilter?: string
+    roomTypeIdFilter?: number
+    departmentIdFilter?: string
+    inactiveFilter?: boolean
 }

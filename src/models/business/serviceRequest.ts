@@ -1,4 +1,5 @@
 import { ServiceRequestDataModel } from "@/models"
+import PagedResultRequestModel from "@/models/PagedResultRequestModel"
 
 export default interface ServiceRequestModel {
     id?: string
@@ -38,4 +39,16 @@ export default interface ServiceRequestModel {
     executeUserName?: string
 
     serviceRequestDatas?: ServiceRequestDataModel[]
+}
+
+export interface ServiceRequestRequestModel extends PagedResultRequestModel {
+    executeRoomIdFilter?: string
+    executeDepartmentIdFilter?: string
+    serviceRequestStatusIdFilter?: number
+
+    serviceRequestUseDateFromFilter?: Date | string
+    serviceRequestUseDateToFilter?: Date | string
+
+    serviceRequestDateFromFilter?: Date | string
+    serviceRequestDateToFilter?: Date | string
 }

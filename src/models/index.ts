@@ -18,7 +18,7 @@ import GenderModel from './dictionary/administratives/gender'
 import HospitalModel from './dictionary/administratives/hospital'
 import ICDModel from './dictionary/administratives/icd'
 import ProvinceModel from './dictionary/administratives/province'
-import RoomModel from './dictionary/administratives/room'
+import RoomModel, { RoomRequestModel } from './dictionary/administratives/room'
 import RoomTypeModel from './dictionary/administratives/room-type'
 import WardModel from './dictionary/administratives/ward'
 import ChapterIcdModel from './dictionary/administratives/chapterIcd'
@@ -46,7 +46,7 @@ import InOutStockTypeModel from './business/pharmaceuticals/inOutStockType';
 import InOutStockItemModel from './business/pharmaceuticals/inOutStockItem';
 import InOutStockModel from './business/pharmaceuticals/inOutStock';
 import ItemStockModel from './business/pharmaceuticals/itemStock';
-import ServiceRequestModel from './business/serviceRequest';
+import ServiceRequestModel, { ServiceRequestRequestModel } from './business/serviceRequest';
 import ServiceRequestDataModel from './business/serviceRequestData';
 import ServiceResultDataModel from './business/serviceResultData';
 
@@ -78,6 +78,7 @@ export {
     ICDModel,
     ProvinceModel,
     RoomModel,
+    RoomRequestModel,
     RoomTypeModel,
     WardModel,
     ChapterIcdModel,
@@ -106,6 +107,7 @@ export {
     InOutStockModel,
     ItemStockModel,
     ServiceRequestModel,
+    ServiceRequestRequestModel,
     ServiceRequestDataModel,
     ServiceResultDataModel,
 

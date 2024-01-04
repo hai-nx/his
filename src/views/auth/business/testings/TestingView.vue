@@ -3,7 +3,20 @@
         <div class="header">
             <div class="procedure-room">
                 <label>Phòng thực hiện:</label>
-                <a-select> </a-select>
+                <!-- <a-select> </a-select> -->
+                <DxSelectBox
+                    :search-enabled="true"
+                    :data-source="executeRooms"
+                    :search-mode="'contains'"
+                    :search-expr="'name'"
+                    :search-timeout="200"
+                    :min-search-length="0"
+                    :show-data-before-search="false"
+                    :value="executeRoomSelected"
+                    placeholder="Chọn phòng thực hiện"
+                    display-expr="name"
+                    value-expr="id"
+                />
             </div>
             <div class="search">
                 <label>Từ ngày:</label>
@@ -189,7 +202,7 @@
         </div>
     </div>
     <teleport to="body">
-        <TestingDetail
+        <TestingDetailView
             :visible="visibleDetail"
             :master-source-prop="source"
             :detail-source-prop="serviceResultDatas"
@@ -201,10 +214,18 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, computed } from "vue";
 import dayjs, { Dayjs } from "dayjs";
-import { ServiceRequestModel, ServiceResultDataModel } from "@/models";
-import { testingService } from "@/services";
+import {
+    ServiceRequestModel,
+    ServiceResultDataModel,
+    RoomModel,
+    RoomRequestModel,
+    ServiceRequestRequestModel,
+} from "@/models";
+import { RoomType } from "@/enums/roomtypes";
+import { testingService, roomService } from "@/services";
+import { DxSelectBox } from "devextreme-vue/select-box";
 
-import TestingDetail from "./TestingDetail.vue";
+import TestingDetailView from "./TestingDetailView.vue";
 
 import {
     DxDataGrid,
@@ -215,8 +236,6 @@ import {
     DxDataGridTypes,
     DxSelection,
 } from "devextreme-vue/data-grid";
-// import DxSelectBox from "devextreme-vue/select-box";
-// import DxCheckBox from "devextreme-vue/check-box";
 import { RowDblClickEvent } from "devextreme/ui/data_grid";
 
 export default defineComponent({
@@ -241,19 +260,41 @@ export default defineComponent({
         const showPageSizeSelector = ref(true);
         const showInfo = ref(true);
         const showNavButtons = ref(true);
-
         const itemSources = ref<ServiceRequestModel[]>([]);
         const source = ref<ServiceRequestModel>();
         const serviceResultDatas = ref<ServiceResultDataModel[]>([]);
-
         const itemSourcesSelectedRowKeys = ref<string[]>([]);
+        const executeRooms = ref<RoomModel[]>([]);
+        const executeRoomSelected = ref<string>();
+
+        // Lấy dữ liệu danh sách
+        const inItData = async () => {
+            executeRooms.value = await getExecuteRooms();
+
+            if (executeRooms.value && executeRooms.value[0].id) {
+                executeRoomSelected.value = executeRooms.value[0].id;
+            }
+        };
+
+        async function getExecuteRooms(): Promise<RoomModel[]> {
+            const filter: RoomRequestModel = {
+                roomTypeIdFilter: RoomType.LaboratoryTesting,
+            };
+            return (await roomService.getAll(filter)).data.result;
+        }
 
         // lấy dữ liệu
         const handleLoad = async () => {
-            // let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
-            // let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
+            let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
+            let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
 
-            let result = await testingService.getAll();
+            let filter: ServiceRequestRequestModel = {
+                executeRoomIdFilter: executeRoomSelected.value,
+                serviceRequestDateFromFilter: fromDateString,
+                serviceRequestDateToFilter: toDateString,
+            };
+
+            let result = await testingService.getAll(filter);
             itemSources.value = result.data.result;
         };
 
@@ -302,6 +343,8 @@ export default defineComponent({
             serviceResultDatas,
             itemSourcesSelectedRowKeys,
             visibleDetail,
+            executeRooms,
+            executeRoomSelected,
 
             pageSizes,
             displayMode,
@@ -311,6 +354,7 @@ export default defineComponent({
             displayModes,
 
             handleLoad,
+            inItData,
             onSelectionChanged,
             selectFirstRow,
             handleTestingDetail,
@@ -323,55 +367,20 @@ export default defineComponent({
         DxScrolling,
         DxPager,
         DxPaging,
-        // DxSelectBox,
-        // DxCheckBox,
         DxSelection,
+        DxSelectBox,
 
-        TestingDetail,
+        TestingDetailView,
+    },
+    async mounted() {
+        await this.inItData();
+        await this.handleLoad();
     },
 });
 </script>
 
 
 <style scoped>
-/* .layout {
-    display: flex;
-    flex-direction: column;
-}
-.header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.search {
-    display: grid;
-    grid-template-columns: auto 170px auto 170px 100px;
-    grid-column-gap: 5px;
-    grid-row-gap: 5px;
-    margin-bottom: 10px;
-    align-items: center;
-    justify-content: center;
-}
-.procedure-room {
-    display: grid;
-    grid-template-columns: auto 170px;
-    grid-column-gap: 5px;
-    grid-row-gap: 5px;
-    margin-bottom: 10px;
-    align-items: center;
-    justify-content: center;
-}
-.content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-.content-row {
-    flex: 1;
-    overflow: auto;
-} */
-
 .layout {
     display: flex;
     flex-direction: column;
@@ -411,7 +420,7 @@ export default defineComponent({
 }
 .procedure-room {
     display: grid;
-    grid-template-columns: auto 170px;
+    grid-template-columns: auto 200px;
     grid-column-gap: 5px;
     grid-row-gap: 5px;
     margin-bottom: 10px;
