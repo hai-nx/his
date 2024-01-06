@@ -64,43 +64,80 @@
                 :hover-state-enabled="true"
                 key-expr="id"
             >
+                <DxEditing
+                    :allow-updating="true"
+                    :allow-adding="false"
+                    :allow-deleting="false"
+                    mode="cell"
+                />
+                <!-- 'row' | 'batch' | 'cell' | 'form' | 'popup' -->
+
                 <DxColumn
                     caption="Tên dịch vụ"
                     data-field="serviceName"
                     :visible="true"
                     data-type="string"
                     :group-index="0"
+                    :allow-editing="false"
                 />
                 <DxColumn
                     caption="Mã xét nghiệm"
                     data-field="serviceResultIndiceCode"
                     :visible="true"
                     data-type="string"
+                    :allow-editing="false"
                 />
                 <DxColumn
                     caption="Tên xét nghiệm"
                     data-field="serviceResultIndiceName"
                     :visible="true"
                     data-type="string"
+                    :allow-editing="false"
                 />
                 <DxColumn
                     caption="Kết quả"
                     data-field="result"
                     :visible="true"
-                    data-type="string"
+                    :allow-editing="true"
+                    data-type="number"
+                    cell-template="numberBox-cell-template"
+                    format="#,##0.##"
                 />
+                <!-- <DxLookup /> -->
+                <!-- <DxTextBox /> -->
+                <!-- <DxNumberBox :min="0" :max="1000000" format="#,##0.##" /> -->
+                <!-- </DxColumn> -->
                 <DxColumn
                     caption="Bình thường"
                     data-field="normalRange"
                     :visible="true"
                     data-type="string"
+                    :allow-editing="false"
                 />
                 <DxColumn
                     caption="Máy xét nghiệm"
                     data-field="testingMachine"
                     :visible="true"
                     data-type="string"
+                    :allow-editing="false"
                 />
+                <!-- eslint-disable-next-line -->
+                <template #numberBox-cell-template="{ data }">
+                    <!-- <DxNumberBox
+                        :value="data.result"
+                        format="#,##0.##"
+                        :show-spin-buttons="true"
+                    /> -->
+                    <DxTextBox
+                        :text="data.data.result"
+                        :style="{
+                            border: 'none',
+                            height: '70%',
+                            margin: '0px 0px 0px 0px',
+                            padding: '0px 0px 0px 0px',
+                        }"
+                    />
+                </template>
             </DxDataGrid>
         </div>
     </DxPopup>
@@ -110,8 +147,15 @@
 import { defineComponent, reactive, ref, computed, watch, PropType } from "vue";
 import { DxPopup } from "devextreme-vue/popup";
 import { ServiceRequestModel, ServiceResultDataModel } from "@/models";
-import { DxDataGrid, DxColumn } from "devextreme-vue/data-grid";
+import {
+    DxDataGrid,
+    DxColumn,
+    DxLookup,
+    DxEditing,
+} from "devextreme-vue/data-grid";
 import { DxLabel } from "devextreme-vue/chart";
+import { DxTextBox } from "devextreme-vue/text-box";
+import DxNumberBox from "devextreme-vue/number-box";
 
 export default defineComponent({
     name: "TestingDetailView",
@@ -159,6 +203,10 @@ export default defineComponent({
         DxPopup,
         DxDataGrid,
         DxColumn,
+        DxEditing,
+        // DxLookup,
+        // DxNumberBox,
+        DxTextBox,
 
         DxLabel,
     },
