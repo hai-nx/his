@@ -55,7 +55,7 @@
             <label class="grid-columnspan-2-7">
                 {{ masterSource?.icdName }}
             </label>
-
+            <br />
             <DxDataGrid
                 class="grid-columnspan-1-7"
                 :allow-column-reordering="true"
@@ -68,7 +68,7 @@
                     :allow-updating="true"
                     :allow-adding="false"
                     :allow-deleting="false"
-                    mode="cell"
+                    mode="form"
                 />
                 <!-- 'row' | 'batch' | 'cell' | 'form' | 'popup' -->
 
@@ -100,13 +100,11 @@
                     :visible="true"
                     :allow-editing="true"
                     data-type="number"
-                    cell-template="numberBox-cell-template"
-                    format="#,##0.##"
-                />
-                <!-- <DxLookup /> -->
-                <!-- <DxTextBox /> -->
-                <!-- <DxNumberBox :min="0" :max="1000000" format="#,##0.##" /> -->
-                <!-- </DxColumn> -->
+                    edit-cell-template="result-edit-cell-template"
+                >
+                    <DxTextBox />
+                    <!-- <DxNumberBox :min="0" :max="1000000" format="#,##0.##" /> -->
+                </DxColumn>
                 <DxColumn
                     caption="Bình thường"
                     data-field="normalRange"
@@ -122,21 +120,8 @@
                     :allow-editing="false"
                 />
                 <!-- eslint-disable-next-line -->
-                <template #numberBox-cell-template="{ data }">
-                    <!-- <DxNumberBox
-                        :value="data.result"
-                        format="#,##0.##"
-                        :show-spin-buttons="true"
-                    /> -->
-                    <DxTextBox
-                        :text="data.data.result"
-                        :style="{
-                            border: 'none',
-                            height: '70%',
-                            margin: '0px 0px 0px 0px',
-                            padding: '0px 0px 0px 0px',
-                        }"
-                    />
+                <template #result-edit-cell-template="{ data: cellInfo }">
+                    <DxTextBox :text="cellInfo.data.result" />
                 </template>
             </DxDataGrid>
         </div>

@@ -4,6 +4,7 @@ export default interface ServiceResultDataModel {
     serviceId?: string
     result?: string
     resultType?: number
+    isNumber?: boolean
 
     serviceResultIndiceCode?: string
     serviceResultIndiceName?: string
