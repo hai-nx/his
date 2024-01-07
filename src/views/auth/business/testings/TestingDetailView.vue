@@ -57,7 +57,7 @@
             </label>
             <br />
             <DxDataGrid
-                class="grid-columnspan-1-7"
+                class="grid-columnspan-1-7 custom-data-grid"
                 :allow-column-reordering="true"
                 :data-source="detailSources"
                 :show-borders="true"
@@ -68,7 +68,7 @@
                     :allow-updating="true"
                     :allow-adding="false"
                     :allow-deleting="false"
-                    mode="form"
+                    mode="cell"
                 />
                 <!-- 'row' | 'batch' | 'cell' | 'form' | 'popup' -->
 
@@ -100,11 +100,9 @@
                     :visible="true"
                     :allow-editing="true"
                     data-type="number"
+                    format="#,##0.##"
                     edit-cell-template="result-edit-cell-template"
-                >
-                    <DxTextBox />
-                    <!-- <DxNumberBox :min="0" :max="1000000" format="#,##0.##" /> -->
-                </DxColumn>
+                />
                 <DxColumn
                     caption="Bình thường"
                     data-field="normalRange"
@@ -119,9 +117,17 @@
                     data-type="string"
                     :allow-editing="false"
                 />
-                <!-- eslint-disable-next-line -->
-                <template #result-edit-cell-template="{ data: cellInfo }">
-                    <DxTextBox :text="cellInfo.data.result" />
+                <template #result-edit-cell-template="{ data: cell }">
+                    <DxTextBox
+                        v-if="!cell.data.isNumber"
+                        v-model="cell.data.result"
+                    />
+                    <DxNumberBox
+                        v-else
+                        format="#,##0.##"
+                        v-model="cell.data.result"
+                        :twoWayBindingEnabled="false"
+                    />
                 </template>
             </DxDataGrid>
         </div>
@@ -190,7 +196,7 @@ export default defineComponent({
         DxColumn,
         DxEditing,
         // DxLookup,
-        // DxNumberBox,
+        DxNumberBox,
         DxTextBox,
 
         DxLabel,
@@ -236,5 +242,12 @@ export default defineComponent({
 }
 .grid-columnspan-1-7 {
     grid-column: 1/7;
+}
+
+.custom-data-grid
+    .dx-datagrid-headers
+    .dx-datagrid-content
+    .dx-datagrid-caption {
+    text-align: left;
 }
 </style>
