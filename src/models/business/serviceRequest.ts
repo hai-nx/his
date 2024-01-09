@@ -1,5 +1,6 @@
-import { ServiceRequestDataModel } from "@/models"
+import { ServiceRequestDataModel, ServiceResultDataModel } from "@/models"
 import PagedResultRequestModel from "@/models/PagedResultRequestModel"
+import { ServiceRequestStatusType } from "@/enums/serviceRequestStatusType"
 
 export default interface ServiceRequestModel {
     id?: string
@@ -24,6 +25,7 @@ export default interface ServiceRequestModel {
     executeDepartmentId?: string // khoa thực hiện
     executeRoomId?: string // phòng thực hiện
     executeUserId?: string // người thực hiện
+    status?: ServiceRequestStatusType // Trạng thái phiếu
 
     userCode?: string
     userName?: string
@@ -39,6 +41,7 @@ export default interface ServiceRequestModel {
     executeUserName?: string
 
     serviceRequestDatas?: ServiceRequestDataModel[]
+    serviceResultDatas?: ServiceResultDataModel[]
 }
 
 export interface ServiceRequestRequestModel extends PagedResultRequestModel {

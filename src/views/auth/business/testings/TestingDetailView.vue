@@ -137,6 +137,7 @@
                 <div class="footer-Col-1"></div>
                 <div class="footer-Col-2">
                     <DxButton
+                        v-if="masterSource?.status === 1"
                         class="btn-DxButton"
                         text="Tiếp nhận BP"
                         :width="120"
@@ -144,6 +145,7 @@
                         styling-mode="outlined"
                     />
                     <DxButton
+                        v-if="masterSource?.status === 2"
                         class="btn-DxButton"
                         text="Hủy tiếp nhận"
                         :width="120"
@@ -151,6 +153,7 @@
                         styling-mode="outlined"
                     />
                     <DxButton
+                        v-if="masterSource?.status === 2"
                         class="btn-DxButton"
                         text="Trả kết quả"
                         :width="120"
@@ -158,6 +161,7 @@
                         styling-mode="outlined"
                     />
                     <DxButton
+                        v-if="masterSource?.status === 4"
                         class="btn-DxButton"
                         text="Hủy trả KQ"
                         :width="120"
@@ -195,14 +199,16 @@ export default defineComponent({
         masterSourceProp: {
             type: Object as PropType<ServiceRequestModel>,
         },
-        detailSourceProp: {
-            type: Object as PropType<ServiceResultDataModel[]>,
-        },
+        // detailSourceProp: {
+        //     type: Object as PropType<ServiceResultDataModel[]>,
+        // },
     },
     setup(props, { emit }) {
         const popupVisible = computed(() => props.visible);
         const masterSource = computed(() => props.masterSourceProp);
-        const detailSources = computed(() => props.detailSourceProp);
+        const detailSources = computed(
+            () => props.masterSourceProp?.serviceResultDatas
+        );
 
         const result = ref<boolean>();
 
