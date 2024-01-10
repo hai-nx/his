@@ -13,53 +13,53 @@
             <div class="content">
                 <label class="grid-column-1"> Mã bệnh nhân: </label>
                 <label class="grid-column-2 bold">
-                    {{ masterSource?.patientCode }}
+                    {{ source?.patientCode }}
                 </label>
                 <label class="grid-column-3"> Mã điều trị: </label>
                 <label class="grid-column-4 bold">
-                    {{ masterSource?.patientCode }}
+                    {{ source?.patientCode }}
                 </label>
                 <label class="grid-column-5"> Tên bệnh nhân: </label>
                 <label class="grid-column-6 bold">
-                    {{ masterSource?.patientName }}
+                    {{ source?.patientName }}
                 </label>
 
                 <label class="grid-column-1"> Số phiếu: </label>
                 <label class="grid-column-2 bold">
-                    {{ masterSource?.serviceRequestCode }}
+                    {{ source?.serviceRequestCode }}
                 </label>
                 <label class="grid-column-3"> Barcode: </label>
                 <label class="grid-column-4 bold">
-                    {{ masterSource?.barcode }}
+                    {{ source?.barcode }}
                 </label>
                 <label class="grid-column-5"> Thời gian chỉ định: </label>
                 <label class="grid-column-6">
-                    {{ masterSource?.serviceRequestDate }}
+                    {{ source?.serviceRequestDate }}
                 </label>
 
                 <label class="grid-column-1"> Bác sỹ chỉ định: </label>
                 <label class="grid-column-2">
-                    {{ masterSource?.userName }}
+                    {{ source?.userName }}
                 </label>
                 <label class="grid-column-3"> Khoa chỉ định: </label>
                 <label class="grid-column-4">
-                    {{ masterSource?.departmentName }}
+                    {{ source?.departmentName }}
                 </label>
                 <label class="grid-column-5"> Thời gian trả KQ: </label>
                 <label class="grid-column-6">
-                    {{ masterSource?.serviceRequestDate }}
+                    {{ source?.serviceRequestDate }}
                 </label>
 
                 <label class="grid-column-1"> Chẩn đoán: </label>
                 <label class="grid-columnspan-2-7">
-                    {{ masterSource?.icdName }}
+                    {{ source?.icdName }}
                 </label>
             </div>
 
             <div class="row-2">
                 <DxDataGrid
                     :allow-column-reordering="true"
-                    :data-source="detailSources"
+                    :data-source="source?.serviceResultDatas"
                     :show-borders="true"
                     :hover-state-enabled="true"
                     key-expr="id"
@@ -137,7 +137,7 @@
                 <div class="footer-Col-1"></div>
                 <div class="footer-Col-2">
                     <DxButton
-                        v-if="masterSource?.status === 1"
+                        v-if="source?.status === 1"
                         class="btn-DxButton"
                         text="Tiếp nhận BP"
                         :width="120"
@@ -145,7 +145,7 @@
                         styling-mode="outlined"
                     />
                     <DxButton
-                        v-if="masterSource?.status === 2"
+                        v-if="source?.status === 2"
                         class="btn-DxButton"
                         text="Hủy tiếp nhận"
                         :width="120"
@@ -153,7 +153,7 @@
                         styling-mode="outlined"
                     />
                     <DxButton
-                        v-if="masterSource?.status === 2"
+                        v-if="source?.status === 2"
                         class="btn-DxButton"
                         text="Trả kết quả"
                         :width="120"
@@ -161,7 +161,7 @@
                         styling-mode="outlined"
                     />
                     <DxButton
-                        v-if="masterSource?.status === 4"
+                        v-if="source?.status === 4"
                         class="btn-DxButton"
                         text="Hủy trả KQ"
                         :width="120"
@@ -175,15 +175,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed, watch, PropType } from "vue";
+import { defineComponent, ref, computed, watch, PropType } from "vue";
 import { DxPopup } from "devextreme-vue/popup";
-import { ServiceRequestModel, ServiceResultDataModel } from "@/models";
-import {
-    DxDataGrid,
-    DxColumn,
-    DxLookup,
-    DxEditing,
-} from "devextreme-vue/data-grid";
+import { ServiceRequestModel } from "@/models";
+import { DxDataGrid, DxColumn, DxEditing } from "devextreme-vue/data-grid";
 import { DxLabel } from "devextreme-vue/chart";
 import { DxTextBox } from "devextreme-vue/text-box";
 import DxNumberBox from "devextreme-vue/number-box";
@@ -199,16 +194,10 @@ export default defineComponent({
         masterSourceProp: {
             type: Object as PropType<ServiceRequestModel>,
         },
-        // detailSourceProp: {
-        //     type: Object as PropType<ServiceResultDataModel[]>,
-        // },
     },
     setup(props, { emit }) {
         const popupVisible = computed(() => props.visible);
-        const masterSource = computed(() => props.masterSourceProp);
-        const detailSources = computed(
-            () => props.masterSourceProp?.serviceResultDatas
-        );
+        const source = computed(() => props.masterSourceProp);
 
         const result = ref<boolean>();
 
@@ -227,8 +216,7 @@ export default defineComponent({
 
         return {
             popupVisible,
-            masterSource,
-            detailSources,
+            source,
 
             handleCancel,
         };

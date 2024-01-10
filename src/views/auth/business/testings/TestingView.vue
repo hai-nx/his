@@ -155,7 +155,7 @@
             <div class="content-row">
                 <DxDataGrid
                     :allow-column-reordering="true"
-                    :data-source="serviceResultDatas"
+                    :data-source="source.serviceResultDatas"
                     :show-borders="true"
                     :hover-state-enabled="true"
                     key-expr="id"
@@ -260,16 +260,19 @@ export default defineComponent({
         const showInfo = ref(true);
         const showNavButtons = ref(true);
         const itemSources = ref<ServiceRequestModel[]>([]);
-        // const source = ref<ServiceRequestModel>({});
+        const source = ref<ServiceRequestModel>({});
         const serviceResultDatas = ref<ServiceResultDataModel[]>([]);
         const itemSourcesSelectedRowKeys = ref<string[]>([]);
         const executeRooms = ref<RoomModel[]>([]);
         const executeRoomSelected = ref<string>();
+        // const serviceResultDatas = computed(
+        //     () => source.value.serviceResultDatas
+        // );
 
-        let source = reactive<ServiceRequestModel>({
-            serviceRequestDatas: [],
-            serviceResultDatas: [],
-        });
+        // let source = reactive<ServiceRequestModel>({
+        //     serviceRequestDatas: [],
+        //     serviceResultDatas: [],
+        // });
 
         // Lấy dữ liệu danh sách
         const inItData = async () => {
@@ -305,34 +308,16 @@ export default defineComponent({
         const onSelectionChanged = async ({
             selectedRowsData,
         }: DxDataGridTypes.SelectionChangedEvent<ServiceRequestModel>) => {
-            // source.value = selectedRowsData[0];
-            // if (source.value && source.value.id) {
-            //     let dtos =
-            //         await testingService.getServiceResultDataByServiceRequestId(
-            //             source.value.id,
-            //             1
-            //         );
-            //     serviceResultDatas.value = dtos.data.result;
-            //     source.value.serviceRequestDatas = dtos.data.result;
-            //     console.log(source.value.serviceRequestDatas);
-            // } else {
-            //     serviceResultDatas.value = [];
-            //     source.value.serviceRequestDatas = [];
-            // }
-
-            source = selectedRowsData[0];
-            if (source && source.id) {
+            source.value = selectedRowsData[0];
+            if (source.value && source.value.id) {
                 let dtos =
                     await testingService.getServiceResultDataByServiceRequestId(
-                        source.id,
+                        source.value.id,
                         1
                     );
-                serviceResultDatas.value = dtos.data.result;
-                source.serviceRequestDatas = dtos.data.result;
-                console.log(source.serviceRequestDatas);
+                source.value.serviceResultDatas = dtos.data.result;
             } else {
-                serviceResultDatas.value = [];
-                source.serviceRequestDatas = [];
+                source.value.serviceResultDatas = [];
             }
         };
 
