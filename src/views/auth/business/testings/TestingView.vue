@@ -1,9 +1,38 @@
 <template>
     <div class="layout">
         <div class="header">
-            <div class="procedure-room">
+            <div class="parameters">
                 <label>Phòng thực hiện:</label>
-                <!-- <a-select> </a-select> -->
+                <DxSelectBox
+                    :search-enabled="true"
+                    :data-source="executeRooms"
+                    :search-mode="'contains'"
+                    :search-expr="'name'"
+                    :search-timeout="200"
+                    :min-search-length="0"
+                    :show-data-before-search="false"
+                    :value="executeRoomSelected"
+                    placeholder="Chọn phòng thực hiện"
+                    display-expr="name"
+                    value-expr="id"
+                />
+
+                <label>Ngày:</label>
+                <DxSelectBox
+                    :search-enabled="true"
+                    :data-source="executeRooms"
+                    :search-mode="'contains'"
+                    :search-expr="'name'"
+                    :search-timeout="200"
+                    :min-search-length="0"
+                    :show-data-before-search="false"
+                    :value="executeRoomSelected"
+                    placeholder="Chọn phòng thực hiện"
+                    display-expr="name"
+                    value-expr="id"
+                />
+
+                <label>Trạng thái:</label>
                 <DxSelectBox
                     :search-enabled="true"
                     :data-source="executeRooms"
@@ -20,15 +49,34 @@
             </div>
             <div class="search">
                 <label>Từ ngày:</label>
-                <a-date-picker
+                <!-- <a-date-picker
                     placeholder="dd/MM/yyyy HH:mm:ss"
                     format="DD/MM/YYYY HH:mm:ss"
                     v-model:value="fromDate"
+                /> -->
+                <DxDateBox
+                    :show-clear-button="false"
+                    :use-mask-behavior="false"
+                    :input-attr="{ 'aria-label': 'Date' }"
+                    placeholder="dd/MM/yyyy"
+                    display-format="dd/MM/yyyy"
+                    type="date"
+                    v-model:value="fromDate"
                 />
+
                 <label>Đến ngày:</label>
-                <a-date-picker
+                <!-- <a-date-picker
                     placeholder="dd/MM/yyyy HH:mm:ss"
                     format="DD/MM/YYYY HH:mm:ss"
+                    v-model:value="toDate"
+                /> -->
+                <DxDateBox
+                    :show-clear-button="false"
+                    :use-mask-behavior="false"
+                    :input-attr="{ 'aria-label': 'Date' }"
+                    placeholder="dd/MM/yyyy"
+                    display-format="dd/MM/yyyy"
+                    type="date"
                     v-model:value="toDate"
                 />
                 <a-button type="primary" @click="handleLoad">
@@ -223,6 +271,7 @@ import {
 import { RoomType } from "@/enums/roomtypes";
 import { testingService, roomService } from "@/services";
 import { DxSelectBox } from "devextreme-vue/select-box";
+import DxDateBox from "devextreme-vue/date-box";
 
 import TestingDetailView from "./TestingDetailView.vue";
 
@@ -240,12 +289,15 @@ import { RowDblClickEvent } from "devextreme/ui/data_grid";
 export default defineComponent({
     name: "TestingView",
     setup() {
-        const fromDate = ref<Dayjs>(
-            dayjs().set("hour", 0).set("minute", 0).set("second", 0)
-        );
-        const toDate = ref<Dayjs>(
-            dayjs().set("hour", 23).set("minute", 59).set("second", 59)
-        );
+        // const fromDate = ref<Dayjs>(
+        //     dayjs().set("hour", 0).set("minute", 0).set("second", 0)
+        // );
+        // const toDate = ref<Dayjs>(
+        //     dayjs().set("hour", 23).set("minute", 59).set("second", 59)
+        // );
+
+        const fromDate = ref<Date>(new Date());
+        const toDate = ref<Date>(new Date());
 
         const visibleDetail = ref<boolean>(false);
 
@@ -292,13 +344,15 @@ export default defineComponent({
 
         // lấy dữ liệu
         const handleLoad = async () => {
-            let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
-            let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
+            // let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
+            // let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
+
+            console.log(fromDate.value, toDate.value);
 
             let filter: ServiceRequestRequestModel = {
                 executeRoomIdFilter: executeRoomSelected.value,
-                serviceRequestDateFromFilter: fromDateString,
-                serviceRequestDateToFilter: toDateString,
+                serviceRequestDateFromFilter: fromDate.value,
+                serviceRequestDateToFilter: toDate.value,
             };
 
             let result = await testingService.getAll(filter);
@@ -376,6 +430,7 @@ export default defineComponent({
         DxPaging,
         DxSelection,
         DxSelectBox,
+        DxDateBox,
 
         TestingDetailView,
     },
@@ -425,9 +480,9 @@ export default defineComponent({
     align-items: center;
     justify-content: center;
 }
-.procedure-room {
+.parameters {
     display: grid;
-    grid-template-columns: auto 200px;
+    grid-template-columns: repeat(3, auto 180px);
     grid-column-gap: 5px;
     grid-row-gap: 5px;
     margin-bottom: 10px;
