@@ -59,7 +59,7 @@
                     :use-mask-behavior="false"
                     :input-attr="{ 'aria-label': 'Date' }"
                     placeholder="dd/MM/yyyy"
-                    display-format="dd/MM/yyyy"
+                    display-format="dd/MM/yyyy HH:mm:ss"
                     type="date"
                     v-model:value="fromDate"
                 />
@@ -75,7 +75,7 @@
                     :use-mask-behavior="false"
                     :input-attr="{ 'aria-label': 'Date' }"
                     placeholder="dd/MM/yyyy"
-                    display-format="dd/MM/yyyy"
+                    display-format="dd/MM/yyyy HH:mm:ss"
                     type="date"
                     v-model:value="toDate"
                 />
@@ -299,6 +299,9 @@ export default defineComponent({
         const fromDate = ref<Date>(new Date());
         const toDate = ref<Date>(new Date());
 
+        fromDate.value.setHours(0, 0, 0);
+        toDate.value.setHours(23, 59, 59);
+
         const visibleDetail = ref<boolean>(false);
 
         const displayModes = [
@@ -344,15 +347,28 @@ export default defineComponent({
 
         // lấy dữ liệu
         const handleLoad = async () => {
-            // let fromDateString = fromDate.value.format("DD/MM/YYYY HH:mm:ss");
-            // let toDateString = toDate.value.format("DD/MM/YYYY HH:mm:ss");
-
-            console.log(fromDate.value, toDate.value);
+            // Định dạng theo dd/MM/yyyy HH:mm:ss
+            const formattedDate = new Intl.DateTimeFormat("en-US", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false,
+            }).format(new Date());
+            console.log(formattedDate);
 
             let filter: ServiceRequestRequestModel = {
                 executeRoomIdFilter: executeRoomSelected.value,
-                serviceRequestDateFromFilter: fromDate.value,
-                serviceRequestDateToFilter: toDate.value,
+                serviceRequestDateFromFilter:
+                    fromDate.value.toLocaleDateString() +
+                    " " +
+                    fromDate.value.toLocaleTimeString(),
+                serviceRequestDateToFilter:
+                    toDate.value.toLocaleDateString() +
+                    " " +
+                    toDate.value.toLocaleTimeString(),
             };
 
             let result = await testingService.getAll(filter);
