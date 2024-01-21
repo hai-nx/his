@@ -260,7 +260,6 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, computed } from "vue";
-import dayjs, { Dayjs } from "dayjs";
 import {
     ServiceRequestModel,
     ServiceResultDataModel,
@@ -272,6 +271,7 @@ import { RoomType } from "@/enums/roomtypes";
 import { testingService, roomService } from "@/services";
 import { DxSelectBox } from "devextreme-vue/select-box";
 import DxDateBox from "devextreme-vue/date-box";
+import datetimeHelper from "@/utils/helpers/datetimeHelper";
 
 import TestingDetailView from "./TestingDetailView.vue";
 
@@ -289,13 +289,6 @@ import { RowDblClickEvent } from "devextreme/ui/data_grid";
 export default defineComponent({
     name: "TestingView",
     setup() {
-        // const fromDate = ref<Dayjs>(
-        //     dayjs().set("hour", 0).set("minute", 0).set("second", 0)
-        // );
-        // const toDate = ref<Dayjs>(
-        //     dayjs().set("hour", 23).set("minute", 59).set("second", 59)
-        // );
-
         const fromDate = ref<Date>(new Date());
         const toDate = ref<Date>(new Date());
 
@@ -316,18 +309,9 @@ export default defineComponent({
         const showNavButtons = ref(true);
         const itemSources = ref<ServiceRequestModel[]>([]);
         const source = ref<ServiceRequestModel>({});
-        const serviceResultDatas = ref<ServiceResultDataModel[]>([]);
         const itemSourcesSelectedRowKeys = ref<string[]>([]);
         const executeRooms = ref<RoomModel[]>([]);
         const executeRoomSelected = ref<string>();
-        // const serviceResultDatas = computed(
-        //     () => source.value.serviceResultDatas
-        // );
-
-        // let source = reactive<ServiceRequestModel>({
-        //     serviceRequestDatas: [],
-        //     serviceResultDatas: [],
-        // });
 
         // Lấy dữ liệu danh sách
         const inItData = async () => {
@@ -347,28 +331,16 @@ export default defineComponent({
 
         // lấy dữ liệu
         const handleLoad = async () => {
-            // Định dạng theo dd/MM/yyyy HH:mm:ss
-            const formattedDate = new Intl.DateTimeFormat("en-US", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                hour12: false,
-            }).format(new Date());
-            console.log(formattedDate);
+            console.log(fromDate.value);
 
             let filter: ServiceRequestRequestModel = {
                 executeRoomIdFilter: executeRoomSelected.value,
-                serviceRequestDateFromFilter:
-                    fromDate.value.toLocaleDateString() +
-                    " " +
-                    fromDate.value.toLocaleTimeString(),
-                serviceRequestDateToFilter:
-                    toDate.value.toLocaleDateString() +
-                    " " +
-                    toDate.value.toLocaleTimeString(),
+                serviceRequestDateFromFilter: datetimeHelper.dateToNumber(
+                    fromDate.value
+                ),
+                serviceRequestDateToFilter: datetimeHelper.dateToNumber(
+                    toDate.value
+                ),
             };
 
             let result = await testingService.getAll(filter);
@@ -417,7 +389,6 @@ export default defineComponent({
             toDate,
             itemSources,
             source,
-            serviceResultDatas,
             itemSourcesSelectedRowKeys,
             visibleDetail,
             executeRooms,

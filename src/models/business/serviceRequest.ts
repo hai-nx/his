@@ -52,6 +52,6 @@ export interface ServiceRequestRequestModel extends PagedResultRequestModel {
     serviceRequestUseDateFromFilter?: Date | string
     serviceRequestUseDateToFilter?: Date | string
 
-    serviceRequestDateFromFilter?: string | Date
-    serviceRequestDateToFilter?: string | Date
+    serviceRequestDateFromFilter?: string | Date | number
+    serviceRequestDateToFilter?: string | Date | number
 }
