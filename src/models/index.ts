@@ -1,3 +1,5 @@
+
+import SimpleModel from './simple/simple'
 import ResultModel from './ResultModel'
 import PagedResultModel from './PagedResultModel'
 
@@ -54,6 +56,7 @@ import UserModel from './system/user';
 import DbOptionModel from './system/dbOption'
 
 export {
+    SimpleModel,
     ResultModel,
     PagedResultModel,
 

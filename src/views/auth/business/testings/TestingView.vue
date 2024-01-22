@@ -17,34 +17,34 @@
                     value-expr="id"
                 />
 
-                <label>Ngày:</label>
+                <!-- <label>Ngày:</label> -->
                 <DxSelectBox
                     :search-enabled="true"
-                    :data-source="executeRooms"
+                    :data-source="dateTypes"
                     :search-mode="'contains'"
-                    :search-expr="'name'"
+                    :search-expr="'stringValue'"
                     :search-timeout="200"
                     :min-search-length="0"
                     :show-data-before-search="false"
-                    :value="executeRoomSelected"
-                    placeholder="Chọn phòng thực hiện"
-                    display-expr="name"
-                    value-expr="id"
+                    :value="dateTypeSelected"
+                    placeholder="Lọc theo ..."
+                    display-expr="stringValue"
+                    value-expr="numberValue"
                 />
 
-                <label>Trạng thái:</label>
+                <!-- <label>Trạng thái:</label> -->
                 <DxSelectBox
                     :search-enabled="true"
-                    :data-source="executeRooms"
+                    :data-source="statusTypes"
                     :search-mode="'contains'"
-                    :search-expr="'name'"
+                    :search-expr="'stringValue'"
                     :search-timeout="200"
                     :min-search-length="0"
                     :show-data-before-search="false"
-                    :value="executeRoomSelected"
-                    placeholder="Chọn phòng thực hiện"
-                    display-expr="name"
-                    value-expr="id"
+                    :value="statusSelected"
+                    placeholder="Chọn trạng thái phiếu"
+                    display-expr="stringValue"
+                    value-expr="numberValue"
                 />
             </div>
             <div class="search">
@@ -169,25 +169,25 @@
                     />
                     <DxColumn
                         caption="TG thực hiện"
-                        data-field="executeDate"
+                        data-field="startTime"
                         :visible="true"
                         data-type="date"
                     />
                     <DxColumn
                         caption="BS thực hiện"
-                        data-field="executeUserName"
+                        data-field="startUserName"
                         :visible="true"
                         data-type="string"
                     />
                     <DxColumn
                         caption="TG trả KQ"
-                        data-field="resultDate"
+                        data-field="endTime"
                         :visible="true"
                         data-type="date"
                     />
                     <DxColumn
                         caption="BS trả KQ"
-                        data-field="resultUserName"
+                        data-field="endUserName"
                         :visible="true"
                         data-type="string"
                     />
@@ -259,13 +259,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from "vue";
+import { defineComponent, ref, computed } from "vue";
 import {
     ServiceRequestModel,
-    ServiceResultDataModel,
     RoomModel,
     RoomRequestModel,
     ServiceRequestRequestModel,
+    SimpleModel,
 } from "@/models";
 import { RoomType } from "@/enums/roomtypes";
 import { testingService, roomService } from "@/services";
@@ -310,12 +310,20 @@ export default defineComponent({
         const itemSources = ref<ServiceRequestModel[]>([]);
         const source = ref<ServiceRequestModel>({});
         const itemSourcesSelectedRowKeys = ref<string[]>([]);
+
         const executeRooms = ref<RoomModel[]>([]);
+        const dateTypes = ref<SimpleModel[]>([]);
+        const statusTypes = ref<SimpleModel[]>([]);
+
         const executeRoomSelected = ref<string>();
+        const dateTypeSelected = ref<number>(0);
+        const statusSelected = ref<number>(0);
 
         // Lấy dữ liệu danh sách
         const inItData = async () => {
             executeRooms.value = await getExecuteRooms();
+            dateTypes.value = await getDateTypes();
+            statusTypes.value = await getStatusTypes();
 
             if (executeRooms.value && executeRooms.value[0].id) {
                 executeRoomSelected.value = executeRooms.value[0].id;
@@ -327,6 +335,26 @@ export default defineComponent({
                 roomTypeIdFilter: RoomType.LaboratoryTesting,
             };
             return (await roomService.getAll(filter)).data.result;
+        }
+
+        async function getDateTypes(): Promise<SimpleModel[]> {
+            const dateTypes: SimpleModel[] = [
+                { numberValue: 0, stringValue: "Ngày y lệnh" },
+                { numberValue: 1, stringValue: "Ngày thực hiện" },
+                { numberValue: 2, stringValue: "Ngày kết quả" },
+            ];
+
+            return dateTypes;
+        }
+
+        async function getStatusTypes(): Promise<SimpleModel[]> {
+            const dateTypes: SimpleModel[] = [
+                { numberValue: 0, stringValue: "Tất cả" },
+                { numberValue: 1, stringValue: "Đang thực hiện" },
+                { numberValue: 2, stringValue: "Đã trả kết quả" },
+            ];
+
+            return dateTypes;
         }
 
         // lấy dữ liệu
@@ -392,7 +420,11 @@ export default defineComponent({
             itemSourcesSelectedRowKeys,
             visibleDetail,
             executeRooms,
+            dateTypes,
+            statusTypes,
             executeRoomSelected,
+            dateTypeSelected,
+            statusSelected,
 
             pageSizes,
             displayMode,
