@@ -11,13 +11,12 @@
                     :search-timeout="200"
                     :min-search-length="0"
                     :show-data-before-search="false"
-                    :value="executeRoomSelected"
+                    v-model="executeRoomSelected"
                     placeholder="Chọn phòng thực hiện"
                     display-expr="name"
                     value-expr="id"
                 />
 
-                <!-- <label>Ngày:</label> -->
                 <DxSelectBox
                     :search-enabled="true"
                     :data-source="dateTypes"
@@ -26,13 +25,12 @@
                     :search-timeout="200"
                     :min-search-length="0"
                     :show-data-before-search="false"
-                    :value="dateTypeSelected"
+                    v-model="dateTypeSelected"
                     placeholder="Lọc theo ..."
                     display-expr="stringValue"
                     value-expr="numberValue"
                 />
 
-                <!-- <label>Trạng thái:</label> -->
                 <DxSelectBox
                     :search-enabled="true"
                     :data-source="statusTypes"
@@ -41,7 +39,7 @@
                     :search-timeout="200"
                     :min-search-length="0"
                     :show-data-before-search="false"
-                    :value="statusSelected"
+                    v-model="statusSelected"
                     placeholder="Chọn trạng thái phiếu"
                     display-expr="stringValue"
                     value-expr="numberValue"
@@ -49,11 +47,6 @@
             </div>
             <div class="search">
                 <label>Từ ngày:</label>
-                <!-- <a-date-picker
-                    placeholder="dd/MM/yyyy HH:mm:ss"
-                    format="DD/MM/YYYY HH:mm:ss"
-                    v-model:value="fromDate"
-                /> -->
                 <DxDateBox
                     :show-clear-button="false"
                     :use-mask-behavior="false"
@@ -65,11 +58,6 @@
                 />
 
                 <label>Đến ngày:</label>
-                <!-- <a-date-picker
-                    placeholder="dd/MM/yyyy HH:mm:ss"
-                    format="DD/MM/YYYY HH:mm:ss"
-                    v-model:value="toDate"
-                /> -->
                 <DxDateBox
                     :show-clear-button="false"
                     :use-mask-behavior="false"
@@ -157,7 +145,7 @@
                     />
                     <DxColumn
                         caption="TG chỉ định"
-                        data-field="serviceRequestDate"
+                        data-field="useTime"
                         :visible="true"
                         data-type="date"
                     />
@@ -272,8 +260,10 @@ import { testingService, roomService } from "@/services";
 import { DxSelectBox } from "devextreme-vue/select-box";
 import DxDateBox from "devextreme-vue/date-box";
 import datetimeHelper from "@/utils/helpers/datetimeHelper";
+import { ServiceRequestStatusType } from "@/enums/serviceRequestStatusType";
 
 import TestingDetailView from "./TestingDetailView.vue";
+import XLayout from "@/components/XLayout.vue";
 
 import {
     DxDataGrid,
@@ -291,7 +281,6 @@ export default defineComponent({
     setup() {
         const fromDate = ref<Date>(new Date());
         const toDate = ref<Date>(new Date());
-
         fromDate.value.setHours(0, 0, 0);
         toDate.value.setHours(23, 59, 59);
 
@@ -317,7 +306,7 @@ export default defineComponent({
 
         const executeRoomSelected = ref<string>();
         const dateTypeSelected = ref<number>(0);
-        const statusSelected = ref<number>(0);
+        const statusSelected = ref<ServiceRequestStatusType>(0);
 
         // Lấy dữ liệu danh sách
         const inItData = async () => {
@@ -349,9 +338,18 @@ export default defineComponent({
 
         async function getStatusTypes(): Promise<SimpleModel[]> {
             const dateTypes: SimpleModel[] = [
-                { numberValue: 0, stringValue: "Tất cả" },
-                { numberValue: 1, stringValue: "Đang thực hiện" },
-                { numberValue: 2, stringValue: "Đã trả kết quả" },
+                {
+                    numberValue: ServiceRequestStatusType.AddNew,
+                    stringValue: "Tất cả",
+                },
+                {
+                    numberValue: ServiceRequestStatusType.Request,
+                    stringValue: "Đang thực hiện",
+                },
+                {
+                    numberValue: ServiceRequestStatusType.ProvideResults,
+                    stringValue: "Đã trả kết quả",
+                },
             ];
 
             return dateTypes;
@@ -359,16 +357,43 @@ export default defineComponent({
 
         // lấy dữ liệu
         const handleLoad = async () => {
-            console.log(fromDate.value);
+            console.log("dateTypeSelected: ", dateTypeSelected.value);
+            console.log("statusSelected: ", statusSelected.value);
 
             let filter: ServiceRequestRequestModel = {
                 executeRoomIdFilter: executeRoomSelected.value,
-                serviceRequestDateFromFilter: datetimeHelper.dateToNumber(
-                    fromDate.value
-                ),
-                serviceRequestDateToFilter: datetimeHelper.dateToNumber(
-                    toDate.value
-                ),
+
+                useTimeFromFilter:
+                    dateTypeSelected.value === 0
+                        ? datetimeHelper.dateToNumber(fromDate.value)
+                        : undefined,
+                useTimeToFilter:
+                    dateTypeSelected.value === 0
+                        ? datetimeHelper.dateToNumber(toDate.value)
+                        : undefined,
+
+                startTimeFromFilter:
+                    dateTypeSelected.value === 1
+                        ? datetimeHelper.dateToNumber(fromDate.value)
+                        : undefined,
+                startTimeToFilter:
+                    dateTypeSelected.value === 1
+                        ? datetimeHelper.dateToNumber(toDate.value)
+                        : undefined,
+
+                endTimeFromFilter:
+                    dateTypeSelected.value === 2
+                        ? datetimeHelper.dateToNumber(fromDate.value)
+                        : undefined,
+                endTimeToFilter:
+                    dateTypeSelected.value === 2
+                        ? datetimeHelper.dateToNumber(toDate.value)
+                        : undefined,
+
+                statusFilter:
+                    statusSelected.value === ServiceRequestStatusType.AddNew
+                        ? undefined
+                        : statusSelected.value,
             };
 
             let result = await testingService.getAll(filter);
@@ -452,6 +477,7 @@ export default defineComponent({
         DxDateBox,
 
         TestingDetailView,
+        // XLayout,
     },
     async mounted() {
         await this.inItData();

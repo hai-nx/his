@@ -5,8 +5,8 @@ import { ServiceRequestStatusType } from "@/enums/serviceRequestStatusType"
 export default interface ServiceRequestModel {
     id?: string
     serviceRequestCode?: string
-    serviceRequestDate?: Date | number // ngày chỉ định (tạo phiếu)
-    serviceRequestUseDate?: Date | number // ngày y lệnh
+    requestTime?: Date | number // ngày chỉ định (tạo phiếu)
+    useTime?: Date | number // ngày y lệnh
     startTime?: Date | number
     endTime?: Date | number
     barcode?: string
@@ -17,7 +17,6 @@ export default interface ServiceRequestModel {
     icdSubCode?: string// bệnh kèm theo
     icdText?: string // danh sách bệnh kèm theo
     serviceRequestTypeId?: string // loại dịch vụ
-    serviceRequestStatusId?: string // trạng thái
     patientRecordId?: string
     medicalRecordId?: string
     treatmentId?: string
@@ -52,12 +51,21 @@ export default interface ServiceRequestModel {
 
 export interface ServiceRequestRequestModel extends PagedResultRequestModel {
     executeRoomIdFilter?: string
+
     executeDepartmentIdFilter?: string
     serviceRequestStatusIdFilter?: number
 
-    serviceRequestUseDateFromFilter?: Date | string
-    serviceRequestUseDateToFilter?: Date | string
+    requestTimeFromFilter?: number // Ngày chỉ định
+    requestTimeToFilter?: number // Ngày chỉ định
 
-    serviceRequestDateFromFilter?: string | Date | number
-    serviceRequestDateToFilter?: string | Date | number
+    useTimeFromFilter?: number // Ngày y lệnh
+    useTimeToFilter?: number // Ngày y lệnh
+
+    startTimeFromFilter?: number // Ngày bắt đầu (thực hiện)
+    startTimeToFilter?: number // Ngày bắt đầu (thực hiện)
+
+    endTimeFromFilter?: number // Ngày kết thúc (kết quả)
+    endTimeToFilter?: number // Ngày kết thúc (kết quả)
+
+    statusFilter?: ServiceRequestStatusType // Trạng thái phiếu
 }
