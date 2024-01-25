@@ -34,7 +34,7 @@
 
         <div class="border shadow rounded x-layout-content">
             <div class="border-bottom x-layout-content-start" v-if="showHeader">
-                <slot name="header">
+                <slot name="header" v-if="showTitle">
                     <div class="d-flex justify-content-between align-items-center">
                         <slot name="extra">
                             <div class="d-flex align-items-center">
@@ -45,6 +45,12 @@
                         <div class="x-layout-header-action">
                             <slot name="action"></slot>
                         </div>
+                    </div>
+                </slot>
+				
+				<slot name="header" v-if="!showTitle">
+                    <div class="x-layout-header-action">
+                            <slot name="action"></slot>
                     </div>
                 </slot>
             </div>
@@ -84,7 +90,11 @@ export default defineComponent({
         showFooter: {
             type: Boolean,
             default: false
-        }
+        },
+		showTitle: {
+            type: Boolean,
+            default: true,
+        },
     },
     setup(props) {
         const breadcrumbLength = computed(() => props.breadcrumbs?.length)

@@ -1,5 +1,5 @@
 <template>
-    <div class="layout">
+    <!-- <div class="layout">
         <div class="header">
             <div class="parameters">
                 <label>Phòng thực hiện:</label>
@@ -74,7 +74,6 @@
             </div>
         </div>
 
-        <!-- Nội dung tại đây -->
         <div class="content">
             <div class="content-row">
                 <DxDataGrid
@@ -187,7 +186,6 @@
                     />
                 </DxDataGrid>
             </div>
-            <!-- <a-divider style="height: 1px; background-color: #f8f8f8" /> -->
             <div class="content-row">
                 <DxDataGrid
                     :allow-column-reordering="true"
@@ -236,7 +234,255 @@
                 </DxDataGrid>
             </div>
         </div>
-    </div>
+    </div> -->
+    <x-layout
+        :title="title"
+        :breadcrumbs="breadcrumbs"
+        :show-header="true"
+        :showTitle="false"
+    >
+        <template #action>
+            <div class="toolbar">
+                <div class="toolbar-param">
+                    <label>Phòng thực hiện:</label>
+                    <DxSelectBox
+                        class="item-width"
+                        :search-enabled="true"
+                        :data-source="executeRooms"
+                        :search-mode="'contains'"
+                        :search-expr="'name'"
+                        :search-timeout="200"
+                        :min-search-length="0"
+                        :show-data-before-search="false"
+                        v-model="executeRoomSelected"
+                        placeholder="Chọn phòng thực hiện"
+                        display-expr="name"
+                        value-expr="id"
+                    />
+
+                    <DxSelectBox
+                        class="item-width"
+                        :search-enabled="true"
+                        :data-source="dateTypes"
+                        :search-mode="'contains'"
+                        :search-expr="'stringValue'"
+                        :search-timeout="200"
+                        :min-search-length="0"
+                        :show-data-before-search="false"
+                        v-model="dateTypeSelected"
+                        placeholder="Lọc theo ..."
+                        display-expr="stringValue"
+                        value-expr="numberValue"
+                    />
+
+                    <DxSelectBox
+                        class="item-width"
+                        :search-enabled="true"
+                        :data-source="statusTypes"
+                        :search-mode="'contains'"
+                        :search-expr="'stringValue'"
+                        :search-timeout="200"
+                        :min-search-length="0"
+                        :show-data-before-search="false"
+                        v-model="statusSelected"
+                        placeholder="Chọn trạng thái phiếu"
+                        display-expr="stringValue"
+                        value-expr="numberValue"
+                    />
+                </div>
+                <div class="toolbar-date-range">
+                    <label>Từ ngày:</label>
+                    <DxDateBox
+                        class="item-width"
+                        :show-clear-button="false"
+                        :use-mask-behavior="false"
+                        :input-attr="{ 'aria-label': 'Date' }"
+                        placeholder="dd/MM/yyyy"
+                        display-format="dd/MM/yyyy HH:mm:ss"
+                        type="date"
+                        v-model:value="fromDate"
+                    />
+
+                    <label>Đến ngày:</label>
+                    <DxDateBox
+                        class="item-width"
+                        :show-clear-button="false"
+                        :use-mask-behavior="false"
+                        :input-attr="{ 'aria-label': 'Date' }"
+                        placeholder="dd/MM/yyyy"
+                        display-format="dd/MM/yyyy HH:mm:ss"
+                        type="date"
+                        v-model:value="toDate"
+                    />
+                    <a-button type="primary" @click="handleLoad">
+                        <i class="bi-arrow-clockwise"></i>
+                        <label>Cập nhật</label>
+                    </a-button>
+                </div>
+            </div>
+        </template>
+
+        <div class="content">
+            <div class="content-row">
+                <DxDataGrid
+                    :allow-column-reordering="true"
+                    :data-source="itemSources"
+                    :show-borders="true"
+                    :hover-state-enabled="true"
+                    :focused-row-enabled="true"
+                    :focused-row-index="0"
+                    key-expr="id"
+                    @selection-changed="onSelectionChanged"
+                    @content-ready="selectFirstRow"
+                    :selected-row-keys="itemSourcesSelectedRowKeys"
+                    @row-dbl-click="onRowDblClick"
+                >
+                    <DxSelection mode="single" />
+                    <DxScrolling row-rendering-mode="virtual" />
+                    <DxPaging :page-size="10" />
+                    <DxPager
+                        :visible="true"
+                        :allowed-page-sizes="pageSizes"
+                        :display-mode="displayMode"
+                        :show-page-size-selector="showPageSizeSelector"
+                        :show-info="showInfo"
+                        :show-navigation-buttons="showNavButtons"
+                    />
+                    <DxColumn
+                        caption="Số phiếu"
+                        data-field="serviceRequestCode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Barcode"
+                        data-field="barcode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Mã bệnh nhân"
+                        data-field="patientCode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Mã điều trị"
+                        data-field="treatmentCode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Tên bệnh nhân"
+                        data-field="patientName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Khoa"
+                        data-field="departmentName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Phòng"
+                        data-field="roomName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="TG chỉ định"
+                        data-field="useTime"
+                        :visible="true"
+                        data-type="date"
+                    />
+                    <DxColumn
+                        caption="BS chỉ định"
+                        data-field="userName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="TG thực hiện"
+                        data-field="startTime"
+                        :visible="true"
+                        data-type="date"
+                    />
+                    <DxColumn
+                        caption="BS thực hiện"
+                        data-field="startUserName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="TG trả KQ"
+                        data-field="endTime"
+                        :visible="true"
+                        data-type="date"
+                    />
+                    <DxColumn
+                        caption="BS trả KQ"
+                        data-field="endUserName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Trạng thái"
+                        data-field="status"
+                        :visible="true"
+                        data-type="string"
+                    />
+                </DxDataGrid>
+            </div>
+            <div class="content-row">
+                <DxDataGrid
+                    :allow-column-reordering="true"
+                    :data-source="source.serviceResultDatas"
+                    :show-borders="true"
+                    :hover-state-enabled="true"
+                    key-expr="id"
+                >
+                    <DxColumn
+                        caption="Tên dịch vụ"
+                        data-field="serviceName"
+                        :visible="true"
+                        data-type="string"
+                        :group-index="0"
+                    />
+                    <DxColumn
+                        caption="Mã xét nghiệm"
+                        data-field="serviceResultIndiceCode"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Tên xét nghiệm"
+                        data-field="serviceResultIndiceName"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Kết quả"
+                        data-field="result"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Bình thường"
+                        data-field="normalRange"
+                        :visible="true"
+                        data-type="string"
+                    />
+                    <DxColumn
+                        caption="Máy xét nghiệm"
+                        data-field="testingMachine"
+                        :visible="true"
+                        data-type="string"
+                    />
+                </DxDataGrid>
+            </div>
+        </div>
+    </x-layout>
     <teleport to="body">
         <TestingDetailView
             :visible="visibleDetail"
@@ -264,6 +510,7 @@ import { ServiceRequestStatusType } from "@/enums/serviceRequestStatusType";
 
 import TestingDetailView from "./TestingDetailView.vue";
 import XLayout from "@/components/XLayout.vue";
+import { XItemType } from "@/components";
 
 import {
     DxDataGrid,
@@ -285,6 +532,11 @@ export default defineComponent({
         toDate.value.setHours(23, 59, 59);
 
         const visibleDetail = ref<boolean>(false);
+        const title = "";
+        const breadcrumbs = ref<Array<XItemType>>([
+            { key: "1", label: "Xét nghiệm", icon: "", path: "" },
+            { key: "2", label: "Danh sách Xét nghiệm", icon: "", path: "" },
+        ]);
 
         const displayModes = [
             { text: "Display Mode 'full'", value: "full" },
@@ -438,6 +690,8 @@ export default defineComponent({
         };
 
         return {
+            title,
+            breadcrumbs,
             fromDate,
             toDate,
             itemSources,
@@ -477,7 +731,7 @@ export default defineComponent({
         DxDateBox,
 
         TestingDetailView,
-        // XLayout,
+        XLayout,
     },
     async mounted() {
         await this.inItData();
@@ -488,26 +742,19 @@ export default defineComponent({
 
 
 <style scoped>
-.layout {
+.toolbar {
     display: flex;
-    flex-direction: column;
-    /*height: 100%;  Sử dụng 100vh thay vì flex: 1 để giữ chiều cao 100% của viewport */
-    flex: 1;
-    height: 100vh;
-}
-
-.header {
-    display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    padding: 10px; /* Thêm padding để tạo khoảng cách với phần nội dung */
+
+    /* display: grid;
+    grid-template-columns: 1fr 1fr; */
 }
 
 .content {
-    flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden; /* Ẩn overflow để ngăn scroll xuất hiện ở cấp độ cao hơn */
+    margin-top: 15px;
 }
 
 .content-row {
@@ -516,22 +763,37 @@ export default defineComponent({
     margin-bottom: 10px; /* Thêm margin để tạo khoảng cách giữa các phần nội dung */
 }
 
-.search {
-    display: grid;
+.toolbar-date-range {
+    /* display: grid;
     grid-template-columns: auto 170px auto 170px 100px;
     grid-column-gap: 5px;
     grid-row-gap: 5px;
     margin-bottom: 10px;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
+
+    display: flex;
+    align-items: center;
+    row-gap: 10px;
+    column-gap: 10px;
 }
-.parameters {
-    display: grid;
+.toolbar-param {
+    /* display: grid;
     grid-template-columns: repeat(3, auto 180px);
     grid-column-gap: 5px;
     grid-row-gap: 5px;
     margin-bottom: 10px;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
+
+    display: flex;
+    align-items: center;
+    row-gap: 10px;
+    column-gap: 10px;
+}
+
+.item-width {
+    width: 180px;
+    padding: auto;
 }
 </style>
