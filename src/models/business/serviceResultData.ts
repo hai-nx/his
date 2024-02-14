@@ -1,11 +1,17 @@
 export default interface ServiceResultDataModel {
     id?: string
     serviceResultIndiceId?: string
+    serviceRequestId?: string
+    serviceRequestDataId?: string
     serviceId?: string
-    result?: string
-    resultType?: number
+    result?: string // Kết quả
+    normalRange?: string // Khoảng bình thường
+    testingMachine?: string // Máy xét nghiệm
+    isNumber?: string // Kết quả dạng chữ hoặc số
 
+    serviceCode?: string
+    serviceName?: string
     serviceResultIndiceCode?: string
     serviceResultIndiceName?: string
-    serviceResultIndicUnit?: string
+    serviceResultIndiceUnit?: string
 }

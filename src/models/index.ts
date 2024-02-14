@@ -1,3 +1,5 @@
+
+import SimpleModel from './simple/simple'
 import ResultModel from './ResultModel'
 import PagedResultModel from './PagedResultModel'
 
@@ -18,7 +20,7 @@ import GenderModel from './dictionary/administratives/gender'
 import HospitalModel from './dictionary/administratives/hospital'
 import ICDModel from './dictionary/administratives/icd'
 import ProvinceModel from './dictionary/administratives/province'
-import RoomModel from './dictionary/administratives/room'
+import RoomModel, { RoomRequestModel } from './dictionary/administratives/room'
 import RoomTypeModel from './dictionary/administratives/room-type'
 import WardModel from './dictionary/administratives/ward'
 import ChapterIcdModel from './dictionary/administratives/chapterIcd'
@@ -33,6 +35,7 @@ import UnitModel from './dictionary/others/unit'
 import ExecutionRoomModel from './dictionary/services/executionRoom'
 import ServiceImportModel from './dictionary/services/serviceImport'
 import ServiceResultIndiceModel from './dictionary/services/serviceResultIndice'
+import ServiceResultIndiceImportModel from './dictionary/services/serviceResultIndiceImport'
 
 import ItemGroupModel from './dictionary/items/itemGroup'
 import ItemTypeModel from './dictionary/items/itemType'
@@ -45,7 +48,7 @@ import InOutStockTypeModel from './business/pharmaceuticals/inOutStockType';
 import InOutStockItemModel from './business/pharmaceuticals/inOutStockItem';
 import InOutStockModel from './business/pharmaceuticals/inOutStock';
 import ItemStockModel from './business/pharmaceuticals/itemStock';
-import ServiceRequestModel from './business/serviceRequest';
+import ServiceRequestModel, { ServiceRequestRequestModel } from './business/serviceRequest';
 import ServiceRequestDataModel from './business/serviceRequestData';
 import ServiceResultDataModel from './business/serviceResultData';
 
@@ -53,6 +56,7 @@ import UserModel from './system/user';
 import DbOptionModel from './system/dbOption'
 
 export {
+    SimpleModel,
     ResultModel,
     PagedResultModel,
 
@@ -77,6 +81,7 @@ export {
     ICDModel,
     ProvinceModel,
     RoomModel,
+    RoomRequestModel,
     RoomTypeModel,
     WardModel,
     ChapterIcdModel,
@@ -91,6 +96,7 @@ export {
     ExecutionRoomModel,
     ServiceImportModel,
     ServiceResultIndiceModel,
+    ServiceResultIndiceImportModel,
 
     ItemLineModel,
     ItemGroupModel,
@@ -104,6 +110,7 @@ export {
     InOutStockModel,
     ItemStockModel,
     ServiceRequestModel,
+    ServiceRequestRequestModel,
     ServiceRequestDataModel,
     ServiceResultDataModel,
 

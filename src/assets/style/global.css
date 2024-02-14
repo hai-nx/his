@@ -1,6 +1,6 @@
 :root {
     --x-nav-background-color: #252f3f;
-    --x-nav-color:#CCCCCC;
+    --x-nav-color: #CCCCCC;
     --x-nav-background-color-active: #161e2e;
     --x-nav-color-active: #FFFFFF;
     --x-nav-height: 40px;
@@ -20,8 +20,6 @@ body {
     min-height: 100%;
     font-size: var(--x-nav-font-size);
 }
-
-
 
 .btn-save {
     width: 100px;
@@ -49,4 +47,8 @@ body {
 /* x: custom components */
 .x-input {
     padding: 2px 5px;
+}
+
+.bold {
+    font-weight: bold;
 }

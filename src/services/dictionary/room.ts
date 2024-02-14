@@ -1,10 +1,10 @@
-import { ResultModel, RoomModel } from '@/models'
+import { ResultModel, RoomModel, RoomRequestModel } from '@/models'
 import request from '@/utils/request'
 
 const roomService = {
-    getAll() {
-        return request.get<ResultModel<RoomModel[]>>('api/Room/GetAll')
-    },
+    // getAll() {
+    //     return request.get<ResultModel<RoomModel[]>>('api/Room/GetAll')
+    // },
     getById(id: string) {
         return request.get<ResultModel<RoomModel>>('api/Room/GetById?id=' + id);
     },
@@ -16,7 +16,10 @@ const roomService = {
     },
     getByStocks() {
         return request.get<ResultModel<RoomModel[]>>('api/Room/GetByStocks')
-    }
+    },
+    getAll(input?: RoomRequestModel) {
+        return request.get<ResultModel<RoomModel[]>>('api/Room/GetAll', { params: input })
+    },
 }
 
 export default roomService;

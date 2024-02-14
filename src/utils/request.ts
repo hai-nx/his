@@ -21,12 +21,10 @@ request.interceptors.request.use(async (config) => {
 
     return config;
 });
-/* eslint-disable */
 request.interceptors.response.use(response => {
     return response;
 }, async error => {
     const originalConfig = error.config;
-    debugger;
     if (originalConfig.url !== "api/Login/Authenticate" && error.response) {
         // Access Token was expired
         if (error.response.status === 401 && !originalConfig._retry) {

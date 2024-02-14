@@ -132,13 +132,14 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    background-color: #ECECEC;
+    background-color: #ececec;
+    overflow-y: auto;
 }
 
 .app-layout-content {
     margin-top: var(--x-nav-height);
     margin-bottom: 0;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
     min-height: calc(100vh - var(--x-nav-height));
 }
 

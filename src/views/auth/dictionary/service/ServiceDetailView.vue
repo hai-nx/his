@@ -663,7 +663,7 @@ import {
 } from "@/services";
 import { Modal } from "ant-design-vue";
 import dayjs from "dayjs";
-import guidHelper from "@/utils/guidHelper";
+import guidHelper from "@/utils/helpers/guidHelper";
 
 export default defineComponent({
     name: "ServiceDetailViews",
