@@ -1,8 +1,4 @@
 :root {
-    --x-breakpoint-sm: 730px;
-    --x-breakpoint-md: 1024px;
-    --x-breakpoint-lg: 1400px;
-
     --x-nav-background-color: #252f3f;
     --x-nav-color:#CCCCCC;
     --x-nav-background-color-active: #161e2e;
@@ -20,7 +16,6 @@ body {
 }
 
 #app {
-    width: auto;
     min-width: 100%;
     min-height: 100%;
     font-size: var(--x-nav-font-size);

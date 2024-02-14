@@ -99,7 +99,7 @@ export default defineComponent({
 <style scoped>
 .x-layout {
     display: flex;
-    flex-direction: column;
+    flex-flow: column;
 }
 
 .x-layout-content {

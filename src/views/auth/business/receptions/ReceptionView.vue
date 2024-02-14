@@ -27,8 +27,8 @@
             </a-dropdown-button>
         </template>
 
-        <div class="d-flex flex-column p-3  overflow-auto">
-            <a-space class="mb-3">
+        <div class="d-flex flex-column p-3">
+            <div class="mb-3">
                 <label>Từ ngày</label>
                 <a-date-picker class="ms-2"></a-date-picker>
                 <label class="ms-2">Đến ngày</label>
@@ -39,10 +39,10 @@
                 <a-select class="w-150 ms-2"></a-select>
                 <a-input class="w-200 ms-2"></a-input>
                 <a-button class="ms-2">Tìm kiếm</a-button>
-            </a-space>
+            </div>
 
-            <div class="row mb-3">
-                <a-table :columns="columns" :data-source="items" bordered :pagination="false" :scroll="scroll"></a-table>
+            <div class="mb-3">
+                <a-table :columns="columns" :data-source="items" bordered :pagination="false"></a-table>
             </div>
 
             <div class="row">
@@ -97,7 +97,7 @@ const totalRowCount = ref(0);
 const currentPage = ref(1);
 const pageSize = ref(20);
 
-const scroll = ref({ x: 1200 });
+const scroll = ref({ x: 720 });
 
 function loadSource() {
     // let input: PatientRecordRequestModel = {
@@ -164,4 +164,4 @@ function onCurrentPageChange(value: number) {
 
 onMounted(() => loadSource())
 
-</script>@/uses/layout
+</script>

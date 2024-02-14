@@ -126,12 +126,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-html,
-body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
 .app-layout {
     min-height: 100%;
     background-color: #ececec;
@@ -139,7 +133,6 @@ body {
     flex-direction: column;
     align-items: stretch;
     background-color: #ECECEC;
-    overflow-y: auto;
 }
 
 .app-layout-content {
@@ -147,7 +140,13 @@ body {
     margin-bottom: 0;
     padding: .5rem 1rem;
     min-height: calc(100vh - var(--x-nav-height));
-    overflow-y: auto;
 }
+
+@media screen and (max-width: 720px) {
+    .app-layout-content {
+        padding: .5rem;
+    }
+}
+
 </style>
 

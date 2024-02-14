@@ -3,15 +3,15 @@
         <template #action>
             <a-space>
                 <label>Phòng tiếp đón:</label>
-                <a-select class="x-w160">
+                <a-select :size="size" class="x-w160">
                     <a-select-option key="1" value="Phòng đón tiếp"></a-select-option>
                     <a-select-option key="2" value="Đón tiếp cấp cứu"></a-select-option>
                 </a-select>
                 <label>Số cửa:</label>
-                <a-input-number class="x-w100" :value="gate"></a-input-number>
+                <a-input-number :size="size" class="x-w100" :value="gate"></a-input-number>
                 <label>Lấy số:</label>
-                <a-input-number class="x-w100" />
-                <a-button type="primary" @click="onCall">
+                <a-input-number :size="size" class="x-w100" />
+                <a-button :size="size" type="primary" @click="onCall">
                     <template #icon>
                         <i class="bi bi-megaphone me-2"></i>
                     </template>
@@ -31,55 +31,103 @@
 
         <div class="x-info">
             <div class="x-patient-info">
-                <label>Mã bệnh nhân:</label>
-                <a-input></a-input>
+                <h5 style="grid-column: 1/5;">Hành chính</h5>
 
-                <label>Họ và tên:</label>
-                <a-input></a-input>
-
-
-                <label>Ngày sinh:</label>
-                <a-input></a-input>
-
-                <label>Năm sinh:</label>
-                <a-input></a-input>
-                <label>Tuổi:</label>
-                <a-input></a-input>
-                <a-select></a-select>
+                <label>Mã bệnh nhân</label>
+                <a-input :size="size"></a-input>
+                <label>Họ và tên</label>
+                <a-input :size="size"></a-input>
 
 
-                <label>Giới tính:</label>
-                <a-input></a-input>
+                <label>Ngày sinh</label>
+                <!-- <a-input type="date" :size="size"></a-input> -->
+                <div>
+                    <a-input-group compact>
+                        <a-input-number :keyboard="true" :min="1" :max="31" :controls="false" style="width: 50px;"/>
+                        <a-input-number :keyboard="true" :min="1" :max="12" :controls="false" style="width: 50px;"/>
+                        <a-input-number :keyboard="true" :min="1" :max="10" :controls="false" style="width: calc(100% - 100px)"/>
+                    </a-input-group>
+                </div>
 
-                <label>Nghề nghiệp:</label>
-                <a-input></a-input>
-
-
-                <label>Dân tộc:</label>
-                <a-input></a-input>
-
-                <label>Quốc tịch:</label>
-                <a-input></a-input>
-
-
-                <label>Địa chỉ:</label>
-                <a-input></a-input>
-
-
-                <label>Ttp/Hq/Xp:</label>
-                <a-input></a-input>
-                <a-input></a-input>
+                <label>Năm sinh</label>
+                <div class="d-flex" style="align-items: center;">
+                    <a-input :size="size" style="width: 120px;"></a-input>
+                    <label style="padding-left: 1rem; padding-right: 1rem;">Tuổi:</label>
+                    <a-input :size="size" style="width: 120px;"></a-input>
+                    <a-select :size="size" style="width: 100%;"></a-select>
+                </div>
 
 
-                <label>Nơi làm việc:</label>
-                <a-input></a-input>
+                <label>Giới tính</label>
+                <a-select :size="size"></a-select>
 
-                <label>Điện thoại:</label>
-                <a-input style="width: 12rem;" size="small"></a-input>
+                <label>Nghề nghiệp</label>
+                <a-select :size="size"></a-select>
+
+
+                <label>Dân tộc</label>
+                <a-select :size="size"></a-select>
+
+                <label>Quốc tịch</label>
+                <a-select :size="size"></a-select>
+
+
+                <label>Địa chỉ</label>
+                <a-input :size="size" class="col-span-1-3"></a-input>
+
+
+                <label>Tt/Hq/Xp</label>
+                <a-input :size="size"></a-input>
+                <a-input :size="size" class="col-span-2-2"></a-input>
+
+
+                <label>Điện thoại</label>
+                <a-input :size="size"></a-input>
+                <label>Nơi làm việc</label>
+                <a-input :size="size"></a-input>
+
+                <label>CMND/CCCD</label>
+                <a-input :size="size"></a-input>
+                <label></label>
+                <a-button :size="size">Thong tin khác</a-button>
             </div>
             <div class="x-patient-type-info">
-                <label>Ngày khám:</label>
-                <a-input></a-input>
+                <h5 style="grid-column: 1/5;">Đăng ký khám</h5>
+
+                <label>Ngày khám</label>
+                <a-input :size="size" type="date"></a-input>
+                <label>Đối tượng</label>
+                <a-input :size="size"></a-input>
+
+                <a-checkbox>TE</a-checkbox>
+                <a-checkbox>Không giữ thẻ BHYT</a-checkbox>
+                <a-checkbox style="grid-column: 3/5;">BN ưu tiên</a-checkbox>
+
+                <label>Số thẻ</label>
+                <a-input :size="size"></a-input>
+                <label>Nơi sống</label>
+                <a-input :size="size" type="date"></a-input>
+
+                <label>KCBBĐ</label>
+                <a-input :size="size" class="col-span-1-3"></a-input>
+
+                <label>Hạn thẻ</label>
+                <a-input :size="size" type="date"></a-input>
+                <label>Đến</label>
+                <a-input :size="size" type="date"></a-input>
+
+                <label>Tuyến KCB</label>
+                <a-input :size="size" type="date"></a-input>
+                <label>Mức hưởng</label>
+                <a-input :size="size" type="date"></a-input>
+
+                <label style="grid-column: 1/4;">Ngày miễn cùng chi trả</label>
+                <a-input :size="size" type="date"></a-input>
+
+                <label style="grid-column: 1/4;">Ngày đóng đủ 5 năm liên tục</label>
+                <a-input :size="size" type="date"></a-input>
+
+                
             </div>
         </div>
 
@@ -87,8 +135,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { XItemType } from '@/components';
+import { ref } from "vue";
 import { PatientRecordModel } from "@/models";
 
 import useLayoutDetail from "@/uses/layoutDetail";
@@ -96,22 +143,29 @@ import useLayoutDetail from "@/uses/layoutDetail";
 const { title, breadcrumbs } = useLayoutDetail(loadSource);
 
 
-title.value = "hahaha";
+const genders = ref([]);
+const ethnics = ref([]);
+const counttries = ref([]);
+const wards = ref([]);
+
+const size = ref("middle")
+
+
+
+title.value = "Đăng ký khám";
+breadcrumbs.value = [
+    { key: '1', label: 'Đón tiếp', icon: '', path: '' },
+    { key: '2', label: 'Danh sách tiếp đón', icon: '', path: '' },
+    { key: '3', label: 'Đăng ký khám', icon: '', path: '' }
+];
 
 function loadSource() {
     console.log('gọi bệnh nhân')
 }
 
 
-// const title = ref('Đăng ký khám');
-// const breadcrumbs = ref<Array<XItemType>>([
-//     { key: '1', label: 'Đón tiếp', icon: '', path: '' },
-//     { key: '2', label: 'Danh sách tiếp đón', icon: '', path: '' },
-//     { key: '3', label: 'Đăng ký khám', icon: '', path: '' }
-// ]);
 
 const item = ref<PatientRecordModel>({});
-
 const gate = ref<number>(1);
 
 
@@ -119,7 +173,7 @@ function onCall() {
     console.log('gọi bệnh nhân')
 }
 
-function onNew() {
+function onAddNew() {
     item.value = {};
 }
 
@@ -128,53 +182,48 @@ function onSave() {
 }
 
 
-function onNewInvoice() {
+function onAddNewInvoice() {
     console.log('thêm hóa đơn thanh toán')
 }
 
 </script>
 
 <style scoped>
-.x-container {
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .x-info {
     display: flex;
     flex-flow: row nowrap;
-    gap: 8px;
+    gap: 32px;
 }
 
-@media screen and (max-width: 780px) {
-    /* .x-container {
-        max-width: 1320px;
-    } */
-
-    .x-info {
-        display: flex;
-        flex-direction: column;
-    }
+.x-info label {
+    text-align: end;
+    padding-left: 1rem;
 }
-
-
-
 
 .x-patient-info {
-    flex: 1;
+    display: grid;
+    grid-template-columns: max-content max-content max-content 1fr;
+    gap: .5rem;
+    align-items: center;
+    flex: 1.5;
+    padding: 1rem;
 }
 
 .x-patient-type-info {
+    display: grid;
+    grid-template-columns: max-content max-content max-content 1fr;
+    gap: .5rem;
     flex: 1;
+    padding: 1rem;
 }
 
 
 
-.x-w100 {
-    width: 100px;
+.col-span-1-3 {
+    grid-column: 2/5;
 }
 
-.x-w160 {
-    width: 160px;
+.col-span-2-2 {
+    grid-column: 3/5;
 }
 </style>
