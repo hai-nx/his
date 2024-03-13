@@ -7,19 +7,27 @@
     --x-nav-font-size: 13px;
 
     --x-sidebar-width: 320px;
+
+    
+    --his-main-background-color: #ECECEC;
+    --his-main-color: #161e2e;
+    --his-main-font-size: 14px;
 }
 
 /* global style */
 html,
 body {
     font-size: var(--x-nav-font-size);
+    background-color: var(--his-main-background-color);
+    color: var(--his-main-color);
+    overflow: hidden;
 }
 
 #app {
-    min-width: 100%;
-    min-height: 100%;
-    font-size: var(--x-nav-font-size);
+    height: 100%;
+    width: 100%;
 }
+
 
 .btn-save {
     width: 100px;

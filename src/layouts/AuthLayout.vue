@@ -127,20 +127,20 @@ export default defineComponent({
 
 <style scoped>
 .app-layout {
-    min-height: 100%;
+    height: 100%;
     background-color: #ececec;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     background-color: #ececec;
-    overflow-y: auto;
 }
 
 .app-layout-content {
     margin-top: var(--x-nav-height);
     margin-bottom: 0;
     padding: 0.5rem 1rem;
-    min-height: calc(100vh - var(--x-nav-height));
+    height: calc(100vh - var(--x-nav-height));
+    overflow: auto;
 }
 
 @media screen and (max-width: 720px) {

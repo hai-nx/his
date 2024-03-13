@@ -108,8 +108,11 @@ export default defineComponent({
 
 <style scoped>
 .x-layout {
-    display: flex;
-    flex-flow: column;
+    /* display: flex;
+    flex-flow: column; */
+    display: grid;
+    grid-template-rows: max-content 1fr max-content;
+    min-height: 100%;
 }
 
 .x-layout-content {

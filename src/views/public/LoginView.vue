@@ -85,6 +85,5 @@ export default defineComponent({
 
     padding-top: 5rem;
     padding-bottom: 5rem;
-    height: 100%;
 }
 </style>
