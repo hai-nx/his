@@ -5,14 +5,6 @@ export const useLayout = defineStore('layout', {
     state: () => ({
         items: [
             {
-                key: '1', label: 'Hệ thống', icon: '', path: '',
-                children: [
-                    { key: 'role', label: 'Vai trò và quyền hạn', path: 'role' },
-                    { key: 'user', label: 'Người dùng', path: 'user' },
-                ]
-            },
-
-            {
                 key: '2', label: 'Đón tiếp', icon: '',
                 children: [
                     { key: '2.1', label: 'Đăng ký khám', icon: '', path: 'reception-detail' },
@@ -68,7 +60,18 @@ export const useLayout = defineStore('layout', {
 
                     { key: 'other', label: 'Khác', path: 'dictionary' },
                 ]
-            }
+            },
+
+            {
+                key: '1', label: 'Hệ thống', icon: '', path: '',
+                children: [
+                    { key: '1.1', label: 'Người dùng', path: 'user' },
+                    { key: '1.2', label: 'Vai trò và quyền hạn', path: 'role' },
+                    { key: '1.3', label: 'Nhật ký truy cập', path: 'access-log' },
+                    { key: '1.s', label: 'ádasdasd', type: 'separator' },
+                    { key: '1.4', label: 'Tùy chọn', path: 'option' },
+                ]
+            },
         ] as Array<XItemType>
     })
 })

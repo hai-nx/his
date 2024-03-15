@@ -1,10 +1,6 @@
 <template>
     <div class="app-layout">
-        <x-nav
-            :data-source="items"
-            @click="handleClick"
-            @brandClick="handleBrandClick"
-        >
+        <x-nav :data-source="items" @click="handleClick">
             <a-dropdown>
                 <a-button type="text" class="h100">
                     <span class="text-white">{{ user.username }}</span>
@@ -40,10 +36,7 @@
         </div>
     </div>
 
-    <subsystem-option-view
-        :visible="visibleSubsystemOptionView"
-        @cancel="handleVisibleSubsystemOptionView"
-    />
+    <subsystem-option-view :visible="visibleSubsystemOptionView" @cancel="handleVisibleSubsystemOptionView" />
 </template>
 
 <script lang="ts">
@@ -68,7 +61,7 @@ export default defineComponent({
         LogoutOutlined,
         UserOutlined,
         DesktopOutlined,
-        SubsystemOptionView,
+        SubsystemOptionView
     },
     setup() {
         const router = useRouter();
@@ -136,10 +129,10 @@ export default defineComponent({
 }
 
 .app-layout-content {
-    margin-top: var(--x-nav-height);
+    margin-top: var(--his-nav-height);
     margin-bottom: 0;
     padding: 0.5rem 1rem;
-    height: calc(100vh - var(--x-nav-height));
+    height: calc(100vh - var(--his-nav-height));
     overflow: auto;
 }
 
@@ -148,6 +141,4 @@ export default defineComponent({
         padding: .5rem;
     }
 }
-
 </style>
-

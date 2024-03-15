@@ -10,14 +10,21 @@
 
     
     --his-main-background-color: #ECECEC;
-    --his-main-color: #161e2e;
+    --his-main-color: #161E2E;
     --his-main-font-size: 14px;
+
+    --his-nav-background-color: #252f3f;
+    --his-nav-color: #CCCCCC;
+    --his-nav-background-color-active: #161e2e;
+    --his-nav-color-active: #FFFFFF;
+    --his-nav-height: 46px;
+    --his-nav-width: 300px;
+    --his-nav-item-height: 38px;
 }
 
 /* global style */
 html,
 body {
-    font-size: var(--x-nav-font-size);
     background-color: var(--his-main-background-color);
     color: var(--his-main-color);
     overflow: hidden;

@@ -6,7 +6,6 @@ import homeView from '@/views/public/HomeView.vue'
 import loginView from '@/views/public/LoginView.vue'
 
 import dashboardView from '@/views/auth/system/DashboardView.vue'
-import optionView from '@/views/auth/system/OptionView.vue'
 import dboptionView from '@/views/auth/system/dbOption/DbOptionView.vue'
 
 import branchView from '@/views/auth/dictionary/branch/BranchView.vue'
@@ -43,7 +42,6 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/login', name: 'login', component: loginView, meta: { layout: LAYOUT_DEFAULT } },
 
     { path: '/dashboard', name: 'dashboard', component: dashboardView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/option', name: 'option', component: optionView, meta: { layout: LAYOUT_AUTH } },
     { path: '/dboption', name: 'dboption', component: dboptionView, meta: { layout: LAYOUT_AUTH } },
     { path: '/workplace-option', name: 'workplace-option', component: () => import('@/views/auth/system/SubsystemOptionView.vue'), meta: { layout: LAYOUT_AUTH } },
 
@@ -93,6 +91,11 @@ const routes: Array<RouteRecordRaw> = [
     // Xét nghiệm
     { path: '/testing', name: 'testing', component: testingView, meta: { layout: LAYOUT_AUTH } },
 
+
+    // hệ thống
+    { path: '/sys/user', name: 'user', component: () => import('../views/auth/system/user/UserView.vue'), meta: { layout: LAYOUT_AUTH } },
+    { path: '/sys/role', name: 'role', component: () => import('../views/auth/system/role/RoleView.vue'), meta: { layout: LAYOUT_AUTH } },
+    { path: '/sys/option', name: 'option', component: () => import('../views/auth/system/option/OptionView.vue'), meta: { layout: LAYOUT_AUTH } },
 ]
 
 const router = createRouter({
