@@ -1,36 +1,28 @@
+/* variable */
 :root {
-    --x-nav-background-color: #252f3f;
-    --x-nav-color: #CCCCCC;
-    --x-nav-background-color-active: #161e2e;
-    --x-nav-color-active: #FFFFFF;
-    --x-nav-height: 40px;
-    --x-nav-font-size: 13px;
+    /** app **/
+    --his-background-color: #ECECEC;
+    --his-color: #161E2E;
+    --his-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --his-font-size: 14px;
 
-    --x-sidebar-width: 320px;
-
-    
-    --his-main-background-color: #ECECEC;
-    --his-main-color: #161E2E;
-    --his-main-font-size: 14px;
-
-    --his-nav-background-color: #252f3f;
-    --his-nav-color: #CCCCCC;
-    --his-nav-background-color-active: #161e2e;
-    --his-nav-color-active: #FFFFFF;
-    --his-nav-height: 46px;
-    --his-nav-width: 300px;
-    --his-nav-item-height: 38px;
+    /** nav **/
+    --his-nav-background-color: #FFFFFF;
+    --his-nav-color: #161E2E;
+    --his-nav-background-color-hover: #3461b2;
+    --his-nav-color-hover: #FFFFFF;
+    --his-nav-height: 48px;
+    --his-nav-height-item: 38px;
+    --his-nav-width: 320px;
 }
 
 /* global style */
-html,
-body {
-    background-color: var(--his-main-background-color);
-    color: var(--his-main-color);
-    overflow: hidden;
-}
-
 #app {
+    background-color: var(--his-background-color);
+    color: var(--his-color);
+    font-family: var(--his-font-family);
+    font-size: var(--his-font-size);
+    overflow: hidden;
     height: 100%;
     width: 100%;
 }

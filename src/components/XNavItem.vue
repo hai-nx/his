@@ -62,13 +62,13 @@ function onClick(item: XItemType) {
     background-color: var(--his-nav-background-color);
     color: var(--his-nav-color);
     cursor: pointer;
-    padding: 0 18px;
+    padding: 0 16px;
     white-space: nowrap;
 }
 
 .nav-item:hover {
-    background-color: var(--his-nav-background-color-active);
-    color: var(--his-nav-color-active);
+    background-color: var(--his-nav-background-color-hover);
+    color: var(--his-nav-color-hover);
     transition: all linear 0.2s;
 }
 
@@ -79,8 +79,8 @@ function onClick(item: XItemType) {
 }
 
 .nav-item-sub {
-    height: var(--his-nav-item-height);
-    line-height: var(--his-nav-item-height);
+    height: var(--his-nav-height-item);
+    line-height: var(--his-nav-height-item);
 }
 
 .nav-item-sub .nav-item-dropdown {
@@ -102,6 +102,7 @@ function onClick(item: XItemType) {
     position: absolute;
     padding-top: .25rem;
     min-width: 15rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
 }
 
 .nav-item-dropdown > ul {

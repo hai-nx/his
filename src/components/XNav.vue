@@ -66,6 +66,7 @@ function onClick(item: XItemType) {
   position: fixed;
   top: 0;
   background-color: var(--his-nav-background-color);
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
   color: var(--his-nav-color);
   line-height: var(--his-nav-height);
   height: var(--his-nav-height);

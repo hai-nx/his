@@ -83,7 +83,10 @@ export default defineComponent({
     display: flex;
     justify-content: center;
 
+    background-image: url('../../assets/login-background.jpg');
+    
     padding-top: 5rem;
     padding-bottom: 5rem;
+    height: 100%;
 }
 </style>

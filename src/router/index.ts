@@ -2,7 +2,6 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { LAYOUT_DEFAULT, LAYOUT_AUTH } from '@/utils/constant'
 import { useAuth } from '@/stores/auth'
 
-import homeView from '@/views/public/HomeView.vue'
 import loginView from '@/views/public/LoginView.vue'
 
 import dashboardView from '@/views/auth/system/DashboardView.vue'
@@ -38,7 +37,7 @@ import diagnosticImagingView from '@/views/auth/business/diagnosticImagings/Diag
 import testingView from '@/views/auth/business/testings/TestingView.vue'
 
 const routes: Array<RouteRecordRaw> = [
-    { path: '/', name: 'home', component: homeView, meta: { layout: LAYOUT_DEFAULT } },
+    { path: '/', name: 'home', component: () => import('@/views/public/LoginView.vue'), meta: { layout: LAYOUT_DEFAULT } },
     { path: '/login', name: 'login', component: loginView, meta: { layout: LAYOUT_DEFAULT } },
 
     { path: '/dashboard', name: 'dashboard', component: dashboardView, meta: { layout: LAYOUT_AUTH } },

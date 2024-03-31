@@ -99,7 +99,7 @@ export default defineComponent({
             router.push({ name: "dashboard" });
         };
 
-        const visibleSubsystemOptionView = ref(true);
+        const visibleSubsystemOptionView = ref(false);
         const handleVisibleSubsystemOptionView = () => {
             visibleSubsystemOptionView.value = false;
         };
