@@ -17,7 +17,8 @@
                             <a-input v-model:value="username" :disabled="loading" />
                         </a-form-item>
 
-                        <a-form-item label="Mật khẩu" :rules="[{ required: true, message: 'Please input your password!' }]">
+                        <a-form-item label="Mật khẩu"
+                            :rules="[{ required: true, message: 'Please input your password!' }]">
                             <a-input-password v-model:value="password" :disabled="loading" />
                         </a-form-item>
 
@@ -26,7 +27,7 @@
                         </a-form-item>
 
                         <a-form-item class="mb-0">
-                            <a-button type="primary" class="w-100 mb-3" :loading="loading" @click.prevent="handleClick">
+                            <a-button type="primary" class="w-100 mb-3" :loading="loading" @click.prevent="onSubmit">
                                 Đăng nhập
                             </a-button>
                             <a-button type="link" class="w-100">Quên mật khẩu?</a-button>
@@ -38,39 +39,23 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+<script setup lang="ts">
+import { ref, computed } from 'vue'
 import { useAuth } from '@/stores/auth'
 
-export default defineComponent({
-    name: 'LoginView',
-    setup() {
-        const store = useAuth();
+const store = useAuth();
+const username = ref<string>('');
+const password = ref<string>('');
+const remember = ref<boolean>(true);
+const loading = computed(() => store.loading);
+const error = computed(() => store.error);
 
-        const username = ref<string>('');
-        const password = ref<string>('');
-        const remember = ref<boolean>(true);
-        const loading = computed(() => store.loading);
-        const error = computed(() => store.error);
+const onSubmit = () => {
+    store.login(username.value, password.value, remember.value);
+}
 
-        const handleClick = () => {
-            store.login(username.value, password.value, remember.value);
-        }
-
-        return {
-            store,
-            username,
-            password,
-            remember,
-            error,
-            loading,
-            handleClick
-        }
-    },
-    created() {
-        this.store.logout();
-    },
-});
+store.logout();
+username.value = localStorage.getItem('username') ?? '';
 </script>
 
 <style scoped>
@@ -84,7 +69,7 @@ export default defineComponent({
     justify-content: center;
 
     background-image: url('../../assets/login-background.jpg');
-    
+
     padding-top: 5rem;
     padding-bottom: 5rem;
     height: 100%;
