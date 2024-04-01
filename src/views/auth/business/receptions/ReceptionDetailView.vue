@@ -40,14 +40,7 @@
 
 
                 <label>Ngày sinh</label>
-                <!-- <a-input type="date" :size="size"></a-input> -->
-                <div>
-                    <a-input-group compact>
-                        <a-input-number :keyboard="true" :min="1" :max="31" :controls="false" style="width: 50px;"/>
-                        <a-input-number :keyboard="true" :min="1" :max="12" :controls="false" style="width: 50px;"/>
-                        <a-input-number :keyboard="true" :min="1" :max="10" :controls="false" style="width: calc(100% - 100px)"/>
-                    </a-input-group>
-                </div>
+                <a-input type="date" :size="size"></a-input>
 
                 <label>Năm sinh</label>
                 <div class="d-flex" style="align-items: center;">

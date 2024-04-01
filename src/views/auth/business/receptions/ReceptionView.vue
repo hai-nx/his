@@ -27,18 +27,15 @@
             </a-dropdown-button>
         </template>
 
-        <div class="d-flex flex-column p-3">
-            <div class="mb-3">
+        <div class="d-flex flex-column p-2">
+            <div class="d-flex flex-row align-items-center text-nowrap mb-2">
                 <label>Từ ngày</label>
-                <a-date-picker class="ms-2"></a-date-picker>
+                <a-input type="date" class="w-200 ms-2"></a-input>
                 <label class="ms-2">Đến ngày</label>
-                <a-date-picker class="ms-2"></a-date-picker>
-                <label class="ms-2">Trạng thái</label>
-                <a-select class="w-150 ms-2"></a-select>
-                <label class="ms-2">Phòng khám</label>
-                <a-select class="w-150 ms-2"></a-select>
-                <a-input class="w-200 ms-2"></a-input>
-                <a-button class="ms-2">Tìm kiếm</a-button>
+                <a-input type="date" class="w-200 ms-2"></a-input>
+                <a-button class="ms-2">
+                    Tìm kiếm
+                </a-button>
             </div>
 
             <div class="mb-3">
@@ -46,13 +43,8 @@
             </div>
 
             <div class="row">
-                <x-pagination 
-                    :current="currentPage" 
-                    :page-size="pageSize" 
-                    :total="totalRowCount"
-                    @change="onCurrentPageChange" 
-                    @pageSizeChange="onPageSizeChange" 
-                    />
+                <x-pagination :current="currentPage" :page-size="pageSize" :total="totalRowCount"
+                    @change="onCurrentPageChange" @pageSizeChange="onPageSizeChange" />
             </div>
         </div>
     </x-layout>
@@ -65,13 +57,7 @@ import { XItemType } from '@/components';
 import { receptionService } from '@/services'
 import router from '@/router';
 
-// import useLayout from "@/uses/layout";
-
-// const { currentPage, pageSize, totalRowCount, onPageSizeChange, onCurrentPageChange } = useLayout(loadSource);
-
-
-
-const title = ref('Danh sách bệnh nhân đăng ký khám');
+const title = ref('Danh sách bệnh nhân');
 const breadcrumbs = ref<Array<XItemType>>([
     { key: '1', label: 'Đón tiếp', icon: '', path: '' },
     { key: '2', label: 'Danh sách bệnh nhân', icon: '', path: '' }
@@ -100,48 +86,37 @@ const pageSize = ref(20);
 const scroll = ref({ x: 720 });
 
 function loadSource() {
-    // let input: PatientRecordRequestModel = {
-    //     maxResultCount: pageSize.value,
-    //     skipCount: pageSize.value  * (currentPage.value - 1),
-    //     maxPatientRecordDateFilter: new Date(),
-    //     minPatientRecordDateFilter: new Date()
-    // }
-    // receptionService.getAll(input)
-    //     .then(res => { 
-    //         items.value = res.data.result;
-    //         totalRowCount.value = res.data.totalCount;
-    //     });
-
     if (pageSize.value === 10) {
         totalRowCount.value = 12;
         items.value = [
-        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
-        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
-        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
-        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
-        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
-        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
-        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
-        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
-        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
-        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
-    ]
+            { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+            { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+            { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+            { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+            { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+            { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+            { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+            { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+            { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+            { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+        ]
     }
     else {
-    items.value = [
-        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
-        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
-        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
-        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
-        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
-        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
-        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
-        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
-        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
-        { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
-        { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
-        { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" }
-    ]}
+        items.value = [
+            { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+            { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+            { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+            { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+            { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+            { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+            { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+            { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+            { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" },
+            { patientRecordCode: "BA-01", patientName: "Bệnh nhân 1" },
+            { patientRecordCode: "BA-02", patientName: "Bệnh nhân 2" },
+            { patientRecordCode: "BA-03", patientName: "Bệnh nhân 3" }
+        ]
+    }
 }
 
 
@@ -165,3 +140,22 @@ function onCurrentPageChange(value: number) {
 onMounted(() => loadSource())
 
 </script>
+
+<style scoped>
+.w-150 {
+    width: 150px;
+}
+
+.w-200 {
+    width: 200px;
+}
+
+.w-250 {
+    width: 250px;
+}
+
+.w-350 {
+    width: 250px;
+}
+
+</style>

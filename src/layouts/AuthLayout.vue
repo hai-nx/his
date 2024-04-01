@@ -2,7 +2,10 @@
     <div class="app-layout">
         <x-nav :data-source="items" @click="handleClick">
             <a-dropdown>
-                <a-button type="text">
+                <a-button type="primary">
+                    <template #icon>
+                        <user-outlined />
+                    </template>
                     <span>{{ user.username }}</span>
                 </a-button>
                 <template #overlay>
@@ -40,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, computed, ref } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useLayout } from "../stores/layout";
 import { storeToRefs } from "pinia";
