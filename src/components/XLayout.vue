@@ -39,7 +39,7 @@
                         <slot name="extra">
                             <div class="d-flex align-items-center">
                                 <i class="bi bi-file-earmark-text h5 mb-0 me-1 text-primary"></i>
-                                <h5 class="mb-0">{{ title }}</h5>
+                                <h5 class="mb-0" >{{ title }}</h5>
                             </div>
                         </slot>
                         <div class="x-layout-header-action">

@@ -1,222 +1,256 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const title = ref('Đăng ký khám');
+</script>
+
 <template>
-    <x-layout class="x-container" :title="title" :breadcrumbs="breadcrumbs" :show-header="true" :show-footer="true">
-        <template #action>
-            <a-space>
-                <label>Phòng tiếp đón:</label>
-                <a-select :size="size" class="x-w160">
-                    <a-select-option key="1" value="Phòng đón tiếp"></a-select-option>
-                    <a-select-option key="2" value="Đón tiếp cấp cứu"></a-select-option>
-                </a-select>
-                <label>Số cửa:</label>
-                <a-input-number :size="size" class="x-w100" :value="gate"></a-input-number>
-                <label>Lấy số:</label>
-                <a-input-number :size="size" class="x-w100" />
-                <a-button :size="size" type="primary" @click="onCall">
-                    <template #icon>
-                        <i class="bi bi-megaphone me-2"></i>
-                    </template>
-                    <span>Gọi</span>
-                </a-button>
-            </a-space>
-        </template>
-
-        <template #footer>
-            <a-space align="end">
-                <a-button type="primary" @click="onSave">
-                    <i class="bi bi-save me-2"></i>
-                    <span>Lưu</span>
-                </a-button>
-            </a-space>
-        </template>
-
-        <div class="x-info">
-            <div class="x-patient-info">
-                <h5 style="grid-column: 1/5;">Hành chính</h5>
-
-                <label>Mã bệnh nhân</label>
-                <a-input :size="size"></a-input>
-                <label>Họ và tên</label>
-                <a-input :size="size"></a-input>
-
-
-                <label>Ngày sinh</label>
-                <a-input type="date" :size="size"></a-input>
-
-                <label>Năm sinh</label>
-                <div class="d-flex" style="align-items: center;">
-                    <a-input :size="size" style="width: 120px;"></a-input>
-                    <label style="padding-left: 1rem; padding-right: 1rem;">Tuổi:</label>
-                    <a-input :size="size" style="width: 120px;"></a-input>
-                    <a-select :size="size" style="width: 100%;"></a-select>
+    <x-layout :title="title" :show-header="true">
+        <div class="main">
+            <div class="main-infomation">
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtPatientCode">Mã bệnh nhân</label>
+                </div>
+                <div>
+                    <a-input-search />
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtPatientName">
+                        <span class="text-danger me-1">*</span>
+                        <span>Họ vầ tên</span>
+                    </label>
+                </div>
+                <div>
+                    <a-input id="txtPatientName"></a-input>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtBirthDate">Sinh ngày</label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <a-input type="date" id="txtBirthDate"></a-input>
+                    <!-- <a-input type="time" id="txtBirthTime" class="ms-1" style="width: 150px;"></a-input> -->
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtBirthYear">
+                        <span>Năm</span>
+                        <span class="text-danger ms-1">*</span>
+                    </label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <a-input-number id="txtBirthYear" style="width: 100px;"></a-input-number>
+                    <label class="ms-3">Tuổi</label>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtGender">
+                        <span>Giới tính</span>
+                        <span class="text-danger ms-1">*</span>
+                    </label>
+                </div>
+                <div>
+                    <a-select id="txtGender" class="w-100"></a-select>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtCareer">Nghề nghiệp</label>
+                </div>
+                <div>
+                    <a-select id="txtCareer" class="w-100"></a-select>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtEthnicity">Dân tộc</label>
+                </div>
+                <div>
+                    <a-select id="txtEthnicity" class="w-100"></a-select>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtCountry">Quốc tịch</label>
+                </div>
+                <div>
+                    <a-select id="txtCountry" class="w-100"></a-select>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtPatientName">Địa chỉ</label>
+                </div>
+                <div class="span-2/3">
+                    <a-input id="txtPatientName"></a-input>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtPatientName">T/H/X</label>
+                </div>
+                <div class="span-2/3">
+                    <a-input id="txtPatientName"></a-input>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtPatientName">Điện thoại</label>
+                </div>
+                <div>
+                    <a-input id="txtPatientName"></a-input>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtPatientName">Nơi làm việc</label>
+                </div>
+                <div>
+                    <a-input id="txtPatientName"></a-input>
                 </div>
 
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtReceptionObjectType">Đăng ký khám</label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <a-select class="w-100" id="txtReceptionObjectType"></a-select>
+                </div>
 
-                <label>Giới tính</label>
-                <a-select :size="size"></a-select>
+                <div class="d-flex align-items-center">
+                    <label for="txtPatientName">Tiếp nhận lúc:</label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <label for="txtPatientName">12/12/2022 12:12</label>
+                </div>
 
-                <label>Nghề nghiệp</label>
-                <a-select :size="size"></a-select>
-
-
-                <label>Dân tộc</label>
-                <a-select :size="size"></a-select>
-
-                <label>Quốc tịch</label>
-                <a-select :size="size"></a-select>
-
-
-                <label>Địa chỉ</label>
-                <a-input :size="size" class="col-span-1-3"></a-input>
-
-
-                <label>Tt/Hq/Xp</label>
-                <a-input :size="size"></a-input>
-                <a-input :size="size" class="col-span-2-2"></a-input>
-
-
-                <label>Điện thoại</label>
-                <a-input :size="size"></a-input>
-                <label>Nơi làm việc</label>
-                <a-input :size="size"></a-input>
-
-                <label>CMND/CCCD</label>
-                <a-input :size="size"></a-input>
-                <label></label>
-                <a-button :size="size">Thong tin khác</a-button>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtPatientName">Lý do khám</label>
+                </div>
+                <div class=" span-2/3">
+                    <a-input id="txtPatientName"></a-input>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtService">Dịch vụ</label>
+                </div>
+                <div>
+                    <a-select class="w-100" id="txtService"></a-select>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtRoom">Phòng khám</label>
+                </div>
+                <div>
+                    <a-select class="w-100" id="txtRoom"></a-select>
+                </div>
             </div>
-            <div class="x-patient-type-info">
-                <h5 style="grid-column: 1/5;">Đăng ký khám</h5>
 
-                <label>Ngày khám</label>
-                <a-input :size="size" type="date"></a-input>
-                <label>Đối tượng</label>
-                <a-input :size="size"></a-input>
+            <div class="border-start my-2"></div>
 
-                <a-checkbox>TE</a-checkbox>
-                <a-checkbox>Không giữ thẻ BHYT</a-checkbox>
-                <a-checkbox style="grid-column: 3/5;">BN ưu tiên</a-checkbox>
+            <div class="main-object">
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtPatientCode">Đối tượng</label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <a-input id="txtPatientCode"></a-input>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtPatientCode">Số BHYT</label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <a-input id="txtPatientCode"></a-input>
 
-                <label>Số thẻ</label>
-                <a-input :size="size"></a-input>
-                <label>Nơi sống</label>
-                <a-input :size="size" type="date"></a-input>
+                    <label for="txtLiveArea" class="text-nowrap">Nơi sống</label>
+                    <a-select id="txtLiveArea" style="width: 100px;"></a-select>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtPatientCode">KCBBĐ</label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <a-input id="txtPatientCode"></a-input>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtPatientCode">Hạn thẻ</label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <a-input id="txtPatientCode"></a-input>
 
-                <label>KCBBĐ</label>
-                <a-input :size="size" class="col-span-1-3"></a-input>
-
-                <label>Hạn thẻ</label>
-                <a-input :size="size" type="date"></a-input>
-                <label>Đến</label>
-                <a-input :size="size" type="date"></a-input>
-
-                <label>Tuyến KCB</label>
-                <a-input :size="size" type="date"></a-input>
-                <label>Mức hưởng</label>
-                <a-input :size="size" type="date"></a-input>
-
-                <label style="grid-column: 1/4;">Ngày miễn cùng chi trả</label>
-                <a-input :size="size" type="date"></a-input>
-
-                <label style="grid-column: 1/4;">Ngày đóng đủ 5 năm liên tục</label>
-                <a-input :size="size" type="date"></a-input>
-
-                
+                    <label for="txtPatientCode">đến</label>
+                    <a-input id="txtPatientCode"></a-input>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtPatientCode">Địa chỉ thẻ</label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <a-input id="txtPatientCode"></a-input>
+                </div>
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="txtPatientCode">Tuyến KCB</label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <a-input id="txtPatientCode"></a-input>
+                    <label for="txtPatientCode">0%</label>
+                </div>
+                <!-- <div class="d-flex align-items-center mb-2">
+                    <label for="txtPatientCode">Ngày miễn cùng chi trả</label>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <a-input id="txtPatientCode"></a-input>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <label for="txtPatientCode">Ngày đủ 5 năm liên tục</label>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <a-input id="txtPatientCode"></a-input>
+                </div> -->
             </div>
         </div>
 
+        <template #footer>
+            <div class="d-flex justify-content-end">
+                <a-button type="primary">Kiểm tra thẻ BH</a-button>
+                <a-button type="primary" class="ms-2">Bệnh nhân mới</a-button>
+                <a-button type="primary" class="ms-2">Lưu lại</a-button>
+                <a-button class="ms-2">Đóng</a-button>
+            </div>
+        </template>
     </x-layout>
 </template>
 
-<script setup lang="ts">
-import { ref } from "vue";
-import { PatientRecordModel } from "@/models";
-
-import useLayoutDetail from "@/uses/layoutDetail";
-
-const { title, breadcrumbs } = useLayoutDetail(loadSource);
-
-
-const genders = ref([]);
-const ethnics = ref([]);
-const counttries = ref([]);
-const wards = ref([]);
-
-const size = ref("middle")
-
-
-
-title.value = "Đăng ký khám";
-breadcrumbs.value = [
-    { key: '1', label: 'Đón tiếp', icon: '', path: '' },
-    { key: '2', label: 'Danh sách tiếp đón', icon: '', path: '' },
-    { key: '3', label: 'Đăng ký khám', icon: '', path: '' }
-];
-
-function loadSource() {
-    console.log('gọi bệnh nhân')
-}
-
-
-
-const item = ref<PatientRecordModel>({});
-const gate = ref<number>(1);
-
-
-function onCall() {
-    console.log('gọi bệnh nhân')
-}
-
-function onAddNew() {
-    item.value = {};
-}
-
-function onSave() {
-    item.value = {};
-}
-
-
-function onAddNewInvoice() {
-    console.log('thêm hóa đơn thanh toán')
-}
-
-</script>
-
 <style scoped>
-.x-info {
-    display: flex;
-    flex-flow: row nowrap;
-    gap: 32px;
-}
-
-.x-info label {
-    text-align: end;
-    padding-left: 1rem;
-}
-
-.x-patient-info {
+.main {
     display: grid;
-    grid-template-columns: max-content max-content max-content 1fr;
-    gap: .5rem;
-    align-items: center;
-    flex: 1.5;
-    padding: 1rem;
+    grid-template-columns: 1fr auto auto;
+    text-wrap: nowrap;
 }
 
-.x-patient-type-info {
+.main-infomation {
     display: grid;
-    grid-template-columns: max-content max-content max-content 1fr;
-    gap: .5rem;
-    flex: 1;
-    padding: 1rem;
+    grid-template-columns: auto minmax(auto, 200px) auto 1fr;
+    grid-template-rows: repeat(10, auto) 1fr;
+    gap: .4rem .5rem;
+    padding: .5rem 1rem;
+
 }
 
-
-
-.col-span-1-3 {
-    grid-column: 2/5;
+.main-object {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: repeat(10, auto) 1fr;
+    gap: .4rem .5rem;
+    padding: .5rem 1rem;
 }
 
-.col-span-2-2 {
-    grid-column: 3/5;
+.title {
+    font-weight: 500;
+}
+
+.span-1\/2 {
+    grid-column: 1 / span 2;
+}
+
+.span-1\/3 {
+    grid-column: 1 / span 3;
+}
+
+.span-1\/4 {
+    grid-column: 1 / span 4;
+}
+
+.span-2\/2 {
+    grid-column: 2 / span 2;
+}
+
+.span-2\/3 {
+    grid-column: 2 / span 3;
+}
+
+.span-2\/4 {
+    grid-column: 2 / span 4;
+}
+
+.span-3\/2 {
+    grid-column: 3 / span 2;
 }
 </style>

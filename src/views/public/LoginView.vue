@@ -51,7 +51,8 @@ const loading = computed(() => store.loading);
 const error = computed(() => store.error);
 
 const onSubmit = () => {
-    store.login(username.value, password.value, remember.value);
+    //store.login(username.value, password.value, remember.value);
+    store.loginAsync(username.value, password.value, remember.value);
 }
 
 store.logout();

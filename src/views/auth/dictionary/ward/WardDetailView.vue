@@ -119,11 +119,11 @@ export default defineComponent({
             wardService
                 .createOrEdit(item.value)
                 .then((res) => {
-                    if (res) {
+                    if (res.data.isSucceeded) {
                         result = true;
                         toggle();
                     } else {
-                        Modal.error({ content: res, okText: "Đồng ý" });
+                        Modal.error({ content: res.data.message, okText: "Đồng ý" });
                     }
                 })
                 .catch((error) => {

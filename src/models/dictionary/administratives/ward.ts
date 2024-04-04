@@ -1,3 +1,11 @@
 import DictionaryBase from "../base";
 
-export default interface WardModel extends DictionaryBase { }
+interface WardModel extends DictionaryBase {
+  searchText?: string;
+  districtId?: string;
+  districtName?: string;
+  provinceId?: string;
+  provinceName?: string;
+}
+
+export default WardModel;

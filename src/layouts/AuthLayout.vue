@@ -110,14 +110,14 @@ const handleVisibleSubsystemOptionView = () => {
 .app-layout-content {
     margin-top: var(--his-nav-height);
     margin-bottom: 0;
-    padding: 0.5rem 1rem;
+    padding: .5rem;
     height: calc(100vh - var(--his-nav-height));
     overflow: auto;
 }
 
-@media screen and (max-width: 720px) {
+/* @media screen and (max-width: 720px) {
     .app-layout-content {
         padding: .5rem;
     }
-}
+} */
 </style>
