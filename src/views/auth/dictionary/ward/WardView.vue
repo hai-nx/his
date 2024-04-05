@@ -30,7 +30,8 @@
                             <i class="bi bi-pen"></i>
                         </button>
 
-                        <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa" @click="handleDelete(record)">
+                        <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa"
+                            @click="handleDelete(record)">
                             <i class="bi bi-x-lg"></i>
                         </button>
                     </span>
@@ -50,6 +51,8 @@ import { Modal } from 'ant-design-vue'
 import { WardModel } from '@/models'
 import { wardService } from '@/services';
 import WardDetailView from './WardDetailView.vue'
+
+import { notification } from 'ant-design-vue';
 
 export default defineComponent({
     name: 'WardView',
@@ -88,12 +91,21 @@ export default defineComponent({
         const handleDelete = (item: WardModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
+                console.log(id)
                 Modal.confirm({
                     content: 'Bạn có thực sự muốn xóa mã bệnh <' + item.code + '> đã chọn không?',
                     okText: 'Đồng ý',
                     cancelText: 'Bỏ qua',
                     onOk() {
                         wardService.delete(id)
+                            // .then(res => {
+                            //     console.log(res)
+                            //     notification.success({
+                            //         message: 'Thông báo',
+                            //         description:
+                            //             'Xóa thành công!',
+                            //     });
+                            // })
                             .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
                             .finally(() => {
                                 handleLoad();

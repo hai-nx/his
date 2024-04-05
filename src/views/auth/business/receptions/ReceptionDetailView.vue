@@ -1,11 +1,29 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { XItemType } from "@/components"
+import { CareerModel, CountryModel, EthnicModel, GenderModel } from '@/models';
 
+import ReceptionModel from '@/types/reception'
+
+const loading = ref<boolean>(false);
 const title = ref('Đăng ký khám');
+const breadcrumbs = ref<Array<XItemType>>([
+    { key: '1', label: 'Đón tiếp', icon: '', path: 'reception' },
+    { key: '2', label: 'Đăng ký khám', icon: '', path: '' }
+]);
+
+const item = ref<ReceptionModel>({})
+const genders = ref<Array<GenderModel>>([])
+const ethnicities = ref<Array<EthnicModel>>([])
+const careers = ref<Array<CareerModel>>([])
+const countries = ref<Array<CountryModel>>([])
+
+const fields = ref({ value: "id", label: "name" })
+
 </script>
 
 <template>
-    <x-layout :title="title" :show-header="true">
+    <x-layout :title="title" :breadcrumbs="breadcrumbs" :show-header="true">
         <div class="main">
             <div class="main-infomation">
                 <div class="d-flex align-items-center justify-content-end">
@@ -27,7 +45,7 @@ const title = ref('Đăng ký khám');
                     <label for="txtBirthDate">Sinh ngày</label>
                 </div>
                 <div class="d-flex align-items-center">
-                    <a-input type="date" id="txtBirthDate"></a-input>
+                    <a-input type="date" placeholder="dd/mm/yyyy" id="txtBirthDate"></a-input>
                     <!-- <a-input type="time" id="txtBirthTime" class="ms-1" style="width: 150px;"></a-input> -->
                 </div>
                 <div class="d-flex align-items-center justify-content-end">
@@ -47,7 +65,9 @@ const title = ref('Đăng ký khám');
                     </label>
                 </div>
                 <div>
-                    <a-select id="txtGender" class="w-100"></a-select>
+                    <a-select id="txtGender" class="w-100" v-model:value="item.genderId" :options="genders" :field-names="fields" :disabled="loading">
+
+                    </a-select>
                 </div>
                 <div class="d-flex align-items-center justify-content-end">
                     <label for="txtCareer">Nghề nghiệp</label>
@@ -68,35 +88,35 @@ const title = ref('Đăng ký khám');
                     <a-select id="txtCountry" class="w-100"></a-select>
                 </div>
                 <div class="d-flex align-items-center justify-content-end">
-                    <label for="txtPatientName">Địa chỉ</label>
+                    <label for="txtAddress">Địa chỉ</label>
                 </div>
                 <div class="span-2/3">
-                    <a-input id="txtPatientName"></a-input>
+                    <a-input id="txtAddress"></a-input>
                 </div>
                 <div class="d-flex align-items-center justify-content-end">
-                    <label for="txtPatientName">T/H/X</label>
+                    <label for="txtWardSearchCode">T/H/X</label>
                 </div>
                 <div class="span-2/3">
-                    <a-input id="txtPatientName"></a-input>
+                    <a-input id="txtWardSearchCode"></a-input>
                 </div>
                 <div class="d-flex align-items-center justify-content-end">
-                    <label for="txtPatientName">Điện thoại</label>
+                    <label for="txtMobile">Điện thoại</label>
                 </div>
                 <div>
-                    <a-input id="txtPatientName"></a-input>
+                    <a-input id="txtMobile"></a-input>
                 </div>
                 <div class="d-flex align-items-center justify-content-end">
-                    <label for="txtPatientName">Nơi làm việc</label>
+                    <label for="txtWorkplace">Nơi làm việc</label>
                 </div>
                 <div>
-                    <a-input id="txtPatientName"></a-input>
+                    <a-input id="txtWorkplace"></a-input>
                 </div>
 
                 <div class="d-flex align-items-center justify-content-end">
                     <label for="txtReceptionObjectType">Đăng ký khám</label>
                 </div>
                 <div class="d-flex align-items-center">
-                    <a-select class="w-100" id="txtReceptionObjectType"></a-select>
+                    <a-select class="w-100" disabled id="txtReceptionObjectType"></a-select>
                 </div>
 
                 <div class="d-flex align-items-center">
@@ -139,7 +159,7 @@ const title = ref('Đăng ký khám');
                     <label for="txtPatientCode">Số BHYT</label>
                 </div>
                 <div class="d-flex align-items-center">
-                    <a-input id="txtPatientCode"></a-input>
+                    <a-input id="txtPatientCode" placeholder="xxx xxx xxx"></a-input>
 
                     <label for="txtLiveArea" class="text-nowrap">Nơi sống</label>
                     <a-select id="txtLiveArea" style="width: 100px;"></a-select>
@@ -207,7 +227,7 @@ const title = ref('Đăng ký khám');
 
 .main-infomation {
     display: grid;
-    grid-template-columns: auto minmax(auto, 200px) auto 1fr;
+    grid-template-columns: auto minmax(auto, 160px) auto 1fr;
     grid-template-rows: repeat(10, auto) 1fr;
     gap: .4rem .5rem;
     padding: .5rem 1rem;
