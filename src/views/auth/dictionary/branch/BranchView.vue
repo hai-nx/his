@@ -60,6 +60,8 @@ export default defineComponent({
         const columns = ref([
             { title: 'Mã chi nhánh', key: 'code', dataIndex: 'code', width: 200 },
             { title: 'Tên chi nhánh', key: 'name', dataIndex: 'name', width: 500 },
+            { title: 'Mã KCBBĐ', key: 'mediOrgCode', dataIndex: 'mediOrgCode', width: 500 },
+            { title: 'Mã KCBBĐ đúng tuyến', key: 'mediOrgAcceptCode', dataIndex: 'mediOrgAcceptCode', width: 500 },
             { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
             { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 100 }

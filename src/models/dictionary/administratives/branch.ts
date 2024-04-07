@@ -1,5 +1,21 @@
 import DictionaryBase from '../base'
 
-export default interface BranchModel extends DictionaryBase {
-    address: string
+interface BranchModel extends DictionaryBase {
+    mediOrgCode?: string,
+    mediOrgAcceptCode?: string,
+    level?: string,
+    specialty?: string,
+    line?: string,
+    parentOrganizationName?: string,
+    tel?: string,
+    email?: string,
+    address?: string,
+    provinceId?: string,
+    provinceName?: string,
+    districtId?: string,
+    districtName?: string,
+    wardId?: string,
+    wardName?: string,
 }
+
+export default BranchModel

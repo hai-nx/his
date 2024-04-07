@@ -1,11 +1,6 @@
 <template>
     <form>
-        <a-modal
-            :visible="show"
-            :title="title"
-            @cancel="handleCancel"
-            :mask-closable="false"
-        >
+        <a-modal :visible="show" :title="title" @cancel="handleCancel" :mask-closable="false">
             <div class="row mb-1">
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
@@ -14,13 +9,9 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-input
-                        v-model:value="item.code"
-                        :disabled="loading"
-                        :class="{
-                            'input-danger': errors.code,
-                        }"
-                    />
+                    <a-input v-model:value="item.code" :disabled="loading" :class="{
+            'input-danger': errors.code,
+        }" />
                 </div>
             </div>
             <div class="row mb-1">
@@ -31,13 +22,33 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-input
-                        v-model:value="item.name"
-                        :disabled="loading"
-                        :class="{
-                            'input-danger': errors.name,
-                        }"
-                    />
+                    <a-input v-model:value="item.name" :disabled="loading" :class="{
+            'input-danger': errors.name,
+        }" />
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-12 col-md-4 text-start text-md-end">
+                    <label>
+                        <span>Mã KCBBĐ</span>
+                    </label>
+                </div>
+                <div class="col-12 col-md-8">
+                    <a-input v-model:value="item.mediOrgCode" :disabled="loading" :class="{
+            'input-danger': errors.mediOrgCode,
+        }" />
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-12 col-md-4 text-start text-md-end">
+                    <label>
+                        <span>Mã KCBBĐ đúng tuyến</span>
+                    </label>
+                </div>
+                <div class="col-12 col-md-8">
+                    <a-input v-model:value="item.mediOrgAcceptCode" :disabled="loading" :class="{
+            'input-danger': errors.mediOrgAcceptCode,
+        }" />
                 </div>
             </div>
             <div class="row mb-1">
@@ -57,10 +68,7 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-textarea
-                        v-model:value="item.description"
-                        :disabled="loading"
-                    />
+                    <a-textarea v-model:value="item.description" :disabled="loading" />
                 </div>
             </div>
             <div class="row mb-1">
@@ -70,37 +78,19 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-input-number
-                        v-model:value="item.sortOrder"
-                        :disabled="loading"
-                        class="w-100"
-                    />
+                    <a-input-number v-model:value="item.sortOrder" :disabled="loading" class="w-100" />
                 </div>
             </div>
             <div class="row mb-1">
                 <div class="col-12 col-md-8 offset-md-4">
-                    <a-checkbox
-                        v-model:checked="item.inactive"
-                        :disabled="loading"
-                        >Ngừng theo dõi</a-checkbox
-                    >
+                    <a-checkbox v-model:checked="item.inactive" :disabled="loading">Ngừng theo dõi</a-checkbox>
                 </div>
             </div>
 
             <template #footer>
-                <a-button
-                    key="submit"
-                    type="primary"
-                    :loading="loading"
-                    @click.prevent="handleSave"
-                    >Lưu</a-button
-                >
-                <a-button
-                    type="primary"
-                    :loading="loading"
-                    @click.prevent="handleSaveAndAddNew"
-                    >Lưu và Thêm mới</a-button
-                >
+                <a-button key="submit" type="primary" :loading="loading" @click.prevent="handleSave">Lưu</a-button>
+                <a-button type="primary" :loading="loading" @click.prevent="handleSaveAndAddNew">Lưu và Thêm
+                    mới</a-button>
                 <a-button @click="handleCancel">Bỏ qua</a-button>
             </template>
         </a-modal>
@@ -134,7 +124,13 @@ export default defineComponent({
             description: "",
             inactive: false,
         });
-        const errors = ref({ code: "", name: "" });
+        const errors = ref(
+            {
+                code: "",
+                name: "",
+                mediOrgCode: "",
+                mediOrgAcceptCode: ""
+            });
         const loading = ref<boolean>(false);
 
         let result = false;
@@ -144,11 +140,11 @@ export default defineComponent({
             branchService
                 .createOrEdit(item.value)
                 .then((res) => {
-                    if (res) {
+                    if (res.data.isSucceeded) {
                         result = true;
                         toggle();
                     } else {
-                        Modal.error({ content: res, okText: "Đồng ý" });
+                        Modal.error({ content: res.data.message, okText: "Đồng ý" });
                     }
                 })
                 .catch((error) => {

@@ -1,10 +1,10 @@
 <template>
-    <div class="app-layout">
+    <div class="d-flex flex-column align-items-stretch h-100 w-100 overflow-auto">
         <slot></slot>
     </div>
 </template>
 
-<script lang="ts">
+<!-- <script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -13,9 +13,9 @@ export default defineComponent({
         return {}
     }
 });
-</script>
+</script> -->
 
-<style scoped>
+<!-- <style scoped>
 .app-layout {
     display: flex;
     flex-direction: column;
@@ -23,4 +23,4 @@ export default defineComponent({
     background-color: #ECECEC;
     min-height: 100vh;
 }
-</style>
+</style> -->
