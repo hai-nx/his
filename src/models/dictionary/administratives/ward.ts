@@ -1,10 +1,12 @@
 import DictionaryBase from "../base";
 
 interface WardModel extends DictionaryBase {
-  searchText?: string;
+  searchCode?: string;
   districtId?: string;
+  districtCode?: string;
   districtName?: string;
   provinceId?: string;
+  provinceCode?: string;
   provinceName?: string;
 }
 

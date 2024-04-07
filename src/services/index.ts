@@ -4,7 +4,7 @@ import branchService from './dictionary/branch'
 import careerService from './dictionary/career'
 import countryService from './dictionary/country'
 import departmentService from './dictionary/department'
-import departmentTypeService from './dictionary/department-type'
+import departmentTypeService from './dictionary/departmentType'
 import districtService from './dictionary/district'
 import employeeService from './dictionary/employee'
 import ethnicService from './dictionary/ethnic'
@@ -16,6 +16,8 @@ import roomService from './dictionary/room'
 import roomTypeService from './dictionary/room-type'
 import wardService from './dictionary/ward'
 import chapterService from './dictionary/chapter'
+import liveAreaService from './dictionary/liveArea'
+import rightRouteTypeService from './dictionary/rightRouteType'
 
 import serviceService from './dictionary/service'
 import servicePricePolicyService from './dictionary/servicePricePolicy'
@@ -59,6 +61,8 @@ export {
     roomTypeService,
     wardService,
     chapterService,
+    liveAreaService,
+    rightRouteTypeService,
 
     serviceService,
     servicePricePolicyService,

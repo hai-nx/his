@@ -43,6 +43,39 @@
             <div class="row mb-1">
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
+                        <span class="text-danger me-1">*</span>
+                        <span>Quận, huyện</span>
+                    </label>
+                </div>
+                <div class="col-12 col-md-8">
+                    <a-select v-model:value="item.districtId" :options="districts" :field-names="fields"
+                        :disabled="loading" class="w-100">
+                        <template #option="{ code, name }">
+                            <div class="row">
+                                <span class="col-3">{{ code }}</span>
+                                <span class="col-9">{{ name }}</span>
+                            </div>
+                        </template>
+                    </a-select>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-12 col-md-4 text-start text-md-end">
+                    <label>
+                        <span>Gõ tắt</span>
+                    </label>
+                </div>
+                <div class="col-12 col-md-8">
+                    <a-input
+                        v-model:value="item.searchCode"
+                        :disabled="loading"
+                    />
+                </div>
+            </div>
+            
+            <div class="row mb-1">
+                <div class="col-12 col-md-4 text-start text-md-end">
+                    <label>
                         <span>Mô tả</span>
                     </label>
                 </div>
@@ -86,8 +119,8 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from "vue";
 import { Modal } from "ant-design-vue";
-import { WardModel } from "@/models";
-import { wardService } from "@/services";
+import { DistrictModel, WardModel } from "@/models";
+import { districtService, wardService } from "@/services";
 
 export default defineComponent({
     name: "WardDetailView",
@@ -111,8 +144,17 @@ export default defineComponent({
         });
         const errors = ref({ code: "", name: "" });
         const loading = ref<boolean>(false);
+        const fields = ref({ value: "id", label: "name" });
+        const districts = ref<DistrictModel[]>([]);
 
         let result = false;
+
+        const loadSource = function() {
+            districtService.getAll()
+            .then(res => {
+                districts.value = res.data.result.filter(x=>!x.inactive);
+            })
+        }
 
         const handleSave = function () {
             loading.value = true;
@@ -205,6 +247,8 @@ export default defineComponent({
                 } else {
                     loading.value = false;
                 }
+
+                loadSource()
             }
         });
 
@@ -214,6 +258,8 @@ export default defineComponent({
             errors,
             show,
             loading,
+            fields,
+            districts,
             handleSave,
             handleSaveAndAddNew,
             handleCancel,

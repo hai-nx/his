@@ -2,7 +2,7 @@ import DictionaryBase from "../base";
 import PagedResultRequestModel from "@/models/PagedResultRequestModel"
 
 export default interface RoomModel extends DictionaryBase {
-    mohCode?: string,
+    mediCode?: string,
     roomTypeId: number,
     roomTypeCode?: string,
     roomTypeName?: string,

@@ -55,7 +55,13 @@ import ServiceResultDataModel from './business/serviceResultData';
 import UserModel from './system/user';
 import DbOptionModel from './system/dbOption'
 
+import ReceptionModel from './business/receptions/reception'
+import GetAllReceptionInputModel from './business/receptions/getAllReceptionInput'
+ 
 export {
+    ReceptionModel,
+    GetAllReceptionInputModel,
+
     SimpleModel,
     ResultModel,
     PagedResultModel,
