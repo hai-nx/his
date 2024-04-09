@@ -65,8 +65,10 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/material-type', name: 'material-type', component: materialTypeView, meta: { layout: LAYOUT_AUTH } },
 
     // bệnh nhân
-    { path: '/reception', name: 'reception', component: () => import('@/views/auth/business/receptions/ReceptionView.vue'), meta: { layout: LAYOUT_AUTH } },
-    { path: '/reception-detail', name: 'reception-detail', component: () => import('@/views/auth/business/receptions/ReceptionDetailView.vue'), meta: { layout: LAYOUT_AUTH } },
+    // { path: '/reception', name: 'reception', component: () => import('@/views/auth/business/receptions/ReceptionView.vue'), meta: { layout: LAYOUT_AUTH } },
+    // { path: '/reception-detail', name: 'reception-detail', component: () => import('@/views/auth/business/receptions/ReceptionDetailView.vue'), meta: { layout: LAYOUT_AUTH } },
+    { path: '/reception', name: 'reception', component: () => import('@/views/auth/business/reception/index.vue'), meta: { layout: LAYOUT_AUTH } },
+    { path: '/reception-detail', name: 'reception-detail', component: () => import('@/views/auth/business/reception/detail/index.vue'), meta: { layout: LAYOUT_AUTH } },
 
     { path: '/clinical', name: 'clinical', component: () => import('@/views/auth/business/clinicals/ClinicalView.vue'), meta: { layout: LAYOUT_AUTH } },
     { path: '/clinical-detail', name: 'clinical-detail', component: () => import('@/views/auth/business/clinicals/ClinicalDetailView.vue'), meta: { layout: LAYOUT_AUTH } },

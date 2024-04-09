@@ -1,6 +1,6 @@
 interface GetAllReceptionInputModel {
-  receptionFromDateFilter?: Date;
-  receptionToDateFilter?: Date;
+  receptionFromDateFilter?: number;
+  receptionToDateFilter?: number;
   receptionObjectTypeFilter?: number;
   patientObjectTypeFilter?: number;
   branchFilter?: string;
