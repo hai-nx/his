@@ -1,11 +1,6 @@
 <template>
     <form>
-        <a-modal
-            :visible="show"
-            :title="title"
-            @cancel="handleCancel"
-            :mask-closable="false"
-        >
+        <a-modal :visible="show" :title="title" @cancel="handleCancel" :mask-closable="false">
             <div class="row mb-1">
                 <div class="col-12 col-md-4 text-start text-md-end">
                     <label>
@@ -24,7 +19,7 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-input v-model:value="item.mohCode" :disabled="loading" />
+                    <a-input v-model:value="item.mediCode" :disabled="loading" />
                 </div>
             </div>
             <div class="row mb-1">
@@ -46,13 +41,8 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-select
-                        v-model:value="item.roomTypeId"
-                        :options="roomTypes"
-                        :field-names="fields"
-                        :disabled="loading"
-                        class="w-100"
-                    >
+                    <a-select v-model:value="item.roomTypeId" :options="roomTypes" :field-names="fields"
+                        :disabled="loading" class="w-100">
                         <template #option="{ code, name }">
                             <div class="row">
                                 <span class="col-3">{{ code }}</span>
@@ -70,13 +60,8 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-select
-                        v-model:value="item.departmentId"
-                        :options="departments"
-                        :field-names="fields"
-                        :disabled="loading"
-                        class="w-100"
-                    >
+                    <a-select v-model:value="item.departmentId" :options="departments" :field-names="fields"
+                        :disabled="loading" class="w-100">
                         <template #option="{ code, name }">
                             <div class="row">
                                 <span class="col-3">{{ code }}</span>
@@ -93,11 +78,7 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-input-number
-                        v-model:value="item.sortOrder"
-                        :disabled="loading"
-                        class="w-100"
-                    />
+                    <a-input-number v-model:value="item.sortOrder" :disabled="loading" class="w-100" />
                 </div>
             </div>
             <div class="row mb-1">
@@ -107,36 +88,19 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-textarea
-                        v-model:value="item.description"
-                        :disabled="loading"
-                    />
+                    <a-textarea v-model:value="item.description" :disabled="loading" />
                 </div>
             </div>
             <div class="row mb-1">
                 <div class="col-12 col-md-8 offset-md-4">
-                    <a-checkbox
-                        v-model:checked="item.inactive"
-                        :disabled="loading"
-                        >Ngừng theo dõi</a-checkbox
-                    >
+                    <a-checkbox v-model:checked="item.inactive" :disabled="loading">Ngừng theo dõi</a-checkbox>
                 </div>
             </div>
 
             <template #footer>
-                <a-button
-                    key="submit"
-                    type="primary"
-                    :loading="loading"
-                    @click.prevent="handleSave"
-                    >Lưu</a-button
-                >
-                <a-button
-                    type="primary"
-                    :loading="loading"
-                    @click.prevent="handleSaveAndAddNew"
-                    >Lưu và Thêm mới</a-button
-                >
+                <a-button key="submit" type="primary" :loading="loading" @click.prevent="handleSave">Lưu</a-button>
+                <a-button type="primary" :loading="loading" @click.prevent="handleSaveAndAddNew">Lưu và Thêm
+                    mới</a-button>
                 <a-button @click="handleCancel">Bỏ qua</a-button>
             </template>
         </a-modal>
@@ -182,12 +146,12 @@ export default defineComponent({
             loading.value = true;
             roomService
                 .createOrEdit(item.value)
-                .then((res) => {
-                    if (res) {
+                .then(res => {
+                    if (res.data.isSucceeded) {
                         result.value = true;
                         toggle();
                     } else {
-                        Modal.error({ content: res, okText: "Đồng ý" });
+                        Modal.error({ content: res.data.message, okText: "Đồng ý" });
                     }
                 })
                 .catch((error) => {
@@ -263,7 +227,7 @@ export default defineComponent({
                     if (roomTypes.value.length > 0) {
                         item.value.roomTypeId =
                             roomTypes.value[0].id != undefined &&
-                            roomTypes.value[0].id != ""
+                                roomTypes.value[0].id != ""
                                 ? parseInt(roomTypes.value[0].id)
                                 : 0;
                     }

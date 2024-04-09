@@ -15,3 +15,7 @@
 .ant-table.ant-table-middle .ant-table-thead>tr>th {
     padding: 6px 3px !important;
 }
+
+.ant-input {
+    line-height: 1.5715 !important; /*do devexpress nên cần đặt lại*/
+}

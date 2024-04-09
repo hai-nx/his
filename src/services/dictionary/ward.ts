@@ -12,7 +12,7 @@ const wardService = {
         return request.post<ResultModel<WardModel>>('api/Ward/CreateOrEdit', input);
     },
     delete(id: string) {
-        return request.post<ResultModel<WardModel>>('api/Ward/Delete?id=' + id);
+        return request.delete<ResultModel<WardModel>>('api/Ward/Delete?id=' + id)
     }
 }
 

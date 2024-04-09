@@ -2,11 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { LAYOUT_DEFAULT, LAYOUT_AUTH } from '@/utils/constant'
 import { useAuth } from '@/stores/auth'
 
-import homeView from '@/views/public/HomeView.vue'
-import loginView from '@/views/public/LoginView.vue'
-
 import dashboardView from '@/views/auth/system/DashboardView.vue'
-import optionView from '@/views/auth/system/OptionView.vue'
 import dboptionView from '@/views/auth/system/dbOption/DbOptionView.vue'
 
 import branchView from '@/views/auth/dictionary/branch/BranchView.vue'
@@ -32,20 +28,17 @@ import itemGroupView from '@/views/auth/dictionary/itemGroup/ItemGroupView.vue'
 import medicienTypeView from '@/views/auth/dictionary/itemType/medicineType/MedicienTypeView.vue'
 import materialTypeView from '@/views/auth/dictionary/itemType/materialType/MaterialTypeView.vue'
 
-import errorView from '@/views/public/error.vue'
-
 import pharmaceuticalView from '@/views/auth/business/pharmaceuticals/PharmaceuticalView.vue'
 import diagnosticImagingView from '@/views/auth/business/diagnosticImagings/DiagnosticImagingView.vue'
 import testingView from '@/views/auth/business/testings/TestingView.vue'
 
 const routes: Array<RouteRecordRaw> = [
-    { path: '/', name: 'home', component: homeView, meta: { layout: LAYOUT_DEFAULT } },
-    { path: '/login', name: 'login', component: loginView, meta: { layout: LAYOUT_DEFAULT } },
+    { path: '/', name: 'home', component: () => import('@/views/public/LoginView.vue'), meta: { layout: LAYOUT_DEFAULT } },
+    { path: '/login', name: 'login', component: () => import('@/views/public/LoginView.vue'), meta: { layout: LAYOUT_DEFAULT } },
+    { path: '/error', name: 'error', component: () => import('@/views/public/ErrorView.vue'), meta: { layout: LAYOUT_DEFAULT } },
 
     { path: '/dashboard', name: 'dashboard', component: dashboardView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/option', name: 'option', component: optionView, meta: { layout: LAYOUT_AUTH } },
     { path: '/dboption', name: 'dboption', component: dboptionView, meta: { layout: LAYOUT_AUTH } },
-    { path: '/workplace-option', name: 'workplace-option', component: () => import('@/views/auth/system/SubsystemOptionView.vue'), meta: { layout: LAYOUT_AUTH } },
 
     { path: '/dictionary', name: 'dictionary', component: dictionaryView, meta: { layout: LAYOUT_AUTH } },
     { path: '/branch', name: 'branch', component: branchView, meta: { layout: LAYOUT_AUTH } },
@@ -82,7 +75,7 @@ const routes: Array<RouteRecordRaw> = [
 
     { path: '/payment', name: 'payment', component: () => import('@/views/auth/payment/Payment.vue'), meta: { layout: LAYOUT_AUTH } },
 
-    { path: '/error', name: 'error', component: errorView, meta: { layout: LAYOUT_DEFAULT } },
+    
 
     // Dược
     { path: '/pharmaceutical', name: 'pharmaceutical', component: pharmaceuticalView, meta: { layout: LAYOUT_AUTH } },
@@ -93,6 +86,11 @@ const routes: Array<RouteRecordRaw> = [
     // Xét nghiệm
     { path: '/testing', name: 'testing', component: testingView, meta: { layout: LAYOUT_AUTH } },
 
+
+    // hệ thống
+    { path: '/sys/user', name: 'user', component: () => import('../views/auth/system/user/UserView.vue'), meta: { layout: LAYOUT_AUTH } },
+    { path: '/sys/role', name: 'role', component: () => import('../views/auth/system/role/RoleView.vue'), meta: { layout: LAYOUT_AUTH } },
+    { path: '/sys/option', name: 'option', component: () => import('../views/auth/system/option/OptionView.vue'), meta: { layout: LAYOUT_AUTH } },
 ]
 
 const router = createRouter({
