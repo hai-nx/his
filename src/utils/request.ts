@@ -28,7 +28,7 @@ request.interceptors.response.use(response => {
     const originalConfig = error.config;
     debugger;
 
-    if (originalConfig.url !== "api/Login/Authenticate" && error.response) {
+    if (originalConfig.url !== "api/Login/Authenticate" && originalConfig.url !== "api/Authorization/Login" && error.response) {
         // Access Token was expired
         if (error.response.status === 401 && !originalConfig._retry) {
             originalConfig._retry = true;
