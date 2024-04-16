@@ -2,6 +2,7 @@ import { defineAsyncComponent, App } from "vue";
 import { LAYOUT_AUTH, LAYOUT_DEFAULT } from "./constant";
 
 import dayjs, { Dayjs } from "dayjs";
+import moment from "moment";
 
 export function defineAsyncLayoutComponents(app: App<Element>) {
   app.component(
@@ -14,23 +15,33 @@ export function defineAsyncLayoutComponents(app: App<Element>) {
   );
 }
 
-// export function defineAsyncComponents(app: App<Element>) {
-//     app.component("XDateRangePicker", defineAsyncComponent(() => import('@/components/XDateRangePicker.vue')));
-//     app.component("XLayout", defineAsyncComponent(() => import('@/components/XLayout.vue')));
-//     app.component("XNav", defineAsyncComponent(() => import('@/components/XNav.vue')));
-//     app.component("XNavItem", defineAsyncComponent(() => import('@/components/XNavItem.vue')));
-//     app.component("XPagination", defineAsyncComponent(() => import('@/components/XPagination.vue')));
-// }
+/******************* DATE AND TIME *******************/
+
+const dateTimeFormatWithoutTimezone = "YYYY-MM-DD[T]HH:mm:ss";
 
 /* 
-    dayjs to number
+  date to iso string without time zone 
+*/
+export function dateToISOString(val: Date) {
+  return moment(val).format(dateTimeFormatWithoutTimezone);
+}
+
+/* 
+  dayjs to iso string without time zone 
+*/
+export function dayjsToISOString (val: Dayjs) {
+  return val.format(dateTimeFormatWithoutTimezone);
+}
+
+/* 
+  dayjs to number
 */
 export function dayjsToNumber(val: Dayjs) {
   return val.year() * 10000000000 + (val.month() + 1) * 100000000 + val.date() * 1000000 + val.hour() * 10000 + val.minute() * 100 + val.second();
 }
 
 /*
-    number to dayjs
+  number to dayjs
 */
 export function numberToDayjs(val: number) {
   try {

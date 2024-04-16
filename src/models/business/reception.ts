@@ -1,15 +1,15 @@
-import PatientRecordModel from "../patientRecord";
+import { PagedResultRequestModel } from "../base";
 
-interface ReceptionModel {
+export interface ReceptionModel {
   id?: string;
   patientId?: string;
   patientRecordId?: string;
   medicalRecordId?: string;
   patientCode?: string;
-  patientName?: string;
   patientRecordCode?: string;
   medicalRecordCode?: string;
-  receptionDate?: Date;
+  patientName?: string;
+  receptionDate?: Date | string;
   receptionObjectTypeId?: number;
   receptionObjectTypeName?: string;
   patientObjectTypeId?: number;
@@ -22,7 +22,7 @@ interface ReceptionModel {
   departmentName?: string;
   roomId?: string;
   roomName?: string;
-  gate?: number;
+  gate?: string;
   userId?: string;
   userName?: string;
   serviceId?: string;
@@ -33,28 +33,18 @@ interface ReceptionModel {
   executeRoomName?: string;
   executeUserId?: string;
   executeUserName?: string;
-
-  birthDate?: Date;
-  birthYear?: Number;
-  genderId?: string;
-  ethnicId?: string;
-  countryId?: string;
-  careerId?: string;
-  provinceId?: string;
-  districtId?: string;
-  wardId?: string;
-  address?: string;
-
-  insuranceCode?: string;
-  insuranceMediOrgCode?: string;
-  insuranceMediOrgName?: string;
-  insuranceFromDate?: Date;
-  insuranceToDate?: Date;
-  insuranceAddress?: string;
-  liveAreaId?: string;
-  rightRouteTypeId?: number;
-
-  patientRecord?: PatientRecordModel;
 }
 
-export default ReceptionModel;
+export interface GetAllReceptionInputModel extends PagedResultRequestModel {
+  receptionFromDateFilter?: string;
+  receptionToDateFilter?: string;
+  receptionObjectTypeFilter?: number;
+  patientObjectTypeFilter?: number;
+  branchFilter?: string;
+  departmentFilter?: string;
+  roomFilter?: string;
+  userFilter?: string;
+  executeDepartmentFilter?: string;
+  executeRoomFilter?: string;
+  executeUserFilter?: string;
+}

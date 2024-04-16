@@ -1,5 +1,65 @@
-export default interface PatientModel {
+import { PagedResultRequestModel } from "../base"
+
+export interface PatientModel {
     id: string | undefined,
-    code: string,
-    name: string
+    patientCode: string,
+    patientName: string,
+    birthDate?: Date | string,
+    birthYear?: number,
+    birthplace?: string,
+    genderId?: string,
+    ethnicId?: string,
+    religionId?: string,
+    careerId?: string,
+    workplace?: string,
+    countryId?: string,
+    provinceId?: string,
+    districtId?: string,
+    wardId?: string,
+    address?: string,
+    bloodTypeId?: string,
+    bloodTypeRhId?: string,
+    identificationNumber?: string,
+    issueDate?: Date | string,
+    issueBy?: string,
+    tel?: string,
+    mobile?: string,
+    email?: string,
+    contactTel?: string,
+    contactMobile?: string,
+    contactIdentificationNumber?: string,
+    contactIssueDate?: Date | string,
+    contactIssueBy?: string
+}
+
+export interface GetAllPatientInputModel extends PagedResultRequestModel {
+    patientCodeFilter?: string,
+    patientNameFilter?: string,
+    maxBirthDateFilter?: Date | string,
+    minBirthDateFilter?: Date | string,
+    maxBirthYearFilter?: number,
+    minBirthYearFilter?: number,
+    birthplaceFilter?: string,
+    genderFilter?: string,
+    ethnicFilter?: string,
+    religionFilter?: string,
+    careerFilter?: string,
+    workplaceFilter?: string,
+    countryFilter?: string
+    provinceFilter?: string,
+    districtFilter?: string,
+    wardFilter?: string,
+    bloodTypeFilter?: string,
+    bloodTypeRhFilter?: string,
+    identificationNumberFilter?: string,
+    maxIssueDateFilter?: Date | string,
+    minIssueDateFilter?: Date | string,
+    issueByFilter?: string,
+    telFilter?: string,
+    mobileFilter?: string,
+    emailFilter?: string,
+    contactNameFilter?: string,
+    contactTypeFilter?: string,
+    contactIdentificationNumberFilter?: string
+
 }
