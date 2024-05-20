@@ -54,7 +54,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { Modal } from 'ant-design-vue'
-import { EthnicModel } from '@/models'
+import { EthnicityModel } from '@/models'
 import { XItemType } from '@/components';
 import { ethnicService } from '@/services';
 import EthnicDetailView from './EthnicDetailView.vue'
@@ -73,8 +73,8 @@ export default defineComponent({
             { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 100 }
         ]);
-        const items = ref<EthnicModel[]>([]);
-        const record = ref<EthnicModel>();
+        const items = ref<EthnicityModel[]>([]);
+        const record = ref<EthnicityModel>();
         const visible = ref<boolean>(false)
 
         const totalCount = ref<number>(0);
@@ -95,12 +95,12 @@ export default defineComponent({
         }
 
         // sửa
-        const handleEdit = (item: EthnicModel) => {
+        const handleEdit = (item: EthnicityModel) => {
             show(true, item);
         }
 
         // xóa
-        const handleDelete = (item: EthnicModel) => {
+        const handleDelete = (item: EthnicityModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
                 Modal.confirm({
@@ -130,7 +130,7 @@ export default defineComponent({
             }
         }
 
-        const show = (v: boolean, r: EthnicModel | undefined) => {
+        const show = (v: boolean, r: EthnicityModel | undefined) => {
             record.value = r;
             visible.value = v;
         }

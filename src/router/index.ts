@@ -68,10 +68,10 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/reception", name: "reception", component: () => import("@/views/auth/business/reception/index.vue"), meta: { layout: LAYOUT_AUTH } },
   { path: "/reception-detail", name: "reception-detail", component: () => import("@/views/auth/business/reception/detail/index.vue"), meta: { layout: LAYOUT_AUTH } },
 
-  { path: "/clinical", name: "clinical", component: () => import("@/views/auth/business/clinicals/ClinicalView.vue"), meta: { layout: LAYOUT_AUTH } },
+  { path: "/clinical", name: "clinicals", component: () => import("@/views/auth/business/clinicals/ClinicalView.vue"), meta: { layout: LAYOUT_AUTH } },
   { path: "/clinical-detail", name: "clinical-detail", component: () => import("@/views/auth/business/clinicals/ClinicalDetailView.vue"), meta: { layout: LAYOUT_AUTH } },
 
-  { path: "/exam", name: "exam", component: () => import("@/views/auth/business/exams/ExamView.vue"), meta: { layout: LAYOUT_AUTH } },
+  { path: "/kb", name: "clinical", component: () => import("@/views/auth/business/clinical/index.vue"), meta: { layout: LAYOUT_AUTH } },
 
   // Dược
   { path: "/pharmaceutical", name: "pharmaceutical", component: pharmaceuticalView, meta: { layout: LAYOUT_AUTH } },

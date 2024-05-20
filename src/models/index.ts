@@ -15,8 +15,8 @@ import DepartmentTypeModel from "./dictionary/administratives/department-type";
 import DistrictModel from "./dictionary/administratives/district";
 import EmployeeModel from "./dictionary/others/employee";
 import DictionaryBase from "./dictionary/base";
-import EthnicModel, { EthnicRequestModel } from "./dictionary/administratives/ethnic";
-import GenderModel from "./dictionary/administratives/gender";
+import EthnicityModel, { EthnicityRequestModel } from "./dictionary/administratives/ethnicity";
+import GenderModel, { GetAllGenderInputModel } from "./dictionary/administratives/gender";
 import HospitalModel from "./dictionary/administratives/hospital";
 import ICDModel from "./dictionary/administratives/icd";
 import ProvinceModel from "./dictionary/administratives/province";
@@ -69,9 +69,10 @@ export {
   DistrictModel,
   EmployeeModel,
   DictionaryBase,
-  EthnicModel,
-  EthnicRequestModel,
+  EthnicityModel,
+  EthnicityRequestModel,
   GenderModel,
+  GetAllGenderInputModel,
   HospitalModel,
   ICDModel,
   ProvinceModel,

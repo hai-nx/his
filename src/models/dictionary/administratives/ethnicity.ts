@@ -1,11 +1,11 @@
 import DictionaryBase from '../base'
 
-export default interface EthnicModel extends DictionaryBase {
+export default interface EthnicityModel extends DictionaryBase {
     ethnicCode?: string,
     ethnicName?: string
 }
 
-export interface EthnicRequestModel {
+export interface EthnicityRequestModel {
     ethnicCodeFilter?: string,
     ethnicNameFilter?: string,
     inactiveFilter?: boolean

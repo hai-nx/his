@@ -1,4 +1,4 @@
-import { ResultModel, GenderModel } from '@/models'
+import { ResultModel, GenderModel, GetAllGenderInputModel } from '@/models'
 import request from '@/utils/request'
 
 const ethnicService = {
@@ -13,7 +13,10 @@ const ethnicService = {
     },
     delete(id: string) {
         return request.delete<ResultModel<GenderModel>>('api/Gender/Delete?id=' + id);
-    }
+    },
+
+
+
 }
 
 export default ethnicService

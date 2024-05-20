@@ -1,50 +1,48 @@
 import { PagedResultRequestModel } from "../base";
+import { MedicalRecordModel } from "./medicalRecord";
+import TreatmentModel from "./treatment";
 
 export interface ReceptionModel {
   id?: string;
-  patientId?: string;
-  patientRecordId?: string;
-  medicalRecordId?: string;
-  patientCode?: string;
-  patientRecordCode?: string;
-  medicalRecordCode?: string;
-  patientName?: string;
-  receptionDate?: Date | string;
-  receptionObjectTypeId?: number;
-  receptionObjectTypeName?: string;
-  patientObjectTypeId?: number;
-  patientObjectTypeName?: string;
-  hospitalizationReason?: string;
-  description?: string;
-  branchId?: string;
-  branchName?: string;
-  departmentId?: string;
-  departmentName?: string;
-  roomId?: string;
-  roomName?: string;
-  gate?: string;
-  userId?: string;
-  userName?: string;
-  serviceId?: string;
-  serviceName?: string;
-  executeDepartmentId?: string;
-  executeDepartmentName?: string;
-  executeRoomId?: string;
-  executeRoomName?: string;
-  executeUserId?: string;
-  executeUserName?: string;
+  receptionDate?: Date,
+  patientID?: string;
+  medicalRecordID?: string,
+  treatmentID?: string,
+  userID?: string,
+  branchID?: string,
+  departmentID?: string,
+  roomID?: string,
+  gate?: string,
+  receptionObjectTypeID?: number,
+  patientObjectTypeID?: number,
+  chiefComplaint?: string,
+  description?: string,
+
+  numOrder?: number,
+  patientCode?: string,
+  patientName?: string,
+  birthDate?: Date,
+  birthYear?: number,
+  age?: string,
+  address?: string,
+  roomName?: string,
+  departmentName?: string,
+  userName?: string,
+
+  medicalRecord?: MedicalRecordModel,
+  treatment?: TreatmentModel
 }
 
 export interface GetAllReceptionInputModel extends PagedResultRequestModel {
-  receptionFromDateFilter?: string;
-  receptionToDateFilter?: string;
-  receptionObjectTypeFilter?: number;
-  patientObjectTypeFilter?: number;
-  branchFilter?: string;
-  departmentFilter?: string;
-  roomFilter?: string;
-  userFilter?: string;
-  executeDepartmentFilter?: string;
-  executeRoomFilter?: string;
-  executeUserFilter?: string;
+  maxReceptionDateFilter?: Date,
+  minReceptionDateFilter?: Date,
+  branchFilter?: string,
+  userFilter?: string,
+  departmentFilter?: string,
+  roomFilter?: string,
+  receptionObjectTypeFilter?: number,
+  patientObjectTypeFilter?: number,
+  patientCodeFilter?: string,
+  patientNameFilter?: string,
+  genderFilter?: string
 }

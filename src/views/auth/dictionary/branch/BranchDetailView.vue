@@ -10,8 +10,8 @@
                 </div>
                 <div class="col-12 col-md-8">
                     <a-input v-model:value="item.code" :disabled="loading" :class="{
-            'input-danger': errors.code,
-        }" />
+                        'input-danger': errors.code,
+                    }" />
                 </div>
             </div>
             <div class="row mb-1">
@@ -23,8 +23,8 @@
                 </div>
                 <div class="col-12 col-md-8">
                     <a-input v-model:value="item.name" :disabled="loading" :class="{
-            'input-danger': errors.name,
-        }" />
+                        'input-danger': errors.name,
+                    }" />
                 </div>
             </div>
             <div class="row mb-1">
@@ -35,8 +35,8 @@
                 </div>
                 <div class="col-12 col-md-8">
                     <a-input v-model:value="item.mediOrgCode" :disabled="loading" :class="{
-            'input-danger': errors.mediOrgCode,
-        }" />
+                        'input-danger': errors.mediOrgCode,
+                    }" />
                 </div>
             </div>
             <div class="row mb-1">
@@ -47,8 +47,8 @@
                 </div>
                 <div class="col-12 col-md-8">
                     <a-input v-model:value="item.mediOrgAcceptCode" :disabled="loading" :class="{
-            'input-danger': errors.mediOrgAcceptCode,
-        }" />
+                        'input-danger': errors.mediOrgAcceptCode,
+                    }" />
                 </div>
             </div>
             <div class="row mb-1">

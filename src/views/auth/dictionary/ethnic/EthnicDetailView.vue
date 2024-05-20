@@ -86,7 +86,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from "vue";
 import { Modal } from "ant-design-vue";
-import { EthnicModel } from "@/models";
+import { EthnicityModel } from "@/models";
 import { ethnicService } from "@/services";
 
 export default defineComponent({
@@ -97,12 +97,12 @@ export default defineComponent({
             required: true,
         },
         data: {
-            type: Object as PropType<EthnicModel>,
+            type: Object as PropType<EthnicityModel>,
         },
     },
     setup(props, { emit }) {
         const title = ref<string>("Thêm mới dân tộc");
-        const item = ref<EthnicModel>({
+        const item = ref<EthnicityModel>({
             id: null,
             code: "",
             name: "",
