@@ -21,11 +21,12 @@ request.interceptors.request.use(async (config) => {
 
     return config;
 });
-
+/* eslint-disable */
 request.interceptors.response.use(response => {
     return response;
 }, async error => {
     const originalConfig = error.config;
+    debugger
 
     if (originalConfig.url !== "api/Login/Authenticate" && originalConfig.url !== "api/Authorization/Login" && error.response) {
         // Access Token was expired
@@ -47,9 +48,16 @@ request.interceptors.response.use(response => {
                 return Promise.reject(_error);
             }
         }
-        // else if (error.response.status === 403 && error.response.data === "Miss session") {
-
-        // }
+        else if (error.response.status === 403 && error.response.data === "Miss session") {
+            const store = useAuth();
+            // try {
+            //     store.reLoginAsync(store.user.username, store.user.password, false);
+            //     return request(originalConfig);
+            // }
+            // catch (_error) {
+            //     return Promise.reject(_error);
+            // }
+        }
     }
 
     return Promise.reject(error);

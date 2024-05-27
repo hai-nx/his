@@ -21,6 +21,9 @@ export const useAuth = defineStore("auth", {
       employeeId: "" as string,
       branchId: "" as string,
       lastWorkingBranchId: "" as string,
+      passwordMd5: "" as string,
+      password: "" as string,
+      remember: true
     },
     error: "" as string,
   }),
@@ -43,6 +46,9 @@ export const useAuth = defineStore("auth", {
             this.user.employeeId = item.user.employeeId;
             this.user.branchId = item.user.branchId;
             this.user.lastWorkingBranchId = item.user.lastWorkingBranchId;
+            this.user.passwordMd5 = item.user.password;
+            this.user.password = password;
+            this.user.remember = remember;
 
             // lưu thông tin người dùng
             sessionStorage.setItem(
@@ -75,6 +81,7 @@ export const useAuth = defineStore("auth", {
         });
     },
     async login(username: string, password: string, remember: boolean) {
+      debugger
       this.loading = true;
       await authService
         .login(username, password)
@@ -93,6 +100,9 @@ export const useAuth = defineStore("auth", {
               employeeId: "",
               branchId: "",
               lastWorkingBranchId: "",
+              password: "",
+              passwordMd5: "",
+              remember: true
             };
 
             sessionStorage.setItem("user", JSON.stringify(this.user));
@@ -118,18 +128,67 @@ export const useAuth = defineStore("auth", {
           this.loading = false;
         });
     },
+    async reLoginAsync(username: string, password: string, remember: boolean) {
+      this.loading = true;
+      await authService
+        .login2(username, password)
+        .then((res: any) => {
+          var result = res.data;
+          if (result.isSucceeded) {
+            var item = result.result;
+            this.error = "";
+            this.accessToken = item.accessToken;
+            this.refreshToken = item.refreshToken;
+            this.expireDate = item.expireDate;
+            this.user.id = item.user.id;
+            this.user.username = item.user.username;
+            this.user.employeeId = item.user.employeeId;
+            this.user.branchId = item.user.branchId;
+            this.user.lastWorkingBranchId = item.user.lastWorkingBranchId;
+            this.user.passwordMd5 = item.user.password;
+            this.user.password = password;
+            this.user.remember = remember;
+
+            // lưu thông tin người dùng
+            sessionStorage.setItem(
+              "auth",
+              JSON.stringify({
+                accessToken: this.accessToken,
+                refreshToken: this.refreshToken,
+                expireDate: this.expireDate,
+                user: this.user,
+              })
+            );
+
+            // lưu tài khoản đăng nhập
+            if (remember) {
+              localStorage.setItem("username", username);
+            } else {
+              localStorage.setItem("username", "");
+            }
+          } else {
+            this.error = result.message;
+          }
+        })
+        .catch((err: any) => {
+          this.error = err.message;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     logout() {
       sessionStorage.removeItem("auth");
     },
-    forgotPassword() {},
-    updateWorkplate(branch: string, department: string, rooms: string[]) {},
+    forgotPassword() { },
+    updateWorkplate(branch: string, department: string, rooms: string[]) { },
   },
   getters: {
     getUser(state) {
       return state.user;
     },
     getAuthenticated(state) {
-      
+
       //console.log(moment(new Date()).format("YYYYMMDDHHmmss"))
       //console.log(moment("20220428235959", "YYYYMMDDHHmmss").toDate())
 

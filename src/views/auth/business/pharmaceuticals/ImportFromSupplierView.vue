@@ -336,7 +336,6 @@
                                     class="ant-table-striped grid-column-columnspan-1-13 table-overflow-x"
                                     size="middle"
                                     bordered
-                                    :scroll="{ y: 200 }"
                                     :pagination="false"
                                     :columns="pricePolicyColumns"
                                     :data-source="
@@ -1227,6 +1226,12 @@ export default defineComponent({
             };
         };
 
+        function handleKeydown(event: KeyboardEvent) {
+            if (event.ctrlKey && event.key.toUpperCase() === "A") {
+                handleUpdateImMest();
+            }
+        }
+
         const handleUpdateImMest = () => {
             let inOutStockItem = source.value.inOutStockItems.find(
                 (f) => f.code == inOutStockItemSelected.value.code
@@ -1343,6 +1348,7 @@ export default defineComponent({
         };
 
         const handleStockIn = async () => {
+            debugger;
             result.value = false;
             loading.value = true;
 
@@ -1446,6 +1452,7 @@ export default defineComponent({
             sItemTypeSelected,
             pricePolicyColumns,
             calculateTotalAmout,
+            handleKeydown,
             handleUpdateImMest,
             handleSupplierChanged,
             handleItemTypeChanged,

@@ -396,7 +396,6 @@
                                     :data-source="service.sExecutionRooms"
                                     bordered
                                     :pagination="false"
-                                    :scroll="{ y: 600 }"
                                 >
                                     <template #bodyCell="{ column, record }">
                                         <template
@@ -445,7 +444,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row h-100">
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-3">
@@ -563,7 +562,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row h-100">
                                 <a-table
                                     class="ant-table-striped my-2 h-100"
                                     size="middle"
@@ -572,7 +571,6 @@
                                     :columns="columnResultIndices"
                                     :data-source="service.sServiceResultIndices"
                                     :pagination="false"
-                                    :scroll="{ y: 360 }"
                                 >
                                     <template #bodyCell="{ column, record }">
                                         <template
