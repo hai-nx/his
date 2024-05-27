@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-12 col-md-8">
                     <a-input
-                        v-model:value="item.code"
+                        v-model:value="item.districtCode"
                         :disabled="loading"
                         :class="{
                             'input-danger': errors.code,
@@ -32,12 +32,31 @@
                 </div>
                 <div class="col-12 col-md-8">
                     <a-input
-                        v-model:value="item.name"
+                        v-model:value="item.districtName"
                         :disabled="loading"
                         :class="{
                             'input-danger': errors.name,
                         }"
                     />
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-12 col-md-4 text-start text-md-end">
+                    <label>
+                        <span class="text-danger me-1">*</span>
+                        <span>Tỉnh, thành phố</span>
+                    </label>
+                </div>
+                <div class="col-12 col-md-8">
+                    <a-select v-model:value="item.provinceID" :options="provinces" :field-names="{ value: 'id', label: 'provinceName' }"
+                        :disabled="loading" class="w-100">
+                        <template #option="{ provinceCode, provinceName }">
+                            <div class="row">
+                                <span class="col-3">{{ provinceCode }}</span>
+                                <span class="col-9">{{ provinceName }}</span>
+                            </div>
+                        </template>
+                    </a-select>
                 </div>
             </div>
             <div class="row mb-1">
@@ -86,8 +105,8 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from "vue";
 import { Modal } from "ant-design-vue";
-import { DistrictModel } from "@/models";
-import { districtService } from "@/services";
+import { ProvinceModel, DistrictModel } from "@/models";
+import { districtService, provinceService } from "@/services";
 
 export default defineComponent({
     name: "DistrictDetailView",
@@ -101,7 +120,7 @@ export default defineComponent({
         },
     },
     setup(props, { emit }) {
-        const title = ref<string>("Thêm mới mã bệnh");
+        const title = ref<string>("Thêm mới quận, huyện");
         const item = ref<DistrictModel>({
             id: null,
             code: "",
@@ -111,6 +130,9 @@ export default defineComponent({
         });
         const errors = ref({ code: "", name: "" });
         const loading = ref<boolean>(false);
+
+
+        const provinces = ref<ProvinceModel[]>([])
 
         let result = false;
 
@@ -192,7 +214,7 @@ export default defineComponent({
                         .getById(data.id!)
                         .then((res) => {
                             item.value = res.data.result;
-                            title.value = "Sửa mã bệnh";
+                            title.value = "Sửa quận, huyện";
                             loading.value = false;
                         })
                         .catch((error) => {
@@ -205,6 +227,11 @@ export default defineComponent({
                 } else {
                     loading.value = false;
                 }
+
+                provinceService.getAll()
+                .then(r => {
+                    provinces.value = r.data.result;
+                })
             }
         });
 
@@ -214,6 +241,7 @@ export default defineComponent({
             errors,
             show,
             loading,
+            provinces,
             handleSave,
             handleSaveAndAddNew,
             handleCancel,

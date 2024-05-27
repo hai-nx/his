@@ -1,21 +1,31 @@
 import DictionaryBase from '../base'
 
 interface BranchModel extends DictionaryBase {
+    branchCode?: string,
+    branchName?: string,
     mediOrgCode?: string,
     mediOrgAcceptCode?: string,
-    level?: string,
-    specialty?: string,
-    line?: string,
+    hospitalLevelID?: string,
+    hospitalLevelCode?: string,
+    hospitalLevelName?: string,
+    hospitalLineID?: string,
+    hospitalLineCode?: string,
+    hospitalLineName?: string,
+    hospitalSpecialityID?: string,
+    hospitalSpecialityCode?: string,
+    hospitalSpecialityName?: string,
     parentOrganizationName?: string,
-    tel?: string,
+    phoneNumber?: string,
     email?: string,
     address?: string,
-    provinceId?: string,
+    provinceID?: string,
     provinceName?: string,
-    districtId?: string,
+    districtID?: string,
     districtName?: string,
-    wardId?: string,
+    wardID?: string,
     wardName?: string,
+    directorID?: string,
+    directorName?: string,
 }
 
 export default BranchModel

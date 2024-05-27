@@ -12,8 +12,8 @@ export default defineComponent({
     name: 'WardView',
     setup() {
         const columns = ref([
-            { title: 'Mã xã, phường', key: 'code', dataIndex: 'code', width: 200 },
-            { title: 'Tên xã, phường', key: 'name', dataIndex: 'name', width: 500 },
+            { title: 'Mã xã, phường', key: 'wardCode', dataIndex: 'wardCode', width: 200 },
+            { title: 'Tên xã, phường', key: 'wardName', dataIndex: 'wardName', width: 500 },
             { title: 'Quận, huyện', key: 'districtName', dataIndex: 'districtName', width: 500 },
             { title: 'Tỉnh, thành phố', key: 'provinceName', dataIndex: 'provinceName', width: 500 },
             { title: 'Gõ tắt', key: 'searchCode', dataIndex: 'searchCode', width: 200 },

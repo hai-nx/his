@@ -58,8 +58,8 @@ export default defineComponent({
             { key: '2', label: 'Danh sách chi nhánh', icon: '', path: '' }
         ]);
         const columns = ref([
-            { title: 'Mã chi nhánh', key: 'code', dataIndex: 'code', width: 200 },
-            { title: 'Tên chi nhánh', key: 'name', dataIndex: 'name', width: 500 },
+            { title: 'Mã chi nhánh', key: 'branchCode', dataIndex: 'branchCode', width: 200 },
+            { title: 'Tên chi nhánh', key: 'branchName', dataIndex: 'branchName', width: 500 },
             { title: 'Mã KCBBĐ', key: 'mediOrgCode', dataIndex: 'mediOrgCode', width: 500 },
             { title: 'Mã KCBBĐ đúng tuyến', key: 'mediOrgAcceptCode', dataIndex: 'mediOrgAcceptCode', width: 500 },
             { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
