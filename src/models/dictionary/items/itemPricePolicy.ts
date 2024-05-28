@@ -6,7 +6,7 @@ export default interface ItemPricePolicyModel {
     newUnitPrice: number,
     ceilingPrice: number,
     paymentRate: number,
-    executionTime: string | null,
+    executionTime: Date | null,
 
     isHeIn: boolean,
     patientTypeCode: string,

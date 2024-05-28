@@ -13,7 +13,11 @@
                     v-model:activeKey="activeKey"
                     type="card"
                 >
-                    <a-tab-pane key="1" tab="Thông tin chung">
+                    <a-tab-pane
+                        key="1"
+                        tab="Thông tin chung"
+                        @keydown="handleKeydown"
+                    >
                         <div class="container">
                             <div class="grid-genaral">
                                 <label class="grid-column-1">
@@ -33,22 +37,40 @@
                                     <span>Ngày lập:</span>
                                     <span class="text-danger me-1">*</span>
                                 </label>
-                                <input
+                                <!-- <input
                                     class="datetime grid-column-6"
                                     type="date"
                                     v-model="source.reqTime"
                                     :disabled="isDisabled"
+                                /> -->
+                                <DxDateBox
+                                    class="grid-column-6 datetime"
+                                    v-model:value="source.reqTime"
+                                    :disabled="isDisabled"
+                                    placeholder="dd/MM/yyyy"
+                                    display-format="dd/MM/yyyy"
+                                    type="date"
+                                    height="30px"
                                 />
 
                                 <label class="grid-column-7">
                                     <span>Ngày HĐ:</span>
                                     <span class="text-danger me-1">*</span>
                                 </label>
-                                <input
+                                <!-- <input
                                     class="datetime rid-column-8"
                                     type="date"
                                     v-model="source.invTime"
+                                    :disabled="isDisabled" -->
+                                <!-- /> -->
+                                <DxDateBox
+                                    class="grid-column-8 datetime"
+                                    v-model:value="source.invTime"
                                     :disabled="isDisabled"
+                                    placeholder="dd/MM/yyyy"
+                                    display-format="dd/MM/yyyy"
+                                    type="date"
+                                    height="30px"
                                 />
 
                                 <label class="grid-column-9"> Số HĐ: </label>
@@ -317,11 +339,22 @@
                                     :disabled="isDisabled"
                                 />
                                 <label class="grid-column-3">Hạn dùng: </label>
-                                <input
+                                <!-- <input
                                     class="datetime grid-column-4"
                                     type="date"
                                     v-model="inOutStockItemSelected.dueDate"
                                     :disabled="isDisabled"
+                                /> -->
+                                <DxDateBox
+                                    class="grid-column-4 datetime"
+                                    v-model:value="
+                                        inOutStockItemSelected.dueDate
+                                    "
+                                    :disabled="isDisabled"
+                                    placeholder="dd/MM/yyyy"
+                                    display-format="dd/MM/yyyy"
+                                    type="date"
+                                    height="30px"
                                 />
 
                                 <a-button
@@ -434,11 +467,21 @@
                                                 column.key === 'executionTime'
                                             "
                                         >
-                                            <input
+                                            <!-- <input
                                                 :disabled="isDisabled"
                                                 class="datetime my-0 mx-0 w-100"
                                                 type="date"
                                                 v-model="record.executionTime"
+                                            /> -->
+                                            <DxDateBox
+                                                v-model:value="
+                                                    record.executionTime
+                                                "
+                                                :disabled="isDisabled"
+                                                placeholder="dd-MM-yyyy"
+                                                display-format="dd-MM-yyyy"
+                                                type="date"
+                                                height="30px"
                                             />
                                         </template>
                                     </template>
@@ -588,6 +631,7 @@ import {
     inOutStockService,
 } from "@/services";
 import { RoomType } from "@/enums/roomtypes";
+import DxDateBox from "devextreme-vue/date-box";
 
 export default defineComponent({
     name: "PharmaceuticalProcureFromSupplierView",
@@ -612,7 +656,7 @@ export default defineComponent({
         const result = ref<boolean>(false);
         const activeKey = ref<string>("1");
         const fields = ref({ value: "id", label: "name" });
-        const userColumns = ref({ value: "id", label: "userName" });
+        const userColumns = ref({ value: "id", label: "username" });
 
         const sSuppliers = ref<SupplierModel[]>([]);
         const sItemTypes = ref<ItemTypeModel[]>([]);
@@ -902,57 +946,57 @@ export default defineComponent({
                         title.value = "Nhập thuốc từ nhà cung cấp";
                         source.value = resultDto.data.result;
 
-                        if (source.value.reqTime !== null) {
-                            source.value.reqTime =
-                                source.value.reqTime.split("T")[0];
-                        }
-                        if (source.value.invTime !== null) {
-                            source.value.invTime =
-                                source.value.invTime.split("T")[0];
-                        }
-                        if (source.value.approverTime !== null) {
-                            source.value.approverTime =
-                                source.value.approverTime.split("T")[0];
-                        }
-                        if (source.value.stockImpTime !== null) {
-                            source.value.stockImpTime =
-                                source.value.stockImpTime.split("T")[0];
-                        }
+                        // if (source.value.reqTime !== null) {
+                        //     source.value.reqTime =
+                        //         source.value.reqTime.split("T")[0];
+                        // }
+                        // if (source.value.invTime !== null) {
+                        //     source.value.invTime =
+                        //         source.value.invTime.split("T")[0];
+                        // }
+                        // if (source.value.approverTime !== null) {
+                        //     source.value.approverTime =
+                        //         source.value.approverTime.split("T")[0];
+                        // }
+                        // if (source.value.stockImpTime !== null) {
+                        //     source.value.stockImpTime =
+                        //         source.value.stockImpTime.split("T")[0];
+                        // }
 
                         if (
                             source.value.inOutStockItems !== null &&
                             source.value.inOutStockItems &&
                             source.value.inOutStockItems.length > 0
                         ) {
-                            source.value.inOutStockItems.forEach(
-                                (inOutStockItem) => {
-                                    if (inOutStockItem.dueDate !== null) {
-                                        inOutStockItem.dueDate =
-                                            inOutStockItem.dueDate.split(
-                                                "T"
-                                            )[0];
-                                    }
+                            // source.value.inOutStockItems.forEach(
+                            //     (inOutStockItem) => {
+                            //         if (inOutStockItem.dueDate !== null) {
+                            //             inOutStockItem.dueDate =
+                            //                 inOutStockItem.dueDate.split(
+                            //                     "T"
+                            //                 )[0];
+                            //         }
 
-                                    if (
-                                        inOutStockItem.itemPricePolicies &&
-                                        inOutStockItem.itemPricePolicies !==
-                                            null
-                                    ) {
-                                        inOutStockItem.itemPricePolicies.forEach(
-                                            (price) => {
-                                                if (
-                                                    price.executionTime !== null
-                                                ) {
-                                                    price.executionTime =
-                                                        price.executionTime.split(
-                                                            "T"
-                                                        )[0];
-                                                }
-                                            }
-                                        );
-                                    }
-                                }
-                            );
+                            //         if (
+                            //             inOutStockItem.itemPricePolicies &&
+                            //             inOutStockItem.itemPricePolicies !==
+                            //                 null
+                            //         ) {
+                            //             inOutStockItem.itemPricePolicies.forEach(
+                            //                 (price) => {
+                            //                     if (
+                            //                         price.executionTime !== null
+                            //                     ) {
+                            //                         price.executionTime =
+                            //                             price.executionTime.split(
+                            //                                 "T"
+                            //                             )[0];
+                            //                     }
+                            //                 }
+                            //             );
+                            //         // }
+                            //     }
+                            // );
 
                             inOutStockItemSelected.value = {
                                 ...source.value.inOutStockItems[0],
@@ -1466,6 +1510,9 @@ export default defineComponent({
             formatNumber,
             handleDeleteImpMestItem,
         };
+    },
+    components: {
+        DxDateBox,
     },
 });
 </script>

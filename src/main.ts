@@ -17,6 +17,7 @@ import 'ant-design-vue/dist/antd.css'
 
 import './assets/style/global.css'
 import './assets/style/ant.css'
+import './assets/style/dateTime.css'
 
 import 'devextreme/dist/css/dx.light.css';
 

@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs'
 
 export default interface UserModel {
-    userName?: string
+    username?: string
     password?: string
     phoneNumber?: string
     email?: string

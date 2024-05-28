@@ -14,7 +14,7 @@ axiosInstance.interceptors.request.use(async (config) => {
         config.paramsSerializer = (params) => queryString.stringify(params);
     }
     const store = useAuth();
-    const token = store.user.token;
+    const token = store.accessToken;
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
@@ -36,12 +36,12 @@ axiosInstance.interceptors.response.use(response => {
             try {
                 const store = useAuth();
                 const rs = await axiosInstance.post("api/Login/Refreshtoken", {
-                    acceptToken: store.user.token,
-                    refreshToken: store.user.refreshToken,
+                    acceptToken: store.accessToken,
+                    refreshToken: store.refreshToken,
                 });
 
                 if (rs && rs.data.isSuccessed) {
-                    store.user.token = rs.data.result.acceptToken;
+                    store.accessToken = rs.data.result.acceptToken;
                 }
 
                 return axiosInstance(originalConfig);
