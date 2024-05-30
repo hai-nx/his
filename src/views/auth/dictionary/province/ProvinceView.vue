@@ -55,8 +55,8 @@ export default defineComponent({
     name: 'ProvinceView',
     setup() {
         const columns = ref([
-            { title: 'Mã nghề nghiệp', key: 'code', dataIndex: 'code', width: 200 },
-            { title: 'Tên nghề nghiệp', key: 'name', dataIndex: 'name', width: 500 },
+            { title: 'Mã tỉnh, thành phố', key: 'provinceCode', dataIndex: 'provinceCode', width: 200 },
+            { title: 'Tên tỉnh, thành phố', key: 'provinceName', dataIndex: 'provinceName', width: 500 },
             { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
             { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 100 }

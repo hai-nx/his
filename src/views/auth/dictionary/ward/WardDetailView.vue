@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-12 col-md-8">
                     <a-input
-                        v-model:value="item.code"
+                        v-model:value="item.wardCode"
                         :disabled="loading"
                         :class="{
                             'input-danger': errors.code,
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-12 col-md-8">
                     <a-input
-                        v-model:value="item.name"
+                        v-model:value="item.wardName"
                         :disabled="loading"
                         :class="{
                             'input-danger': errors.name,
@@ -48,12 +48,12 @@
                     </label>
                 </div>
                 <div class="col-12 col-md-8">
-                    <a-select v-model:value="item.districtId" :options="districts" :field-names="fields"
+                    <a-select v-model:value="item.districtID" :options="districts" :field-names="{ value: 'id', label: 'districtName' }"
                         :disabled="loading" class="w-100">
-                        <template #option="{ code, name }">
+                        <template #option="{ districtCode, districtName }">
                             <div class="row">
-                                <span class="col-3">{{ code }}</span>
-                                <span class="col-9">{{ name }}</span>
+                                <span class="col-3">{{ districtCode }}</span>
+                                <span class="col-9">{{ districtName }}</span>
                             </div>
                         </template>
                     </a-select>

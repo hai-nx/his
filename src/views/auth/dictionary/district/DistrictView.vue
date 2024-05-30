@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <a-table class="ant-table-striped" size="middle" :columns="columns" :data-source="items" bordered>
+        <a-table class="ant-table-striped" size="middle" :columns="columns" :data-source="items" bordered :scroll="{ x: '100%', y: '100%' }">
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'inactive'">
                     <span>
@@ -55,8 +55,8 @@ export default defineComponent({
     name: 'DistrictView',
     setup() {
         const columns = ref([
-            { title: 'Mã nghề nghiệp', key: 'code', dataIndex: 'code', width: 200 },
-            { title: 'Tên nghề nghiệp', key: 'name', dataIndex: 'name', width: 500 },
+            { title: 'Mã quận, huyện', key: 'districtCode', dataIndex: 'districtCode', width: 200 },
+            { title: 'Tên quận, huyện', key: 'districtName', dataIndex: 'districtName', width: 500 },
             { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
             { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
             { title: 'Xử lý', key: 'action', width: 100 }
