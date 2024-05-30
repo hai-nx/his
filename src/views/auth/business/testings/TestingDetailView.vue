@@ -34,7 +34,7 @@
                 </label>
                 <label class="grid-column-5"> Thời gian chỉ định: </label>
                 <label class="grid-column-6">
-                    {{ source?.serviceRequestDate }}
+                    {{ source?.requestTime }}
                 </label>
 
                 <label class="grid-column-1"> Bác sỹ chỉ định: </label>
@@ -47,7 +47,7 @@
                 </label>
                 <label class="grid-column-5"> Thời gian trả KQ: </label>
                 <label class="grid-column-6">
-                    {{ source?.serviceRequestDate }}
+                    {{ source?.endTime }}
                 </label>
 
                 <label class="grid-column-1"> Chẩn đoán: </label>
