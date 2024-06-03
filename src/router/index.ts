@@ -2,6 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { LAYOUT_DEFAULT, LAYOUT_AUTH } from "@/utils/constant";
 import { useAuth } from "@/stores/auth";
 
+import { appLayout } from "../layouts/index"
+
 import dboptionView from "@/views/auth/system/dbOption/DbOptionView.vue";
 
 import branchView from "@/views/auth/dictionary/branch/BranchView.vue";
@@ -35,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/", name: "home", component: () => import("@/views/public/LoginView.vue"), meta: { layout: LAYOUT_DEFAULT } },
   { path: "/login", name: "login", component: () => import("@/views/public/LoginView.vue"), meta: { layout: LAYOUT_DEFAULT } },
 
-  { path: "/dashboard", name: "dashboard", component: () => import("@/views/auth/dashboard/index.vue"), meta: { layout: LAYOUT_AUTH } },
+  { path: "/dashboard", name: "dashboard", component: () => import("../views/auth/dashboard/index.vue"), meta: { layout: appLayout.MAIN } },
   { path: "/dboption", name: "dboption", component: dboptionView, meta: { layout: LAYOUT_AUTH } },
 
   { path: "/dictionary", name: "dictionary", component: dictionaryView, meta: { layout: LAYOUT_AUTH } },
