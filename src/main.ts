@@ -3,7 +3,7 @@ import { createPinia } from 'pinia'
 import Antd from 'ant-design-vue'
 import App from './App.vue'
 import router from './router'
-import { defineAsyncLayoutComponents } from './utils'
+import { defineAsyncLayoutComponents } from './layouts'
 import { defineAsyncComponents } from './components'
 
 // reset css

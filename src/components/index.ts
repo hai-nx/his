@@ -7,6 +7,15 @@ export interface XItemType {
     type?: string
 }
 
+export type DataTypes = {
+    key: string,
+    label: string,
+    value?: string,
+    icon?: string,
+    children?: Array<DataTypes>,
+    dataType?: string
+}
+
 
 import { defineAsyncComponent, App } from 'vue'
 

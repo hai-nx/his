@@ -1,28 +1,40 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
-import XLayoutHeader from "../components/XLayoutHeader.vue";
+import { storeToRefs } from "pinia";
+import VMenu from "../components/VMenu.vue";
+import { useLayout } from "../stores/layout";
+
+const layout = useLayout();
+const { items } = storeToRefs(layout);
 
 </script>
 
 <template>
-    <div class="main-layout">
-        <div>
-            <x-layout-header></x-layout-header>
-        </div>
-
-        <div>
+    <div class="his-layout">
+        <section class="his-layout-header">
+            <v-menu :data-source="items"></v-menu>
+        </section>
+        <section class="his-layout-container">
             <slot></slot>
-        </div>
+        </section>
     </div>
 </template>
 
-<style>
-.main-layout {
+<style scoped>
+.his-layout {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    background-color: #ECECEC;
+    background-color: red;
     height: 100%;
     width: 100%;
+}
+
+.his-layout-header {
+    height: var(--his-nav-height)
+}
+
+.his-layout-container {
+    height: 100%;
 }
 </style>

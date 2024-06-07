@@ -6,7 +6,7 @@ const title = ref("Bàn làm việc")
 </script>
 
 <template>
-    <x-layout :title="title">
+    <x-layout :title="title" :show-header="true">
 
     </x-layout>
 </template>
