@@ -23,12 +23,13 @@ defineProps({
         type: String,
         required: false,
     },
+    disabled: { type: Boolean, default: false }
 });
 </script>
 
 <template>
-    <input :id="id" :name="name" :type="type" :placeholder="placeholder" :value="value"
-        @input="$emit('update:value', ($event?.target as HTMLInputElement).value)" class="v-input" />
+    <input class="v-input" :id="id" :name="name" :type="type" :placeholder="placeholder" :value="value"
+        :disabled="disabled" @input="$emit('update:value', ($event?.target as HTMLInputElement).value)" />
 </template>
 
 <style scoped>
@@ -48,9 +49,14 @@ defineProps({
     box-shadow: rgba(225, 228, 232, 0.2) 0px 1px 0px 0px inset;
 }
 
-.v-input:hover {
+.v-input:hover,
+.v-input:focus-visible {
     border-color: #0366d6;
     outline: none;
-    /* box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px; */
+    box-shadow: 0 0 0 1px #0366d6;
+}
+
+.v-input:disabled {
+    opacity: 0.6;
 }
 </style>
