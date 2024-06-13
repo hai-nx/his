@@ -91,6 +91,7 @@ import { defineComponent, ref, computed, watch, reactive } from "vue";
 import * as XLSX from "xlsx";
 import { ServiceImportModel } from "@/models";
 import { serviceService } from "@/services";
+import { parseDate } from "devextreme/localization";
 
 export default defineComponent({
     name: "ServiceDetailImportView",
@@ -290,7 +291,6 @@ export default defineComponent({
                         if (json.length > 2) {
                             datas.value = [];
 
-                            // let headerExcels = json[1].map((item) => String(item)); // Dòng thứ 2 làm header
                             let dataExcels = json.slice(2); // Lấy dữ liệu từ dòng thứ 3 trở đi
 
                             dataExcels.forEach((row) => {
@@ -335,15 +335,15 @@ export default defineComponent({
                                         row[9] === null || row[9] === undefined
                                             ? ""
                                             : row[9].toString(),
-                                    heInPrice:
+                                    patientTypeCode:
                                         row[10] === undefined
-                                            ? 0
-                                            : parseFloat(row[10].toString()),
-                                    servicePrice:
+                                            ? undefined
+                                            : row[10].toString(),
+                                    oldUnitPrice:
                                         row[11] === undefined
                                             ? 0
                                             : parseFloat(row[11].toString()),
-                                    peoplePrice:
+                                    newUnitPrice:
                                         row[12] === undefined
                                             ? 0
                                             : parseFloat(row[12].toString()),
@@ -355,14 +355,13 @@ export default defineComponent({
                                         row[14] === undefined
                                             ? 0
                                             : parseFloat(row[14].toString()),
-                                    // executionTime:
-                                    //   row[15] === undefined
-                                    //     ? null
-                                    //     : dayjs(row[15].toString(), "DD-MM-YYYY HH:mm:ss"),
-                                    executionTimeString:
+                                    executionTime:
                                         row[15] === undefined
-                                            ? null
-                                            : row[15].toString(),
+                                            ? undefined
+                                            : parseDate(
+                                                  row[15].toString(),
+                                                  "dd/MM/yyyy"
+                                              ),
                                     executionRoomCode:
                                         row[16] === undefined
                                             ? ""

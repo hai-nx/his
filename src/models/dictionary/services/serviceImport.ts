@@ -5,18 +5,17 @@ export default interface ServiceImportModel {
     heInName: string
     sortOrder: Number,
     inactive: boolean,
-    serviceUnitCode: string | undefined,
-    serviceGroupHeInCode: string | undefined,
-    serviceGroupCode: string | undefined,
-    surgicalProcedureTypeCode: string | undefined
+    serviceUnitCode?: string,
+    serviceGroupHeInCode?: string,
+    serviceGroupCode?: string,
+    surgicalProcedureTypeCode?: string
 
-    heInPrice: Number,
-    servicePrice: Number,
-    peoplePrice: Number,
+    patientTypeCode?: string,
+    oldUnitPrice: Number,
+    newUnitPrice: Number,
     paymentRate: Number,
     ceilingPrice: Number,
-    // executionTime: Dayjs | null,
-    executionTimeString: string | null,
+    executionTime?: Date
 
     executionRoomCode: string
 }
