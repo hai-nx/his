@@ -66,7 +66,7 @@ const buttonTypeClasses = computed(() => {
     display: inline-block;
     outline: 0;
     cursor: pointer;
-    padding: 3px 16px;
+    padding: 2px 16px;
     font-size: 14px;
     font-weight: 500;
     line-height: 20px;
@@ -88,6 +88,7 @@ const buttonTypeClasses = computed(() => {
     /* border-color: #1b1f2326; */
     border-color: #0366d6;
     transition-duration: 0.1s;
+    box-shadow: 0 0 0 1px #0366d6;
 }
 
 .v-btn:disabled {

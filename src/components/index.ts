@@ -22,7 +22,9 @@ import { defineAsyncComponent, App } from 'vue'
 export function defineAsyncComponents(app: App<Element>) {
 
     app.component("VButton", defineAsyncComponent(() => import('@/components/VButton.vue')));
+    app.component("VInputNumber", defineAsyncComponent(() => import('@/components/VInputNumber.vue')));
     app.component("VInput", defineAsyncComponent(() => import('@/components/VInput.vue')));
+    app.component("VText", defineAsyncComponent(() => import('@/components/VText.vue')));
 
     app.component("XLayout", defineAsyncComponent(() => import('@/components/XLayout.vue')));
     app.component("XNav", defineAsyncComponent(() => import('@/components/XNav.vue')));
