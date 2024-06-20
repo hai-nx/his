@@ -37,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/", name: "home", component: () => import("@/views/public/LoginView.vue"), meta: { layout: LAYOUT_DEFAULT } },
   { path: "/login", name: "login", component: () => import("@/views/public/LoginView.vue"), meta: { layout: LAYOUT_DEFAULT } },
 
-  { path: "/dashboard", name: "dashboard", component: () => import("../views/auth/dashboard/index.vue"), meta: { layout: appLayout.MAIN } },
+  { path: "/dashboard", name: "dashboard", component: () => import("../views/auth/dashboard/index.vue"), meta: { layout: appLayout.AUTH } },
   { path: "/dboption", name: "dboption", component: dboptionView, meta: { layout: LAYOUT_AUTH } },
 
   { path: "/dictionary", name: "dictionary", component: dictionaryView, meta: { layout: LAYOUT_AUTH } },

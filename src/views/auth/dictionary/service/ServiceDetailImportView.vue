@@ -41,7 +41,7 @@
 
             <div class="row mt-2">
                 <div class="col-md-12 table-container">
-                    <a-table
+                    <!-- <a-table
                         class="ant-table-striped"
                         size="middle"
                         bordered
@@ -57,17 +57,135 @@
                                     v-model:checked="record.inactive"
                                 />
                             </template>
-                            <!-- <template v-else-if="column.key === 'executionTime'">
-                <a-date-picker
-                  class="my-0 mx-0 w-100"
-                  placeholder="dd/MM/yyyy"
-                  format="DD/MM/YYYY"
-                  v-model:value="record.executionTime"
-                  disabled
-                />
-              </template> -->
                         </template>
-                    </a-table>
+                    </a-table> -->
+                    <DxDataGrid
+                        :allow-column-reordering="true"
+                        :data-source="datas"
+                        :show-borders="true"
+                        :hover-state-enabled="true"
+                    >
+                        <DxColumn
+                            caption="Mã DV"
+                            data-field="code"
+                            data-type="string"
+                            :width="100"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="Tên DV"
+                            data-field="name"
+                            data-type="string"
+                            :width="250"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="Mã BH"
+                            data-field="heInCode"
+                            data-type="string"
+                            :width="100"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="Tên BH"
+                            data-field="heInName"
+                            data-type="string"
+                            :width="250"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="ĐVT"
+                            data-field="serviceUnitCode"
+                            data-type="string"
+                            :width="100"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="Nhóm BH"
+                            data-field="serviceGroupHeInCode"
+                            data-type="string"
+                            :width="100"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="Nhóm DV"
+                            data-field="serviceGroupCode"
+                            data-type="string"
+                            :width="100"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="Loại PTTT"
+                            data-field="surgicalProcedureTypeCode"
+                            data-type="string"
+                            :width="100"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="Đối tượng BN"
+                            data-field="patientType"
+                            data-type="string"
+                            :width="100"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="Đơn giá cũ"
+                            data-field="oldUnitPrice"
+                            data-type="number"
+                            :width="120"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="Đơn giá mới"
+                            data-field="newUnitPrice"
+                            data-type="number"
+                            :width="120"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="Tỷ lệ TT"
+                            data-field="paymentRate"
+                            data-type="number"
+                            :width="120"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="Trần BH"
+                            data-field="ceilingPrice"
+                            data-type="number"
+                            :width="120"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="Ngày áp dụng"
+                            data-field="executionTimeString"
+                            data-type="date"
+                            :width="120"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                        <DxColumn
+                            caption="Số thự tự"
+                            data-field="sortOrder"
+                            data-type="number"
+                            :width="100"
+                            :visible="true"
+                            :allow-editing="false"
+                        />
+                    </DxDataGrid>
                 </div>
             </div>
         </div>
@@ -92,6 +210,7 @@ import * as XLSX from "xlsx";
 import { ServiceImportModel } from "@/models";
 import { serviceService } from "@/services";
 import { parseDate } from "devextreme/localization";
+import { DxDataGrid, DxColumn } from "devextreme-vue/data-grid";
 
 export default defineComponent({
     name: "ServiceDetailImportView",
@@ -113,128 +232,6 @@ export default defineComponent({
         const fileInput = ref<HTMLInputElement | null>(null);
         const show = computed(() => props.visible);
         const datas = ref<ServiceImportModel[]>([]);
-
-        const columnServices = ref([
-            {
-                title: "Mã DV",
-                key: "code",
-                dataIndex: "code",
-                width: 100,
-                className: "column-header-center",
-            },
-            {
-                title: "Tên DV",
-                key: "name",
-                dataIndex: "name",
-                width: 250,
-                className: "column-header-center",
-            },
-            {
-                title: "Mã BH",
-                key: "heInCode",
-                dataIndex: "heInCode",
-                width: 100,
-                className: "column-header-center",
-            },
-            {
-                title: "Tên BH",
-                key: "heInName",
-                dataIndex: "heInName",
-                width: 250,
-                className: "column-header-center",
-            },
-            {
-                title: "ĐVT",
-                key: "serviceUnitCode",
-                dataIndex: "serviceUnitCode",
-                width: 100,
-                className: "column-header-center",
-            },
-            {
-                title: "Nhóm BH",
-                key: "serviceGroupHeInCode",
-                dataIndex: "serviceGroupHeInCode",
-                width: 100,
-                className: "column-header-center",
-            },
-            {
-                title: "Nhóm DV",
-                key: "serviceGroupCode",
-                dataIndex: "serviceGroupCode",
-                width: 100,
-                className: "column-header-center",
-            },
-            {
-                title: "Loại PTTT",
-                key: "surgicalProcedureTypeCode",
-                dataIndex: "surgicalProcedureTypeCode",
-                width: 100,
-                className: "column-header-center",
-            },
-            {
-                title: "Giá BH",
-                key: "heInPrice",
-                dataIndex: "heInPrice",
-                width: 120,
-                className: "column-header-center",
-            },
-            {
-                title: "Giá DV",
-                key: "servicePrice",
-                dataIndex: "servicePrice",
-                width: 120,
-                className: "column-header-center",
-            },
-            {
-                title: "Giá VP",
-                key: "peoplePrice",
-                dataIndex: "peoplePrice",
-                width: 120,
-                className: "column-header-center",
-            },
-            {
-                title: "Tỷ lệ TT",
-                key: "paymentRate",
-                dataIndex: "paymentRate",
-                width: 120,
-                className: "column-header-center",
-            },
-            {
-                title: "Trần BH",
-                key: "ceilingPrice",
-                dataIndex: "ceilingPrice",
-                width: 120,
-                className: "column-header-center",
-            },
-            {
-                title: "Ngày áp dụng",
-                key: "executionTimeString",
-                dataIndex: "executionTimeString",
-                width: 120,
-                className: "column-header-center",
-            },
-            {
-                title: "Phòng TT",
-                key: "executionRoomCode",
-                dataIndex: "executionRoomCode",
-                width: 120,
-                className: "column-header-center",
-            },
-            {
-                title: "Ngưng sử dụng",
-                key: "inactive",
-                dataIndex: "inactive",
-                width: 120,
-                className: "column-header-center",
-            },
-            {
-                title: "Thứ tự",
-                key: "softOrder",
-                dataIndex: "softOrder",
-                width: 120,
-                className: "column-header-center",
-            },
-        ]);
 
         const handleCancel = () => {
             toggle();
@@ -358,10 +355,11 @@ export default defineComponent({
                                     executionTime:
                                         row[15] === undefined
                                             ? undefined
-                                            : parseDate(
-                                                  row[15].toString(),
-                                                  "dd/MM/yyyy"
-                                              ),
+                                            : new Date(row[15].toString()),
+                                    // : parseDate(
+                                    //       row[15].toString(),
+                                    //       "dd/MM/yyyy"
+                                    //   ),
                                     executionRoomCode:
                                         row[16] === undefined
                                             ? ""
@@ -370,6 +368,8 @@ export default defineComponent({
 
                                 datas.value?.push(excelData);
                             });
+
+                            console.log(datas.value);
                         }
                     }
 
@@ -397,12 +397,15 @@ export default defineComponent({
             selectedFileName,
             fileInput,
             datas,
-            columnServices,
             handleCancel,
             handleSave,
             openFilePicker,
             handleFileChange,
         };
+    },
+    components: {
+        DxDataGrid,
+        DxColumn,
     },
 });
 </script>
