@@ -131,7 +131,7 @@
                         />
                         <DxColumn
                             caption="Đối tượng BN"
-                            data-field="patientType"
+                            data-field="patientTypeCode"
                             data-type="string"
                             :width="100"
                             :visible="true"
@@ -171,8 +171,9 @@
                         />
                         <DxColumn
                             caption="Ngày áp dụng"
-                            data-field="executionTimeString"
+                            data-field="executionTime"
                             data-type="date"
+                            format="dd/MM/yyyy"
                             :width="120"
                             :visible="true"
                             :allow-editing="false"
@@ -185,6 +186,15 @@
                             :visible="true"
                             :allow-editing="false"
                         />
+                        <!-- <template #result-edit-cell-template="{ data: cell }">
+                            <DxDateBox
+                                v-model="cell.data.result"
+                                placeholder="dd-MM-yyyy"
+                                display-format="dd-MM-yyyy"
+                                type="date"
+                                height="30px"
+                            />
+                        </template> -->
                     </DxDataGrid>
                 </div>
             </div>
@@ -355,23 +365,24 @@ export default defineComponent({
                                     executionTime:
                                         row[15] === undefined
                                             ? undefined
-                                            : new Date(row[15].toString()),
+                                            : typeof row[15] === "number"
+                                            ? convertExcelDateToJSDate(row[15])
+                                            : new Date(row[15]), //new Date(row[15]),
                                     // : parseDate(
                                     //       row[15].toString(),
                                     //       "dd/MM/yyyy"
                                     //   ),
                                     executionRoomCode:
                                         row[16] === undefined
-                                            ? ""
+                                            ? undefined
                                             : row[16].toString(),
                                 };
 
                                 datas.value?.push(excelData);
                             });
-
-                            console.log(datas.value);
                         }
                     }
+                    console.log(datas.value);
 
                     loading.value = false;
                 };
@@ -387,6 +398,17 @@ export default defineComponent({
 
         const toggle = () => {
             emit("toggle", isResult.value);
+        };
+
+        // Hàm chuyển đổi giá trị số thành đối tượng Date
+        /* eslint-disable */
+        const convertExcelDateToJSDate = (serial: number): Date => {
+            debugger;
+            const utc_days = Math.floor(serial - 25569);
+            const utc_value = utc_days * 86400;
+            const date = new Date(utc_value * 1000);
+
+            return date;
         };
 
         return {

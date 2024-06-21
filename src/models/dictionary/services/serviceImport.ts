@@ -15,7 +15,7 @@ export default interface ServiceImportModel {
     newUnitPrice: Number,
     paymentRate: Number,
     ceilingPrice: Number,
-    executionTime?: Date
+    executionTime?: Date | string
 
-    executionRoomCode: string
+    executionRoomCode?: string
 }
