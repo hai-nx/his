@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, defineEmits, defineProps, PropType, ref } from 'vue';
+import { computed, defineEmits, defineProps, ref, PropType } from 'vue';
 import { MenuItem } from '../menuitem'
 
 const props = defineProps({
@@ -19,9 +19,9 @@ const emit = defineEmits<{
 
 
 const allowOpenPopup = ref<boolean>(true)
-const hasChild = computed(() => props.item.children !== undefined && props.item.children.length > 0)
+const hasChildren = computed(() => props.item.children !== undefined && props.item.children.length > 0)
 
-function onClick(item: MenuItem) {
+function itemClick(item: MenuItem) {
     try {
         // đóng poup
         allowOpenPopup.value = false
@@ -43,11 +43,10 @@ function cls() {
 </script>
 
 <template>
-    <li
-        v-if="item.visible"
-        :id="item.key"
-        :class="cls()"
-        >
-
-    </li>
+    <div :class="cls()">
+        <div class="menu-item-label" @click.stop="itemClick(item)">
+            <span href="#">{{ item.label }}</span>
+            <i class="bi bi-chevron-down nav-item-arrow" v-if="hasChildren"></i>
+        </div>
+    </div>
 </template>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
 import { storeToRefs } from "pinia";
-import VMenu from "../components/VMenu.vue";
 import { useLayout } from "../stores/layout";
 
 const layout = useLayout();
@@ -12,7 +11,7 @@ const { items } = storeToRefs(layout);
 <template>
     <div class="his-layout">
         <section class="his-layout-header">
-            <v-menu :data-source="items"></v-menu>
+            <v-menu :items="items"></v-menu>
         </section>
         <section class="his-layout-container">
             <slot></slot>
