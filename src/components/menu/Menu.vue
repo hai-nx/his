@@ -44,7 +44,7 @@ function itemClick(item: MenuItem) {
             <slot name="start"></slot>
         </div>
 
-        <ul class="menu-items">
+        <ul class="menu-item">
             <li v-for="(item, index) in items" :key="index">
                 <v-menu-item :item="item" @click="itemClick"></v-menu-item>
             </li>
@@ -59,6 +59,17 @@ function itemClick(item: MenuItem) {
 <style scoped>
 .menu {
     display: grid;
+}
+
+.menu-item {
+    background-color: rebeccapurple;
+    display: flex;
+    flex-wrap: nowrap;
+    list-style: none;
+}
+
+.menu-item li {
+    display: inline-block;
 }
 
 </style>
