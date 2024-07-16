@@ -38,15 +38,80 @@ function itemClick(item: MenuItem) {
 }
 
 function cls() {
-    return props.depth === 0 ? '' : 'sub-menuitem' 
+    return props.depth === 0 ? '' : 'sub-item'
 }
 </script>
 
 <template>
-    <div :class="cls()">
-        <div class="menu-item-label" @click.stop="itemClick(item)">
-            <span href="#">{{ item.label }}</span>
-            <i class="bi bi-chevron-down nav-item-arrow" v-if="hasChildren"></i>
+    <transition>
+        <div class="menu-item" :class="cls()">
+            <!--label-->
+            <div class="menu-item-label" @click.stop="itemClick(item)">
+                <span>{{ item.label }}</span>
+                <i class="bi bi-chevron-down" v-if="hasChildren"></i>
+            </div>
+
+            <!--dropdown-->
+            <div class="menu-item-dropdown">
+                <ul>
+                    <li v-for="(item, index) in item.children" :key="index">
+                        <div v-if="item.separator" class="border-bottom">
+                        </div>
+                        <x-nav-item v-else :data-source="item" :depth="depth + 1" @click="onClick"></x-nav-item>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
+    </transition>
 </template>
+
+<style scoped>
+.menu-item {
+    display: block;
+    position: relative;
+    background-color: var(--his-nav-background-color);
+    color: var(--his-nav-color);
+    cursor: pointer;
+    padding: 0 .75rem;
+    white-space: nowrap;
+}
+
+.menu-item:hover {
+    background-color: var(--his-nav-background-color-hover);
+    color: var(--his-nav-color-hover);
+    transition: all linear 0.2s;
+}
+
+.menu-item:hover>.menu-item-dropdown {
+    display: block;
+    opacity: 1;
+    transition: all linear .2s;
+}
+
+.menu-item .sub-item {
+    line-height: var(--his-nav-height-item);
+}
+
+.menu-item-label {
+    display: flex;
+    justify-content: space-between;
+    text-wrap: nowrap;
+}
+
+.menu-item-dropdown {
+    display: none;
+    opacity: 0;
+    left: 0;
+    position: absolute;
+    padding-top: .25rem;
+    min-width: 15rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+}
+
+.menu-item ul {
+    flex-wrap: nowrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+</style>

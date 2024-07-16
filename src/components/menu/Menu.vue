@@ -15,10 +15,10 @@ const props = defineProps({
             return ['vertical', 'horizontal'].includes(value)
         }
     },
-    startCls: {
+    startClass: {
         type: String
     },
-    endCls: {
+    endClass: {
         type: String
     }
 })
@@ -40,17 +40,17 @@ function itemClick(item: MenuItem) {
 
 <template>
     <div class="menu">
-        <div v-if="$slots.start" class="menu-start">
+        <div v-if="$slots.start" :class="startClass">
             <slot name="start"></slot>
         </div>
 
-        <ul class="menu-item">
+        <ul class="menu-list">
             <li v-for="(item, index) in items" :key="index">
-                <v-menu-item :item="item" @click="itemClick"></v-menu-item>
+                <v-menu-item :item="item" :depth="0" @click="itemClick"></v-menu-item>
             </li>
         </ul>
 
-        <div v-if="$slots.end" class="menu-end">
+        <div v-if="$slots.end" :class="endClass">
             <slot name="end"></slot>
         </div>
     </div>
@@ -59,17 +59,15 @@ function itemClick(item: MenuItem) {
 <style scoped>
 .menu {
     display: grid;
+    line-height: var(--his-nav-height);
 }
 
-.menu-item {
-    background-color: rebeccapurple;
+.menu-list {
+    background-color: green;
     display: flex;
     flex-wrap: nowrap;
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
-
-.menu-item li {
-    display: inline-block;
-}
-
 </style>
