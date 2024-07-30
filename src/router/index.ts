@@ -29,7 +29,7 @@ import itemGroupView from "@/views/auth/dictionary/itemGroup/ItemGroupView.vue";
 import medicienTypeView from "@/views/auth/dictionary/itemType/medicineType/MedicienTypeView.vue";
 import materialTypeView from "@/views/auth/dictionary/itemType/materialType/MaterialTypeView.vue";
 
-import pharmaceuticalView from "@/views/auth/business/pharmaceuticals/PharmaceuticalView.vue";
+import pharmaceuticalView from "@/views/auth/business/pharmaceuticals/PharmaceuticalViews.vue";
 import diagnosticImagingView from "@/views/auth/business/diagnosticImagings/DiagnosticImagingView.vue";
 import testingView from "@/views/auth/business/testings/TestingView.vue";
 

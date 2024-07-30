@@ -89,7 +89,7 @@
                 <template v-if="column.key === 'commodityType'">
                     <span v-if="record.commodityType === 0">Thuốc</span>
                     <span v-else-if="record.commodityType === 1">Vật tư</span>
-                    <span v-else-if="record.commodityType === 3">Máu</span>
+                    <span v-else-if="record.commodityType === 2">Máu</span>
                 </template>
                 <template v-if="column.key === 'reqTime'">
                     <span>{{
