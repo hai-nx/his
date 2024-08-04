@@ -69,15 +69,15 @@ function cls() {
 .menu-item {
     display: block;
     position: relative;
-    background-color: var(--his-nav-background-color);
-    color: var(--his-nav-color);
+    color: #FFF;
     cursor: pointer;
     padding: 0 .75rem;
     white-space: nowrap;
+    height: 100%;
 }
 
 .menu-item:hover {
-    background-color: var(--his-nav-background-color-hover);
+    background-color: #30305a;
     color: var(--his-nav-color-hover);
     transition: all linear 0.2s;
 }

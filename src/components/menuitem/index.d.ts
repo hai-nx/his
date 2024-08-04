@@ -5,6 +5,5 @@ export interface MenuItem {
     children?: MenuItem[];
     disabled?: boolean;
     visible?: boolean;
-    url?: string;
     separator?: boolean;
 }

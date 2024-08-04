@@ -59,11 +59,10 @@ function itemClick(item: MenuItem) {
 <style scoped>
 .menu {
     display: grid;
-    line-height: var(--his-nav-height);
+    height: 100%;
 }
 
 .menu-list {
-    background-color: green;
     display: flex;
     flex-wrap: nowrap;
     list-style: none;

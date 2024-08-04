@@ -1,6 +1,8 @@
 import { XItemType } from '@/components'
 import { defineStore } from 'pinia'
 
+import { MenuItem } from '../components/menuitem'
+
 export const useLayout = defineStore('layout', {
     state: () => ({
         items: [
@@ -74,6 +76,21 @@ export const useLayout = defineStore('layout', {
                     { key: '1.4', label: 'Tùy chọn', path: 'option' },
                 ]
             },
-        ] as Array<XItemType>
+        ] as Array<XItemType>,
+
+        menu: [
+            { key: '1', label: 'Đón tiếp' },
+            { key: '2', label: 'Khám bệnh' },
+            { key: '3', label: 'Điều trị' },
+
+            { key: '90', label: 'Danh mục' },
+            { key: '91', label: 'Hệ thống' }
+        ] as Array<MenuItem>,
+
+        sidebar: [
+            { key: '1', label: 'Đón tiếp' },
+            { key: '2', label: 'Khám bệnh' },
+            { key: '3', label: 'Điều trị' }
+        ] as Array<MenuItem>
     })
 })
