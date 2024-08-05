@@ -23,6 +23,8 @@ export function defineAsyncComponents(app: App<Element>) {
     app.component("VMenu", defineAsyncComponent(() => import('./menu/Menu.vue')));
     app.component("VMenuItem", defineAsyncComponent(() => import('./menu/MenuItem.vue')));
 
+    app.component("VDropdown", defineAsyncComponent(() => import('./dropdown/Dropdown.vue')));
+
     app.component("VButton", defineAsyncComponent(() => import('@/components/VButton.vue')));
     app.component("VInputNumber", defineAsyncComponent(() => import('@/components/VInputNumber.vue')));
     app.component("VInput", defineAsyncComponent(() => import('@/components/VInput.vue')));

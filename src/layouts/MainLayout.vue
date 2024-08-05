@@ -37,6 +37,9 @@ const open = ref<boolean>(false)
                         <button>3</button>
                     </div>
                 </div>
+
+                <v-dropdown :options="menu">
+                </v-dropdown>
             </div>
         </div>
 

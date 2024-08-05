@@ -8,15 +8,15 @@ const props = defineProps({
 })
 
 const open = ref<boolean>(false)
-const selected = ref<any>()
+const selected = ref<any>('hihihiih')
 
 </script>
 
 <template>
-    <div class="custom-select" @blur="open = false">
-        <div class="selected" :class="{ open: open }" @click="open = !open">
+    <div class="custom-select">
+        <button class="selected" :class="{ open: open }" @click="open = !open" @blur="open = false">
             {{ selected }}
-        </div>
+        </button>
         <div class="items" :class="{ selectHide: !open }">
             <div v-for="(option, i) of options" :key="i" @click="
                 selected = option;
