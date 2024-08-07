@@ -90,53 +90,49 @@
                     caption="Trạng thái"
                     data-field="status"
                     :visible="true"
-                    data-type="string"
-                    :cell-template="statusCellTemplate"
+                    data-type="int"
+                    cell-template="statusTemplate"
                 /> -->
-                <DxColumn
+
+                <DxColumn data-field="status" caption="Trạng thái">
+                    <template #cellTemplate="{ status }">
+                        <span>
+                            {{ status }}
+                            123123
+                        </span>
+                    </template>
+                </DxColumn>
+
+                <!-- <DxColumn
                     caption="Trạng thái"
                     data-field="status"
                     :visible="true"
-                    data-type="string"
+                    data-type="int"
                 >
-                    <template #statusTemplate="{ data }">
+                    <template #cellTemplate="{ record }">
                         <span>
-                            <a-tag v-if="data.status === -1" color="error">
+                            {{ formatStatus(record.status) }}
+                            <a-tag v-if="record === -1" color="error">
                                 <span>Đã hủy</span>
                             </a-tag>
-                            <a-tag
-                                v-else-if="data.status === 0"
-                                color="success"
-                            >
+                            <a-tag v-else-if="record === 0" color="success">
                                 <span>Mới tạo</span>
                             </a-tag>
-                            <a-tag
-                                v-else-if="data.status === 1"
-                                color="success"
-                            >
+                            <a-tag v-else-if="record === 1" color="success">
                                 <span>Đã gửi yêu cầu</span>
                             </a-tag>
-                            <a-tag
-                                v-else-if="data.status === 2"
-                                color="success"
-                            >
+                            <a-tag v-else-if="record === 2" color="success">
                                 <span>Đã duyệt</span>
                             </a-tag>
-                            <a-tag
-                                v-else-if="data.status === 3"
-                                color="success"
-                            >
+                            <a-tag v-else-if="record === 3" color="success">
                                 <span>Đã xuất kho</span>
                             </a-tag>
-                            <a-tag
-                                v-else-if="data.status === 4"
-                                color="success"
-                            >
+                            <a-tag v-else-if="record === 4" color="success">
                                 <span>Đã nhập kho</span>
                             </a-tag>
                         </span>
                     </template>
-                </DxColumn>
+                </DxColumn> -->
 
                 <DxColumn
                     caption="Mã phiếu"
@@ -144,37 +140,13 @@
                     :visible="true"
                     data-type="string"
                 />
-                <!-- <DxColumn
-                    caption="Loại hàng hóa"
-                    data-field="commodityType"
-                    :visible="true"
-                    data-type="string"
-                    :cell-template="commodityTypeCellTemplate"
-                /> -->
-                <!-- <DxColumn
-                    caption="Loại hàng hóa"
-                    data-field="commodityType"
-                    :visible="true"
-                    data-type="string"
-                    :editor-options="{
-                        itemTemplate: 'commodityTypeCellTemplate',
-                    }"
-                /> -->
-
                 <DxColumn
                     caption="Loại hàng hóa"
                     data-field="commodityType"
                     :visible="true"
                     data-type="string"
-                >
-                    <template #cellTemplate="{ data }">
-                        <!-- <span v-if="data.commodityType === 0">Thuốc</span>
-                        <span v-else-if="data.commodityType === 1">Vật tư</span>
-                        <span v-else-if="data.commodityType === 2">Máu</span> -->
-                        <span>123132123</span>
-                        <span>{{ data.commodityType }}</span>
-                    </template>
-                </DxColumn>
+                    cell-template="commodityTypeCellTemplate"
+                />
 
                 <DxColumn
                     caption="Loại phiếu"
@@ -217,37 +189,35 @@
                     data-field="action"
                     :visible="true"
                     data-type="string"
-                    :editor-options="{
-                        itemTemplate: 'actionCellTemplate',
-                    }"
+                    cell-template="actionCellTemplate"
                 />
 
-                <!-- <template #statusTemplate="{ data }">
+                <template #statusTemplate="{ record }">
                     <span>
-                        <a-tag v-if="data.status === -1" color="error">
+                        <a-tag v-if="record === -1" color="error">
                             <span>Đã hủy</span>
                         </a-tag>
-                        <a-tag v-else-if="data.status === 0" color="success">
+                        <a-tag v-else-if="record === 0" color="success">
                             <span>Mới tạo</span>
                         </a-tag>
-                        <a-tag v-else-if="data.status === 1" color="success">
+                        <a-tag v-else-if="record === 1" color="success">
                             <span>Đã gửi yêu cầu</span>
                         </a-tag>
-                        <a-tag v-else-if="data.status === 2" color="success">
+                        <a-tag v-else-if="record === 2" color="success">
                             <span>Đã duyệt</span>
                         </a-tag>
-                        <a-tag v-else-if="data.status === 3" color="success">
+                        <a-tag v-else-if="record === 3" color="success">
                             <span>Đã xuất kho</span>
                         </a-tag>
-                        <a-tag v-else-if="data.status === 4" color="success">
+                        <a-tag v-else-if="record === 4" color="success">
                             <span>Đã nhập kho</span>
                         </a-tag>
                     </span>
-                </template> -->
+                </template>
                 <template #commodityTypeCellTemplate="{ record }">
-                    <span v-if="record.commodityType === 0">Thuốc</span>
-                    <span v-else-if="record.commodityType === 1">Vật tư</span>
-                    <span v-else-if="record.commodityType === 2">Máu</span>
+                    <span v-if="record === 0">Thuốc</span>
+                    <span v-else-if="record === 1">Vật tư</span>
+                    <span v-else-if="record === 2">Máu</span>
                 </template>
                 <template #actionCellTemplate="{ record }">
                     <span>
@@ -300,9 +270,9 @@ import dayjs, { Dayjs } from "dayjs";
 import ImportFromSupplierView from "./ImportFromSupplierView.vue";
 import ImportFromAnotherStockView from "./ImportFromAnotherStocksView.vue";
 
-import { DxSelectBox } from "devextreme-vue/select-box";
-import DxDateBox from "devextreme-vue/date-box";
-import datetimeHelper from "@/utils/helpers/datetimeHelper";
+// import { DxSelectBox } from "devextreme-vue/select-box";
+// import DxDateBox from "devextreme-vue/date-box";
+// import datetimeHelper from "@/utils/helpers/datetimeHelper";
 import {
     DxDataGrid,
     DxScrolling,
@@ -466,6 +436,7 @@ export default defineComponent({
 
         // sửa
         const handleEdit = (item: InOutStockModel) => {
+            console.log(item);
             show(true, item);
         };
 
@@ -546,6 +517,11 @@ export default defineComponent({
             }
         });
 
+        const formatStatus = (status: number) => {
+            console.log(status);
+            return status === 1 ? "Hoạt động" : "Ngừng hoạt động";
+        };
+
         return {
             title,
             fromDate,
@@ -580,6 +556,7 @@ export default defineComponent({
             handlGegenerateDocumentClick,
             handleToggleImportFromAnotherStock,
             handleToggleExportFromSupplier,
+            formatStatus,
         };
     },
     async mounted() {
