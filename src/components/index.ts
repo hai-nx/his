@@ -25,6 +25,8 @@ export function defineAsyncComponents(app: App<Element>) {
 
     app.component("VDropdown", defineAsyncComponent(() => import('./dropdown/Dropdown.vue')));
 
+    app.component("DvButton", defineAsyncComponent(() => import('./button/Button.vue')));
+
     app.component("VButton", defineAsyncComponent(() => import('@/components/VButton.vue')));
     app.component("VInputNumber", defineAsyncComponent(() => import('@/components/VInputNumber.vue')));
     app.component("VInput", defineAsyncComponent(() => import('@/components/VInput.vue')));

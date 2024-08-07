@@ -28,6 +28,10 @@ const title = ref("Bàn làm việc")
 
             <v-button type="primary">huhuhuhuh</v-button>
             <v-button type="dashed">huhuhuhuh</v-button>
+
+
+            <dv-button>huhuhuhuh</dv-button>
+            <dv-button type="primary">huhu primary</dv-button>
         </div>
 
 
