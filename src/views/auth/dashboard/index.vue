@@ -3,6 +3,11 @@ import { ref } from 'vue';
 
 
 const title = ref("Bàn làm việc")
+
+
+function hihi (payload: any) {
+    console.log(payload)
+}
 </script>
 
 <template>
@@ -20,18 +25,61 @@ const title = ref("Bàn làm việc")
             <label>Giưới tính</label>
             <v-input placeholder="hihiiih"></v-input>
             <label>Năm sinh</label>
-            <v-input placeholder="hihiiih"></v-input>
+            <d-input type="date" placeholder="dd/mm/yyyy"></d-input>
 
-            <v-button>huhuhuhuh</v-button>
-            <v-input readonly placeholder="hihiiih"></v-input>
-            <v-input disabled value="ádkjhgashdhasgdjhagsjhd"> asda sdas asd á</v-input>
+            <d-button>huhuhuhuh</d-button>
+            <d-input readonly placeholder="hihiiih a"></d-input>
+            <d-input disabled value="ádkjhgashdhasgdjhagsjhd"> asda sdas asd á</d-input>
+            <d-button type="primary" size="large" rounded title="hi ha hi ha">
+                <!-- primary #icon -->
+                <template #icon>
+                    <i class="bi bi-person-circle"></i>
+                </template>
+            </d-button>
+            <d-divider></d-divider>
+            <d-divider type="horizontal"></d-divider>
+            <a-divider></a-divider>
 
-            <v-button type="primary">huhuhuhuh</v-button>
-            <v-button type="dashed">huhuhuhuh</v-button>
 
 
-            <dv-button>huhuhuhuh</dv-button>
-            <dv-button type="primary">huhu primary</dv-button>
+
+            <d-button type="text" rounded>type: text</d-button>
+            <d-button icon="bi bi-person-circle" type="link" rounded>huhuhuhuh</d-button>
+            <d-button icon="bi bi-person-circle" type="dashed" rounded fluid>large</d-button>
+
+            <a-button>a-button</a-button>
+            <d-button type="primary" icon="bi bi-person-circle" @click="hihi">huhu hihihi hu uhyu h
+                primary</d-button>
+
+            <d-input maxlength="15"></d-input>
+
+            <d-dropdown>
+                <d-button>dropdown
+
+                </d-button>
+            </d-dropdown>
+            <d-dropdown-button :options="['go', 'python', 'rust', 'javascript']" :default="'go'" class="select">
+            </d-dropdown-button>
+
+            <a-dropdown-button>
+                hihihihihi
+                <template #overlay>
+                    <a-menu>
+                        <a-menu-item key="1">
+                            <UserOutlined />
+                            1st menu item
+                        </a-menu-item>
+                        <a-menu-item key="2">
+                            <UserOutlined />
+                            2nd menu item
+                        </a-menu-item>
+                        <a-menu-item key="3">
+                            <UserOutlined />
+                            3rd item
+                        </a-menu-item>
+                    </a-menu>
+                </template>
+            </a-dropdown-button>
         </div>
 
 

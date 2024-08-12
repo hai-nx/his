@@ -1,22 +1,50 @@
 <script setup lang="ts">
-import { defineEmits, defineProps, PropType, ref } from 'vue';
+import { computed, defineEmits, defineProps, ref } from 'vue'
 
 const props = defineProps({
     options: {
-        type: Array
+        type: Array,
+        required: true,
+    },
+    default: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    tabindex: {
+        type: Number,
+        required: false,
+        default: 0,
     },
 })
 
+const emit = defineEmits<{
+    (e: "input", item: any): void;
+}>()
+
+const selected = computed(() => props.default ? props.default : props.options.length > 0 ? props.options[0] : null)
 const open = ref<boolean>(false)
-const selected = ref<any>('hihihiih')
+
+function onClick () {
+    open.value = !open.value
+
+    emit('input', open.value)
+}
+
+function onBlur() {
+    // open.value = false;
+    console.log('open: ', open.value)
+}
+
+const openClass = computed(() => open.value ? 'd-dropdown-overlay-open' : '')
 
 </script>
 
 <template>
-    <div class="custom-select">
-        <button class="selected" :class="{ open: open }" @click="open = !open" @blur="open = false">
+    <div class="custom-select" :tabindex="tabindex" @blur="open = false">
+        <div class="selected" :class="{ open: open }" @click="open = !open">
             {{ selected }}
-        </button>
+        </div>
         <div class="items" :class="{ selectHide: !open }">
             <div v-for="(option, i) of options" :key="i" @click="
                 selected = option;
@@ -49,12 +77,12 @@ const selected = ref<any>('hihihiih')
     user-select: none;
 }
 
-.custom-select .selected.open {
+/* .custom-select .selected.open {
     border: 1px solid #ad8225;
     border-radius: 6px 6px 0px 0px;
-}
+} */
 
-.custom-select .selected:after {
+/* .custom-select .selected:after {
     position: absolute;
     content: "";
     top: 22px;
@@ -63,7 +91,7 @@ const selected = ref<any>('hihihiih')
     height: 0;
     border: 5px solid transparent;
     border-color: #fff transparent transparent transparent;
-}
+} */
 
 .custom-select .items {
     color: #fff;
@@ -91,6 +119,25 @@ const selected = ref<any>('hihihiih')
 }
 
 .selectHide {
-    display: none !important;
+    display: none;
+}
+
+
+
+
+.d-dropdown {
+    position: relative;
+}
+
+.d-dropdown-overlay {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    right: 0;
+}
+
+.d-dropdown-overlay-open {
+    display: block !important;
 }
 </style>

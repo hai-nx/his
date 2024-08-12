@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineEmits, defineProps, PropType } from 'vue';
 import { MenuItem } from '../menuitem'
-import VMenuItem from './MenuItem.vue'
+import DMenuItem from '../menuitem/index.vue'
 
 const props = defineProps({
     items: {
@@ -46,7 +46,7 @@ function itemClick(item: MenuItem) {
 
         <ul class="menu-list">
             <li v-for="(item, index) in items" :key="index">
-                <v-menu-item :item="item" :depth="0" @click="itemClick"></v-menu-item>
+                <d-menu-item :item="item" :depth="0" @click="itemClick"></d-menu-item>
             </li>
         </ul>
 

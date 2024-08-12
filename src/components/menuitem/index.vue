@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, defineEmits, defineProps, ref, PropType } from 'vue';
-import { MenuItem } from '../menuitem'
+import { MenuItem } from './index'
 
 const props = defineProps({
     item: {

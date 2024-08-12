@@ -22,7 +22,7 @@ const open = ref<boolean>(false)
             </div>
 
             <div class="layout-topbar-menu">
-                <v-menu :items="items"></v-menu>
+                <d-menu :items="items"></d-menu>
             </div>
 
             <div class="layout-topbar-actions">
@@ -107,10 +107,10 @@ const open = ref<boolean>(false)
 
 .layout-topbar {
     display: flex;
-    background-color: #fff;
+    background-color: #001529;
     border-bottom: 1px solid #00000012;
     justify-content: space-between;
-    height: 48px;
+    height: 40px;
 }
 
 .layout-topbar-logo-container {
@@ -124,7 +124,6 @@ const open = ref<boolean>(false)
 }
 
 .layout-topbar-menu {
-    background-color: rebeccapurple;
     flex: 1;
     z-index: 999;
 }
