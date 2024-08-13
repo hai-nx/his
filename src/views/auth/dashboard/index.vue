@@ -8,6 +8,18 @@ const title = ref("Bàn làm việc")
 function hihi (payload: any) {
     console.log(payload)
 }
+
+import type { MenuProps } from 'ant-design-vue';
+
+const visible = ref(false);
+const handleButtonClick = (e: Event) => {
+    console.log('click left button', e);
+};
+const handleMenuClick: MenuProps['onClick'] = e => {
+    if (e.key === '3') {
+        visible.value = false;
+    }
+};
 </script>
 
 <template>
@@ -49,9 +61,18 @@ function hihi (payload: any) {
             <d-input maxlength="15"></d-input>
 
             <d-dropdown>
-                <d-button>dropdown</d-button>
+                <d-button-group class="w-100">
+                    <d-button @click.stop="hihi">click</d-button>
+                    <d-button icon="bi bi-person-circle"></d-button>
+                </d-button-group>
                 <template #overlay>
                     <d-button-group type="vertical">
+                        <!-- <div onclick="event.stopPropagation()"> -->
+                        <div @click.stop>
+                            <input>
+                            <input>
+                            <input>
+                        </div>
                         <d-button>1</d-button>
                         <d-button @click="hihi('hihihihi')">1123123123123</d-button>
                         <d-button>1</d-button>
@@ -62,6 +83,58 @@ function hihi (payload: any) {
                     </d-button-group>
                 </template>
             </d-dropdown>
+
+            <a-dropdown v-model:open="visible">
+                <a class="ant-dropdown-link" @click.stop>
+                    Hover me 111
+                </a>
+                <template #overlay>
+                    <a-menu @click="handleMenuClick">
+                        <a-menu-item key="1">Clicking me will not close the menu.</a-menu-item>
+                        <a-menu-item key="2">Clicking me will not close the menu also.</a-menu-item>
+                        <a-menu-item key="3">Clicking me will close the menu</a-menu-item>
+                    </a-menu>
+                </template>
+            </a-dropdown>
+
+            <a-dropdown-button @click="handleButtonClick">
+                Dropdown
+                <template #overlay>
+                    <a-menu @click="handleMenuClick">
+                        <a-menu-item key="1">
+                            1st menu item
+                        </a-menu-item>
+                        <a-menu-item key="2">
+                            2nd menu item
+                        </a-menu-item>
+                        <a-menu-item key="3">
+                            3rd item
+                        </a-menu-item>
+                    </a-menu>
+                </template>
+            </a-dropdown-button>
+
+            <a-dropdown trigger="click">
+                <div>
+                    <a-button @click.stop>dropdown</a-button>
+                    <a-button>dropdown</a-button>
+                    <a-button>dropdown</a-button>
+                </div>
+                <template #overlay>
+                    <d-button-group type="vertical">
+                        <input type="text">
+                        <d-button>1</d-button>
+                        <d-button @click="hihi('hihihihi')">1123123123123</d-button>
+                        <d-button>1</d-button>
+                        <d-button>12312311</d-button>
+                        <d-button>1123 12 31 231 23 123</d-button>
+                        <d-button>1123123</d-button>
+                        <d-button>11</d-button>
+                    </d-button-group>
+                </template>
+            </a-dropdown>
+
+
             <d-dropdown-button :options="['go', 'python', 'rust', 'javascript']" :default="'go'" class="select">
             </d-dropdown-button>
 

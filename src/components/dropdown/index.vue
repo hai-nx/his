@@ -17,27 +17,32 @@ const open = ref<boolean>(false)
 const isout = ref<boolean>(false)
 const showOverlayClass = computed(() => open.value ? 'd-dropdown-overlay-show' : undefined)
 
-function onblur(){
-
+function onfocusout(){
+    console.log('focusout')
     if (isout.value === true)
-    open.value = false;
+        open.value = false;
 
-    console.log('onblur')
+    
 }
 
 function onmouseleave() {
     isout.value = true;
-    console.log(isout.value)
+    console.log('onmouseleave')
+}
+
+function onmouseenter(){
+    isout.value = false
+    console.log('onmouseenter')
 }
 
 </script>
 
 <template>
-    <div :class="['d-dropdown']" :tabindex="tabindex" @focusout="onblur()" @mouseleave="onmouseleave" @mouseenter="isout = false">
+    <div :class="['d-dropdown']" :tabindex="tabindex" @focusout="onfocusout" @mouseleave="onmouseleave" @mouseenter="onmouseenter">
         <div @click="open = !open">
             <slot></slot>
         </div>
-        <div :class="['d-dropdown-overlay', showOverlayClass]">
+        <div :class="['d-dropdown-overlay', showOverlayClass]" @click="open = !open">
             <slot name="overlay"></slot>
         </div>
     </div>
