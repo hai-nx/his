@@ -6,8 +6,6 @@ import { WardModel } from '@/models'
 import { wardService } from '@/services';
 import WardDetailView from './WardDetailView.vue'
 
-import { notification } from 'ant-design-vue';
-
 export default defineComponent({
     name: 'WardView',
     setup() {
