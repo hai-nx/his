@@ -670,10 +670,10 @@ export default defineComponent({
                     content: resultSave.data.message,
                     okText: "Đồng ý",
                 });
-                loading.value = false;
             }
 
             reset();
+            loading.value = false;
         };
 
         const handleCancel = function () {

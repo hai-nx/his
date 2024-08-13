@@ -263,7 +263,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row h-100">
                                 <a-table
                                     class="ant-table-striped my-2"
                                     size="middle"
@@ -271,7 +271,6 @@
                                     :pagination="false"
                                     :columns="columns"
                                     :data-source="service.sServicePricePolicies"
-                                    :scroll="{ y: 130 }"
                                 >
                                     <template #bodyCell="{ column, record }">
                                         <template
@@ -359,13 +358,23 @@
                                                 column.key === 'executionTime'
                                             "
                                         >
-                                            <a-date-picker
+                                            <!-- <a-date-picker
                                                 class="my-0 mx-0 w-100"
                                                 placeholder="dd/MM/yyyy"
-                                                format="DD/MM/YYYY"
+                                                format="YYYY-MM-DD[T]HH:mm:ss"
                                                 v-model:value="
                                                     record.executionTime
                                                 "
+                                            /> -->
+
+                                            <DxDateBox
+                                                v-model:value="
+                                                    record.executionTime
+                                                "
+                                                placeholder="dd-MM-yyyy"
+                                                display-format="dd-MM-yyyy"
+                                                type="date"
+                                                height="30px"
                                             />
                                         </template>
                                     </template>
@@ -379,7 +388,7 @@
                         v-if="isShowExecutionRooms"
                     >
                         <div class="container">
-                            <div class="row">
+                            <div class="row h-100">
                                 <a-table
                                     class="ant-table-striped my-2"
                                     size="middle"
@@ -387,7 +396,6 @@
                                     :data-source="service.sExecutionRooms"
                                     bordered
                                     :pagination="false"
-                                    :scroll="{ y: 600 }"
                                 >
                                     <template #bodyCell="{ column, record }">
                                         <template
@@ -436,7 +444,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row h-100">
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-3">
@@ -554,7 +562,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row h-100">
                                 <a-table
                                     class="ant-table-striped my-2 h-100"
                                     size="middle"
@@ -563,7 +571,6 @@
                                     :columns="columnResultIndices"
                                     :data-source="service.sServiceResultIndices"
                                     :pagination="false"
-                                    :scroll="{ y: 360 }"
                                 >
                                     <template #bodyCell="{ column, record }">
                                         <template
@@ -664,6 +671,7 @@ import {
 import { Modal } from "ant-design-vue";
 import dayjs from "dayjs";
 import guidHelper from "@/utils/helpers/guidHelper";
+import DxDateBox from "devextreme-vue/date-box";
 
 export default defineComponent({
     name: "ServiceDetailViews",
@@ -736,7 +744,7 @@ export default defineComponent({
                 title: "Giá cũ",
                 key: "oldUnitPrice",
                 dataIndex: "oldUnitPrice",
-                width: 120,
+                width: 100,
                 isEditing: true,
                 className: "column-header-center",
             },
@@ -744,7 +752,7 @@ export default defineComponent({
                 title: "Giá mới",
                 key: "newUnitPrice",
                 dataIndex: "newUnitPrice",
-                width: 120,
+                width: 100,
                 isEditing: true,
                 className: "column-header-center",
             },
@@ -752,7 +760,7 @@ export default defineComponent({
                 title: "Tỷ lệ TT",
                 key: "paymentRate",
                 dataIndex: "paymentRate",
-                width: 120,
+                width: 100,
                 isEditing: true,
                 className: "column-header-center",
             },
@@ -760,14 +768,14 @@ export default defineComponent({
                 title: "Trần BH",
                 key: "ceilingPrice",
                 dataIndex: "ceilingPrice",
-                width: 120,
+                width: 100,
                 className: "column-header-center",
             },
             {
                 title: "Ngày áp dụng",
                 key: "executionTime",
                 dataIndex: "executionTime",
-                width: 120,
+                width: 150,
                 className: "column-header-center",
             },
         ]);
@@ -913,8 +921,11 @@ export default defineComponent({
             return res.data.result;
         }
 
+        /* eslint-disable */
         async function getServiceById(id: string | null) {
             reset();
+            debugger;
+
             var resultDto = await serviceService.getById(id!);
             if (resultDto.data.isSucceeded == true) {
                 service.id = resultDto.data.result.id;
@@ -940,27 +951,27 @@ export default defineComponent({
                 service.sServiceResultIndices =
                     resultDto.data.result.sServiceResultIndices;
 
-                if (
-                    resultDto.data.result.sServicePricePolicies &&
-                    resultDto.data.result.sServicePricePolicies !== undefined &&
-                    resultDto.data.result.sServicePricePolicies.length > 0
-                ) {
-                    resultDto.data.result.sServicePricePolicies.forEach(
-                        (element) => {
-                            if (
-                                element.executionTimeString !== null &&
-                                element.executionTimeString !== ""
-                            ) {
-                                element.executionTime = dayjs(
-                                    element.executionTimeString,
-                                    "DD-MM-YYYY"
-                                );
-                            } else {
-                                element.executionTime = null;
-                            }
-                        }
-                    );
-                }
+                // if (
+                //     resultDto.data.result.sServicePricePolicies &&
+                //     resultDto.data.result.sServicePricePolicies !== undefined &&
+                //     resultDto.data.result.sServicePricePolicies.length > 0
+                // ) {
+                //     resultDto.data.result.sServicePricePolicies.forEach(
+                //         (element) => {
+                //             if (
+                //                 element.executionTimeString !== null &&
+                //                 element.executionTimeString !== ""
+                //             ) {
+                //                 element.executionTime = dayjs(
+                //                     element.executionTimeString,
+                //                     "DD-MM-YYYY"
+                //                 );
+                //             } else {
+                //                 element.executionTime = null;
+                //             }
+                //         }
+                //     );
+                // }
 
                 title.value = "Sửa dịch vụ kỹ thuật";
                 loading.value = false;
@@ -1114,12 +1125,12 @@ export default defineComponent({
                 return;
             }
 
-            service.sServicePricePolicies.forEach((element) => {
-                if (element.executionTime !== null) {
-                    element.executionTimeString =
-                        element.executionTime.format("DD/MM/YYYY");
-                }
-            });
+            // service.sServicePricePolicies.forEach((element) => {
+            //     if (element.executionTime !== null) {
+            //         element.executionTimeString =
+            //             element.executionTime.format("DD/MM/YYYY");
+            //     }
+            // });
 
             let resultSave = await serviceService.createOrEdit(service);
             if (resultSave.data.isSucceeded) {
@@ -1322,6 +1333,9 @@ export default defineComponent({
             handleAddResultIndice,
             handleSaveResultIndice,
         };
+    },
+    components: {
+        DxDateBox,
     },
 });
 </script>

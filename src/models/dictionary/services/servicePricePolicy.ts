@@ -8,8 +8,8 @@ export default interface ServicePricePolicyModel {
     newUnitPrice: number,
     ceilingPrice: number,
     paymentRate: number,
-    executionTime: Dayjs | null,
-    executionTimeString: string | null,
+    executionTime: Date // Dayjs,
+    // executionTimeString: string | null,
 
     isHeIn: boolean,
     patientTypeCode: string,

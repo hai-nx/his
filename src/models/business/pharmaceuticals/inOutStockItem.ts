@@ -52,7 +52,7 @@ export default interface InOutStockItemModel {
     lot: string | null
     // Hạn dùng
     registrationNumber: string | null
-    dueDate: string | null
+    dueDate: Date | null
     // Quyệt định thầu
     tenderDecision: string | null
     // Gói thầu

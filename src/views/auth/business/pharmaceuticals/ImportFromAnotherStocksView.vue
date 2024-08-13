@@ -25,11 +25,20 @@
                         <span>Ngày lập:</span>
                         <span class="text-danger me-1">*</span>
                     </label>
-                    <input
+                    <!-- <input
                         class="datetime grid-column-6"
                         type="date"
                         v-model="source.reqTime"
                         :disabled="isDisabled"
+                    /> -->
+                    <DxDateBox
+                        class="grid-column-6 datetime"
+                        v-model:value="source.reqTime"
+                        :disabled="isDisabled"
+                        placeholder="dd/MM/yyyy"
+                        display-format="dd/MM/yyyy"
+                        type="date"
+                        height="30px"
                     />
                     <label class="grid-column-7">
                         <span>Người lập:</span>
@@ -219,11 +228,20 @@
                     />
 
                     <label class="grid-column-3">Hạn dùng: </label>
-                    <input
+                    <!-- <input
                         class="datetime grid-column-4"
                         type="date"
                         disabled
                         v-model="inOutStockitemSelected.dueDate"
+                    /> -->
+                    <DxDateBox
+                        class="grid-column-4 datetime"
+                        v-model:value="inOutStockitemSelected.dueDate"
+                        :disabled="isDisabled"
+                        placeholder="dd/MM/yyyy"
+                        display-format="dd/MM/yyyy"
+                        type="date"
+                        height="30px"
                     />
 
                     <label class="grid-column-5">SL tồn: </label>
@@ -909,32 +927,32 @@ export default defineComponent({
         }
 
         function afterLoadSource() {
-            if (source.value.reqTime !== null) {
-                source.value.reqTime = source.value.reqTime.split("T")[0];
-            }
-            if (source.value.invTime !== null) {
-                source.value.invTime = source.value.invTime.split("T")[0];
-            }
-            if (source.value.approverTime !== null) {
-                source.value.approverTime =
-                    source.value.approverTime.split("T")[0];
-            }
-            if (source.value.stockImpTime !== null) {
-                source.value.stockImpTime =
-                    source.value.stockImpTime.split("T")[0];
-            }
+            // if (source.value.reqTime !== null) {
+            //     source.value.reqTime = source.value.reqTime.split("T")[0];
+            // }
+            // if (source.value.invTime !== null) {
+            //     source.value.invTime = source.value.invTime.split("T")[0];
+            // }
+            // if (source.value.approverTime !== null) {
+            //     source.value.approverTime =
+            //         source.value.approverTime.split("T")[0];
+            // }
+            // if (source.value.stockImpTime !== null) {
+            //     source.value.stockImpTime =
+            //         source.value.stockImpTime.split("T")[0];
+            // }
 
             if (
                 source.value.inOutStockItems !== null &&
                 source.value.inOutStockItems &&
                 source.value.inOutStockItems.length > 0
             ) {
-                source.value.inOutStockItems.forEach((inOutStockItem) => {
-                    if (inOutStockItem.dueDate !== null) {
-                        inOutStockItem.dueDate =
-                            inOutStockItem.dueDate.split("T")[0];
-                    }
-                });
+                // source.value.inOutStockItems.forEach((inOutStockItem) => {
+                //     if (inOutStockItem.dueDate !== null) {
+                //         inOutStockItem.dueDate =
+                //             inOutStockItem.dueDate.split("T")[0];
+                //     }
+                // });
 
                 inOutStockitemSelected.value = {
                     ...source.value.inOutStockItems[0],
@@ -1162,10 +1180,10 @@ export default defineComponent({
                             itemStockSelected.value.lot;
                         inOutStockitemSelected.value.commodityType =
                             itemStockSelected.value.commodityType;
-                        if (itemStockSelected.value.dueDate !== null) {
-                            inOutStockitemSelected.value.dueDate =
-                                itemStockSelected.value.dueDate.split("T")[0];
-                        }
+                        // if (itemStockSelected.value.dueDate !== null) {
+                        //     inOutStockitemSelected.value.dueDate =
+                        //         itemStockSelected.value.dueDate.split("T")[0];
+                        // }
                     }
                 }
             }

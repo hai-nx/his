@@ -32,16 +32,16 @@ export default interface InOutStockModel {
     approverUserId: string | null
 
     // Ngày duyệt
-    approverTime: string | null
+    approverTime: Date | null
 
     // Ngày tạo phiếu, yêu cầu
-    reqTime: string | null
+    reqTime: Date | null
 
     // Người tạo phiếu nhập
     creationUserId: string | null
 
     // Ngày nhập kho
-    stockImpTime: string | null
+    stockImpTime: Date | null
 
     // Người nhập kho
     stockImpUserId: string | null
@@ -64,7 +64,7 @@ export default interface InOutStockModel {
     supplierId: string | null
 
     // Ngày hóa đơn
-    invTime: string | null
+    invTime: Date | null
 
     // Số hóa đơn
     invNo: string | null

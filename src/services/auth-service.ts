@@ -9,15 +9,15 @@ const authService = {
             Password: security.encodeMd5(password),
             RememberMe: false
         };
-    
+
         return request.post(url, data);
     },
-    login2(username: string, password: string){
+    login2(username: string, password: string) {
         return request.post("api/Authorization/Login", {
             username: username,
             password: security.encodeMd5(password)
         });
-    }
+    },
 }
 
 export default authService
