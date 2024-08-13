@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { computed, defineEmits, defineProps, useSlots, PropType } from "vue"
-import { ButtonType, ButtonHTMLType } from "./index";
 import { SizeType } from '../context'
 
 const slots = useSlots()
 
 const props = defineProps({
   htmlType: {
-    type: String as PropType<ButtonHTMLType>,
+    type: String as PropType<'submit' | 'button' | 'reset'>,
     default: "button",
   },
   type: {
-    type: String as PropType<ButtonType>,
+    type: String as PropType<'default' | 'primary' | 'dashed' | 'link' | 'text'>,
     default: "default",
   },
   size: {
@@ -50,9 +49,10 @@ const sizeClass = computed(() => {
     case 'large': return 'd-btn-lg'
     case 'small': return 'd-btn-sm'
     default:
-      return ''
+      return undefined
   }
 })
+const iconOnlyClass = computed(() => hasIcon.value && !slots.default ? 'd-btn-icon-only' : undefined)
 
 /* event */
 function onClick(payload: any) {
@@ -62,7 +62,7 @@ function onClick(payload: any) {
 </script>
 
 <template>
-  <button :type="htmlType" :disabled="disabled" :class="['d-btn', typeClass, fluidClass, roundedClass, sizeClass]"
+  <button :type="htmlType" :disabled="disabled" :class="['d-btn', typeClass, fluidClass, roundedClass, sizeClass, iconOnlyClass]"
     :title="title" @click="onClick">
     <slot v-if="hasIcon" name="icon">
       <i :class="[icon]"></i>
@@ -71,7 +71,7 @@ function onClick(payload: any) {
   </button>
 </template>
 
-<style scoped>
+<style>
 .d-btn {
   display: inline-flex;
   align-items: center;
@@ -97,13 +97,13 @@ function onClick(payload: any) {
   width: fit-content;
 
   text-decoration: none;
-  transition-duration: 0.1s;
+  transition-duration: 0.2s;
 }
 
 .d-btn:focus-visible {
   border-color: #0366d6;
-  outline: 2px solid #91caff;
-  outline-offset: 1px;
+  outline: 0;
+  box-shadow: 0 0 0 2px #5a96da;
 }
 
 .d-btn:disabled {
@@ -198,6 +198,8 @@ function onClick(payload: any) {
 /**/
 .d-btn-icon-only {
   gap: 0;
+  padding-inline-start: 0;
+  padding-inline-end: 0;
 }
 
 .d-btn-fluid {
@@ -207,8 +209,6 @@ function onClick(payload: any) {
 .d-btn-rounded {
   border-radius: 9998px;
   min-width: 28px;
-  padding-inline-start: 0;
-  padding-inline-end: 0;
 }
 
 .d-btn-rounded.d-btn-lg {

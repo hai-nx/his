@@ -21,6 +21,7 @@ import { defineAsyncComponent, App } from 'vue'
 
 export function defineAsyncComponents(app: App<Element>) {
     app.component("DButton", defineAsyncComponent(() => import('./button/index.vue')));
+    app.component("DButtonGroup", defineAsyncComponent(() => import('./button-group/index.vue')));
     app.component("DDivider", defineAsyncComponent(() => import('./divider/index.vue')));
     app.component("DDropdown", defineAsyncComponent(() => import('./dropdown/index.vue')));
     app.component("DDropdownButton", defineAsyncComponent(() => import('./dropdown-button/index.vue')));
