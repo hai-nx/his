@@ -337,7 +337,7 @@ export default defineComponent({
 
         async function getExecuteRooms(): Promise<RoomModel[]> {
             const filter: RoomRequestModel = {
-                roomTypeIdFilter: RoomType.LaboratoryTesting,
+                roomTypeFilter: RoomType.LaboratoryTesting,
             };
             return (await roomService.getAll(filter)).data.result;
         }

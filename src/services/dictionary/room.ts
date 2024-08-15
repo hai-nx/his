@@ -18,6 +18,7 @@ const roomService = {
         return request.get<ResultModel<RoomModel[]>>('api/Room/GetByStocks')
     },
     getAll(input?: RoomRequestModel) {
+        console.log(input);
         return request.get<ResultModel<RoomModel[]>>('api/Room/GetAll', { params: input })
     },
 }

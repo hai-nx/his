@@ -14,7 +14,7 @@ export default interface RoomModel extends DictionaryBase {
 export interface RoomRequestModel extends PagedResultRequestModel {
     codeFilter?: string
     nameFilter?: string
-    roomTypeIdFilter?: number
+    roomTypeFilter?: number
     departmentIdFilter?: string
     inactiveFilter?: boolean
 }
