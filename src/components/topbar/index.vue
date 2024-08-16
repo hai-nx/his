@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { defineProps, PropType } from 'vue'
 import { MenuItem } from '../menuitem';
-import DTopbarItem from '../topbaritem/index.vue'
 
 const props = defineProps({
     items: {
@@ -22,11 +21,7 @@ function itemClick(item: MenuItem) {
             <slot name="start"></slot>
         </div>
 
-        <ul class="d-topbar-menu">
-            <li v-for="(item, index) in items" :key="index">
-                <d-topbar-item :item="item" :depth="0" @click="itemClick"></d-topbar-item>
-            </li>
-        </ul>
+        <d-menu :items="items"></d-menu>
 
         <div v-if="$slots.end" :class="['d-topbar-end']">
             <slot name="end"></slot>

@@ -55,7 +55,7 @@ function itemClick(item: MenuItem) {
                 <li v-for="(item, index) in item.children" :key="index">
                     <d-divider v-if="item.separator"></d-divider>
                     <!-- <div v-if="item.separator" class="border-bottom"></div> -->
-                    <d-topbar-item v-else :data-source="item" :depth="depth + 1" @click="onClick"></d-topbar-item>
+                    <!-- <d-topbar-item v-else :data-source="item" :depth="depth + 1" @click="onClick"></d-topbar-item> -->
                 </li>
             </ul>
         </div>

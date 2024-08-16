@@ -5,7 +5,7 @@ import DMenuItem from '../menuitem/index.vue'
 
 const props = defineProps({
     items: {
-        type: Object as PropType<MenuItem[]>
+        type: Array as PropType<MenuItem[]>
     },
     mode: {
         type: String as PropType<'vertical' | 'horizontal'>,
@@ -14,18 +14,15 @@ const props = defineProps({
         validator: (value: string) => {
             return ['vertical', 'horizontal'].includes(value)
         }
-    },
-    startClass: {
-        type: String
-    },
-    endClass: {
-        type: String
     }
 })
 
 const emit = defineEmits<{
     (e: "click", item: MenuItem): void;
 }>()
+
+// class
+
 
 // xử lý sự kiện chọn
 function itemClick(item: MenuItem) {
@@ -39,21 +36,11 @@ function itemClick(item: MenuItem) {
 </script>
 
 <template>
-    <div class="menu">
-        <div v-if="$slots.start" :class="startClass">
-            <slot name="start"></slot>
-        </div>
-
-        <ul class="menu-list">
-            <li v-for="(item, index) in items" :key="index">
-                <d-menu-item :item="item" :depth="0" @click="itemClick"></d-menu-item>
-            </li>
-        </ul>
-
-        <div v-if="$slots.end" :class="endClass">
-            <slot name="end"></slot>
-        </div>
-    </div>
+    <ul :class="['d-menu']">
+        <li v-for="(item, index) in items" :key="index">
+            <d-menu-item :item="item" :depth="0" @click="itemClick"></d-menu-item>
+        </li>
+    </ul>
 </template>
 
 <style scoped>
