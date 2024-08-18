@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineEmits, defineProps, PropType } from 'vue';
+import { computed, defineEmits, defineProps, PropType } from 'vue';
 import { MenuItem } from '../menuitem'
 import DMenuItem from '../menuitem/index.vue'
 
@@ -8,12 +8,8 @@ const props = defineProps({
         type: Array as PropType<MenuItem[]>
     },
     mode: {
-        type: String as PropType<'vertical' | 'horizontal'>,
-        required: false,
-        default: 'horizontal',
-        validator: (value: string) => {
-            return ['vertical', 'horizontal'].includes(value)
-        }
+        type: String as PropType<'horizontal' | 'vertical' | 'inline'>,
+        default: 'horizontal'
     }
 })
 
@@ -22,7 +18,11 @@ const emit = defineEmits<{
 }>()
 
 // class
-
+const cls = computed(() => ({
+    'd-menu': true,
+    'd-menu-vertical' : props.mode === 'vertical',
+    'd-menu-inline': props.mode === 'inline'
+}))
 
 // xử lý sự kiện chọn
 function itemClick(item: MenuItem) {
@@ -36,7 +36,7 @@ function itemClick(item: MenuItem) {
 </script>
 
 <template>
-    <ul :class="['d-menu']">
+    <ul :class="cls">
         <li v-for="(item, index) in items" :key="index">
             <d-menu-item :item="item" :depth="0" @click="itemClick"></d-menu-item>
         </li>
@@ -44,16 +44,16 @@ function itemClick(item: MenuItem) {
 </template>
 
 <style scoped>
-.menu {
-    display: grid;
-    height: 100%;
-}
-
-.menu-list {
+.d-menu {
+    box-sizing: border-box;
     display: flex;
     flex-wrap: nowrap;
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+.d-menu-vertical {
+
 }
 </style>
