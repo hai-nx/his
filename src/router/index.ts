@@ -38,6 +38,7 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/login", name: "login", component: () => import("@/views/public/LoginView.vue"), meta: { layout: LAYOUT_DEFAULT } },
 
   { path: "/dashboard", name: "dashboard", component: () => import("../views/auth/dashboard/index.vue"), meta: { layout: appLayout.AUTH } },
+  // { path: "/dashboard", name: "dashboard", component: () => import("../views/auth/dashboard/index.vue"), meta: { layout: LAYOUT_AUTH } },
   { path: "/dboption", name: "dboption", component: dboptionView, meta: { layout: LAYOUT_AUTH } },
 
   { path: "/dictionary", name: "dictionary", component: dictionaryView, meta: { layout: LAYOUT_AUTH } },

@@ -42,11 +42,6 @@ function hihi (payload: any) {
 
 
 
-
-            <d-button type="text" rounded>type: text</d-button>
-            <d-button icon="bi bi-person-circle" type="link" rounded>huhuhuhuh</d-button>
-            <d-button icon="bi bi-person-circle" type="dashed" rounded fluid>large</d-button>
-
             <a-button>a-button</a-button>
             <d-button type="primary" icon="bi bi-person-circle" @click="hihi">huhu hihihi hu uhyu h
                 primary</d-button>
@@ -54,32 +49,22 @@ function hihi (payload: any) {
             <d-input maxlength="15"></d-input>
 
             <d-dropdown>
-                <d-button>dropdown
-
-                </d-button>
+                <d-button>dropdown</d-button>
+                <template #overlay>
+                    <d-button-group type="vertical">
+                        <d-button>1</d-button>
+                        <d-button @click="hihi('hihihihi')">1123123123123</d-button>
+                        <d-button>1</d-button>
+                        <d-button>12312311</d-button>
+                        <d-button>1123 12 31 231 23 123</d-button>
+                        <d-button>1123123</d-button>
+                        <d-button>11</d-button>
+                    </d-button-group>
+                </template>
             </d-dropdown>
             <d-dropdown-button :options="['go', 'python', 'rust', 'javascript']" :default="'go'" class="select">
             </d-dropdown-button>
 
-            <a-dropdown-button>
-                hihihihihi
-                <template #overlay>
-                    <a-menu>
-                        <a-menu-item key="1">
-                            <UserOutlined />
-                            1st menu item
-                        </a-menu-item>
-                        <a-menu-item key="2">
-                            <UserOutlined />
-                            2nd menu item
-                        </a-menu-item>
-                        <a-menu-item key="3">
-                            <UserOutlined />
-                            3rd item
-                        </a-menu-item>
-                    </a-menu>
-                </template>
-            </a-dropdown-button>
         </div>
 
 
