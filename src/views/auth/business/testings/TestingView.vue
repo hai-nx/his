@@ -401,9 +401,6 @@ export default defineComponent({
             };
 
             let result = await testingService.getAll(filter);
-
-            console.log(result.data.result);
-
             itemSources.value = result.data.result;
         };
 
