@@ -19,8 +19,8 @@ const emit = defineEmits<{
 
 // class
 const cls = computed(() => ({
-    'd-menu': true,
     'd-menu-vertical' : props.mode === 'vertical',
+    'd-menu-horizontal': props.mode === 'horizontal',
     'd-menu-inline': props.mode === 'inline'
 }))
 
@@ -36,7 +36,7 @@ function itemClick(item: MenuItem) {
 </script>
 
 <template>
-    <ul :class="cls">
+    <ul class="d-menu" :class="cls">
         <li v-for="(item, index) in items" :key="index">
             <d-menu-item :item="item" :depth="0" @click="itemClick"></d-menu-item>
         </li>

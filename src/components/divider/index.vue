@@ -8,17 +8,15 @@ const props = defineProps({
     }
 })
 
-const typeClass = computed(() => {
-    if (props.type === 'horizontal')
-        return 'd-divider-horizontal'
-    else
-        return 'd-divider-vertical'
-})
+const cls = computed(() => ({
+    'd-divider-horizontal': props.type === 'horizontal',
+    'd-divider-vertical': props.type === 'vertical'
+}))
 
 </script>
 
 <template>
-    <div :class="['d-divider', typeClass]" role="separator"></div>
+    <div class="d-divider" :class="cls" role="separator"></div>
 </template>
 
 <style scoped>
@@ -37,7 +35,7 @@ const typeClass = computed(() => {
     clear: both;
     width: 100%;
     min-width: 100%;
-    margin: 24px 0;
+    margin: 4px 0;
     border-top-width: 1px;
 }
 

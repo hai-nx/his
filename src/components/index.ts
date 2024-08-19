@@ -30,7 +30,6 @@ export function defineAsyncComponents(app: App<Element>) {
     app.component("DMenuItem", defineAsyncComponent(() => import('./menuitem/index.vue')));
 
     app.component("DTopbar", defineAsyncComponent(() => import('./topbar/index.vue')));
-    app.component("DTopbarItem", defineAsyncComponent(() => import('./topbar-item/index.vue')));
     
 
     app.component("VInputNumber", defineAsyncComponent(() => import('@/components/VInputNumber.vue')));

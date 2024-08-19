@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { defineProps, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useLayout } from "../stores/layout";
+import { useMenu } from "../store/menu";
 
-const layout = useLayout();
-const { items, menu } = storeToRefs(layout);
+const menu = useMenu();
+const { items } = storeToRefs(menu);
 
 const open = ref<boolean>(false)
 
