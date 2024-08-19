@@ -62,7 +62,7 @@
                         :use-mask-behavior="false"
                         :input-attr="{ 'aria-label': 'Date' }"
                         placeholder="dd/MM/yyyy"
-                        display-format="dd/MM/yyyy HH:mm:ss"
+                        display-format="dd/MM/yyyy"
                         type="date"
                         v-model:value="fromDate"
                     />
@@ -74,7 +74,7 @@
                         :use-mask-behavior="false"
                         :input-attr="{ 'aria-label': 'Date' }"
                         placeholder="dd/MM/yyyy"
-                        display-format="dd/MM/yyyy HH:mm:ss"
+                        display-format="dd/MM/yyyy"
                         type="date"
                         v-model:value="toDate"
                     />
@@ -373,35 +373,26 @@ export default defineComponent({
 
         // lấy dữ liệu
         const handleLoad = async () => {
+            fromDate.value.setHours(0, 0, 0);
+            toDate.value.setHours(23, 59, 59);
+
             let filter: ServiceRequestRequestModel = {
                 executeRoomIdFilter: executeRoomSelected.value,
 
                 useTimeFromFilter:
-                    dateTypeSelected.value === 0
-                        ? datetimeHelper.dateToNumber(fromDate.value)
-                        : undefined,
+                    dateTypeSelected.value === 0 ? fromDate.value : undefined,
                 useTimeToFilter:
-                    dateTypeSelected.value === 0
-                        ? datetimeHelper.dateToNumber(toDate.value)
-                        : undefined,
+                    dateTypeSelected.value === 0 ? toDate.value : undefined,
 
                 startTimeFromFilter:
-                    dateTypeSelected.value === 1
-                        ? datetimeHelper.dateToNumber(fromDate.value)
-                        : undefined,
+                    dateTypeSelected.value === 1 ? fromDate.value : undefined,
                 startTimeToFilter:
-                    dateTypeSelected.value === 1
-                        ? datetimeHelper.dateToNumber(toDate.value)
-                        : undefined,
+                    dateTypeSelected.value === 1 ? toDate.value : undefined,
 
                 endTimeFromFilter:
-                    dateTypeSelected.value === 2
-                        ? datetimeHelper.dateToNumber(fromDate.value)
-                        : undefined,
+                    dateTypeSelected.value === 2 ? fromDate.value : undefined,
                 endTimeToFilter:
-                    dateTypeSelected.value === 2
-                        ? datetimeHelper.dateToNumber(toDate.value)
-                        : undefined,
+                    dateTypeSelected.value === 2 ? toDate.value : undefined,
 
                 statusFilter:
                     statusSelected.value === ServiceRequestStatusType.AddNew
@@ -410,6 +401,9 @@ export default defineComponent({
             };
 
             let result = await testingService.getAll(filter);
+
+            console.log(result.data.result);
+
             itemSources.value = result.data.result;
         };
 

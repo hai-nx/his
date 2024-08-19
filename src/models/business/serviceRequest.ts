@@ -55,17 +55,17 @@ export interface ServiceRequestRequestModel extends PagedResultRequestModel {
     executeDepartmentIdFilter?: string
     serviceRequestStatusIdFilter?: number
 
-    requestTimeFromFilter?: number // Ngày chỉ định
-    requestTimeToFilter?: number // Ngày chỉ định
+    requestTimeFromFilter?: Date // Ngày chỉ định
+    requestTimeToFilter?: Date // Ngày chỉ định
 
-    useTimeFromFilter?: number // Ngày y lệnh
-    useTimeToFilter?: number // Ngày y lệnh
+    useTimeFromFilter?: Date // Ngày y lệnh
+    useTimeToFilter?: Date // Ngày y lệnh
 
-    startTimeFromFilter?: number // Ngày bắt đầu (thực hiện)
-    startTimeToFilter?: number // Ngày bắt đầu (thực hiện)
+    startTimeFromFilter?: Date // Ngày bắt đầu (thực hiện)
+    startTimeToFilter?: Date // Ngày bắt đầu (thực hiện)
 
-    endTimeFromFilter?: number // Ngày kết thúc (kết quả)
-    endTimeToFilter?: number // Ngày kết thúc (kết quả)
+    endTimeFromFilter?: Date // Ngày kết thúc (kết quả)
+    endTimeToFilter?: Date // Ngày kết thúc (kết quả)
 
     statusFilter?: ServiceRequestStatusType // Trạng thái phiếu
 }
