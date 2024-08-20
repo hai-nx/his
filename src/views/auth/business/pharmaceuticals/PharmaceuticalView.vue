@@ -38,15 +38,15 @@
             <div class="search grid-col-6">
                 <label>Từ ngày:</label>
                 <a-date-picker
-                    placeholder="dd/MM/yyyy HH:mm:ss"
-                    format="DD/MM/YYYY HH:mm:ss"
+                    placeholder="dd/MM/yyyy"
+                    format="DD/MM/YYYY"
                     v-model:value="fromDate"
                 />
 
                 <label>Đến ngày:</label>
                 <a-date-picker
-                    placeholder="dd/MM/yyyy HH:mm:ss"
-                    format="DD/MM/YYYY HH:mm:ss"
+                    placeholder="dd/MM/yyyy"
+                    format="DD/MM/YYYY"
                     v-model:value="toDate"
                 />
 
