@@ -7,7 +7,11 @@ export const useMenu = defineStore('menu', {
             { key: '1', label: 'Đón tiếp' },
             { key: '2', label: 'Khám bệnh' },
 
-            { key: '80', label: 'Danh mục' },
+            { key: '80', label: 'Danh mục',
+                children: [
+
+                ]
+             },
             { key: '90', label: 'Hệ thống',
                 children: [
                     { key: '90.1', label: 'Người dùng', path: 'user' },

@@ -32,7 +32,7 @@ function itemClick(item: MenuItem) {
 <style>
 .d-topbar {
     display: flex;
-    background-color: rebeccapurple;
+    background-color: #00446D;
     border-width: 0;
     top: 0;
     right: 0;

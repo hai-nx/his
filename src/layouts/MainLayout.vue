@@ -14,7 +14,11 @@ const open = ref<boolean>(false)
     <div class="layout-main">
 
         <div class="layout-topbar">
-            <d-topbar :items="items"></d-topbar>
+            <d-topbar :items="items">
+                <template #start>
+                    <img class="layout-logo" src="../assets/images/logo.png" />
+                </template>
+            </d-topbar>
 
 
             <!-- <div class="layout-topbar-logo-container">
@@ -103,15 +107,15 @@ const open = ref<boolean>(false)
 
 .layout-logo {
     cursor: pointer;
-    height: 48px;
-    padding: 8px;
+    height: 44px;
+    padding: 4px;
 }
 
 
 
 .layout-topbar {
     display: grid;
-    background-color: red;
+    background-color: #00446D;
     border-bottom: 0px solid #00000012;
     justify-content: space-between;
     height: 44px;

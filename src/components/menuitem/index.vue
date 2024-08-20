@@ -53,19 +53,17 @@ function itemClick(item: MenuItem) {
             </div>
 
             <!--dropdown-->
-            <div v-if="allowOpenPopup && hasChildren" class="d-menu-item-dropdown">
-                <ul>
-                    <li v-for="(item, index) in item.children" :key="index">
-                        <d-divider v-if="item.separator"></d-divider>
-                        <d-menu-item v-else :item="item" :depth="depth + 1" @click="onClick"></d-menu-item>
-                    </li>
-                </ul>
-            </div>
+            <ul class="d-menu-item-dropdown" v-if="allowOpenPopup && hasChildren">
+                <li v-for="(item, index) in item.children" :key="index">
+                    <d-divider v-if="item.separator"></d-divider>
+                    <d-menu-item v-else :item="item" :depth="depth + 1" @click="onClick"></d-menu-item>
+                </li>
+            </ul>
         </div>
     </transition>
 </template>
 
-<style scoped>
+<style>
 .d-menu-item {
     display: block;
     position: relative;
@@ -78,8 +76,10 @@ function itemClick(item: MenuItem) {
 }
 
 .d-menu-item:hover {
-    background-color: #30305a;
-    color: var(--his-nav-color-hover);
+    background-color: #FFF;
+    color: #00446D;
+    /* background-color: #30305a;
+    color: var(--his-nav-color-hover); */
     transition: all linear 0.2s;
 }
 
@@ -87,10 +87,6 @@ function itemClick(item: MenuItem) {
     display: block;
     opacity: 1;
     transition: all linear .2s;
-}
-
-.d-menu-item .sub-item {
-    line-height: var(--his-nav-height-item);
 }
 
 .d-menu-item-label {
@@ -111,16 +107,31 @@ function itemClick(item: MenuItem) {
     opacity: 0;
     left: 0;
     position: absolute;
-    padding-top: .25rem;
-    min-width: 15rem;
-    background-color: #30305a;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
-}
-
-.d-menu-item-dropdown>ul {
     flex-wrap: nowrap;
     list-style: none;
     margin: 0;
     padding: 0;
+    padding-bottom: 1px;
+    min-width: 15.5rem;
+    background-color: #00446D;
+}
+
+
+.sub-item {
+    line-height: 40px;
+}
+
+.sub-item:hover {
+    background-color: #E8EEF2;
+    color: #005689;
+}
+
+.sub-item .d-menu-item-arrow {
+    transform: rotate(-90deg);
+}
+
+.sub-item .d-menu-item-dropdown {
+    top: 0;
+    left: 100%;
 }
 </style>

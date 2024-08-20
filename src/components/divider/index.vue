@@ -35,7 +35,7 @@ const cls = computed(() => ({
     clear: both;
     width: 100%;
     min-width: 100%;
-    margin: 4px 0;
+    margin: 2px 0;
     border-top-width: 1px;
 }
 
