@@ -159,6 +159,7 @@
                         data-field="useTime"
                         :visible="true"
                         data-type="date"
+                        format="dd/MM/yyyy"
                     />
                     <DxColumn
                         caption="BS chỉ định"
