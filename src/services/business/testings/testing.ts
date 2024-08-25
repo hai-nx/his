@@ -6,6 +6,10 @@ const serviceRequestService = {
         return axiosClient.get<PagedResultModel<ServiceRequestModel>>('api/Testing/GetAll', { params: input });
     },
 
+    getServiceRequestById(serviceRequestId: string, gender: number, isDetail: boolean) {
+        return axiosClient.get<ResultModel<ServiceRequestModel[]>>(`api/Testing/GetServiceRequestById?serviceRequestId=${serviceRequestId}&genderType=${gender}&isDetail=${isDetail}`);
+    },
+
     getServiceRequestDetailByServiceRequestId(serviceRequestId: string, genderType: number, isDetail: boolean) {
         return axiosClient.get<ResultModel<ServiceRequestDetailModel[]>>(`api/Testing/GetServiceRequestDetailRequesByServiceRequestId?serviceRequestId=${serviceRequestId}&genderType=${genderType}&isDetail=${isDetail}`);
     },
