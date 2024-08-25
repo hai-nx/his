@@ -1,14 +1,16 @@
-import { ServiceRequestDataModel, ServiceResultDataModel } from "@/models"
+import { ServiceRequestDetailModel, ServiceRequestDetailResultModel } from "@/models"
 import PagedResultRequestModel from "@/models/PagedResultRequestModel"
 import { ServiceRequestStatusType } from "@/enums/serviceRequestStatusType"
 
 export default interface ServiceRequestModel {
     id?: string
     serviceRequestCode?: string
-    requestTime?: Date | number // ngày chỉ định (tạo phiếu)
-    useTime?: Date | number // ngày y lệnh
-    startTime?: Date | number
-    endTime?: Date | number
+    requestTime?: Date  // ngày chỉ định (tạo phiếu)
+    useTime?: Date  // ngày y lệnh
+    sampleTime?: Date // thời gian lấy mẫu bệnh phẩm
+    sampleReceivingTime?: Date // thời gian tiếp nhận mẫu
+    startTime?: Date
+    endTime?: Date
     barcode?: string
     numOrder?: number // số thứ tự chỉ định trong ngày (số thứ tự thực hiện)
     ssPriority?: boolean // ưu tiên
@@ -23,6 +25,8 @@ export default interface ServiceRequestModel {
     departmentId?: string// khoa chỉ định
     roomId?: string // phòng chỉ định
     userId?: string // người chỉ định
+    sampleUserId?: string // người lấy mẫu
+    sampleReceivingUserId?: string // người tiếp nhận mẫu
     startUserId?: string // người bắt đầu
     endUserId?: string // người kết thúc (trả kết quả)
     executeDepartmentId?: string // khoa thực hiện
@@ -45,8 +49,8 @@ export default interface ServiceRequestModel {
     endUserCode?: string
     endUserName?: string
 
-    serviceRequestDatas?: ServiceRequestDataModel[]
-    serviceResultDatas?: ServiceResultDataModel[]
+    serviceRequestDetails?: ServiceRequestDetailModel[]
+    serviceRequestDetailResults?: ServiceRequestDetailResultModel[]
 }
 
 export interface ServiceRequestRequestModel extends PagedResultRequestModel {
@@ -55,17 +59,17 @@ export interface ServiceRequestRequestModel extends PagedResultRequestModel {
     executeDepartmentIdFilter?: string
     serviceRequestStatusIdFilter?: number
 
-    requestTimeFromFilter?: number // Ngày chỉ định
-    requestTimeToFilter?: number // Ngày chỉ định
+    requestTimeFromFilter?: Date // Ngày chỉ định
+    requestTimeToFilter?: Date // Ngày chỉ định
 
-    useTimeFromFilter?: number // Ngày y lệnh
-    useTimeToFilter?: number // Ngày y lệnh
+    useTimeFromFilter?: Date // Ngày y lệnh
+    useTimeToFilter?: Date // Ngày y lệnh
 
-    startTimeFromFilter?: number // Ngày bắt đầu (thực hiện)
-    startTimeToFilter?: number // Ngày bắt đầu (thực hiện)
+    startTimeFromFilter?: Date // Ngày bắt đầu (thực hiện)
+    startTimeToFilter?: Date // Ngày bắt đầu (thực hiện)
 
-    endTimeFromFilter?: number // Ngày kết thúc (kết quả)
-    endTimeToFilter?: number // Ngày kết thúc (kết quả)
+    endTimeFromFilter?: Date // Ngày kết thúc (kết quả)
+    endTimeToFilter?: Date // Ngày kết thúc (kết quả)
 
     statusFilter?: ServiceRequestStatusType // Trạng thái phiếu
 }

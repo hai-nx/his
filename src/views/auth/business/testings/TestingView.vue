@@ -62,7 +62,7 @@
                         :use-mask-behavior="false"
                         :input-attr="{ 'aria-label': 'Date' }"
                         placeholder="dd/MM/yyyy"
-                        display-format="dd/MM/yyyy HH:mm:ss"
+                        display-format="dd/MM/yyyy"
                         type="date"
                         v-model:value="fromDate"
                     />
@@ -74,7 +74,7 @@
                         :use-mask-behavior="false"
                         :input-attr="{ 'aria-label': 'Date' }"
                         placeholder="dd/MM/yyyy"
-                        display-format="dd/MM/yyyy HH:mm:ss"
+                        display-format="dd/MM/yyyy"
                         type="date"
                         v-model:value="toDate"
                     />
@@ -159,6 +159,7 @@
                         data-field="useTime"
                         :visible="true"
                         data-type="date"
+                        format="dd/MM/yyyy"
                     />
                     <DxColumn
                         caption="BS chỉ định"
@@ -201,7 +202,7 @@
             <div class="content-row">
                 <DxDataGrid
                     :allow-column-reordering="true"
-                    :data-source="source.serviceResultDatas"
+                    :data-source="source.serviceRequestDetailResults"
                     :show-borders="true"
                     :hover-state-enabled="true"
                     key-expr="id"
@@ -260,9 +261,9 @@
 import { defineComponent, ref, computed } from "vue";
 import {
     ServiceRequestModel,
+    ServiceRequestRequestModel,
     RoomModel,
     RoomRequestModel,
-    ServiceRequestRequestModel,
     SimpleModel,
 } from "@/models";
 import { RoomType } from "@/enums/roomtypes";
@@ -337,7 +338,7 @@ export default defineComponent({
 
         async function getExecuteRooms(): Promise<RoomModel[]> {
             const filter: RoomRequestModel = {
-                roomTypeIdFilter: RoomType.LaboratoryTesting,
+                roomTypeFilter: RoomType.LaboratoryTesting,
             };
             return (await roomService.getAll(filter)).data.result;
         }
@@ -373,35 +374,26 @@ export default defineComponent({
 
         // lấy dữ liệu
         const handleLoad = async () => {
+            fromDate.value.setHours(0, 0, 0);
+            toDate.value.setHours(23, 59, 59);
+
             let filter: ServiceRequestRequestModel = {
                 executeRoomIdFilter: executeRoomSelected.value,
 
                 useTimeFromFilter:
-                    dateTypeSelected.value === 0
-                        ? datetimeHelper.dateToNumber(fromDate.value)
-                        : undefined,
+                    dateTypeSelected.value === 0 ? fromDate.value : undefined,
                 useTimeToFilter:
-                    dateTypeSelected.value === 0
-                        ? datetimeHelper.dateToNumber(toDate.value)
-                        : undefined,
+                    dateTypeSelected.value === 0 ? toDate.value : undefined,
 
                 startTimeFromFilter:
-                    dateTypeSelected.value === 1
-                        ? datetimeHelper.dateToNumber(fromDate.value)
-                        : undefined,
+                    dateTypeSelected.value === 1 ? fromDate.value : undefined,
                 startTimeToFilter:
-                    dateTypeSelected.value === 1
-                        ? datetimeHelper.dateToNumber(toDate.value)
-                        : undefined,
+                    dateTypeSelected.value === 1 ? toDate.value : undefined,
 
                 endTimeFromFilter:
-                    dateTypeSelected.value === 2
-                        ? datetimeHelper.dateToNumber(fromDate.value)
-                        : undefined,
+                    dateTypeSelected.value === 2 ? fromDate.value : undefined,
                 endTimeToFilter:
-                    dateTypeSelected.value === 2
-                        ? datetimeHelper.dateToNumber(toDate.value)
-                        : undefined,
+                    dateTypeSelected.value === 2 ? toDate.value : undefined,
 
                 statusFilter:
                     statusSelected.value === ServiceRequestStatusType.AddNew
@@ -419,13 +411,13 @@ export default defineComponent({
             source.value = selectedRowsData[0];
             if (source.value && source.value.id) {
                 let dtos =
-                    await testingService.getServiceResultDataByServiceRequestId(
+                    await testingService.getServiceRequestDetailResultByServiceRequestId(
                         source.value.id,
                         1
                     );
-                source.value.serviceResultDatas = dtos.data.result;
+                source.value.serviceRequestDetailResults = dtos.data.result;
             } else {
-                source.value.serviceResultDatas = [];
+                source.value.serviceRequestDetailResults = [];
             }
         };
 

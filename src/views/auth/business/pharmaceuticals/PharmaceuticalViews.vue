@@ -1,119 +1,225 @@
 <template>
-    <div>
-        <div class="header">
-            <a-select
-                class="grid-column-1"
-                :field-names="fields"
-                :options="stocks"
-                showSearch
-                optionFilterProp="label"
-                style="width: 180px"
-                placeholder="Chọn kho"
-                v-model:value="stockId"
-            />
+    <x-layout
+        :title="title"
+        :breadcrumbs="breadcrumbs"
+        :show-header="true"
+        :showTitle="false"
+    >
+        <template #action>
+            <div class="header">
+                <a-select
+                    class="grid-column-1"
+                    :field-names="fields"
+                    :options="stocks"
+                    showSearch
+                    optionFilterProp="label"
+                    style="width: 180px"
+                    placeholder="Chọn kho"
+                    v-model:value="stockId"
+                />
 
-            <div class="function grid-col-3">
-                <a-dropdown>
-                    <template #overlay>
-                        <a-menu>
-                            <a-menu-item
-                                @click="handlGegenerateDocumentClick(menuItem)"
-                                v-for="menuItem in inOutStockTypes"
-                                :key="menuItem.id"
-                                :data-item="menuItem"
-                            >
-                                {{ menuItem.name }}
-                            </a-menu-item>
-                        </a-menu>
-                    </template>
-                    <a-button type="primary" class="btn-list">
-                        <div class="btn btn-list-dropdown">
-                            <PlusOutlined class="text-white" />
-                            <span class="text-white">Tạo phiếu</span>
-                        </div>
+                <div class="function grid-col-3">
+                    <a-dropdown>
+                        <template #overlay>
+                            <a-menu>
+                                <a-menu-item
+                                    @click="
+                                        handlGegenerateDocumentClick(menuItem)
+                                    "
+                                    v-for="menuItem in inOutStockTypes"
+                                    :key="menuItem.id"
+                                    :data-item="menuItem"
+                                >
+                                    {{ menuItem.name }}
+                                </a-menu-item>
+                            </a-menu>
+                        </template>
+                        <a-button type="primary" class="btn-list">
+                            <div class="btn btn-list-dropdown">
+                                <PlusOutlined class="text-white" />
+                                <span class="text-white">Tạo phiếu</span>
+                            </div>
+                        </a-button>
+                    </a-dropdown>
+                </div>
+
+                <div class="search grid-col-6">
+                    <label>Từ ngày:</label>
+                    <a-date-picker
+                        placeholder="dd/MM/yyyy"
+                        format="DD/MM/YYYY"
+                        v-model:value="fromDate"
+                    />
+
+                    <label>Đến ngày:</label>
+                    <a-date-picker
+                        placeholder="dd/MM/yyyy"
+                        format="DD/MM/YYYY"
+                        v-model:value="toDate"
+                    />
+
+                    <a-button type="primary" @click="handleLoad">
+                        Cập nhật
                     </a-button>
-                </a-dropdown>
+                </div>
             </div>
+        </template>
 
-            <div class="search grid-col-6">
-                <label>Từ ngày:</label>
-                <a-date-picker
-                    placeholder="dd/MM/yyyy"
-                    format="DD/MM/YYYY"
-                    v-model:value="fromDate"
+        <div class="content">
+            <DxDataGrid
+                :allow-column-reordering="true"
+                :data-source="itemSources"
+                :show-borders="true"
+                :hover-state-enabled="true"
+                :focused-row-enabled="true"
+                :focused-row-index="0"
+                key-expr="id"
+            >
+                <DxSelection mode="single" />
+                <DxScrolling row-rendering-mode="virtual" />
+                <DxPaging :page-size="10" />
+                <DxPager
+                    :visible="true"
+                    :allowed-page-sizes="pageSizes"
+                    :display-mode="displayMode"
+                    :show-page-size-selector="showPageSizeSelector"
+                    :show-info="showInfo"
+                    :show-navigation-buttons="showNavButtons"
+                />
+                <!-- <DxColumn
+                    caption="Trạng thái"
+                    data-field="status"
+                    :visible="true"
+                    data-type="int"
+                    cell-template="statusTemplate"
+                /> -->
+
+                <DxColumn data-field="status" caption="Trạng thái">
+                    <template #cellTemplate="{ status }">
+                        <span>
+                            {{ status }}
+                            123123
+                        </span>
+                    </template>
+                </DxColumn>
+
+                <!-- <DxColumn
+                    caption="Trạng thái"
+                    data-field="status"
+                    :visible="true"
+                    data-type="int"
+                >
+                    <template #cellTemplate="{ record }">
+                        <span>
+                            {{ formatStatus(record.status) }}
+                            <a-tag v-if="record === -1" color="error">
+                                <span>Đã hủy</span>
+                            </a-tag>
+                            <a-tag v-else-if="record === 0" color="success">
+                                <span>Mới tạo</span>
+                            </a-tag>
+                            <a-tag v-else-if="record === 1" color="success">
+                                <span>Đã gửi yêu cầu</span>
+                            </a-tag>
+                            <a-tag v-else-if="record === 2" color="success">
+                                <span>Đã duyệt</span>
+                            </a-tag>
+                            <a-tag v-else-if="record === 3" color="success">
+                                <span>Đã xuất kho</span>
+                            </a-tag>
+                            <a-tag v-else-if="record === 4" color="success">
+                                <span>Đã nhập kho</span>
+                            </a-tag>
+                        </span>
+                    </template>
+                </DxColumn> -->
+
+                <DxColumn
+                    caption="Mã phiếu"
+                    data-field="code"
+                    :visible="true"
+                    data-type="string"
+                />
+                <DxColumn
+                    caption="Loại hàng hóa"
+                    data-field="commodityType"
+                    :visible="true"
+                    data-type="string"
+                    cell-template="commodityTypeCellTemplate"
                 />
 
-                <label>Đến ngày:</label>
-                <a-date-picker
-                    placeholder="dd/MM/yyyy"
-                    format="DD/MM/YYYY"
-                    v-model:value="toDate"
+                <DxColumn
+                    caption="Loại phiếu"
+                    data-field="inOutStockTypeName"
+                    :visible="true"
+                    data-type="string"
+                />
+                <DxColumn
+                    caption="Kho nhập"
+                    data-field="impStockName"
+                    :visible="true"
+                    data-type="string"
+                />
+                <DxColumn
+                    caption="Kho xuất"
+                    data-field="expStockName"
+                    :visible="true"
+                    data-type="string"
+                />
+                <DxColumn
+                    caption="Ngày tạo"
+                    data-field="reqTime"
+                    :visible="true"
+                    data-type="date"
+                />
+                <DxColumn
+                    caption="Ngày hóa đơn"
+                    data-field="invTime"
+                    :visible="true"
+                    data-type="date"
+                />
+                <DxColumn
+                    caption="Ngày nhập kho"
+                    data-field="stockImpTime"
+                    :visible="true"
+                    data-type="date"
+                />
+                <DxColumn
+                    caption="Xử lý"
+                    data-field="action"
+                    :visible="true"
+                    data-type="string"
+                    cell-template="actionCellTemplate"
                 />
 
-                <a-button type="primary" @click="handleLoad">
-                    Cập nhật
-                </a-button>
-            </div>
-        </div>
-
-        <a-table
-            class="ant-table-striped"
-            size="middle"
-            :columns="columnImps"
-            :data-source="itemSources"
-            bordered
-        >
-            <template #bodyCell="{ column, record }">
-                <template v-if="column.key === 'status'">
+                <template #statusTemplate="{ record }">
                     <span>
-                        <a-tag v-if="record.status === -1" color="error">
+                        <a-tag v-if="record === -1" color="error">
                             <span>Đã hủy</span>
                         </a-tag>
-                        <a-tag v-else-if="record.status === 0" color="success">
+                        <a-tag v-else-if="record === 0" color="success">
                             <span>Mới tạo</span>
                         </a-tag>
-                        <a-tag v-else-if="record.status === 1" color="success">
+                        <a-tag v-else-if="record === 1" color="success">
                             <span>Đã gửi yêu cầu</span>
                         </a-tag>
-                        <a-tag v-else-if="record.status === 2" color="success">
+                        <a-tag v-else-if="record === 2" color="success">
                             <span>Đã duyệt</span>
                         </a-tag>
-                        <a-tag v-else-if="record.status === 3" color="success">
+                        <a-tag v-else-if="record === 3" color="success">
                             <span>Đã xuất kho</span>
                         </a-tag>
-                        <a-tag v-else-if="record.status === 4" color="success">
+                        <a-tag v-else-if="record === 4" color="success">
                             <span>Đã nhập kho</span>
                         </a-tag>
                     </span>
                 </template>
-                <template v-if="column.key === 'commodityType'">
-                    <span v-if="record.commodityType === 0">Thuốc</span>
-                    <span v-else-if="record.commodityType === 1">Vật tư</span>
-                    <span v-else-if="record.commodityType === 2">Máu</span>
+                <template #commodityTypeCellTemplate="{ record }">
+                    <span v-if="record === 0">Thuốc</span>
+                    <span v-else-if="record === 1">Vật tư</span>
+                    <span v-else-if="record === 2">Máu</span>
                 </template>
-                <template v-if="column.key === 'reqTime'">
-                    <span>{{
-                        record.reqTime === null
-                            ? null
-                            : new Date(record.reqTime).toLocaleDateString()
-                    }}</span>
-                </template>
-                <template v-if="column.key === 'invTime'">
-                    <span>{{
-                        record.invTime === null
-                            ? null
-                            : new Date(record.invTime).toLocaleDateString()
-                    }}</span>
-                </template>
-                <template v-if="column.key === 'stockImpTime'">
-                    <span>{{
-                        record.stockImpTime === null
-                            ? null
-                            : new Date(record.stockImpTime).toLocaleDateString()
-                    }}</span>
-                </template>
-
-                <template v-else-if="column.key === 'action'">
+                <template #actionCellTemplate="{ record }">
                     <span>
                         <button
                             class="btn btn-outline-primary border-0 btn-sm me-2"
@@ -124,31 +230,31 @@
                         </button>
                     </span>
                 </template>
-            </template>
-        </a-table>
+            </DxDataGrid>
+        </div>
+    </x-layout>
 
-        <teleport to="body">
-            <ImportFromSupplierView
-                :visible="visibleImportFromSupplier"
-                :data="source"
-                :roomType="roomType"
-                @toggle="handleToggleImportFromSupplier"
-            />
-            <ImportFromAnotherStockView
-                :visible="visibleImportFromAnotherStock"
-                :isImport="isImport"
-                :data="source"
-                @toggle="handleToggleImportFromAnotherStock"
-            />
+    <teleport to="body">
+        <ImportFromSupplierView
+            :visible="visibleImportFromSupplier"
+            :data="source"
+            :roomType="roomType"
+            @toggle="handleToggleImportFromSupplier"
+        />
+        <ImportFromAnotherStockView
+            :visible="visibleImportFromAnotherStock"
+            :isImport="isImport"
+            :data="source"
+            @toggle="handleToggleImportFromAnotherStock"
+        />
 
-            <ExportToSuplierView
-                :visible="visibleExportToSuplier"
-                :isImport="isImport"
-                :data="source"
-                @toggle="handleToggleExportFromSupplier"
-            />
-        </teleport>
-    </div>
+        <ExportToSuplierView
+            :visible="visibleExportToSuplier"
+            :isImport="isImport"
+            :data="source"
+            @toggle="handleToggleExportFromSupplier"
+        />
+    </teleport>
 </template>
 
 <script lang="ts">
@@ -164,12 +270,40 @@ import dayjs, { Dayjs } from "dayjs";
 import ImportFromSupplierView from "./ImportFromSupplierView.vue";
 import ImportFromAnotherStockView from "./ImportFromAnotherStocksView.vue";
 
+// import { DxSelectBox } from "devextreme-vue/select-box";
+// import DxDateBox from "devextreme-vue/date-box";
+// import datetimeHelper from "@/utils/helpers/datetimeHelper";
+import {
+    DxDataGrid,
+    DxScrolling,
+    DxPager,
+    DxPaging,
+    DxColumn,
+    DxDataGridTypes,
+    DxSelection,
+} from "devextreme-vue/data-grid";
+import XLayout from "@/components/XLayout.vue";
+import { XItemType } from "@/components";
+
 import ExportToSuplierView from "./ExportToSuplierView.vue";
+import { h } from "vue";
 
 export default defineComponent({
     name: "PharmaceuticalView",
     setup() {
-        // const type = ref<string>("0");
+        const title = "";
+
+        const displayModes = [
+            { text: "Display Mode 'full'", value: "full" },
+            { text: "Display Mode 'compact'", value: "compact" },
+        ];
+        const pageSizes = [5, 10, "all"];
+
+        const displayMode = ref("full");
+        const showPageSizeSelector = ref(true);
+        const showInfo = ref(true);
+        const showNavButtons = ref(true);
+
         const visibleImportFromSupplier = ref<boolean>(false);
         const visibleImportFromAnotherStock = ref<boolean>(false);
         const visibleExportToSuplier = ref<boolean>(false);
@@ -184,6 +318,10 @@ export default defineComponent({
         const toDate = ref<Dayjs>(
             dayjs().set("hour", 23).set("minute", 59).set("second", 59)
         );
+        const breadcrumbs = ref<Array<XItemType>>([
+            { key: "1", label: "Xét nghiệm", icon: "", path: "" },
+            { key: "2", label: "Danh sách Xét nghiệm", icon: "", path: "" },
+        ]);
 
         const inOutStockTypes = ref<InOutStockTypeModel[]>([]);
         const inOutStockTypeId = ref<number>(0);
@@ -298,6 +436,7 @@ export default defineComponent({
 
         // sửa
         const handleEdit = (item: InOutStockModel) => {
+            console.log(item);
             show(true, item);
         };
 
@@ -328,6 +467,7 @@ export default defineComponent({
                 handleLoad();
             }
         };
+
         //#endregion
 
         //#region Event
@@ -357,6 +497,8 @@ export default defineComponent({
                 inOutStockTypeId.value === 3
             ) {
                 visibleImportFromAnotherStock.value = v;
+            } else if (inOutStockTypeId.value === 18) {
+                console.log("Nhập đầu kỳ");
             }
 
             source.value = s;
@@ -375,11 +517,17 @@ export default defineComponent({
             }
         });
 
+        const formatStatus = (status: number) => {
+            console.log(status);
+            return status === 1 ? "Hoạt động" : "Ngừng hoạt động";
+        };
+
         return {
-            // type,
+            title,
             fromDate,
             toDate,
             columnImps,
+            breadcrumbs,
             visibleImportFromSupplier,
             visibleImportFromAnotherStock,
             visibleExportToSuplier,
@@ -392,6 +540,14 @@ export default defineComponent({
             inOutStockTypeId,
             isImport,
             roomType,
+
+            pageSizes,
+            displayMode,
+            showPageSizeSelector,
+            showInfo,
+            showNavButtons,
+            displayModes,
+
             handleLoad,
             handleEdit,
             inItData,
@@ -400,6 +556,7 @@ export default defineComponent({
             handlGegenerateDocumentClick,
             handleToggleImportFromAnotherStock,
             handleToggleExportFromSupplier,
+            formatStatus,
         };
     },
     async mounted() {
@@ -407,6 +564,16 @@ export default defineComponent({
         await this.handleLoad();
     },
     components: {
+        DxDataGrid,
+        DxColumn,
+        DxScrolling,
+        DxPager,
+        DxPaging,
+        DxSelection,
+        // DxSelectBox,
+        // DxDateBox,
+        XLayout,
+
         PlusOutlined,
         ImportFromSupplierView,
         ImportFromAnotherStockView,

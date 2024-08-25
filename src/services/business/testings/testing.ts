@@ -1,4 +1,4 @@
-import { PagedResultModel, ResultModel, ServiceRequestModel, ServiceRequestDataModel, ServiceRequestRequestModel } from '@/models'
+import { PagedResultModel, ResultModel, ServiceRequestModel, ServiceRequestDetailModel, ServiceRequestRequestModel, ServiceRequestDetailResultModel } from '@/models'
 import axiosClient from '@/utils/request'
 
 const serviceRequestService = {
@@ -6,12 +6,20 @@ const serviceRequestService = {
         return axiosClient.get<PagedResultModel<ServiceRequestModel>>('api/Testing/GetAll', { params: input });
     },
 
-    getServiceRequestDataByServiceRequestId(serviceRequestId: string, genderType: number, isDetail: boolean) {
-        return axiosClient.get<ResultModel<ServiceRequestDataModel[]>>(`api/Testing/GetServiceRequestDataByServiceRequestId?serviceRequestId=${serviceRequestId}&genderType=${genderType}&isDetail=${isDetail}`);
+    getServiceRequestDetailByServiceRequestId(serviceRequestId: string, genderType: number, isDetail: boolean) {
+        return axiosClient.get<ResultModel<ServiceRequestDetailModel[]>>(`api/Testing/GetServiceRequestDetailRequesByServiceRequestId?serviceRequestId=${serviceRequestId}&genderType=${genderType}&isDetail=${isDetail}`);
     },
 
-    getServiceResultDataByServiceRequestId(serviceRequestId: string, genderType: number) {
-        return axiosClient.get<ResultModel<ServiceRequestDataModel[]>>(`api/Testing/GetServiceResultDataByServiceRequestId?serviceRequestId=${serviceRequestId}&genderType=${genderType}`);
+    getServiceRequestDetailResultByServiceRequestId(serviceRequestId: string, genderType: number) {
+        return axiosClient.get<ResultModel<ServiceRequestDetailResultModel[]>>(`api/Testing/GetServiceRequestDetailResultByServiceRequestId?serviceRequestId=${serviceRequestId}&genderType=${genderType}`);
+    },
+
+    updateTestingStatus(serviceRequest: ServiceRequestModel) {
+        return axiosClient.post<ResultModel<ServiceRequestModel>>('api/Testing/UpdateTestingStatus', serviceRequest);
+    },
+
+    updateTestingCancelStatus(serviceRequest: ServiceRequestModel) {
+        return axiosClient.post<ResultModel<ServiceRequestModel>>('api/Testing/UpdateTestingCancelStatus', serviceRequest);
     }
 };
 

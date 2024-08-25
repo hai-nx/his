@@ -49,14 +49,14 @@ import InOutStockItemModel from "./business/pharmaceuticals/inOutStockItem";
 import InOutStockModel from "./business/pharmaceuticals/inOutStock";
 import ItemStockModel from "./business/pharmaceuticals/itemStock";
 import ServiceRequestModel, { ServiceRequestRequestModel } from "./business/serviceRequest";
-import ServiceRequestDataModel from "./business/serviceRequestData";
-import ServiceResultDataModel from "./business/serviceResultData";
+import ServiceRequestDetailModel from "./business/serviceRequestDetail";
+import ServiceRequestDetailResultModel from "./business/serviceRequestDetailResult";
 
 import UserModel from "./system/user";
 import DbOptionModel from "./system/dbOption";
 
 export {
-  
+
   SimpleModel,
   ResultModel,
   PagedResultModel,
@@ -104,8 +104,8 @@ export {
   ItemStockModel,
   ServiceRequestModel,
   ServiceRequestRequestModel,
-  ServiceRequestDataModel,
-  ServiceResultDataModel,
+  ServiceRequestDetailModel,
+  ServiceRequestDetailResultModel,
   UserModel,
   DbOptionModel,
   //business

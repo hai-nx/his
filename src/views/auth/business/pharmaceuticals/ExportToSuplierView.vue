@@ -204,7 +204,7 @@
                         @input="calculateTotalAmout"
                         class="grid-column-8 w-100"
                         v-model:value="inOutStockItemSelected.impPrice"
-                        :disabled="isDisabled"
+                        disabled
                         min="0"
                     />
                     <label class="grid-column-9">VAT nhập (%): </label>
@@ -212,7 +212,7 @@
                         @input="calculateTotalAmout"
                         class="grid-column-10 w-100"
                         v-model:value="inOutStockItemSelected.impVatRate"
-                        :disabled="isDisabled"
+                        disabled
                         min="0"
                         max="100"
                     />
@@ -222,7 +222,7 @@
                         @input="calculateTotalAmout"
                         class="grid-column-12 w-100"
                         v-model:value="inOutStockItemSelected.impTaxRate"
-                        :disabled="isDisabled"
+                        disabled
                         min="0"
                         max="100"
                     />
@@ -239,7 +239,7 @@
                     <a-input-number
                         class="grid-column-4 w-100"
                         v-model:value="inOutStockItemSelected.impAmount"
-                        :disabled="isDisabled"
+                        disabled
                         min="0"
                     />
 
@@ -264,19 +264,13 @@
                     <a-input
                         class="grid-column-8"
                         v-model:value="inOutStockItemSelected.lot"
-                        :disabled="isDisabled"
+                        disabled
                     />
                     <label class="grid-column-9">Hạn dùng: </label>
-                    <!-- <input
-                        class="datetime grid-column-10"
-                        type="date"
-                        v-model="inOutStockItemSelected.dueDate"
-                        :disabled="isDisabled"
-                    /> -->
                     <DxDateBox
                         class="grid-column-10 datetime"
                         v-model:value="inOutStockItemSelected.dueDate"
-                        :disabled="isDisabled"
+                        disabled
                         placeholder="dd/MM/yyyy"
                         display-format="dd/MM/yyyy"
                         type="date"
@@ -435,7 +429,7 @@ export default defineComponent({
         const loading = ref<boolean>(false);
         const result = ref<boolean>(false);
         const fields = ref({ value: "id", label: "name" });
-        const userColumns = ref({ value: "id", label: "userName" });
+        const userColumns = ref({ value: "id", label: "username" });
         const fieldMedistocks = ref({
             value: "itemId",
             label: "itemName",

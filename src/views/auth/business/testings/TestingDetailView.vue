@@ -34,7 +34,7 @@
                 </label>
                 <label class="grid-column-5"> Thời gian chỉ định: </label>
                 <label class="grid-column-6">
-                    {{ source?.serviceRequestDate }}
+                    {{ source?.requestTime }}
                 </label>
 
                 <label class="grid-column-1"> Bác sỹ chỉ định: </label>
@@ -47,7 +47,7 @@
                 </label>
                 <label class="grid-column-5"> Thời gian trả KQ: </label>
                 <label class="grid-column-6">
-                    {{ source?.serviceRequestDate }}
+                    {{ source?.endTime }}
                 </label>
 
                 <label class="grid-column-1"> Chẩn đoán: </label>
@@ -59,7 +59,7 @@
             <div class="row-2">
                 <DxDataGrid
                     :allow-column-reordering="true"
-                    :data-source="source?.serviceResultDatas"
+                    :data-source="source?.serviceRequestDetailResults"
                     :show-borders="true"
                     :hover-state-enabled="true"
                     key-expr="id"
@@ -139,34 +139,38 @@
                     <DxButton
                         v-if="source?.status === 1"
                         class="btn-DxButton"
-                        text="Tiếp nhận BP"
+                        text="Thực hiện"
                         :width="120"
                         type="default"
                         styling-mode="outlined"
+                        @click="handleUpdateTesting"
                     />
                     <DxButton
-                        v-if="source?.status === 2"
+                        v-if="source?.status === 4"
                         class="btn-DxButton"
-                        text="Hủy tiếp nhận"
+                        text="Hủy thực hiện"
                         :width="120"
                         type="danger"
                         styling-mode="outlined"
+                        @click="handleUpdateTesting"
                     />
                     <DxButton
-                        v-if="source?.status === 2"
+                        v-if="source?.status === 4"
                         class="btn-DxButton"
                         text="Trả kết quả"
                         :width="120"
                         type="default"
                         styling-mode="outlined"
+                        @click="handleUpdateTesting"
                     />
                     <DxButton
-                        v-if="source?.status === 4"
+                        v-if="source?.status === 5"
                         class="btn-DxButton"
                         text="Hủy trả KQ"
                         :width="120"
                         type="danger"
                         styling-mode="outlined"
+                        @click="handleUpdateTesting"
                     />
                 </div>
             </div>
@@ -183,6 +187,8 @@ import { DxLabel } from "devextreme-vue/chart";
 import { DxTextBox } from "devextreme-vue/text-box";
 import DxNumberBox from "devextreme-vue/number-box";
 import DxButton from "devextreme-vue/button";
+import { testingService } from "@/services";
+import { ServiceRequestStatusType } from "@/enums/serviceRequestStatusType";
 
 export default defineComponent({
     name: "TestingDetailView",
@@ -197,8 +203,8 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const popupVisible = computed(() => props.visible);
-        const source = computed(() => props.masterSourceProp);
-
+        // const source = computed(() => props.masterSourceProp);
+        const source = ref(props.masterSourceProp);
         const result = ref<boolean>();
 
         watch(popupVisible, async (value) => {
@@ -206,9 +212,52 @@ export default defineComponent({
             // }
         });
 
+        watch(
+            () => props.masterSourceProp,
+            async (newValue) => {
+                source.value = newValue;
+            }
+        );
+
         const toggle = function () {
             emit("toggle", result);
         };
+
+        // Bắt đầu xử lý
+        // eslint-disable-next-line
+        async function handleUpdateTesting(event: Event) {
+            // event.preventDefault();
+
+            if (source.value && source.value.status) {
+                await handleUpdateTestingStatus(source.value.status);
+            }
+        }
+
+        async function handleUpdateTestingStatus(
+            status: ServiceRequestStatusType
+        ) {
+            if (source.value) {
+                const statusType = status;
+                switch (statusType) {
+                    case ServiceRequestStatusType.Request:
+                        source.value.status =
+                            ServiceRequestStatusType.StartProcessing;
+                        break;
+                    case ServiceRequestStatusType.StartProcessing:
+                        source.value.status =
+                            ServiceRequestStatusType.ProvideResults;
+                        break;
+                }
+                let result = await testingService.updateTestingStatus(
+                    source.value
+                );
+                if (!result.data.isSucceeded) {
+                    source.value = result.data.result;
+                } else {
+                    source.value.status = statusType;
+                }
+            }
+        }
 
         const handleCancel = function () {
             toggle();
@@ -219,6 +268,7 @@ export default defineComponent({
             source,
 
             handleCancel,
+            handleUpdateTesting,
         };
     },
     components: {

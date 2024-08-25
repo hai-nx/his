@@ -237,7 +237,7 @@
                     <DxDateBox
                         class="grid-column-4 datetime"
                         v-model:value="inOutStockitemSelected.dueDate"
-                        :disabled="isDisabled"
+                        disabled
                         placeholder="dd/MM/yyyy"
                         display-format="dd/MM/yyyy"
                         type="date"

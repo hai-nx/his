@@ -2,7 +2,6 @@ import axios from 'axios';
 import queryString from 'query-string';
 import { useAuth } from '@/stores/auth';
 
-/* eslint-disable */
 const request = axios.create({
     baseURL: process.env.VUE_APP_API_BASE_URL,
     headers: {
@@ -10,7 +9,6 @@ const request = axios.create({
     },
 });
 request.interceptors.request.use(async (config) => {
-    debugger
     const { params } = config;
     if (params && Object.keys(params).length !== 0) {
         config.paramsSerializer = (params) => queryString.stringify(params);
@@ -27,7 +25,6 @@ request.interceptors.response.use(response => {
     return response;
 }, async error => {
     const originalConfig = error.config;
-    debugger
 
     if (originalConfig.url !== "api/Login/Authenticate" && originalConfig.url !== "api/Authorization/Login" && error.response && !originalConfig._retry) {
         // Access Token was expired
