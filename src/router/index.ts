@@ -34,7 +34,7 @@ import diagnosticImagingView from "@/views/auth/business/diagnosticImagings/Diag
 import testingView from "@/views/auth/business/testings/TestingView.vue";
 
 const routes: Array<RouteRecordRaw> = [
-  { path: "/", name: "home", component: () => import("@/views/public/LoginView.vue"), meta: { layout: LAYOUT_DEFAULT } },
+  { path: "/", name: "home", component: () => import("@/views/public/login/index.vue"), meta: { layout: LAYOUT_DEFAULT } },
   { path: "/login", name: "login", component: () => import("@/views/public/LoginView.vue"), meta: { layout: LAYOUT_DEFAULT } },
 
   { path: "/dashboard", name: "dashboard", component: () => import("../views/auth/dashboard/index.vue"), meta: { layout: appLayout.MAIN } },
