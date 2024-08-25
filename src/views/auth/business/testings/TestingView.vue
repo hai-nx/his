@@ -202,7 +202,7 @@
             <div class="content-row">
                 <DxDataGrid
                     :allow-column-reordering="true"
-                    :data-source="source.serviceResultDatas"
+                    :data-source="source.serviceRequestDetailResults"
                     :show-borders="true"
                     :hover-state-enabled="true"
                     key-expr="id"
@@ -261,9 +261,9 @@
 import { defineComponent, ref, computed } from "vue";
 import {
     ServiceRequestModel,
+    ServiceRequestRequestModel,
     RoomModel,
     RoomRequestModel,
-    ServiceRequestRequestModel,
     SimpleModel,
 } from "@/models";
 import { RoomType } from "@/enums/roomtypes";
@@ -411,13 +411,13 @@ export default defineComponent({
             source.value = selectedRowsData[0];
             if (source.value && source.value.id) {
                 let dtos =
-                    await testingService.getServiceResultDataByServiceRequestId(
+                    await testingService.getServiceRequestDetailResultByServiceRequestId(
                         source.value.id,
                         1
                     );
-                source.value.serviceResultDatas = dtos.data.result;
+                source.value.serviceRequestDetailResults = dtos.data.result;
             } else {
-                source.value.serviceResultDatas = [];
+                source.value.serviceRequestDetailResults = [];
             }
         };
 

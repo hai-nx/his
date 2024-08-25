@@ -1,6 +1,6 @@
-import { ServiceResultDataModel } from "@/models"
+import { ServiceRequestDetailResultModel } from "@/models"
 
-export default interface ServiceRequestDataModel {
+export default interface ServiceRequestDetailModel {
     id?: string
     serviceRequestId?: string // phiếu chỉ định
     insuranceId?: string // bảo hiểm
@@ -16,5 +16,5 @@ export default interface ServiceRequestDataModel {
     patientTypeId?: string // đối tượng
     description?: string
 
-    serviceResultDatas?: ServiceResultDataModel[]
+    serviceRequestDetailResults?: ServiceRequestDetailResultModel[]
 }

@@ -1,8 +1,8 @@
-export default interface ServiceResultDataModel {
+export default interface ServiceRequestDetailResultModel {
     id?: string
-    serviceResultIndiceId?: string
+    serviceResultIndiceId?: string // Id danh mục kết quả
     serviceRequestId?: string
-    serviceRequestDataId?: string
+    serviceRequestDetailId?: string
     serviceId?: string
     result?: string // Kết quả
     normalRange?: string // Khoảng bình thường
