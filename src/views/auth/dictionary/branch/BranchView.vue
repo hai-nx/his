@@ -7,7 +7,13 @@
             </a-button>
         </template>
 
-        <a-table class="ant-table-striped m-2" size="middle" :columns="columns" :data-source="items" bordered>
+        <a-table
+            class="ant-table-striped m-2"
+            size="middle"
+            :columns="columns"
+            :data-source="items"
+            bordered
+        >
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'inactive'">
                     <span>
@@ -21,12 +27,19 @@
                 </template>
                 <template v-else-if="column.key === 'action'">
                     <span>
-                        <button class="btn btn-outline-primary border-0 btn-sm me-2" title="Sửa"
-                            @click="handleEdit(record)">
+                        <button
+                            class="btn btn-outline-primary border-0 btn-sm me-2"
+                            title="Sửa"
+                            @click="handleEdit(record)"
+                        >
                             <i class="bi bi-pen"></i>
                         </button>
 
-                        <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa" @click="handleDelete(record)">
+                        <button
+                            class="btn btn-outline-danger border-0 btn-sm"
+                            title="Xóa"
+                            @click="handleDelete(record)"
+                        >
                             <i class="bi bi-x-lg"></i>
                         </button>
                     </span>
@@ -36,80 +49,128 @@
     </x-layout>
 
     <teleport to="body">
-        <BranchDetailView :visible="visible" :data="record" @toggle="handleToggle" />
+        <BranchDetailView
+            :visible="visible"
+            :data="record"
+            @toggle="handleToggle"
+        />
     </teleport>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { Modal } from 'ant-design-vue'
-import { BranchModel } from '@/models'
-import { XItemType } from '@/components';
-import { branchService } from '@/services';
-import BranchDetailView from './BranchDetailView.vue'
-import XLayout from "@/components/XLayout.vue"
+import { defineComponent, ref } from "vue";
+import { Modal } from "ant-design-vue";
+import { BranchModel } from "@/models";
+import { XItemType } from "@/components";
+import { branchService } from "@/services";
+import BranchDetailView from "./BranchDetailView.vue";
+import XLayout from "@/components/XLayout.vue";
 
 export default defineComponent({
-    name: 'BranchView',
+    name: "BranchView",
     setup() {
         const title = "Chi nhánh";
         const breadcrumbs = ref<Array<XItemType>>([
-            { key: '1', label: 'Danh mục', icon: '', path: '' },
-            { key: '2', label: 'Danh sách chi nhánh', icon: '', path: '' }
+            { key: "1", label: "Danh mục", icon: "", path: "" },
+            { key: "2", label: "Danh sách chi nhánh", icon: "", path: "" },
         ]);
         const columns = ref([
-            { title: 'Mã chi nhánh', key: 'branchCode', dataIndex: 'branchCode', width: 200 },
-            { title: 'Tên chi nhánh', key: 'branchName', dataIndex: 'branchName', width: 500 },
-            { title: 'Mã KCBBĐ', key: 'mediOrgCode', dataIndex: 'mediOrgCode', width: 500 },
-            { title: 'Mã KCBBĐ đúng tuyến', key: 'mediOrgAcceptCode', dataIndex: 'mediOrgAcceptCode', width: 500 },
-            { title: 'Mô tả', key: 'description', dataIndex: 'description', width: 500 },
-            { title: 'Trạng thái', key: 'inactive', dataIndex: 'inactive', width: 200 },
-            { title: 'Xử lý', key: 'action', width: 100 }
+            {
+                title: "Mã chi nhánh",
+                key: "code",
+                dataIndex: "code",
+                width: 200,
+            },
+            {
+                title: "Tên chi nhánh",
+                key: "name",
+                dataIndex: "name",
+                width: 500,
+            },
+            {
+                title: "Địa chỉ",
+                key: "address",
+                dataIndex: "address",
+                width: 500,
+            },
+            {
+                title: "Mã KCBBĐ",
+                key: "mediOrgCode",
+                dataIndex: "mediOrgCode",
+                width: 120,
+            },
+            {
+                title: "Mã KCBBĐ đúng tuyến",
+                key: "mediOrgAcceptCode",
+                dataIndex: "mediOrgAcceptCode",
+                width: 500,
+            },
+            {
+                title: "Mô tả",
+                key: "description",
+                dataIndex: "description",
+                width: 500,
+            },
+            {
+                title: "Trạng thái",
+                key: "inactive",
+                dataIndex: "inactive",
+                width: 200,
+            },
+            { title: "Xử lý", key: "action", width: 100 },
         ]);
         const items = ref<BranchModel[]>([]);
         const record = ref<BranchModel>();
-        const visible = ref<boolean>(false)
+        const visible = ref<boolean>(false);
 
         // lấy dữ liệu
         const handleLoad = () => {
             items.value = [];
-            branchService.getAll()
-                .then(res => {
-                    items.value = res.data.result
-                });
-        }
+            branchService.getAll().then((res) => {
+                items.value = res.data.result;
+            });
+        };
 
         // thêm mới
         const handleAdd = () => {
             show(true, undefined);
-        }
+        };
 
         // sửa
         const handleEdit = (item: BranchModel) => {
             show(true, item);
-        }
+        };
 
         // xóa
         const handleDelete = (item: BranchModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
                 Modal.confirm({
-                    content: 'Bạn có thực sự muốn xóa chi nhánh <' + item.code + '> đã chọn không?',
-                    okText: 'Đồng ý',
-                    cancelText: 'Bỏ qua',
+                    content:
+                        "Bạn có thực sự muốn xóa chi nhánh <" +
+                        item.code +
+                        "> đã chọn không?",
+                    okText: "Đồng ý",
+                    cancelText: "Bỏ qua",
                     onOk() {
-                        branchService.delete(id)
-                            .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
+                        branchService
+                            .delete(id)
+                            .catch((error) => {
+                                Modal.error({
+                                    content: error.message,
+                                    okText: "Đồng ý",
+                                });
+                            })
                             .finally(() => {
                                 handleLoad();
                             });
                     },
                     onCancel() {
                         Modal.destroyAll();
-                    }
+                    },
                 });
             }
-        }
+        };
 
         // ẩn / hiện chi tiết
         const handleToggle = (result: boolean) => {
@@ -118,12 +179,12 @@ export default defineComponent({
                 record.value = undefined;
                 handleLoad();
             }
-        }
+        };
 
         const show = (v: boolean, r: BranchModel | undefined) => {
             record.value = r;
             visible.value = v;
-        }
+        };
 
         return {
             title,
@@ -136,15 +197,15 @@ export default defineComponent({
             handleDelete,
             handleEdit,
             handleLoad,
-            handleToggle
-        }
+            handleToggle,
+        };
     },
     mounted() {
         this.handleLoad();
     },
     components: {
         XLayout,
-        BranchDetailView
-    }
+        BranchDetailView,
+    },
 });
 </script>

@@ -1,20 +1,31 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, computed, watch, PropType } from "vue";
 import { Modal } from "ant-design-vue";
-import { BranchModel, ProvinceModel, DistrictModel, WardModel, UserModel } from "@/models";
-import { branchService, provinceService, districtService, wardService } from "@/services";
+import {
+    BranchModel,
+    ProvinceModel,
+    DistrictModel,
+    WardModel,
+    UserModel,
+} from "@/models";
+import {
+    branchService,
+    provinceService,
+    districtService,
+    wardService,
+} from "@/services";
 
 const props = defineProps({
     visible: {
         type: Boolean,
-        required: true
+        required: true,
     },
     data: {
         type: Object as PropType<BranchModel>,
-    }
-})
+    },
+});
 
-const emit = defineEmits(['toggle'])
+const emit = defineEmits(["toggle"]);
 
 const title = ref<string>("Thêm mới chi nhánh");
 const item = ref<BranchModel>({
@@ -25,21 +36,20 @@ const item = ref<BranchModel>({
     description: "",
     inactive: false,
 });
-const errors = ref(
-    {
-        branchCode: "",
-        branchName: "",
-        mediOrgCode: "",
-        mediOrgAcceptCode: ""
-    });
+const errors = ref({
+    code: "",
+    name: "",
+    mediOrgCode: "",
+    mediOrgAcceptCode: "",
+});
 const loading = ref<boolean>(false);
 
-const provinces = ref<ProvinceModel[]>([])
-const districts = ref<DistrictModel[]>([])
-const wards = ref<WardModel[]>([])
+const provinces = ref<ProvinceModel[]>([]);
+const districts = ref<DistrictModel[]>([]);
+const wards = ref<WardModel[]>([]);
 
-const districtOptions = ref<DistrictModel[]>([])
-const wardOptions = ref<WardModel[]>([])
+const districtOptions = ref<DistrictModel[]>([]);
+const wardOptions = ref<WardModel[]>([]);
 
 let result = false;
 
@@ -136,31 +146,28 @@ watch(show, (value) => {
             loading.value = false;
         }
 
-        provinceService.getAll()
-            .then(r => {
-                provinces.value = r.data.result;
-            })
+        provinceService.getAll().then((r) => {
+            provinces.value = r.data.result;
+        });
 
-        districtService.getAll()
-            .then(r => {
-                districts.value = r.data.result;
-            })
+        districtService.getAll().then((r) => {
+            districts.value = r.data.result;
+        });
 
-        wardService.getAll()
-            .then(r => {
-                wards.value = r.data.result;
-            })
+        wardService.getAll().then((r) => {
+            wards.value = r.data.result;
+        });
     }
 });
-
 
 function handleProvinceChange(value: string) {
     //console.log(`selected ${value}`);
     if (value === undefined) {
-        districtOptions.value = districts.value
-    }
-    else {
-        districtOptions.value = districts.value.filter(x => x.provinceID === value)
+        districtOptions.value = districts.value;
+    } else {
+        districtOptions.value = districts.value.filter(
+            (x) => x.provinceID === value
+        );
     }
 }
 
@@ -168,12 +175,14 @@ function handleDistrictChange(value: string) {
     //console.log(`selected ${value}`);
     if (value === undefined) {
         if (item.value.provinceID === undefined) {
-            wardOptions.value = wards.value
+            wardOptions.value = wards.value;
         } else {
-            wardOptions.value = wards.value.filter(x=>x.provinceId === item.value.provinceID)
+            wardOptions.value = wards.value.filter(
+                (x) => x.provinceId === item.value.provinceID
+            );
         }
     } else {
-        wardOptions.value = wards.value.filter(x => x.districtID === value)
+        wardOptions.value = wards.value.filter((x) => x.districtID === value);
         console.log(wards);
     }
 }
@@ -320,16 +329,27 @@ function handleDistrictChange(value: string) {
 </script>
 
 <template>
-    <a-modal :visible="show" :title="title" width="1000px" @cancel="handleCancel" :mask-closable="false">
+    <a-modal
+        :visible="show"
+        :title="title"
+        width="1000px"
+        @cancel="handleCancel"
+        :mask-closable="false"
+    >
         <div class="row gx-2">
             <div class="col-12 col-md-3 mb-2">
                 <div>
                     <label class="lbl lbl-required">Mã chi nhánh</label>
                 </div>
                 <div>
-                    <a-input v-model:value="item.branchCode" :disabled="loading" :maxlength="50" :class="{
-                        'input-danger': errors.branchCode,
-                    }" />
+                    <a-input
+                        v-model:value="item.code"
+                        :disabled="loading"
+                        :maxlength="50"
+                        :class="{
+                            'input-danger': errors.code,
+                        }"
+                    />
                 </div>
             </div>
 
@@ -338,9 +358,14 @@ function handleDistrictChange(value: string) {
                     <label class="lbl lbl-required">Tên chi nhánh</label>
                 </div>
                 <div>
-                    <a-input v-model:value="item.branchName" :disabled="loading" :maxlength="255" :class="{
-                        'input-danger': errors.branchName,
-                    }" />
+                    <a-input
+                        v-model:value="item.name"
+                        :disabled="loading"
+                        :maxlength="255"
+                        :class="{
+                            'input-danger': errors.name,
+                        }"
+                    />
                 </div>
             </div>
         </div>
@@ -351,16 +376,26 @@ function handleDistrictChange(value: string) {
                     <label class="lbl">Mã KCBBĐ</label>
                 </div>
                 <div>
-                    <a-input v-model:value="item.mediOrgCode" :disabled="loading" :maxlength="50" />
+                    <a-input
+                        v-model:value="item.mediOrgCode"
+                        :disabled="loading"
+                        :maxlength="50"
+                    />
                 </div>
             </div>
 
             <div class="col-12 col-md-9 mb-2">
                 <div>
-                    <label class="lbl">Mã KCBBĐ đúng tuyến <i>(ngăn cách bởi dấu ;)</i></label>
+                    <label class="lbl"
+                        >Mã KCBBĐ đúng tuyến <i>(ngăn cách bởi dấu ;)</i></label
+                    >
                 </div>
                 <div>
-                    <a-input v-model:value="item.mediOrgAcceptCode" :disabled="loading" :maxlength="4000" />
+                    <a-input
+                        v-model:value="item.mediOrgAcceptCode"
+                        :disabled="loading"
+                        :maxlength="4000"
+                    />
                 </div>
             </div>
         </div>
@@ -368,10 +403,16 @@ function handleDistrictChange(value: string) {
         <div class="row gx-2">
             <div class="col-12 col-md-6 mb-2">
                 <div>
-                    <label class="lbl">Đơn vị quản lý <i>(sở y tế, bộ y tế)</i></label>
+                    <label class="lbl"
+                        >Đơn vị quản lý <i>(sở y tế, bộ y tế)</i></label
+                    >
                 </div>
                 <div>
-                    <a-input v-model:value="item.parentOrganizationName" :disabled="loading" :maxlength="255" />
+                    <a-input
+                        v-model:value="item.parentOrganizationName"
+                        :disabled="loading"
+                        :maxlength="255"
+                    />
                 </div>
             </div>
 
@@ -380,7 +421,11 @@ function handleDistrictChange(value: string) {
                     <label class="lbl">Loại chuyên khoa</label>
                 </div>
                 <div>
-                    <a-select class="w-100" v-model:value="item.hospitalSpecialityID" :disabled="loading">
+                    <a-select
+                        class="w-100"
+                        v-model:value="item.hospitalSpecialityID"
+                        :disabled="loading"
+                    >
                     </a-select>
                 </div>
             </div>
@@ -390,7 +435,11 @@ function handleDistrictChange(value: string) {
                     <label class="lbl">Hạng bệnh viện</label>
                 </div>
                 <div>
-                    <a-select class="w-100" v-model:value="item.hospitalLevelID" :disabled="loading" />
+                    <a-select
+                        class="w-100"
+                        v-model:value="item.hospitalLevelID"
+                        :disabled="loading"
+                    />
                 </div>
             </div>
         </div>
@@ -401,7 +450,11 @@ function handleDistrictChange(value: string) {
                     <label class="lbl">Địa chỉ</label>
                 </div>
                 <div>
-                    <a-textarea v-model:value="item.address" :disabled="loading" :maxlength="255" />
+                    <a-textarea
+                        v-model:value="item.address"
+                        :disabled="loading"
+                        :maxlength="255"
+                    />
                 </div>
             </div>
         </div>
@@ -411,9 +464,19 @@ function handleDistrictChange(value: string) {
                 <div>
                     <label class="lbl">Tỉnh</label>
                 </div>
-                <a-select class="w-100" v-model:value="item.provinceID"
-                    :options="provinces.map(item => ({ value: item.id, label: item.provinceName }))" :disabled="loading"
-                    :allowClear="true" @change="handleProvinceChange">
+                <a-select
+                    class="w-100"
+                    v-model:value="item.provinceID"
+                    :options="
+                        provinces.map((item) => ({
+                            value: item.id,
+                            label: item.provinceName,
+                        }))
+                    "
+                    :disabled="loading"
+                    :allowClear="true"
+                    @change="handleProvinceChange"
+                >
                 </a-select>
             </div>
 
@@ -422,10 +485,20 @@ function handleDistrictChange(value: string) {
                     <label class="lbl">Huyện</label>
                 </div>
                 <div>
-                    <a-select class="w-100" v-model:value="item.districtID"
-                        :options="districtOptions.map(item => ({ value: item.id, label: item.districtName }))" :allowClear="true"
-                        :showSearch="true" :disabled="loading"
-                        @select="handleDistrictChange">
+                    <a-select
+                        class="w-100"
+                        v-model:value="item.districtID"
+                        :options="
+                            districtOptions.map((item) => ({
+                                value: item.id,
+                                label: item.districtName,
+                            }))
+                        "
+                        :allowClear="true"
+                        :showSearch="true"
+                        :disabled="loading"
+                        @select="handleDistrictChange"
+                    >
                     </a-select>
                 </div>
             </div>
@@ -435,8 +508,17 @@ function handleDistrictChange(value: string) {
                     <label class="lbl">Xã</label>
                 </div>
                 <div>
-                    <a-select class="w-100" v-model:value="item.wardID"
-                        :options="wardOptions.map(item => ({ value: item.id, label: item.wardName }))" :disabled="loading" />
+                    <a-select
+                        class="w-100"
+                        v-model:value="item.wardID"
+                        :options="
+                            wardOptions.map((item) => ({
+                                value: item.id,
+                                label: item.wardName,
+                            }))
+                        "
+                        :disabled="loading"
+                    />
                 </div>
             </div>
         </div>
@@ -446,7 +528,12 @@ function handleDistrictChange(value: string) {
                 <div>
                     <label class="lbl">Điện thoại</label>
                 </div>
-                <a-input class="w-100" v-model:value="item.phoneNumber" :disabled="loading" :maxlength="50">
+                <a-input
+                    class="w-100"
+                    v-model:value="item.phoneNumber"
+                    :disabled="loading"
+                    :maxlength="50"
+                >
                 </a-input>
             </div>
 
@@ -455,7 +542,12 @@ function handleDistrictChange(value: string) {
                     <label class="lbl">Email</label>
                 </div>
                 <div>
-                    <a-input class="w-100" v-model:value="item.email" :disabled="loading" :maxlength="50">
+                    <a-input
+                        class="w-100"
+                        v-model:value="item.email"
+                        :disabled="loading"
+                        :maxlength="50"
+                    >
                     </a-input>
                 </div>
             </div>
@@ -465,7 +557,10 @@ function handleDistrictChange(value: string) {
                     <label class="lbl">Lãnh đạo</label>
                 </div>
                 <div>
-                    <a-input-search v-model:value="item.directorID" :disabled="loading" />
+                    <a-input-search
+                        v-model:value="item.directorID"
+                        :disabled="loading"
+                    />
                 </div>
             </div>
         </div>
@@ -476,15 +571,29 @@ function handleDistrictChange(value: string) {
                     <label class="lbl">Ghi chú</label>
                 </div>
                 <div>
-                    <a-textarea v-model:value="item.description" :disabled="loading" :maxlength="255" />
+                    <a-textarea
+                        v-model:value="item.description"
+                        :disabled="loading"
+                        :maxlength="255"
+                    />
                 </div>
             </div>
         </div>
 
         <template #footer>
-            <a-button key="submit" type="primary" :loading="loading" @click.prevent="handleSave">Lưu</a-button>
-            <a-button type="primary" :loading="loading" @click.prevent="handleSaveAndAddNew">Lưu và Thêm
-                mới</a-button>
+            <a-button
+                key="submit"
+                type="primary"
+                :loading="loading"
+                @click.prevent="handleSave"
+                >Lưu</a-button
+            >
+            <a-button
+                type="primary"
+                :loading="loading"
+                @click.prevent="handleSaveAndAddNew"
+                >Lưu và Thêm mới</a-button
+            >
             <a-button @click="handleCancel">Bỏ qua</a-button>
         </template>
     </a-modal>
@@ -592,8 +701,8 @@ function handleDistrictChange(value: string) {
 }
 
 .lbl-required::after {
-    content: '*';
+    content: "*";
     color: red;
-    margin-left: .2rem;
+    margin-left: 0.2rem;
 }
 </style>
