@@ -410,7 +410,11 @@
                             </div>
                         </div>
                     </a-tab-pane>
-                    <a-tab-pane key="3" tab="Trị số kết quả">
+                    <a-tab-pane
+                        key="3"
+                        tab="Trị số kết quả"
+                        v-if="isShowResultIndices"
+                    >
                         <div class="container">
                             <div class="row">
                                 <div class="flex-container-resultIndice">
@@ -1083,6 +1087,16 @@ export default defineComponent({
             } else return false;
         });
 
+        const isShowResultIndices = computed(() => {
+            let serviceGroupHeIn = serviceGroupHeIns.value.find(
+                (f) => f.id === service.serviceGroupHeInId
+            );
+
+            if (serviceGroupHeIn !== null && serviceGroupHeIn?.code === "XN") {
+                return true;
+            } else return false;
+        });
+
         //#endregion
 
         const handleSave = async () => {
@@ -1093,13 +1107,6 @@ export default defineComponent({
                 loading.value = false;
                 return;
             }
-
-            // service.sServicePricePolicies.forEach((element) => {
-            //     if (element.executionTime !== null) {
-            //         element.executionTimeString =
-            //             element.executionTime.format("DD/MM/YYYY");
-            //     }
-            // });
 
             let resultSave = await serviceService.createOrEdit(service);
             if (resultSave.data.isSucceeded) {
@@ -1176,8 +1183,6 @@ export default defineComponent({
             const resultIndice = service.sServiceResultIndices.find(
                 (f) => f.id == record.id
             );
-
-            console.log(service);
 
             if (resultIndice !== null && resultIndice != undefined) {
                 const index =
@@ -1292,6 +1297,7 @@ export default defineComponent({
             serviceGroupHeIns,
             units,
             isShowExecutionRooms,
+            isShowResultIndices,
             erro,
             columnResultIndices,
             handleSave,
