@@ -358,15 +358,6 @@
                                                 column.key === 'executionTime'
                                             "
                                         >
-                                            <!-- <a-date-picker
-                                                class="my-0 mx-0 w-100"
-                                                placeholder="dd/MM/yyyy"
-                                                format="YYYY-MM-DD[T]HH:mm:ss"
-                                                v-model:value="
-                                                    record.executionTime
-                                                "
-                                            /> -->
-
                                             <DxDateBox
                                                 v-model:value="
                                                     record.executionTime
@@ -693,7 +684,7 @@ export default defineComponent({
 
         const result = ref<boolean>(false);
         const title = ref<string>("Thêm mới dịch vụ ký thuật");
-        let service = reactive<ServiceModel>({
+        var service = reactive<ServiceModel>({
             id: null,
             code: null,
             name: null,
@@ -951,28 +942,6 @@ export default defineComponent({
                 service.sServiceResultIndices =
                     resultDto.data.result.sServiceResultIndices;
 
-                // if (
-                //     resultDto.data.result.sServicePricePolicies &&
-                //     resultDto.data.result.sServicePricePolicies !== undefined &&
-                //     resultDto.data.result.sServicePricePolicies.length > 0
-                // ) {
-                //     resultDto.data.result.sServicePricePolicies.forEach(
-                //         (element) => {
-                //             if (
-                //                 element.executionTimeString !== null &&
-                //                 element.executionTimeString !== ""
-                //             ) {
-                //                 element.executionTime = dayjs(
-                //                     element.executionTimeString,
-                //                     "DD-MM-YYYY"
-                //                 );
-                //             } else {
-                //                 element.executionTime = null;
-                //             }
-                //         }
-                //     );
-                // }
-
                 title.value = "Sửa dịch vụ kỹ thuật";
                 loading.value = false;
             } else {
@@ -1040,10 +1009,10 @@ export default defineComponent({
                     serviceGroupHeIn.code === "CDHA" ||
                     serviceGroupHeIn.code === "TDCN")
             ) {
-                const length = service.sExecutionRooms.filter(
+                const length = service.sExecutionRooms?.filter(
                     (f) => f.isMain === true
                 ).length;
-                if (length > 1) {
+                if (length && length > 1) {
                     strArr.push(
                         "Chỉ được phép chọn một Phòng thực hiện chính!"
                     );
@@ -1208,6 +1177,8 @@ export default defineComponent({
                 (f) => f.id == record.id
             );
 
+            console.log(service);
+
             if (resultIndice !== null && resultIndice != undefined) {
                 const index =
                     service.sServiceResultIndices.indexOf(resultIndice);
@@ -1246,7 +1217,8 @@ export default defineComponent({
             data: ServiceResultIndiceModel | undefined
         ) => {
             resetResultIndice();
-            if (data !== undefined) {
+
+            if (data) {
                 const dataCopy = { ...data };
 
                 resultIndiceSelected.id = dataCopy.id;
