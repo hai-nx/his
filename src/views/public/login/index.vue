@@ -10,23 +10,23 @@ const password = ref<string>('123qwe')
 
 <template>
     <div class="login">
-        <div class="login-container">
-            <h3 class="title">Đăng nhập</h3>
-            <div class="mb-3">
-                <label for="iusername" class="form-label">Tên đăng nhập</label>
-                <d-input :value="username" type="text" class="form-control" id="iusername"></d-input>
+        <d-card class="login-container">
+            <label for="p1" class="mb-2">Tên đăng nhập</label>
+            <d-row>
+
+                <d-input id="p1" :value="username" size="middle"></d-input>
+            </d-row>
+
+            <label for="p2">Mật khẩu</label>
+            <div class="row mb-3">
+                <d-input-password id="p2" :value="password"></d-input-password>
             </div>
-            <div class="mb-3">
-                <label for="ipassword" class="form-label">Mật khẩu</label>
-                <d-input :value="password" type="password" class="form-control" id="ipassword"></d-input>
+            <div class="row mb-3">
+                <label>Quên mật khẩu</label>
             </div>
-            <div class="mb-1">
-                <d-button type="primary" fluid>Đăng nhập</d-button>
-            </div>
-            <div>
-                <d-button type="text" fluid>Quên mật khẩu</d-button>
-            </div>
-        </div>
+
+            <d-button type="primary" size="large" fluid>Đăng nhập</d-button>
+        </d-card>
     </div>
 </template>
 
@@ -35,25 +35,12 @@ const password = ref<string>('123qwe')
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    justify-content: center;
 }
 
 .login-container {
-    background-color: #fff;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
     margin-left: auto;
     margin-right: auto;
-    padding: 20px 40px;
-    width: 455px;
-    min-height: 600px;
-}
-
-.login-container .title {
-    color: #333131;
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 36px;
-    text-align: center;
+    padding: 1rem 0;
+    width: 420px;
 }
 </style>

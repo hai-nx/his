@@ -19,7 +19,7 @@
 
                         <a-form-item label="Mật khẩu"
                             :rules="[{ required: true, message: 'Please input your password!' }]">
-                            <a-input-password v-model:value="password" :disabled="loading" />
+                            <a-input-password v-model:value="password" :disabled="loading"/>
                         </a-form-item>
 
                         <a-form-item>

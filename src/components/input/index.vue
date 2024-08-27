@@ -1,52 +1,68 @@
 <script setup lang="ts">
-import { defineProps, PropType } from "vue";
+import { computed, defineProps, PropType } from 'vue'
+import { SizeType } from '../context'
 
-defineProps({
-    type: {
-        type: String as PropType<"number" | "search" | "time" | "date" | "week" | "month" | "submit" | "hidden" | "button" | "image" | "text" | "reset" | "checkbox" | "radio" | "color" | "range" | "tel" | "url" | "email" | "datetime-local" | "file" | "password", string>,
-        default: "text",
+const props = defineProps({
+    id: {
+        type: String
     },
-    id: { type: String },
-    name: { type: String },
-    placeholder: { type: String },
-    value: { type: String },
-    maxlength: { type: Number },
-    max: { type: Number },
-    readonly: { type: Boolean },
-    disabled: { type: Boolean },
-});
+    name: {
+        type: String
+    },
+    type: {
+        type: String as PropType<'text' | 'password' | string>
+    },
+    value: {
+        type: String
+    },
+    placeholder: {
+        type: String
+    },
+    size: {
+        type: String as PropType<SizeType>,
+        default: 'small'
+    },
+    disabled: {
+        type: Boolean
+    },
+    readonly: {
+        type: Boolean
+    }
+})
+
+const cls = computed(() => ({
+    'd-input-md': props.size === 'middle',
+    'd-input-lg': props.size === 'large'
+}))
+
 </script>
 
 <template>
-    <input :type="type" :id="id" :name="name" :placeholder="placeholder" :readonly="readonly" :disabled="disabled"
-        :value="value" :maxlength="maxlength" :max="max" :class="['d-input']"
-        @input="$emit('update:value', ($event?.target as HTMLInputElement).value)" />
+    <input :id="id" :name="name" :type="type" :value="value" :placeholder="placeholder" :readonly="readonly"
+        :disabled="disabled" class="d-input" :class="cls"
+        @input="$emit('update:value', ($event?.target as HTMLInputElement).value)">
 </template>
 
-<style scoped>
+<style>
 .d-input {
-    padding: 2px 5px;
+    font-family: inherit;
+    font-feature-settings: inherit;
     font-size: 14px;
+    color: #334155;
+    background: #ffffff;
+    padding: 3px 7px;
     line-height: 20px;
-    color: #24292e;
-    vertical-align: middle;
-    background-color: #ffffff;
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    border: 1px solid #BDBDBD;
-    border-radius: 2px;
-    outline: none;
-    box-shadow: rgba(225, 228, 232, 0.2) 0px 1px 0px 0px inset;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
 }
 
-.d-input:hover,
-.d-input:focus-visible {
-    border-color: #0366d6;
-    box-shadow: 0 0 0 1px #0366d6;
-    outline: none;
+.d-input.d-input-md {
+    padding: 5px 7px;
 }
 
-.d-input:disabled {
-    background-color: #f1f1f1;
+.d-input.d-input-lg {
+    padding: 5px 7px;
+    font-size: 16px;
+    line-height: 1.5;
 }
 </style>
