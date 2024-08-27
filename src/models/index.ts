@@ -2,7 +2,7 @@ import SimpleModel from "./simple/simple";
 import ResultModel from "./ResultModel";
 import PagedResultModel from "./PagedResultModel";
 
-import { PatientModel, GetAllPatientInputModel } from "./business/patient";
+export { PatientModel, GetAllPatientInputModel } from "./business/patient";
 import PatientRecordModel, { PatientRecordRequestModel } from "./business/patientRecord";
 import { ReceptionModel, GetAllReceptionInputModel } from "./business/reception";
 import TreatmentModel, { TreatmentFilterModel } from "./business/treatment";
@@ -109,8 +109,8 @@ export {
   UserModel,
   DbOptionModel,
   //business
-  PatientModel,
-  GetAllPatientInputModel,
+  //PatientModel,
+  //GetAllPatientInputModel,
   PatientRecordModel,
   PatientRecordRequestModel,
   ReceptionModel,
