@@ -1180,25 +1180,26 @@ export default defineComponent({
         };
 
         const handleSaveResultIndice = (record: ServiceResultIndiceModel) => {
-            const resultIndice = service.sServiceResultIndices.find(
+            const resultIndice = service.sServiceResultIndices?.find(
                 (f) => f.id == record.id
             );
 
-            if (resultIndice !== null && resultIndice != undefined) {
-                const index =
-                    service.sServiceResultIndices.indexOf(resultIndice);
-                service.sServiceResultIndices[index] = { ...record };
-            } else {
-                service.sServiceResultIndices.push({ ...record });
-            }
-            service.sServiceResultIndices = service.sServiceResultIndices.sort(
-                (a, b) => {
-                    if (a.sortOrder && b.sortOrder) {
-                        return a.sortOrder - b.sortOrder;
-                    }
-                    return 0;
+            if (service.sServiceResultIndices) {
+                if (resultIndice) {
+                    const index =
+                        service.sServiceResultIndices.indexOf(resultIndice);
+                    service.sServiceResultIndices[index] = { ...record };
+                } else {
+                    service.sServiceResultIndices.push({ ...record });
                 }
-            );
+                service.sServiceResultIndices =
+                    service.sServiceResultIndices.sort((a, b) => {
+                        if (a.sortOrder && b.sortOrder) {
+                            return a.sortOrder - b.sortOrder;
+                        }
+                        return 0;
+                    });
+            }
 
             visibleResultIndice.value = false;
         };
@@ -1250,10 +1251,12 @@ export default defineComponent({
                 okText: "Đồng ý",
                 cancelText: "Bỏ qua",
                 onOk() {
-                    service.sServiceResultIndices =
-                        service.sServiceResultIndices.filter(
-                            (f) => f.id != record.id
-                        );
+                    if (service.sServiceResultIndices) {
+                        service.sServiceResultIndices =
+                            service.sServiceResultIndices.filter(
+                                (f) => f.id != record.id
+                            );
+                    }
                 },
                 onCancel() {
                     Modal.destroyAll();

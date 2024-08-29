@@ -14,7 +14,7 @@ export default interface ServiceModel extends DictionaryBase {
     unitName?: string | null,
     serviceGroupName?: string | null,
 
-    sServicePricePolicies: ServicePricePolicyModel[],
-    sExecutionRooms: ExecutionRoomModel[],
-    sServiceResultIndices: ServiceResultIndiceModel[]
+    sServicePricePolicies?: ServicePricePolicyModel[],
+    sExecutionRooms?: ExecutionRoomModel[],
+    sServiceResultIndices?: ServiceResultIndiceModel[]
 }
