@@ -16,6 +16,10 @@ const password = ref<string>('123qwe')
 
                 <d-input id="p1" :value="username" size="middle"></d-input>
             </d-row>
+            <d-row>
+
+                <d-input id="p1" :value="username" size="large"></d-input>
+            </d-row>
 
             <label for="p2">Mật khẩu</label>
             <div class="row mb-3">

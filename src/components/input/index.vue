@@ -62,7 +62,7 @@ const cls = computed(() => ({
 
 .d-input.d-input-lg {
     padding: 5px 7px;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.5;
 }
 </style>
