@@ -1,19 +1,7 @@
 /* variable */
 :root {
-    /** app **/
-    --his-background-color: #ECECEC;
-    --his-color: #161E2E;
-    --his-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --his-font-size: 14px;
-
-    /** nav **/
-    --his-nav-background-color: #FFFFFF;
-    --his-nav-color: #161E2E;
-    --his-nav-background-color-hover: #3461b2;
-    --his-nav-color-hover: #FFFFFF;
-    --his-nav-height: 40px;
-    --his-nav-height-item: 38px;
-    --his-nav-width: 320px;
+    --d-button-color: #333;
+    
 }
 
 /* global style */

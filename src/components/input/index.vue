@@ -3,43 +3,32 @@ import { computed, defineProps, PropType } from 'vue'
 import { SizeType } from '../context'
 
 const props = defineProps({
-    id: {
-        type: String
-    },
-    name: {
-        type: String
-    },
+    id: { type: String },
+    name: { type: String },
     type: {
-        type: String as PropType<'text' | 'password' | string>
+        type: String as PropType<'text' | 'password' | 'date' | string>,
+        default: 'text'
     },
-    value: {
-        type: String
-    },
-    placeholder: {
-        type: String
-    },
+    value: { type: String },
+    placeholder: { type: String },
+    disabled: { type: Boolean },
+    readonly: { type: Boolean },
     size: {
         type: String as PropType<SizeType>,
-        default: 'small'
-    },
-    disabled: {
-        type: Boolean
-    },
-    readonly: {
-        type: Boolean
+        default: undefined
     }
 })
 
 const cls = computed(() => ({
-    'd-input-md': props.size === 'middle',
+    'd-input-sm': props.size === 'small',
     'd-input-lg': props.size === 'large'
 }))
 
 </script>
 
 <template>
-    <input :id="id" :name="name" :type="type" :value="value" :placeholder="placeholder" :readonly="readonly"
-        :disabled="disabled" class="d-input" :class="cls"
+    <input class="d-input" :class="cls" :id="id" :name="name" :type="type" :value="value" :placeholder="placeholder"
+        :readonly="readonly" :disabled="disabled"
         @input="$emit('update:value', ($event?.target as HTMLInputElement).value)">
 </template>
 

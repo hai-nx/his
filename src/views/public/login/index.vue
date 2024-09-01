@@ -21,6 +21,11 @@ const password = ref<string>('123qwe')
                 <d-input id="p1" :value="username" size="large"></d-input>
             </d-row>
 
+            <d-row>
+
+                <d-input-password id="p1" :value="username" size="large"></d-input-password>
+            </d-row>
+
             <label for="p2">Mật khẩu</label>
             <div class="row mb-3">
                 <d-input-password id="p2" :value="password"></d-input-password>
@@ -39,6 +44,7 @@ const password = ref<string>('123qwe')
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    padding: 16px;
 }
 
 .login-container {

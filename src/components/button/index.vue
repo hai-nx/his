@@ -2,16 +2,14 @@
 import { computed, defineEmits, defineProps, useSlots, PropType } from "vue"
 import { SizeType } from '../context'
 
-const slots = useSlots()
-
 const props = defineProps({
   htmlType: {
     type: String as PropType<'submit' | 'button' | 'reset'>,
-    default: "button",
+    default: 'button',
   },
   type: {
     type: String as PropType<'default' | 'primary' | 'dashed' | 'link' | 'text'>,
-    default: "default",
+    default: 'default',
   },
   size: {
     type: String as PropType<SizeType>,
@@ -19,40 +17,29 @@ const props = defineProps({
   },
   icon: { type: String },
   title: { type: String },
-  fluid: { type: Boolean, default: false },
-  rounded: { type: Boolean, default: false },
-  loading: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false }
+  disabled: { type: Boolean }
 });
 
 const emit = defineEmits<{
   (e: 'click', payload: any): void
 }>()
 
+const slots = useSlots()
 const hasIcon = computed(() => props.icon || slots['icon'])
 
-/* style */
-const typeClass = computed(() => {
-  switch (props.type) {
-    case 'primary': return 'd-btn-primary'
-    case 'dashed': return 'd-btn-dashed'
-    case 'link': return 'd-btn-link'
-    case 'text': return 'd-btn-text'
-    default:
-      return 'd-btn-default'
-  }
-});
-const fluidClass = computed(() => props.fluid ? 'd-btn-fluid' : undefined)
-const roundedClass = computed(() => props.rounded ? 'd-btn-rounded' : undefined)
-const sizeClass = computed(() => {
-  switch (props.size) {
-    case 'large': return 'd-btn-lg'
-    case 'small': return 'd-btn-sm'
-    default:
-      return undefined
-  }
-})
-const iconOnlyClass = computed(() => hasIcon.value && !slots.default ? 'd-btn-icon-only' : undefined)
+const cls = computed(() => ({
+  // type
+  'd-btn-primary': props.type === 'primary',
+  'd-btn-dashed': props.type === 'dashed',
+  'd-btn-link': props.type === 'link',
+  'd-btn-text': props.type === 'text',
+  'd-btn-default': props.type === 'default' || props.type === undefined,
+  // size
+  'd-btn-sm': props.size === 'small',
+  'd-btn-lg': props.size === 'large',
+  // icon
+  'd-btn-icon-only': hasIcon.value && !slots.default
+}))
 
 /* event */
 function onClick(payload: any) {
@@ -62,8 +49,7 @@ function onClick(payload: any) {
 </script>
 
 <template>
-  <button :type="htmlType" :disabled="disabled" :class="['d-btn', typeClass, fluidClass, roundedClass, sizeClass, iconOnlyClass]"
-    :title="title" @click="onClick">
+  <button class="d-button" :class="cls" :type="htmlType" :disabled="disabled" :title="title" @click="onClick">
     <slot v-if="hasIcon" name="icon">
       <i :class="[icon]"></i>
     </slot>
@@ -72,6 +58,18 @@ function onClick(payload: any) {
 </template>
 
 <style>
+.d-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--d-button-gap);
+  height: var(--d-button-height);
+  border-radius: var(--d-button-border-radius);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+
 .d-btn {
   display: inline-flex;
   align-items: center;

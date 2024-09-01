@@ -34,22 +34,22 @@ const props = defineProps({
     }
 })
 
-const unmasked = ref<Boolean>(false)
+const unmasked = ref<boolean>(false)
 
 const cls = computed(() => ({
-    'd-input-password-md': props.size === 'middle',
+    'd-input-password-sm': props.size === 'small',
     'd-input-password-lg': props.size === 'large'
 }))
 
-function onMaskToggle(){
+function onMaskToggle() {
     unmasked.value = !unmasked.value
 }
 
 </script>
 
 <template>
-    <div :class="['d-input-password', cls]">
-        <input>
+    <div class="d-input-password" :class="cls">
+        <input type="password">
         <slot v-if="toggleMask && unmasked" name="maskicon">
             <i :class="maskIcon" @click="onMaskToggle"></i>
         </slot>

@@ -8,7 +8,7 @@
 .layout-wrapper {
     display: flex;
     flex-direction: column;
-    background-color: #f0f4f9;
+    background-color: var(---d-main-background-color);
     height: 100vh;
 }
 </style>

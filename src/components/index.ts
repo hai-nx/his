@@ -27,11 +27,10 @@ export function defineAsyncComponents(app: App<Element>) {
     app.component("DDropdown", defineAsyncComponent(() => import('./dropdown/index.vue')));
     app.component("DDropdownButton", defineAsyncComponent(() => import('./dropdown-button/index.vue')));
     app.component("DInput", defineAsyncComponent(() => import('./input/index.vue')));
+    app.component("DInputPassword", defineAsyncComponent(() => import('./input-password/index.vue')));
     app.component("DMenu", defineAsyncComponent(() => import('./menu/index.vue')));
     app.component("DMenuItem", defineAsyncComponent(() => import('./menuitem/index.vue')));
     app.component("DRow", defineAsyncComponent(() => import('./row/index.vue')));
-
-    app.component("DTopbar", defineAsyncComponent(() => import('./topbar/index.vue')));
     
 
     app.component("VInputNumber", defineAsyncComponent(() => import('@/components/VInputNumber.vue')));
