@@ -11,13 +11,16 @@ const password = ref<string>('123qwe')
 <template>
     <div class="login">
         <div class="login-container">
-            <label class="mb-4">Đăng nhập</label>
-            <label>Tài khoản</label>
-            <d-input class="mb-2 py-1"></d-input>
-            <label>Mật khẩu</label>
-            <d-input class="mb-2 py-1"></d-input>
-            <d-button type="primary" class="mb-2 py-1">Đăng nhập</d-button>
-            <div class="d-flex justify-content-center mb-2">
+            <h4 class="login-title">Đăng nhập</h4>
+
+            <label for="username" class="login-label">Tài khoản</label>
+            <d-input id="username" class="login-input py-1"></d-input>
+            <label for="password" class="login-label">Mật khẩu</label>
+            <d-input id="password" class="login-input py-1" type="password"></d-input>
+
+            <d-button type="primary" class="login-button" icon="bi bi-arrow-right-circle">Đăng nhập</d-button>
+
+            <div class="login-button-fogot">
                 <d-button type="link">Quên mật khẩu</d-button>
             </div>
         </div>
@@ -30,17 +33,40 @@ const password = ref<string>('123qwe')
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-grow: 1;
+    height: 100%;
+    width: 100%;
     padding: 16px;
 }
-
 .login-container {
     display: flex;
     flex-direction: column;
     background-color: #fff;
     border: 1px solid #dbdbdb;
     border-radius: 6px;
-    padding: 1rem;
-    width: 420px;
+    padding: 32px 40px 32px 40px;
+    width: 400px;
+}
+
+.login-title {
+    margin-bottom: 32px;
+}
+.login-label {
+    margin-bottom: 4px;
+}
+.login-input {
+    margin-bottom: 16px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+.login-button {
+    font-size: 16px !important;
+    margin-bottom: 8px;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+.login-button-fogot {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 </style>

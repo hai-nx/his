@@ -114,6 +114,7 @@ function onClick(payload: any) {
   color: var(--d-button-link-color);
   background-color: var(--d-button-link-background-color);
   border-color: var(--d-button-link-border-color);
+  padding: 0;
 }
 .d-button-link:not(:disabled):hover {
   color: var(--d-button-link-hover-color);
