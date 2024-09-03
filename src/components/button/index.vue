@@ -59,7 +59,7 @@ function onClick(payload: any) {
   position: relative;
   color: var(--d-button-color);
   background: var(--d-button-background-color);
-  border: var(--d-button-width) solid var(--d-button-boder-color);
+  border: var(--d-button-border-width) solid var(--d-button-boder-color);
   border-radius: var(--d-button-border-radius);
   gap: var(--d-button-gap);
   padding: var(--d-button-padding-y) var(--d-button-padding-x);

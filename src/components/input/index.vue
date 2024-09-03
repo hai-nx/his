@@ -12,22 +12,13 @@ const props = defineProps({
     value: { type: String },
     placeholder: { type: String },
     disabled: { type: Boolean },
-    readonly: { type: Boolean },
-    size: {
-        type: String as PropType<SizeType>,
-        default: undefined
-    }
+    readonly: { type: Boolean }
 })
-
-const cls = computed(() => ({
-    'd-input-sm': props.size === 'small',
-    'd-input-lg': props.size === 'large'
-}))
 
 </script>
 
 <template>
-    <input class="d-input" :class="cls" :id="id" :name="name" :type="type" :value="value" :placeholder="placeholder"
+    <input class="d-input" :id="id" :name="name" :type="type" :value="value" :placeholder="placeholder"
         :readonly="readonly" :disabled="disabled"
         @input="$emit('update:value', ($event?.target as HTMLInputElement).value)">
 </template>
@@ -36,11 +27,11 @@ const cls = computed(() => ({
 .d-input {
     font-family: inherit;
     font-feature-settings: inherit;
-    font-size: 14px;
+    font-size: var(--d-font-size);
     color: #334155;
     background: #ffffff;
     padding: 3px 7px;
-    line-height: 20px;
+    line-height: var(--d-line-height);
     border: 1px solid #cbd5e1;
     border-radius: 4px;
 }

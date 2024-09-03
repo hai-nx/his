@@ -16,8 +16,12 @@
     --d-font-weight: 400;
     --d-line-height: 22px;
 
-    --d-main-background-color: #e4e9e7;
     --d-primary-color: #0366d6;
+    --d-danger-color: #414141;
+    --d-main-background-color: #e4e9e7;
+    --d-main-boder-color: #dbdbdb;
+
+    
 
     /** state **/
     /* focus visible */
@@ -33,10 +37,10 @@
     --d-button-background-color: #ffffff;
     --d-button-boder-color: #d9d9d9;
     --d-button-border-radius: 3px;
+    --d-button-border-width: 1px;
     --d-button-padding-x: 16px;
     --d-button-padding-y: 2px;
     --d-button-gap: 6px;
-    --d-button-width: 1px;
     --d-button-hover-color: var(--d-primary-color);
     --d-button-hover-background-color: #f8fafc;
     --d-button-hover-border-color: var(--d-primary-color);
@@ -73,6 +77,18 @@
     --d-button-text-active-color: #fff;
     --d-button-text-active-background-color: #0641e3;
     --d-button-text-active-border-color: #0641e3;
+
+    /* input */
+    --d-input-color: #333;
+    --d-input-background-color: #fff;
+    --d-input-border-color: #dbdbdb;
+    --d-input-border-radius: 3px;
+    --d-input-border-width: 1px;
+    --d-input-padding-x: 2px;
+    --d-input-padding-y: 6px;
+    --d-input-readonly-background: #dbdbdb;
+    --d-input-hover-border-color: var(--d-primary-color);
+    --d-input-focus-border-color: #dbdbdb;
 }
 
 /* global style */
