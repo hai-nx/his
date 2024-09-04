@@ -7,8 +7,8 @@ const props = defineProps({
     default: 'button',
   },
   type: {
-    type: String as PropType<'primary' | 'dashed' | 'link' | 'text' | undefined>,
-    default: 'default',
+    type: String as PropType<'primary' | 'danger' | 'text' | undefined>,
+    default: undefined,
   },
   icon: { type: String },
   title: { type: String },
@@ -25,8 +25,7 @@ const hasIcon = computed(() => props.icon || slots['icon'])
 const cls = computed(() => ({
   // type
   'd-button-primary': props.type === 'primary',
-  'd-button-dashed': props.type === 'dashed',
-  'd-button-link': props.type === 'link',
+  'd-button-danger': props.type === 'danger',
   'd-button-text': props.type === 'text',
   // icon
   'd-button-icon-only': hasIcon.value && !slots.default
@@ -50,6 +49,26 @@ function onClick(payload: any) {
 
 <style>
 .d-button {
+  --d-button-color: rgba(0, 0, 0, 0.88);
+  --d-button-background-color: #ffffff;
+  --d-button-border-color: #d9d9d9;
+  --d-button-hover-color: rgba(0, 0, 0, 0.88);
+  --d-button-hover-background-color: #091E420F;
+  --d-button-hover-border-color: #d9d9d9;
+  --d-button-active-color: rgba(0, 0, 0, 0.88);
+  --d-button-active-background-color: #091E4224;
+  --d-button-active-border-color: #d9d9d9;
+  --d-button-focus-ring-color: #0C66E4;
+  --d-button-focus-ring-style: solid;
+  --d-button-focus-ring-width: 2px;
+  --d-button-focus-ring-offset: 1px;
+  --d-button-font-weight: 500;
+  --d-button-padding-x: 8px;
+  --d-button-padding-y: 2px;
+  --d-button-border-radius: 2px;
+  --d-button-border-width: 1px;
+  --d-button-gap: 6px;
+
   display: inline-flex;
   cursor: pointer;
   user-select: none;
@@ -59,29 +78,32 @@ function onClick(payload: any) {
   position: relative;
   color: var(--d-button-color);
   background: var(--d-button-background-color);
-  border: var(--d-button-border-width) solid var(--d-button-boder-color);
+  border: var(--d-button-border-width) solid var(--d-button-border-color);
   border-radius: var(--d-button-border-radius);
   gap: var(--d-button-gap);
   padding: var(--d-button-padding-y) var(--d-button-padding-x);
   line-height: var(--d-line-height);
-  font-family: inherit;
-  font-size: inherit;
+  font-weight: var(--d-button-font-weight);
   outline-color: transparent;
 }
+
 .d-button:not(:disabled):hover {
   color: var(--d-button-hover-color);
   background-color: var(--d-button-hover-background-color);
   border-color: var(--d-button-hover-border-color);
 }
+
 .d-button:not(:disabled):active {
   color: var(--d-button-active-color);
   background-color: var(--d-button-active-background-color);
-  border-color: var(--d-button-hover-active-color);
+  border-color: var(--d-button-active-border-color);
 }
+
 .d-button:not(:disabled):focus-visible {
-  outline: var(--d-focus-ring-width) var(--d-focus-ring-style) var(--d-focus-ring-width);
-  outline-offset: var(--d-focus-ring-offset);
+  outline: var(--d-button-focus-ring-color) var(--d-button-focus-ring-style) var(--d-button-focus-ring-width);
+  outline-offset: var(--d-button-focus-ring-offset);
 }
+
 .d-button:disabled {
   opacity: var(--d-disabled-opacity);
   cursor: not-allowed;
@@ -89,59 +111,30 @@ function onClick(payload: any) {
 
 /* type: primary */
 .d-button-primary {
-  color: var(--d-button-primary-color);
-  background-color: var(--d-button-primary-background-color);
-  border-color: var(--d-button-primary-border-color);
-}
-.d-button-primary:not(:disabled):hover {
-  color: var(--d-button-primary-hover-color);
-  background-color: var(--d-button-primary-hover-background-color);
-  border-color: var(--d-button-primary-hover-border-color);
-}
-.d-button-primary:not(:disabled):active {
-  color: var(--d-button-primary-active-color);
-  background-color: var(--d-button-primary-active-background-color);
-  border-color: var(--d-button-primary-hover-active-color);
-}
-
-/* type: dashed */
-.d-button-dashed {
-  border-style: dashed;
-}
-
-/* type: link */
-.d-button-link {
-  color: var(--d-button-link-color);
-  background-color: var(--d-button-link-background-color);
-  border-color: var(--d-button-link-border-color);
-  padding: 0;
-}
-.d-button-link:not(:disabled):hover {
-  color: var(--d-button-link-hover-color);
-  background-color: var(--d-button-link-hover-background-color);
-  border-color: var(--d-button-link-hover-border-color);
-}
-.d-button-link:not(:disabled):active {
-  color: var(--d-button-link-active-color);
-  background-color: var(--d-button-link-active-background-color);
-  border-color: var(--d-button-link-hover-active-color);
+  --d-button-color: #fff;
+  --d-button-background-color: #0C66E4;
+  --d-button-border-color: #0C66E4;
+  --d-button-hover-color: #fff;
+  --d-button-hover-background-color: #0055CC;
+  --d-button-hover-border-color: #0055CC;
+  --d-button-active-color: #fff;
+  --d-button-active-background-color: #09326C;
+  --d-button-active-border-color: #09326C;
 }
 
 /* type: text */
-.d-button-text {
-  background-color: transparent;
-  border-color: transparent;
+.d-button-text { 
+  --d-button-color: rgba(0, 0, 0, 0.88);
+  --d-button-background-color: transparent;
+  --d-button-border-color: transparent;
+  --d-button-hover-color: rgba(0, 0, 0, 0.88);
+  --d-button-hover-background-color: #091E420F;
+  --d-button-hover-border-color: transparent;
+  --d-button-active-color: rgba(0, 0, 0, 0.88);
+  --d-button-active-background-color: #091E4224;
+  --d-button-active-border-color: transparent;
 }
-.d-button-text:not(:disabled):hover {
-  color: var(--d-button-text-hover-color);
-  background-color: var(--d-button-text-hover-background-color);
-  border-color: var(--d-button-text-hover-border-color);
-}
-.d-button-text:not(:disabled):active {
-  color: var(--d-button-text-active-color);
-  background-color: var(--d-button-text-active-background-color);
-  border-color: var(--d-button-text-hover-active-color);
-}
+
 
 /* icon */
 .d-button-icon-only {
@@ -149,5 +142,4 @@ function onClick(payload: any) {
   padding-inline-start: 0;
   padding-inline-end: 0;
 }
-
 </style>

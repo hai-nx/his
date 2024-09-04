@@ -6,10 +6,8 @@
 
 <style>
 .layout-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
+    display: block;
     background-color: var(---d-main-background-color);
-    height: 100vh;
+    min-height: 100vh;
 }
 </style>

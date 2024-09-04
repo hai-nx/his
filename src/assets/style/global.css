@@ -1,4 +1,4 @@
-/* theme */
+/*  */
 :root {
     --d-font-family: -apple-system,
         BlinkMacSystemFont,
@@ -15,94 +15,24 @@
     --d-font-size: 14px;
     --d-font-weight: 400;
     --d-line-height: 22px;
-
-    --d-primary-color: #0366d6;
-    --d-danger-color: #414141;
-    --d-main-background-color: #e4e9e7;
-    --d-main-boder-color: #dbdbdb;
-
-    
-
-    /** state **/
-    /* focus visible */
-    --d-focus-ring-color: var(--d-primary-color);
-    --d-focus-ring-style: solid;
-    --d-focus-ring-width: 1px;
-    --d-focus-ring-offset: 2px;
-    /* disabled */
     --d-disabled-opacity: 0.6;
 
-    /** button **/
-    --d-button-color: #020617;
-    --d-button-background-color: #ffffff;
-    --d-button-boder-color: #d9d9d9;
-    --d-button-border-radius: 3px;
-    --d-button-border-width: 1px;
-    --d-button-padding-x: 16px;
-    --d-button-padding-y: 2px;
-    --d-button-gap: 6px;
-    --d-button-hover-color: var(--d-primary-color);
-    --d-button-hover-background-color: #f8fafc;
-    --d-button-hover-border-color: var(--d-primary-color);
-    --d-button-active-color: var(--d-primary-color);
-    --d-button-active-background-color: #f8fafc;
-    --d-button-active-border-color: var(--d-primary-color);
-
-    --d-button-primary-color: #fff;
-    --d-button-primary-background-color: var(--d-primary-color);
-    --d-button-primary-border-color: var(--d-primary-color);
-    --d-button-primary-hover-color: #fff;
-    --d-button-primary-hover-background-color: #0641e3;
-    --d-button-primary-hover-border-color: #0641e3;
-    --d-button-primary-active-color: #fff;
-    --d-button-primary-active-background-color: #0641e3;
-    --d-button-primary-active-border-color: #0641e3;
-
-    --d-button-link-color: var(--d-primary-color);
-    --d-button-link-background-color: transparent;
-    --d-button-link-border-color: transparent;
-    --d-button-link-hover-color: var(--d-primary-color);
-    --d-button-link-hover-background-color: transparent;
-    --d-button-link-hover-border-color: transparent;
-    --d-button-link-active-color: var(--d-primary-color);
-    --d-button-link-active-background-color: transparent;
-    --d-button-link-active-border-color: transparent;
-
-    --d-button-text-color: #fff;
-    --d-button-text-background-color: var(--d-primary-color);
-    --d-button-text-border-color: var(--d-primary-color);
-    --d-button-text-hover-color: #fff;
-    --d-button-text-hover-background-color: #0641e3;
-    --d-button-text-hover-border-color: #0641e3;
-    --d-button-text-active-color: #fff;
-    --d-button-text-active-background-color: #0641e3;
-    --d-button-text-active-border-color: #0641e3;
-
-    /* input */
-    --d-input-color: #333;
-    --d-input-background-color: #fff;
-    --d-input-border-color: #dbdbdb;
-    --d-input-border-radius: 3px;
-    --d-input-border-width: 1px;
-    --d-input-padding-x: 2px;
-    --d-input-padding-y: 6px;
-    --d-input-readonly-background: #dbdbdb;
-    --d-input-hover-border-color: var(--d-primary-color);
-    --d-input-focus-border-color: #dbdbdb;
 }
 
 /* global style */
 #app {
-    background-color: var(--d-main-background-color);
-    color: var(--d-color);
+    background-color: #e4e9e7;
+    color: #333;
     font-family: var(--d-font-family);
     font-size: var(--d-font-size);
     font-weight: var(--d-font-weight);
     overflow-x: hidden;
     overflow-y: auto;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
 }
+
+
 
 
 .btn-save {
@@ -117,20 +47,10 @@
     width: 150px;
 }
 
-/* .datetime {
-    border: 1px solid #d9d9d9;
-    padding: 4px 10px;
-} */
-
 .datetime:focus,
 .datetime:hover {
     border: 1px solid #40a9ff;
     outline: none;
-}
-
-/* x: custom components */
-.x-input {
-    padding: 2px 5px;
 }
 
 .bold {
