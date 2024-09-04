@@ -5,7 +5,7 @@ import { ref } from 'vue';
 const title = ref("Bàn làm việc")
 
 
-function hihi (payload: any) {
+function hihi(payload: any) {
     console.log(payload)
 }
 
@@ -24,6 +24,6 @@ const handleMenuClick: MenuProps['onClick'] = e => {
 
 <template>
     <x-layout :title="title" :show-header="true">
-        
+
     </x-layout>
 </template>

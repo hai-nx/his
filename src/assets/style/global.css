@@ -1,17 +1,10 @@
 /*  */
 :root {
-    --d-font-family: -apple-system,
-        BlinkMacSystemFont,
-        'Segoe UI',
-        Roboto,
-        'Helvetica Neue',
+    --d-font-family: "Open Sans",
+        "Helvetica Neue",
+        Helvetica,
         Arial,
-        'Noto Sans',
-        sans-serif,
-        'Apple Color Emoji',
-        'Segoe UI Emoji',
-        'Segoe UI Symbol',
-        'Noto Color Emoji';
+        sans-serif;
     --d-font-size: 14px;
     --d-font-weight: 400;
     --d-line-height: 22px;
@@ -19,10 +12,27 @@
 
 }
 
+:root {
+    --d-input-color: #333;
+    --d-input-background-color: #ffffff;
+    --d-input-readonly-background-color: #091E420F;
+    --d-input-border-color: #d9d9d9;
+    --d-input-hover-border-color: #0055CC;
+    --d-input-focus-ring-color: #0C66E4;
+    --d-input-focus-ring-style: solid;
+    --d-input-focus-ring-width: 1px;
+    --d-input-focus-ring-offset: 0px;
+    --d-input-font-weight: var(--d-font-weight);
+    --d-input-padding-x: 8px;
+    --d-input-padding-y: 2px;
+    --d-input-border-radius: 2px;
+    --d-input-border-width: 1px;
+}
+
 /* global style */
 #app {
     background-color: #e4e9e7;
-    color: #333;
+    color: #333131;
     font-family: var(--d-font-family);
     font-size: var(--d-font-size);
     font-weight: var(--d-font-weight);
@@ -32,6 +42,19 @@
     width: 100%;
 }
 
+.layout-wrapper {
+    display: block;
+    background-color: var(---d-main-background-color);
+    min-height: 100vh;
+}
+
+.required::before {
+    content: '*';
+    position: relative;
+    color: red;
+    left: -2px;
+    top: -2px;
+}
 
 
 

@@ -25,21 +25,6 @@ const props = defineProps({
 
 <style>
 .d-input {
-    --d-input-color: #333;
-    --d-input-background-color: #ffffff;
-    --d-input-readonly-background-color: #091E420F;
-    --d-input-border-color: #d9d9d9;
-    --d-input-hover-border-color: #0055CC;
-    --d-input-focus-ring-color: #0C66E4;
-    --d-input-focus-ring-style: solid;
-    --d-input-focus-ring-width: 1px;
-    --d-input-focus-ring-offset: 0px;
-    --d-input-font-weight: var(--d-font-weight);
-    --d-input-padding-x: 8px;
-    --d-input-padding-y: 2px;
-    --d-input-border-radius: 2px;
-    --d-input-border-width: 1px;
-
     color: var(--d-input-color);
     background: var(--d-input-background-color);
     border: var(--d-input-border-width) solid var(--d-input-border-color);

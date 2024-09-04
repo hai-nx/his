@@ -1,6 +1,6 @@
 import axios from 'axios';
 import queryString from 'query-string';
-import { useAuth } from '@/stores/auth';
+import { useAuth } from '@/store';
 
 const request = axios.create({
     baseURL: process.env.VUE_APP_API_BASE_URL,
@@ -51,7 +51,7 @@ request.interceptors.response.use(response => {
             originalConfig._retry = true;
             try {
                 const store = useAuth();
-                store.reLoginAsync(store.user.username, store.user.password, false);
+                store.reLoginAsync(store.user.username, store.user.password);
                 return request(originalConfig);
             }
             catch (_error) {

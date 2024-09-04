@@ -1,6 +1,6 @@
 import axios from 'axios';
 import queryString from 'query-string';
-import { useAuth } from '@/stores/auth';
+import { useAuth } from '@/store';
 
 const axiosInstance = axios.create({
     baseURL: process.env.VUE_APP_API_BASE_URL,

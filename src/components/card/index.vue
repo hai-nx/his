@@ -19,8 +19,8 @@ const cls = computed(() => ({
 
 <template>
     <div class="d-card" :class="cls">
-        <div v-if="$slots.head" class="d-card-head">
-            <slot name="head"></slot>
+        <div v-if="$slots.header" class="d-card-header">
+            <slot name="header"></slot>
         </div>
         <div class="d-card-body">
             <slot></slot>

@@ -7,7 +7,7 @@ const props = defineProps({
     default: 'button',
   },
   type: {
-    type: String as PropType<'primary' | 'danger' | 'text' | undefined>,
+    type: String as PropType<'primary' | 'danger' | 'link' | 'text' | undefined>,
     default: undefined,
   },
   icon: { type: String },
@@ -26,6 +26,7 @@ const cls = computed(() => ({
   // type
   'd-button-primary': props.type === 'primary',
   'd-button-danger': props.type === 'danger',
+  'd-button-link': props.type === 'link',
   'd-button-text': props.type === 'text',
   // icon
   'd-button-icon-only': hasIcon.value && !slots.default

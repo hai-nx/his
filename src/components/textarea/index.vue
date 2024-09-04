@@ -30,6 +30,29 @@ const cls = computed(() => ({
 
 <style>
 .d-textarea {
-    font-size: 14px;
+    color: var(--d-input-color);
+    background: var(--d-input-background-color);
+    border: var(--d-input-border-width) solid var(--d-input-border-color);
+    border-radius: var(--d-input-border-radius);
+    padding: var(--d-input-padding-y) var(--d-input-padding-x);
+    line-height: var(--d-line-height);
+}
+
+.d-textarea:not(:disabled):focus {
+    border-color: var(--d-input-hover-border-color);
+}
+
+.d-textarea:not(:disabled):focus-visible {
+    outline: var(--d-input-focus-ring-color) var(--d-input-focus-ring-style) var(--d-input-focus-ring-width);
+    outline-offset: var(--d-input-focus-ring-offset);
+}
+
+.d-textarea:disabled {
+    opacity: var(--d-disabled-opacity);
+    cursor: not-allowed;
+}
+
+.d-textarea:not(:disabled):read-only {
+    background-color: var(--d-input-readonly-background-color);
 }
 </style>

@@ -8,6 +8,6 @@ export const appLayout = {
 
 export function defineAsyncLayoutComponents(app: App<Element>) {
     app.component(appLayout.DEFAULT, defineAsyncComponent(() => import("./default/index.vue")));
-    app.component(appLayout.MAIN, defineAsyncComponent(() => import("./MainLayout.vue")));
+    app.component(appLayout.MAIN, defineAsyncComponent(() => import("./main/index.vue")));
     app.component(appLayout.AUTH, defineAsyncComponent(() => import("@/layouts/AuthLayout.vue")));
 }

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { LAYOUT_DEFAULT, LAYOUT_AUTH } from "@/utils/constant";
-import { useAuth } from "@/stores/auth";
+import { useAuth } from "@/store";
 
 import { appLayout } from "../layouts/index"
 
@@ -35,9 +35,8 @@ import testingView from "@/views/auth/business/testings/TestingView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   { path: "/", name: "home", component: () => import("@/views/public/login/index.vue"), meta: { layout: LAYOUT_DEFAULT } },
-  { path: "/login", name: "login", component: () => import("@/views/public/LoginView.vue"), meta: { layout: LAYOUT_DEFAULT } },
 
-  { path: "/dashboard", name: "dashboard", component: () => import("../views/auth/dashboard/index.vue"), meta: { layout: appLayout.MAIN } },
+  { path: "/dashboard", name: "dashboard", component: () => import("../views/dashboard/index.vue"), meta: { layout: appLayout.MAIN } },
   { path: "/dboption", name: "dboption", component: dboptionView, meta: { layout: LAYOUT_AUTH } },
 
   { path: "/dictionary", name: "dictionary", component: dictionaryView, meta: { layout: LAYOUT_AUTH } },
@@ -67,7 +66,7 @@ const routes: Array<RouteRecordRaw> = [
   // bệnh nhân
   // { path: '/reception', name: 'reception', component: () => import('@/views/auth/business/receptions/ReceptionView.vue'), meta: { layout: LAYOUT_AUTH } },
   // { path: '/reception-detail', name: 'reception-detail', component: () => import('@/views/auth/business/receptions/ReceptionDetailView.vue'), meta: { layout: LAYOUT_AUTH } },
-  { path: "/reception", name: "reception", component: () => import("@/views/auth/business/reception/index.vue"), meta: { layout: LAYOUT_AUTH } },
+  { path: "/reception", name: "reception", component: () => import("@/views/business/reception/list.vue"), meta: { layout: LAYOUT_AUTH } },
   { path: "/reception-detail", name: "reception-detail", component: () => import("@/views/auth/business/reception/detail/index.vue"), meta: { layout: LAYOUT_AUTH } },
 
   { path: "/clinical", name: "clinicals", component: () => import("@/views/auth/business/clinicals/ClinicalView.vue"), meta: { layout: LAYOUT_AUTH } },

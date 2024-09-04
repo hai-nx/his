@@ -1,25 +1,39 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useAuth } from '@/store'
 
-const username = ref<string>('123')
-const password = ref<string>('123qwe')
+const store = useAuth();
+const username = ref<string>('');
+const password = ref<string>('');
+const loading = computed(() => store.loading);
+const error = computed(() => store.error);
 
-
+const onLogin = () => {
+    store.loginAsync(username.value, password.value)
+}
 
 </script>
 
 <template>
     <div class="login">
         <div class="login-container">
-            <h4 class="login-title">Đăng nhập</h4>
+            <d-label as="h2">Đăng nhập</d-label>
 
-            <label for="username" class="login-label">Tài khoản</label>
-            <d-input id="username" class="login-input"></d-input>
-            <label for="password" class="login-label">Mật khẩu</label>
-            <d-input id="password" class="login-input" type="password"></d-input>
+            <d-label for="password" star>Tên đăng nhập</d-label>
+            <d-input id="username" class="login-input" v-model:value="username" :disabled="loading"></d-input>
 
-            <d-button type="primary" class="login-button mb-3" icon="bi bi-arrow-right-circle">Đăng nhập</d-button>
-            <d-button type="text" class="mb-3" icon="bi bi-arrow-right-circle">Quên mật khẩu</d-button>
+            <d-label for="password" star>Mật khẩu</d-label>
+            <d-input id="password" class="login-input" type="password" v-model:value="password"
+                :disabled="loading"></d-input>
+
+            <div class="login-label-faise" v-if="error">{{ error }}</div>
+
+            <div class="mb-4">
+                <d-button type="text" class="px-0">Quên mật khẩu?</d-button>
+            </div>
+            <d-button type="primary" class="login-button mb-3" icon="bi bi-arrow-right-circle" :loading="loading"
+                @click.prevent="onLogin">Đăng nhập</d-button>
+
         </div>
     </div>
 </template>
@@ -30,6 +44,7 @@ const password = ref<string>('123qwe')
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-image: url('../../../assets/images/login-background.jpg');
     min-height: 100vh;
     padding: 48px 0;
 }
@@ -42,9 +57,11 @@ const password = ref<string>('123qwe')
     border-radius: 8px;
     padding: 32px 40px 32px 40px;
     width: 400px;
+    min-height: 550px;
 }
 
 .login-title {
+    font-size: 32px !important;
     margin-bottom: 32px;
 }
 
@@ -52,16 +69,20 @@ const password = ref<string>('123qwe')
     margin-bottom: 4px;
 }
 
-.login-input {
+.login-label-faise {
+    display: block;
+    color: #ff1d1d;
     margin-bottom: 16px;
-    font-size: 16px;
+}
+
+.login-input {
+    margin-bottom: 12px;
     line-height: 1.2;
     min-height: 36px;
 }
 
 .login-button {
-    font-size: 16px;
-    line-height: 1.2;
+    font-weight: 550 !important;
     min-height: 36px;
 }
 

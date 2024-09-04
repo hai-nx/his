@@ -47,7 +47,7 @@ import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useLayout } from "../stores/layout";
 import { storeToRefs } from "pinia";
-import { useAuth } from "@/stores/auth";
+import { useAuth } from "@/store";
 import { Modal, type MenuProps } from "ant-design-vue";
 import {
     LogoutOutlined,
