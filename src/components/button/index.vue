@@ -50,26 +50,6 @@ function onClick(payload: any) {
 
 <style>
 .d-button {
-  --d-button-color: rgba(0, 0, 0, 0.88);
-  --d-button-background-color: #ffffff;
-  --d-button-border-color: #d9d9d9;
-  --d-button-hover-color: rgba(0, 0, 0, 0.88);
-  --d-button-hover-background-color: #091E420F;
-  --d-button-hover-border-color: #d9d9d9;
-  --d-button-active-color: rgba(0, 0, 0, 0.88);
-  --d-button-active-background-color: #091E4224;
-  --d-button-active-border-color: #d9d9d9;
-  --d-button-focus-ring-color: #0C66E4;
-  --d-button-focus-ring-style: solid;
-  --d-button-focus-ring-width: 2px;
-  --d-button-focus-ring-offset: 1px;
-  --d-button-font-weight: 500;
-  --d-button-padding-x: 8px;
-  --d-button-padding-y: 2px;
-  --d-button-border-radius: 2px;
-  --d-button-border-width: 1px;
-  --d-button-gap: 6px;
-
   display: inline-flex;
   cursor: pointer;
   user-select: none;
@@ -123,8 +103,23 @@ function onClick(payload: any) {
   --d-button-active-border-color: #09326C;
 }
 
+/* type: link */
+.d-button-link {
+  --d-button-color: #0C66E4;
+  --d-button-background-color: transparent;
+  --d-button-border-color: transparent;
+  --d-button-hover-color: #0055CC;
+  --d-button-hover-background-color: #0C66E410;
+  --d-button-hover-border-color: transparent;
+  --d-button-active-color: #0055CC;
+  --d-button-active-background-color: #0C66E420;
+  --d-button-active-border-color: transparent;
+
+  padding: 0;
+}
+
 /* type: text */
-.d-button-text { 
+.d-button-text {
   --d-button-color: rgba(0, 0, 0, 0.88);
   --d-button-background-color: transparent;
   --d-button-border-color: transparent;

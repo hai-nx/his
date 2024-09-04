@@ -10,6 +10,8 @@ const props = defineProps({
         default: 'text'
     },
     value: { type: String },
+    max: { type: Number },
+    maxlength: { type: Number },
     placeholder: { type: String },
     disabled: { type: Boolean },
     readonly: { type: Boolean }
@@ -18,8 +20,8 @@ const props = defineProps({
 </script>
 
 <template>
-    <input class="d-input" :id="id" :name="name" :type="type" :value="value" :placeholder="placeholder"
-        :readonly="readonly" :disabled="disabled"
+    <input class="d-input" :id="id" :name="name" :type="type" :value="value" :placeholder="placeholder" :max="max"
+        :maxlength="maxlength" :readonly="readonly" :disabled="disabled"
         @input="$emit('update:value', ($event?.target as HTMLInputElement).value)">
 </template>
 
@@ -31,13 +33,14 @@ const props = defineProps({
     border-radius: var(--d-input-border-radius);
     padding: var(--d-input-padding-y) var(--d-input-padding-x);
     line-height: var(--d-line-height);
-    /* font-family: inherit;
-    font-size: inherit; */
-    
+}
+
+.d-input:not(:disabled):hover {
+    border-color: var(--d-input-hover-border-color);
 }
 
 .d-input:not(:disabled):focus {
-    border-color: var(--d-input-hover-border-color);
+    border-color: var(--d-input-focus-border-color);
 }
 
 .d-input:not(:disabled):focus-visible {
@@ -52,5 +55,9 @@ const props = defineProps({
 
 .d-input:not(:disabled):read-only {
     background-color: var(--d-input-readonly-background-color);
+}
+
+input[type="password"]:not(:placeholder-shown).d-input {
+    font-size: 1.25rem;
 }
 </style>

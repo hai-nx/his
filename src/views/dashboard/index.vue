@@ -24,6 +24,11 @@ const handleMenuClick: MenuProps['onClick'] = e => {
 
 <template>
     <x-layout :title="title" :show-header="true">
-
+        <d-radio></d-radio>
+        <d-radio></d-radio>
+        <d-radio></d-radio>
+        <d-checkbox></d-checkbox>
+        <d-checkbox></d-checkbox>
+        <d-checkbox></d-checkbox>
     </x-layout>
 </template>

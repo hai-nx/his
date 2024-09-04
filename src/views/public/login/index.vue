@@ -19,17 +19,17 @@ const onLogin = () => {
         <div class="login-container">
             <d-label as="h2">Đăng nhập</d-label>
 
-            <d-label for="password" star>Tên đăng nhập</d-label>
+            <d-label for="username" class="login-label" star>Tên đăng nhập</d-label>
             <d-input id="username" class="login-input" v-model:value="username" :disabled="loading"></d-input>
 
             <d-label for="password" star>Mật khẩu</d-label>
-            <d-input id="password" class="login-input" type="password" v-model:value="password"
-                :disabled="loading"></d-input>
+            <d-password id="password" class="login-input" v-model:value="password" 
+                :disabled="loading"></d-password>
 
             <div class="login-label-faise" v-if="error">{{ error }}</div>
 
             <div class="mb-4">
-                <d-button type="text" class="px-0">Quên mật khẩu?</d-button>
+                <d-button type="link" class="px-0">Quên mật khẩu?</d-button>
             </div>
             <d-button type="primary" class="login-button mb-3" icon="bi bi-arrow-right-circle" :loading="loading"
                 @click.prevent="onLogin">Đăng nhập</d-button>
@@ -40,6 +40,10 @@ const onLogin = () => {
 
 <style>
 .login {
+    font-family: Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,14 +75,14 @@ const onLogin = () => {
 
 .login-label-faise {
     display: block;
-    color: #ff1d1d;
     margin-bottom: 16px;
 }
 
 .login-input {
+    line-height: 1.2;
     margin-bottom: 12px;
     line-height: 1.2;
-    min-height: 36px;
+    min-height: 40px;
 }
 
 .login-button {

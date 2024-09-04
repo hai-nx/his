@@ -5,11 +5,33 @@
         Helvetica,
         Arial,
         sans-serif;
-    --d-font-size: 14px;
+    --d-font-size: 0.875;
     --d-font-weight: 400;
     --d-line-height: 22px;
     --d-disabled-opacity: 0.6;
+    --d-border-radius: 2px;
+}
 
+:root {
+    --d-button-color: rgba(0, 0, 0, 0.88);
+    --d-button-background-color: #ffffff;
+    --d-button-border-color: #d9d9d9;
+    --d-button-hover-color: rgba(0, 0, 0, 0.88);
+    --d-button-hover-background-color: #091E420F;
+    --d-button-hover-border-color: #d9d9d9;
+    --d-button-active-color: rgba(0, 0, 0, 0.88);
+    --d-button-active-background-color: #091E4224;
+    --d-button-active-border-color: #d9d9d9;
+    --d-button-focus-ring-color: #0C66E4;
+    --d-button-focus-ring-style: solid;
+    --d-button-focus-ring-width: 2px;
+    --d-button-focus-ring-offset: 1px;
+    --d-button-font-weight: 500;
+    --d-button-padding-x: 8px;
+    --d-button-padding-y: 2px;
+    --d-button-border-radius: var(--d-border-radius);
+    --d-button-border-width: 1px;
+    --d-button-gap: 6px;
 }
 
 :root {
@@ -18,6 +40,7 @@
     --d-input-readonly-background-color: #091E420F;
     --d-input-border-color: #d9d9d9;
     --d-input-hover-border-color: #0055CC;
+    --d-input-focus-border-color: #0055CC;
     --d-input-focus-ring-color: #0C66E4;
     --d-input-focus-ring-style: solid;
     --d-input-focus-ring-width: 1px;
@@ -25,7 +48,7 @@
     --d-input-font-weight: var(--d-font-weight);
     --d-input-padding-x: 8px;
     --d-input-padding-y: 2px;
-    --d-input-border-radius: 2px;
+    --d-input-border-radius: var(--d-border-radius);
     --d-input-border-width: 1px;
 }
 
