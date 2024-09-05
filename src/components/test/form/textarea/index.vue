@@ -1,32 +1,35 @@
 <script setup lang="ts">
-import { defineProps, PropType } from 'vue'
+import { computed, defineEmits, defineProps, PropType } from 'vue'
+import { SizeType } from '../context'
 
 const props = defineProps({
     id: { type: String },
     name: { type: String },
-    type: {
-        type: String as PropType<'text' | 'password' | 'date' | 'number' | string>,
-        default: 'text'
-    },
     value: { type: String },
-    max: { type: Number },
-    maxlength: { type: Number },
     placeholder: { type: String },
+    rows: { type: Number },
     disabled: { type: Boolean },
-    readonly: { type: Boolean }
+    readonly: { type: Boolean },
+    size: {
+        type: String as PropType<SizeType>,
+        default: undefined
+    }
 })
 
+const cls = computed(() => ({
 
+}))
 </script>
 
 <template>
-    <input class="d-input" :id="id" :name="name" :type="type" :value="value" :max="max" :maxlength="maxlength"
-        :placeholder="placeholder" :disabled="disabled" :readonly="readonly"
-        @input="$emit('update:value', ($event?.target as HTMLInputElement).value)">
+    <textarea class="d-textarea" :class="cls" :id="id" :name="name" :value="value" :placeholder="placeholder"
+        :rows="rows" :disabled="disabled" :readonly="readonly"
+        @input="$emit('update:value', ($event?.target as HTMLTextAreaElement).value)">
+    </textarea>
 </template>
 
 <style>
-.d-input {
+.d-textarea {
     color: var(--d-input-color);
     background: var(--d-input-background-color);
     border: var(--d-input-border-width) solid var(--d-input-border-color);
@@ -35,29 +38,21 @@ const props = defineProps({
     line-height: var(--d-line-height);
 }
 
-.d-input:not(:disabled):hover {
+.d-textarea:not(:disabled):focus {
     border-color: var(--d-input-hover-border-color);
 }
 
-.d-input:not(:disabled):focus {
-    border-color: var(--d-input-focus-border-color);
-}
-
-.d-input:not(:disabled):focus-visible {
+.d-textarea:not(:disabled):focus-visible {
     outline: var(--d-input-focus-ring-color) var(--d-input-focus-ring-style) var(--d-input-focus-ring-width);
     outline-offset: var(--d-input-focus-ring-offset);
 }
 
-.d-input:disabled {
+.d-textarea:disabled {
     opacity: var(--d-disabled-opacity);
     cursor: not-allowed;
 }
 
-.d-input:not(:disabled):read-only {
+.d-textarea:not(:disabled):read-only {
     background-color: var(--d-input-readonly-background-color);
-}
-
-input[type="password"]:not(:placeholder-shown).d-input {
-    font-size: 1.25rem;
 }
 </style>

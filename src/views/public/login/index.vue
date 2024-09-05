@@ -9,7 +9,7 @@ const loading = computed(() => store.loading);
 const error = computed(() => store.error);
 
 const onLogin = () => {
-    store.loginAsync(username.value, password.value)
+    store.login(username.value, password.value)
 }
 
 </script>
@@ -17,22 +17,22 @@ const onLogin = () => {
 <template>
     <div class="login">
         <div class="login-container">
-            <d-label as="h2">Đăng nhập</d-label>
+            <d-text as="h2" class="login-title">Đăng nhập</d-text>
 
-            <d-label for="username" class="login-label" star>Tên đăng nhập</d-label>
+            <d-text for="username" class="login-label" star>Tên đăng nhập</d-text>
             <d-input id="username" class="login-input" v-model:value="username" :disabled="loading"></d-input>
 
-            <d-label for="password" star>Mật khẩu</d-label>
-            <d-password id="password" class="login-input" v-model:value="password" 
-                :disabled="loading"></d-password>
+            <d-text for="password" star>Mật khẩu</d-text>
+            <d-password id="password" class="login-input" v-model:value="password" :disabled="loading"></d-password>
 
             <div class="login-label-faise" v-if="error">{{ error }}</div>
 
-            <div class="mb-4">
+            <d-button type="primary" class="login-button my-3" icon="bi bi-arrow-right-circle h5 mb-0" :loading="loading"
+                @click.prevent="onLogin">Đăng nhập</d-button>
+
+            <div class="mb-4 d-flex justify-content-center">
                 <d-button type="link" class="px-0">Quên mật khẩu?</d-button>
             </div>
-            <d-button type="primary" class="login-button mb-3" icon="bi bi-arrow-right-circle" :loading="loading"
-                @click.prevent="onLogin">Đăng nhập</d-button>
 
         </div>
     </div>
@@ -66,7 +66,8 @@ const onLogin = () => {
 
 .login-title {
     font-size: 32px !important;
-    margin-bottom: 32px;
+    margin-bottom: 40px;
+    text-align: center;
 }
 
 .login-label {
@@ -76,6 +77,7 @@ const onLogin = () => {
 .login-label-faise {
     display: block;
     margin-bottom: 16px;
+    color: red;
 }
 
 .login-input {
@@ -87,7 +89,7 @@ const onLogin = () => {
 
 .login-button {
     font-weight: 550 !important;
-    min-height: 36px;
+    min-height: 40px;
 }
 
 .login-button-fogot {

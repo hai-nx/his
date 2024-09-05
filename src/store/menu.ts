@@ -12,6 +12,7 @@ export const useMenu = defineStore('menu', {
 
                 ]
              },
+            { separator: true },
             { key: '90', label: 'Hệ thống',
                 children: [
                     { key: '90.1', label: 'Người dùng', path: 'user' },

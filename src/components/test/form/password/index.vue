@@ -5,19 +5,14 @@ const props = defineProps({
     id: { type: String },
     name: { type: String },
     value: { type: String },
+    max: { type: Number },
     maxlength: { type: Number },
     placeholder: { type: String },
     disabled: { type: Boolean },
     readonly: { type: Boolean },
-    toggleMask: {
-        type: Boolean, default: true
-    },
-    maskIcon: {
-        type: String, default: "bi bi-eye"
-    },
-    unmaskIcon: {
-        type: String, default: "bi bi-eye-slash"
-    },
+    toggleMask: { type: Boolean, default: true },
+    maskIcon: { type: String, default: "bi bi-eye" },
+    unmaskIcon: { type: String, default: "bi bi-eye-slash" },
 });
 
 const unmasked = ref<boolean>(false);
@@ -33,7 +28,7 @@ function onMaskToggle() {
 
 <template>
     <div class="d-password">
-        <d-input :type="inputType" :id="id" :name="name" :value="value" :maxlength="maxlength"
+        <d-input :type="inputType" :id="id" :name="name" :value="value" :max="max" :maxlength="maxlength"
             :placeholder="placeholder" :disabled="disabled"
             @input="$emit('update:value', ($event?.target as HTMLInputElement).value)"></d-input>
 

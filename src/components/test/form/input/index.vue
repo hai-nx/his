@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { defineProps, PropType } from 'vue'
+import { computed, defineProps, PropType } from 'vue'
 
 const props = defineProps({
     id: { type: String },
     name: { type: String },
     type: {
-        type: String as PropType<'text' | 'password' | 'date' | 'number' | string>,
+        type: String as PropType<'text' | 'password' | 'date' | string>,
         default: 'text'
     },
     value: { type: String },
@@ -16,12 +16,11 @@ const props = defineProps({
     readonly: { type: Boolean }
 })
 
-
 </script>
 
 <template>
-    <input class="d-input" :id="id" :name="name" :type="type" :value="value" :max="max" :maxlength="maxlength"
-        :placeholder="placeholder" :disabled="disabled" :readonly="readonly"
+    <input class="d-input" :id="id" :name="name" :type="type" :value="value" :placeholder="placeholder" :max="max"
+        :maxlength="maxlength" :readonly="readonly" :disabled="disabled"
         @input="$emit('update:value', ($event?.target as HTMLInputElement).value)">
 </template>
 

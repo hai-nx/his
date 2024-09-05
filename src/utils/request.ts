@@ -51,7 +51,7 @@ request.interceptors.response.use(response => {
             originalConfig._retry = true;
             try {
                 const store = useAuth();
-                store.reLoginAsync(store.user.username, store.user.password);
+                store.reLogin(store.user.username, store.user.password);
                 return request(originalConfig);
             }
             catch (_error) {

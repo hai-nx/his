@@ -16,33 +16,10 @@ const { items } = storeToRefs(menu);
 
         </div>
 
-        <d-topbar class="layout-topbar">
-            <template #start>
-                <d-button>
-                    hihihihi
-                </d-button>
-            </template>
-
-            <template #end>
-                <d-button>
-                    huhuhuh
-                </d-button>
-            </template>
-        </d-topbar>
-
-        <!-- <div class="layout-topbar">
-            <div class="layout-topbar-logo-container">
-
-            </div>
-
-            <div class="layout-topbar-menu">
-                <d-menu :items="items"></d-menu>
-            </div>
-
-            <div class="layout-topbar-actions">
-
-            </div>
-        </div> -->
+        <div class="layout-topbar">
+            <d-menu :items="items">
+            </d-menu>
+        </div>
 
         <div class="layout-sidebar">
 
@@ -70,6 +47,7 @@ const { items } = storeToRefs(menu);
     background-color: #fff;
     border-bottom: 1px solid #d9d9d9;
     height: 48px;
+    line-height: 48px;
     width: 100%;
     z-index: 997;
 }

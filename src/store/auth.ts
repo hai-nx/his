@@ -30,11 +30,13 @@ export const useAuth = defineStore('auth', {
     },
     /* eslint-disable */
     actions: {
-        async loginAsync(username: string, password: string) {
-            this.loading = true;
+        async login(username: string, password: string) {
+            this.loading = true
+            
             await authService
                 .login2(username, password)
-                .then((res: any) => {
+                .then(res => {
+                    console.log(res)
                     var result = res.data;
                     if (result.isSucceeded) {
                         var item = result.result;
@@ -61,20 +63,21 @@ export const useAuth = defineStore('auth', {
                             })
                         );
 
+                        this.error = ""
                         router.push({ name: "dashboard" });
                     } else {
-                        
                         this.error = result.message;
                     }
                 })
-                .catch((err: any) => {
+                .catch(err => {
+                    console.log(err)
                     this.error = err.message;
                 })
                 .finally(() => {
                     this.loading = false;
                 });
         },
-        async reLoginAsync(username: string, password: string) {
+        async reLogin(username: string, password: string) {
             this.loading = true;
             await authService
                 .login2(username, password)

@@ -6,7 +6,7 @@
       </label>
 
       <div class="nav-top-brand">
-        <img src="../assets//logo-nav.png" alt="logo" />
+        <img src="../assets/images/logo.png" alt="logo" />
       </div>
 
       <ul class="nav-top-item">
@@ -30,7 +30,7 @@
           <i class="bi bi-list" style="font-size: 20px"></i>
         </label>
         <a href="#" class="nav-top-brand">
-          <img src="../assets//logo-nav.png" alt="logo">
+          <img alt="logo">
         </a>
 
       </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, defineEmits, defineProps, PropType, ref } from 'vue'
+import { defineProps, ref, PropType, computed } from 'vue'
 
 const props = defineProps({
     tabindex: {
@@ -14,58 +14,45 @@ const props = defineProps({
 })
 
 const open = ref<boolean>(false)
-const isout = ref<boolean>(false)
-const showOverlayClass = computed(() => open.value ? 'd-dropdown-overlay-show' : undefined)
+const focused = ref<boolean>(false)
+const cls = computed(() => ({
 
-function onfocusout(){
-    console.log('focusout')
-    if (isout.value === true)
+}))
+
+/* function */
+function focusOut() {
+    if (focused.value === false)
         open.value = false;
-
-    
 }
 
-function onmouseleave() {
-    isout.value = true;
-    console.log('onmouseleave')
+function mouseLeave() {
+    focused.value = false;
 }
 
-function onmouseenter(){
-    isout.value = false
-    console.log('onmouseenter')
+function mouseEnter() {
+    focused.value = true;
 }
+
+/* event */
+
+
 
 </script>
 
 <template>
-    <div :class="['d-dropdown']" :tabindex="tabindex" @focusout="onfocusout" @mouseleave="onmouseleave" @mouseenter="onmouseenter">
+    <div class="d-dropdown" :tabindex="tabindex" @focusout="focusOut" @mouseleave="mouseLeave"
+        @mouseenter="mouseEnter">
         <div @click="open = !open">
             <slot></slot>
         </div>
-        <div :class="['d-dropdown-overlay', showOverlayClass]" @click="open = !open">
+        <div class="d-dopdown-overlay" @click="open = !open">
             <slot name="overlay"></slot>
         </div>
     </div>
 </template>
 
 <style>
-.d-dropdown {
+.d-dopdown {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-.d-dropdown-overlay {
-    display: none;
-    background-color: red;
-    border-color: black;
-    border-radius: 6px;
-    border-width: 1px;
-    margin: .125rem 0 0;
-    padding: .5rem 0;
-    position: absolute;
-}
-.d-dropdown-overlay-show {
-    display: block;
 }
 </style>

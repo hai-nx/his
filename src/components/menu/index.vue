@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { computed, defineEmits, defineProps, PropType } from 'vue';
-import { MenuItem } from '../menuitem'
-import DMenuItem from '../menuitem/index.vue'
+import { defineEmits, defineProps, PropType } from 'vue'
+import { MenuItem } from '../menuitem';
+import DMenuitem from '../menuitem/index.vue'
+
 
 const props = defineProps({
     items: {
-        type: Array as PropType<MenuItem[]>
+        type: Array as PropType<MenuItem[]>,
     },
+    tabindex: { type: Number },
     mode: {
         type: String as PropType<'horizontal' | 'vertical' | 'inline'>,
         default: 'horizontal'
@@ -14,46 +16,38 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-    (e: "click", item: MenuItem): void;
+    (e: "item-click", item: MenuItem): void;
 }>()
 
-// class
-const cls = computed(() => ({
-    'd-menu-vertical' : props.mode === 'vertical',
-    'd-menu-horizontal': props.mode === 'horizontal',
-    'd-menu-inline': props.mode === 'inline'
-}))
-
-// xử lý sự kiện chọn
-function itemClick(item: MenuItem) {
+/* function */
+function onItemClick(item: MenuItem) {
     if (item.disabled) {
         return;
     }
 
-    emit('click', item)
+    emit('item-click', item)
 }
 
 </script>
 
 <template>
-    <ul class="d-menu" :class="cls">
-        <li v-for="(item, index) in items" :key="index">
-            <d-menu-item :item="item" :depth="0" @click="itemClick"></d-menu-item>
-        </li>
+    <ul class="d-menu" role="menu" :tabindex="tabindex">
+        <template v-for="(item, index) in items" :key="index">
+            <d-menuitem :item="item" :depth="0" @item-click="onItemClick" />
+        </template>
     </ul>
 </template>
 
-<style scoped>
+<style>
 .d-menu {
-    box-sizing: border-box;
-    display: flex;
-    flex-wrap: nowrap;
+    background-color: red;
+    float: left;
     list-style: none;
+    list-style-type: none;
     margin: 0;
     padding: 0;
+    height: 100%;
+    width: 100%;
 }
 
-.d-menu-vertical {
-
-}
 </style>

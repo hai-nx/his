@@ -1,29 +1,22 @@
 <script setup lang="ts">
 import { computed, defineEmits, defineProps, PropType } from 'vue'
-import { SizeType } from '../context'
 
 const props = defineProps({
     id: { type: String },
     name: { type: String },
     value: { type: String },
-    placeholder: { type: String },
     rows: { type: Number },
+    maxlength: { type: Number },
+    placeholder: { type: String },
     disabled: { type: Boolean },
     readonly: { type: Boolean },
-    size: {
-        type: String as PropType<SizeType>,
-        default: undefined
-    }
 })
 
-const cls = computed(() => ({
-
-}))
 </script>
 
 <template>
-    <textarea class="d-textarea" :class="cls" :id="id" :name="name" :value="value" :placeholder="placeholder"
-        :rows="rows" :disabled="disabled" :readonly="readonly"
+    <textarea class="d-textarea" :id="id" :name="name" :value="value" :rows="rows" :maxlength="maxlength"
+        :placeholder="placeholder" :disabled="disabled" :readonly="readonly"
         @input="$emit('update:value', ($event?.target as HTMLTextAreaElement).value)">
     </textarea>
 </template>
