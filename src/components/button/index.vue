@@ -7,9 +7,10 @@ const props = defineProps({
         default: 'button',
     },
     type: {
-        type: String as PropType<'primary' | 'danger' | 'link' | 'text' | undefined>,
+        type: String as PropType<'primary' | 'link' | 'text' | undefined>,
         default: undefined,
     },
+    danger: { type: Boolean, default: false },
     icon: { type: String },
     title: { type: String },
     disabled: { type: Boolean }
@@ -24,9 +25,10 @@ const hasIcon = computed(() => props.icon || slots['icon'])
 const cls = computed(() => ({
     // type
     'd-button-primary': props.type === 'primary',
-    'd-button-danger': props.type === 'danger',
     'd-button-link': props.type === 'link',
     'd-button-text': props.type === 'text',
+    // danger
+    'd-button-danger': props.danger,
     // icon
     'd-button-icon-only': hasIcon.value && !slots.default
 }))
@@ -91,38 +93,26 @@ function onClick(payload: any) {
 
 /* type: primary */
 .d-button-primary {
-    --d-button-color: #fff;
-    --d-button-background-color: #0C66E4;
-    --d-button-border-color: #0C66E4;
-    --d-button-hover-color: #fff;
-    --d-button-hover-background-color: #0055CC;
-    --d-button-hover-border-color: #0055CC;
-    --d-button-active-color: #fff;
-    --d-button-active-background-color: #09326C;
-    --d-button-active-border-color: #09326C;
-}
-
-.d-button-danger {
-    --d-button-color: #fff;
-    --d-button-background-color: #0C66E4;
-    --d-button-border-color: #0C66E4;
-    --d-button-hover-color: #fff;
-    --d-button-hover-background-color: #0055CC;
-    --d-button-hover-border-color: #0055CC;
-    --d-button-active-color: #fff;
-    --d-button-active-background-color: #09326C;
-    --d-button-active-border-color: #09326C;
+    --d-button-color: var(--d-primary-contrast-color);
+    --d-button-background-color: var(--d-primary-color);
+    --d-button-border-color: var(--d-primary-color);
+    --d-button-hover-color: var(--d-primary-contrast-color);
+    --d-button-hover-background-color: var(--d-primary-hover-color);
+    --d-button-hover-border-color: var(--d-primary-hover-color);
+    --d-button-active-color: var(--d-primary-contrast-color);
+    --d-button-active-background-color: var(--d-primary-active-color);
+    --d-button-active-border-color: var(--d-primary-active-color);
 }
 
 /* type: link */
 .d-button-link {
-    --d-button-color: #0C66E4;
+    --d-button-color: var(--d-primary-color);
     --d-button-background-color: transparent;
     --d-button-border-color: transparent;
-    --d-button-hover-color: #0055CC;
+    --d-button-hover-color: var(--d-primary-hover-color);
     --d-button-hover-background-color: #0C66E410;
     --d-button-hover-border-color: transparent;
-    --d-button-active-color: #0055CC;
+    --d-button-active-color: var(--d-primary-active-color);
     --d-button-active-background-color: #0C66E420;
     --d-button-active-border-color: transparent;
 
@@ -131,15 +121,40 @@ function onClick(payload: any) {
 
 /* type: text */
 .d-button-text {
-    --d-button-color: rgba(0, 0, 0, 0.88);
+    --d-button-color: var(--d-text-color);
     --d-button-background-color: transparent;
     --d-button-border-color: transparent;
-    --d-button-hover-color: rgba(0, 0, 0, 0.88);
+    --d-button-hover-color: var(--d-text-color);
     --d-button-hover-background-color: #091E420F;
     --d-button-hover-border-color: transparent;
-    --d-button-active-color: rgba(0, 0, 0, 0.88);
+    --d-button-active-color: var(--d-text-color);
     --d-button-active-background-color: #091E4224;
     --d-button-active-border-color: transparent;
+}
+
+/* danger */
+.d-button-danger {
+    --d-button-color: var(--d-danger-contrast-color);
+    --d-button-background-color: var(--d-danger-color);
+    --d-button-border-color: var(--d-danger-color);
+    --d-button-hover-color: var(--d-danger-contrast-color);
+    --d-button-hover-background-color: var(--d-danger-hover-color);
+    --d-button-hover-border-color: var(--d-danger-hover-color);
+    --d-button-active-color: var(--d-danger-contrast-color);
+    --d-button-active-background-color: var(--d-danger-active-color);
+    --d-button-active-border-color: var(--d-danger-active-color);
+}
+
+.d-button-text.d-button-danger {
+    --d-button-color: var(--d-danger-color);
+    --d-button-background-color: transparent;
+    --d-button-border-color: transparent;
+    --d-button-hover-color: var(--d-danger-color);
+    --d-button-hover-background-color: transparent;
+    --d-button-hover-border-color: var(--d-danger-hover-color);
+    --d-button-active-color: var(--d-danger-contrast-color);
+    --d-button-active-background-color: var(--d-danger-active-color);
+    --d-button-active-border-color: var(--d-danger-active-color);
 }
 
 

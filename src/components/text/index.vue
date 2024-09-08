@@ -11,20 +11,27 @@ const props = defineProps({
     star: { type: Boolean }
 })
 
-const getForProp = computed(() => props.as === 'label' ? props.for : null)
+const forProp = computed(() => props.as === 'label' ? props.for : null)
 const cls = computed(() => ({
-    'd-text-required': props.star
+    'd-text-star': props.star
 })) 
 </script>
 
 <template>
-    <component class="d-text" :class="cls" :is="as" :for="getForProp">
+    <component class="d-text" :class="cls" :is="as" :for="forProp">
         <slot></slot>
     </component>
 </template>
 
 <style>
-.d-text-required::before {
+.d-text {
+    color: var(--d-text-color);
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+.d-text-star::before {
     content: '*';
     position: relative;
     color: red;

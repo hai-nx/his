@@ -27,8 +27,8 @@ const onLogin = () => {
 
             <div class="login-label-faise" v-if="error">{{ error }}</div>
 
-            <d-button type="primary" class="login-button my-3" icon="bi bi-arrow-right-circle h5 mb-0" :loading="loading"
-                @click.prevent="onLogin">Đăng nhập</d-button>
+            <d-button type="primary" class="login-button my-3" icon="bi bi-arrow-right-circle h5 mb-0"
+                :loading="loading" @click.prevent="onLogin">Đăng nhập</d-button>
 
             <div class="mb-4 d-flex justify-content-center">
                 <d-button type="link" class="px-0">Quên mật khẩu?</d-button>
