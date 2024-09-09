@@ -8,6 +8,7 @@ import { useAuth, useMenu } from "@/store";
 const menu = useMenu();
 const { items } = storeToRefs(menu);
 
+
 </script>
 
 <template>
@@ -17,8 +18,19 @@ const { items } = storeToRefs(menu);
         </div>
 
         <div class="layout-topbar">
-            <d-menu :items="items">
-            </d-menu>
+            <div class="layout-topbar-left">
+                <div class="logo">
+                    <img class="layout-logo" src="../../assets//images//logo.png" />
+                </div>
+
+                <d-button>|||</d-button>
+
+                <d-menu :items="items">
+                </d-menu>
+            </div>
+            <div class="layout-topbar-right">
+
+            </div>
         </div>
 
         <div class="layout-sidebar">
@@ -38,12 +50,13 @@ const { items } = storeToRefs(menu);
     display: flex;
     flex-direction: column;
     background-color: var(---d-main-background-color);
-    height: 100%;
+    height: 100vh;
 }
 
 .layout-topbar {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background-color: #fff;
     border-bottom: 1px solid #d9d9d9;
     height: 48px;
@@ -51,6 +64,15 @@ const { items } = storeToRefs(menu);
     width: 100%;
     z-index: 997;
 }
+
+.layout-topbar-left {
+    display: flex;
+}
+
+.layout-topbar-right {
+    display: flex;
+}
+
 
 .layout-sidebar {
     display: none;

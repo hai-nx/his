@@ -1,15 +1,25 @@
 /*  */
 :root {
-    --d-font-family: "Open Sans",
-        "Helvetica Neue",
-        Helvetica,
+    --d-font-family: 
+        -apple-system,
+        BlinkMacSystemFont,
+        'Segoe UI',
+        Roboto,
+        'Helvetica Neue',
         Arial,
-        sans-serif;
+        'Noto Sans',
+        sans-serif,
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol',
+        'Noto Color Emoji';
     --d-font-size: 0.875;
     --d-font-weight: 400;
     --d-line-height: 22px;
     --d-disabled-opacity: 0.6;
     --d-border-radius: 2px;
+    --d-border-width: 1px;
+
     --d-main-background-color: #eeeeee;
     --d-text-color: #334155;
     --d-background-color: #ffffff;
@@ -40,7 +50,7 @@
     --d-button-padding-x: 8px;
     --d-button-padding-y: 2px;
     --d-button-border-radius: var(--d-border-radius);
-    --d-button-border-width: 1px;
+    --d-button-border-width: var(--d-border-width);
     --d-button-gap: 6px;
 
     --d-input-color: var(--d-text-color);
@@ -58,7 +68,7 @@
     --d-input-padding-y: 2px;
     --d-input-font-weight: var(--d-font-weight);
     --d-input-border-radius: var(--d-border-radius);
-    --d-input-border-width: 1px;
+    --d-input-border-width: var(--d-border-width);
 }
 
 :root[theme=green] {
@@ -81,11 +91,7 @@
     width: 100%;
 }
 
-.layout-wrapper {
-    display: block;
-    background-color: var(---d-main-background-color);
-    min-height: 100vh;
-}
+
 
 
 

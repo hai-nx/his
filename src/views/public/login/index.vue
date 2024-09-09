@@ -3,13 +3,14 @@ import { ref, computed } from 'vue'
 import { useAuth } from '@/store'
 
 const store = useAuth();
-const username = ref<string>('');
+const username = ref();
 const password = ref<string>('');
 const loading = computed(() => store.loading);
 const error = computed(() => store.error);
 
 const onLogin = () => {
-    store.login(username.value, password.value)
+    //store.login(username.value, password.value)
+    alert(username.value)
 }
 
 </script>
@@ -20,7 +21,21 @@ const onLogin = () => {
             <d-text as="h2" class="login-title">Đăng nhập</d-text>
 
             <d-text for="username" class="login-label" star>Tên đăng nhập</d-text>
-            <d-input id="username" class="login-input" v-model:value="username" :disabled="loading"></d-input>
+            <d-input id="username" class="login-input" v-model="username" :disabled="loading"
+                @change="onLogin"></d-input>
+
+            {{ username }}
+            <d-input type="radio" name="username1" value="1000a" class="login-input" v-model="username" checked
+                :disabled="loading"></d-input>
+
+            <div style="display: inline-flex; gap: 6px; align-items: center;">
+                <d-input type="radio" name="username2" value="1000b" class="login-radio" v-model="username"
+                    :disabled="loading"></d-input>
+                sdasdasdasdas
+            </div>
+
+            <d-button type="primary" class="my-3" icon="bi bi-arrow-right-circle h5 mb-0" :loading="loading"
+                @click.prevent="onLogin">Đăng nhập</d-button>
 
             <d-text for="password" star>Mật khẩu</d-text>
             <d-password id="password" class="login-input" v-model:value="password" :disabled="loading"></d-password>
@@ -85,6 +100,10 @@ const onLogin = () => {
     margin-bottom: 12px;
     line-height: 1.2;
     min-height: 40px;
+}
+
+.login-radio {
+    line-height: 24px;
 }
 
 .login-button {

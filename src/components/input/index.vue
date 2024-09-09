@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { defineProps, PropType } from 'vue'
+import { computed, defineEmits, defineModel, defineProps, PropType } from 'vue'
+
+const model = defineModel();
 
 const props = defineProps({
     id: { type: String },
@@ -8,7 +10,7 @@ const props = defineProps({
         type: String as PropType<'text' | 'password' | 'date' | 'number' | string>,
         default: 'text'
     },
-    value: { type: String },
+    value: { type: Object, default: undefined },
     max: { type: Number },
     maxlength: { type: Number },
     placeholder: { type: String },
@@ -16,13 +18,21 @@ const props = defineProps({
     readonly: { type: Boolean }
 })
 
+const emit = defineEmits<{
+    (e: 'change', payload: any): void
+}>()
+
+const valueProp = computed(() => props.type === 'text' || props.type === 'password' ? model.value : props.value)
+
+function onChange(e: any){
+    emit('change', e)
+}
 
 </script>
 
 <template>
-    <input class="d-input" :id="id" :name="name" :type="type" :value="value" :max="max" :maxlength="maxlength"
-        :placeholder="placeholder" :disabled="disabled" :readonly="readonly"
-        @input="$emit('update:value', ($event?.target as HTMLInputElement).value)">
+    <input class="d-input" v-model="model" :id="id" :name="name" :type="type" :value="valueProp" :max="max"
+        :maxlength="maxlength" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" @change="onChange">
 </template>
 
 <style>

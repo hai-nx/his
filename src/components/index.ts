@@ -12,10 +12,14 @@ import { defineAsyncComponent, App } from 'vue'
 
 export function defineAsyncComponents(app: App<Element>) {
     app.component("DButton", defineAsyncComponent(() => import('./button/index.vue')));
+    app.component("DCard", defineAsyncComponent(() => import('./card/index.vue')));
+    app.component("DDropdown", defineAsyncComponent(() => import('./dropdown/index.vue')));
     app.component("DInput", defineAsyncComponent(() => import('./input/index.vue')));
     app.component("DMenu", defineAsyncComponent(() => import('./menu/index.vue')));
     app.component("DPassword", defineAsyncComponent(() => import('./password/index.vue')));
+    app.component("DRadio", defineAsyncComponent(() => import('./radio/index.vue')));
     app.component("DText", defineAsyncComponent(() => import('./text/index.vue')));
+    app.component("DTextarea", defineAsyncComponent(() => import('./textarea/index.vue')));
 
     // app.component("DCard", defineAsyncComponent(() => import('./card/index.vue')));
     // app.component("DCheckbox", defineAsyncComponent(() => import('./checkbox/index.vue')));
