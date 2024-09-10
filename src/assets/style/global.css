@@ -16,6 +16,7 @@
     --d-font-size: 0.875;
     --d-font-weight: 400;
     --d-line-height: 22px;
+    --d-icon-size: 1rem;
     --d-disabled-opacity: 0.6;
     --d-border-radius: 2px;
     --d-border-width: 1px;
@@ -24,6 +25,7 @@
     --d-text-color: #334155;
     --d-background-color: #ffffff;
     --d-border-color: #d9d9d9;
+    
     --d-primary-color: #3b82f6;
     --d-primary-contrast-color: #ffffff;
     --d-primary-hover-color: #2563eb;

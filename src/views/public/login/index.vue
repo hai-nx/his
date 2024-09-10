@@ -10,7 +10,8 @@ const error = computed(() => store.error);
 
 const onLogin = () => {
     //store.login(username.value, password.value)
-    alert(username.value)
+    store.loading = !store.loading
+    //alert(username.value)
 }
 
 </script>
@@ -34,7 +35,7 @@ const onLogin = () => {
                 sdasdasdasdas
             </div>
 
-            <d-button type="primary" class="my-3" icon="bi bi-arrow-right-circle h5 mb-0" :loading="loading"
+            <d-button type="primary" class="my-3" icon="bi bi-arrow-right-circle" :loading="loading"
                 @click.prevent="onLogin">Đăng nhập</d-button>
 
             <d-text for="password" star>Mật khẩu</d-text>
@@ -42,11 +43,11 @@ const onLogin = () => {
 
             <div class="login-label-faise" v-if="error">{{ error }}</div>
 
-            <d-button type="primary" class="login-button my-3" icon="bi bi-arrow-right-circle h5 mb-0"
+            <d-button type="primary" class="login-button my-3" icon="bi bi-arrow-right-circle"
                 :loading="loading" @click.prevent="onLogin">Đăng nhập</d-button>
 
             <div class="mb-4 d-flex justify-content-center">
-                <d-button type="link" class="px-0">Quên mật khẩu?</d-button>
+                <d-button type="link" class="px-0" @click.prevent="onLogin">Quên mật khẩu?</d-button>
             </div>
 
         </div>

@@ -11,6 +11,7 @@ const props = defineProps({
         default: undefined,
     },
     danger: { type: Boolean, default: false },
+    loading: { type: Boolean, default: false },
     icon: { type: String },
     title: { type: String },
     disabled: { type: Boolean }
@@ -21,7 +22,7 @@ const emit = defineEmits<{
 }>()
 
 const slots = useSlots()
-const hasIcon = computed(() => props.icon || slots['icon'])
+const hasIcon = computed(() => !props.loading && (props.icon || slots['icon']))
 const cls = computed(() => ({
     // type
     'd-button-primary': props.type === 'primary',
@@ -41,10 +42,14 @@ function onClick(payload: any) {
 </script>
 
 <template>
-    <button class="d-button" :class="cls" :type="htmlType" :disabled="disabled" :title="title" @click="onClick">
-        <slot v-if="hasIcon" name="icon">
-            <i :class="[icon]"></i>
+    <button class="d-button" :class="cls" :type="htmlType" :disabled="disabled || loading" :title="title" @click="onClick">
+        <slot v-if="loading" name="loadingIcon">
+            <div class="loader"></div>
         </slot>
+        <slot v-else name="icon">
+            <i v-if="hasIcon" :class="icon"></i>
+        </slot>
+
         <slot></slot>
     </button>
 </template>
@@ -163,5 +168,29 @@ function onClick(payload: any) {
     gap: 0;
     padding-inline-start: 0;
     padding-inline-end: 0;
+}
+
+
+
+
+.loader {
+    border: 2px solid #f3f3f3;
+    /* Light grey */
+    border-top: 2px solid transparent;
+    /* Blue */
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 </style>
