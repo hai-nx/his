@@ -20,6 +20,7 @@ export function defineAsyncComponents(app: App<Element>) {
     app.component("DRadio", defineAsyncComponent(() => import('./radio/index.vue')));
     app.component("DText", defineAsyncComponent(() => import('./text/index.vue')));
     app.component("DTextarea", defineAsyncComponent(() => import('./textarea/index.vue')));
+    app.component("DTooltip", defineAsyncComponent(() => import('./tooltip/index.vue')));
 
     // app.component("DCard", defineAsyncComponent(() => import('./card/index.vue')));
     // app.component("DCheckbox", defineAsyncComponent(() => import('./checkbox/index.vue')));

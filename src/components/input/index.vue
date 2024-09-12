@@ -15,14 +15,17 @@ const props = defineProps({
     maxlength: { type: Number },
     placeholder: { type: String },
     disabled: { type: Boolean },
-    readonly: { type: Boolean }
+    readonly: { type: Boolean },
+    invalid: { type: Boolean }
 })
 
 const emit = defineEmits<{
     (e: 'change', payload: any): void
 }>()
 
-const valueProp = computed(() => props.type === 'text' || props.type === 'password' ? model.value : props.value)
+const cls = computed(() => ({
+    'd-input-invalid': props.invalid
+}))
 
 function onChange(e: any){
     emit('change', e)
@@ -31,7 +34,7 @@ function onChange(e: any){
 </script>
 
 <template>
-    <input class="d-input" v-model="model" :id="id" :name="name" :type="type" :value="valueProp" :max="max"
+    <input class="d-input" :class="cls" v-model="model" :id="id" :name="name" :type="type" :max="max"
         :maxlength="maxlength" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" @change="onChange">
 </template>
 
@@ -65,6 +68,10 @@ function onChange(e: any){
 
 .d-input:not(:disabled):read-only {
     background-color: var(--d-input-readonly-background-color);
+}
+
+.d-input.d-input-invalid {
+    border-color: red !important;
 }
 
 input[type="password"]:not(:placeholder-shown).d-input {

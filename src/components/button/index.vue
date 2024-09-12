@@ -22,7 +22,7 @@ const emit = defineEmits<{
 }>()
 
 const slots = useSlots()
-const hasIcon = computed(() => !props.loading && (props.icon || slots['icon']))
+const hasIcon = computed(() => props.icon || slots['icon'])
 const cls = computed(() => ({
     // type
     'd-button-primary': props.type === 'primary',
@@ -44,10 +44,10 @@ function onClick(payload: any) {
 <template>
     <button class="d-button" :class="cls" :type="htmlType" :disabled="disabled || loading" :title="title" @click="onClick">
         <slot v-if="loading" name="loadingIcon">
-            <div class="loader"></div>
+            <div class="d-button-loadingicon"></div>
         </slot>
         <slot v-else name="icon">
-            <i v-if="hasIcon" :class="icon"></i>
+            <i v-if="hasIcon" class="d-buton-icon" :class="icon"></i>
         </slot>
 
         <slot></slot>
@@ -67,11 +67,11 @@ function onClick(payload: any) {
     background: var(--d-button-background-color);
     border: var(--d-button-border-width) solid var(--d-button-border-color);
     border-radius: var(--d-button-border-radius);
-    gap: var(--d-button-gap);
     padding: var(--d-button-padding-y) var(--d-button-padding-x);
     line-height: var(--d-line-height);
     font-weight: var(--d-button-font-weight);
     outline-color: transparent;
+    gap: var(--d-button-gap);
 }
 
 .d-button:not(:disabled):hover {
@@ -164,13 +164,35 @@ function onClick(payload: any) {
 
 
 /* icon */
+.d-buton-icon {
+    font-size: var(--d-icon-size);
+}
+
 .d-button-icon-only {
     gap: 0;
     padding-inline-start: 0;
     padding-inline-end: 0;
 }
 
+.d-button-loadingicon {
+    border: 0.175rem solid currentcolor;
+    border-right-color: transparent;
+}
 
+.d-button-loadingicon {
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    vertical-align: -0.125em;
+    border-radius: 50%;
+    animation: 0.75s linear infinite d-button-loadingicon;
+}
+
+@keyframes d-button-loadingicon {
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 
 .loader {

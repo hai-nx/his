@@ -22,10 +22,12 @@ const onLogin = () => {
             <d-text as="h2" class="login-title">Đăng nhập</d-text>
 
             <d-text for="username" class="login-label" star>Tên đăng nhập</d-text>
-            <d-input id="username" class="login-input" v-model="username" :disabled="loading"
-                @change="onLogin"></d-input>
+            <d-tooltip text="Teen dang nhap kho duoc bo trong">
+                <d-input id="username" class="login-input w-100" v-model="username" :disabled="loading" invalid="true"
+                    @change="onLogin"></d-input>
 
-            {{ username }}
+            </d-tooltip>
+
             <d-input type="radio" name="username1" value="1000a" class="login-input" v-model="username" checked
                 :disabled="loading"></d-input>
 
@@ -35,16 +37,13 @@ const onLogin = () => {
                 sdasdasdasdas
             </div>
 
-            <d-button type="primary" class="my-3" icon="bi bi-arrow-right-circle" :loading="loading"
-                @click.prevent="onLogin">Đăng nhập</d-button>
-
             <d-text for="password" star>Mật khẩu</d-text>
             <d-password id="password" class="login-input" v-model:value="password" :disabled="loading"></d-password>
 
             <div class="login-label-faise" v-if="error">{{ error }}</div>
 
-            <d-button type="primary" class="login-button my-3" icon="bi bi-arrow-right-circle"
-                :loading="loading" @click.prevent="onLogin">Đăng nhập</d-button>
+            <d-button type="primary" class="login-button my-3" icon="bi bi-arrow-right-circle" :loading="loading"
+                @click.prevent="onLogin">Đăng nhập</d-button>
 
             <div class="mb-4 d-flex justify-content-center">
                 <d-button type="link" class="px-0" @click.prevent="onLogin">Quên mật khẩu?</d-button>

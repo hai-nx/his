@@ -27,7 +27,8 @@ const inputType = computed(() => {
 });
 
 function onMaskToggle() {
-    unmasked.value = !unmasked.value;
+    if (!props.disabled)
+        unmasked.value = !unmasked.value;
 }
 </script>
 
