@@ -70,7 +70,7 @@ function onChange(e: any){
     background-color: var(--d-input-readonly-background-color);
 }
 
-.d-input.d-input-invalid {
+.d-input.d-input-invalid:not(:focus-visible) {
     border-color: red !important;
 }
 

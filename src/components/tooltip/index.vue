@@ -13,11 +13,11 @@ const props = defineProps({
 
 const show = ref(false)
 
-function onMouseDown(){
+function onMouseDown() {
     show.value = false
 }
 
-function onMouseLeave(){
+function onMouseLeave() {
     show.value = true
 }
 
@@ -61,19 +61,19 @@ function onMouseLeave(){
 /* Tooltip text */
 .d-tooltip-popper-container {
     visibility: collapse;
-    width: 120px;
+    /* width: 120px; */
     background-color: #555;
     color: #fff;
     text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
+    padding: 5px 2px;
+    border-radius: 2px;
 
     /* Position the tooltip text */
     position: absolute;
     z-index: 1;
     bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
+    left: 15%;
+    /* margin-left: -60px; */
 
     /* Fade in tooltip */
     opacity: 0;
