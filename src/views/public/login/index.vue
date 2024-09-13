@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useAuth } from '@/store'
 
 const store = useAuth();
@@ -8,10 +8,22 @@ const password = ref<string>('');
 const loading = computed(() => store.loading);
 const error = computed(() => store.error);
 
+const errors = ref({
+    username: undefined,
+    password: undefined
+});
+
 const onLogin = () => {
-    //store.login(username.value, password.value)
-    store.loading = !store.loading
-    //alert(username.value)
+    store.login(username.value, password.value)
+}
+
+const err_username = ref<string|undefined>(undefined)
+
+function valid() {
+    if (!username.value || username.value === '')
+        err_username.value = 'Tên đăng nhập không được để trống!'
+    else
+        err_username.value = undefined
 }
 
 </script>
@@ -22,20 +34,10 @@ const onLogin = () => {
             <d-text as="h2" class="login-title">Đăng nhập</d-text>
 
             <d-text for="username" class="login-label" star>Tên đăng nhập</d-text>
-            <d-tooltip text="Teen dang nhap kho duoc bo trong">
-                <d-input id="username" class="login-input w-100" v-model="username" :disabled="loading" invalid="true"
-                    @change="onLogin"></d-input>
-
+            <d-tooltip :text="err_username">
+                <d-input id="username" class="login-input w-100" v-model="username" :disabled="loading"
+                    :invalid="err_username" @change="valid"></d-input>
             </d-tooltip>
-
-            <d-input type="radio" name="username1" value="1000a" class="login-input" v-model="username" checked
-                :disabled="loading"></d-input>
-
-            <div style="display: inline-flex; gap: 6px; align-items: center;">
-                <d-input type="radio" name="username2" value="1000b" class="login-radio" v-model="username"
-                    :disabled="loading"></d-input>
-                sdasdasdasdas
-            </div>
 
             <d-text for="password" star>Mật khẩu</d-text>
             <d-password id="password" class="login-input" v-model:value="password" :disabled="loading"></d-password>

@@ -93,6 +93,9 @@
     width: 100%;
 }
 
+i {
+    font-size: var(--d-icon-size);
+}
 
 
 

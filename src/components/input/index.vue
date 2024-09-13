@@ -20,22 +20,29 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-    (e: 'change', payload: any): void
+    (e: 'change', payload: any): void,
+    (e: 'blur', payload: any): void
 }>()
 
 const cls = computed(() => ({
     'd-input-invalid': props.invalid
 }))
 
-function onChange(e: any){
+function onChange(e: any) {
     emit('change', e)
 }
+
+function onBlur(e: any) {
+    emit('blur', e)
+}
+
 
 </script>
 
 <template>
     <input class="d-input" :class="cls" v-model="model" :id="id" :name="name" :type="type" :max="max"
-        :maxlength="maxlength" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" @change="onChange">
+        :maxlength="maxlength" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" @change="onChange"
+        @blur="onBlur">
 </template>
 
 <style>

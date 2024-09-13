@@ -42,9 +42,9 @@ const visibleDropdown = computed(() => props.item.children && props.item.childre
 
 .d-menuitem-content {
     padding: 0 16px;
-    background-color: green;
+    background-color: #eee;
 }
 .d-menuitem-content:hover {
-    background-color: greenyellow;
+    background-color: #dbdbdb;
 }
 </style>

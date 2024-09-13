@@ -11,6 +11,7 @@ const props = defineProps({
         default: undefined,
     },
     danger: { type: Boolean, default: false },
+    rounded: { type: Boolean, default: false },
     loading: { type: Boolean, default: false },
     icon: { type: String },
     title: { type: String },
@@ -162,19 +163,20 @@ function onClick(payload: any) {
     --d-button-active-border-color: var(--d-danger-active-color);
 }
 
-
-/* icon */
-.d-buton-icon {
-    font-size: var(--d-icon-size);
-}
-
+/* icon only */
 .d-button-icon-only {
     gap: 0;
     padding-inline-start: 0;
     padding-inline-end: 0;
 }
 
+/* icon */
+.d-buton-icon {
+    font-size: var(--d-icon-size);
+}
+
 .d-button-loadingicon {
+    font-size: var(--d-icon-size);
     border: 0.175rem solid currentcolor;
     border-right-color: transparent;
 }
@@ -183,7 +185,7 @@ function onClick(payload: any) {
     display: inline-block;
     width: 1.25rem;
     height: 1.25rem;
-    vertical-align: -0.125em;
+    /* vertical-align: -0.125em; */
     border-radius: 50%;
     animation: 0.75s linear infinite d-button-loadingicon;
 }
