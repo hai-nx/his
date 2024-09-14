@@ -40,13 +40,13 @@ function onItemClick(item: MenuItem) {
 
 <style>
 .d-menu {
-    /* float: left; */
+    display: inline-block;
+    height: 100%;
+    background-color: aquamarine;
     list-style: none;
     list-style-type: none;
     margin: 0;
     padding: 0;
-    /* height: 100%; */
-    /* width: 100%; */
 }
 
 </style>

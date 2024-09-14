@@ -28,19 +28,21 @@ function newsClose() {
         </div>
 
         <div class="layout-topbar">
-            <label class="topbar-menu-toggle" for="topbar-checkbox">
-                <i class="bi bi-list"></i>
-            </label>
-            <div class="topbar-icon">
-                <div class="logo">
-                    <i class="bi bi-house-fill"></i>
-                    <!-- <img class="layout-logo" src="../../assets//images//logo.png" /> -->
+            <div class="layout-topbar-start">
+                <div class="topbar-menu-toggle">
+                    <i class="bi bi-list"></i>
+                </div>
+                <div class="topbar-icon">
+                    <div class="logo">
+                        <i class="bi bi-house-fill"></i>
+                        <!-- <img class="layout-logo" src="../../assets//images//logo.png" /> -->
+                    </div>
                 </div>
             </div>
-            <div class="topbar-menu">
+            <div class="layout-topbar-center">
                 <d-menu :items="items"></d-menu>
             </div>
-            <div class="topbar-items">
+            <div class="layout-topbar-end">
                 <div>
                     <i class="bi bi-person-circle"></i>
                 </div>
@@ -54,10 +56,10 @@ function newsClose() {
             </div>
         </div>
 
-        <input type="checkbox" id="topbar-checkbox" hidden />
-        <label class="layout-sidebar-mask" for="topbar-checkbox"></label>
         <div class="layout-sidebar">
-
+            <div class="layout-sidebar-start"></div>
+            <div class="layout-sidebar-center"></div>
+            <div class="layout-sidebar-end"></div>
         </div>
 
         <div class="layout-main-container">
@@ -109,76 +111,35 @@ function newsClose() {
 }
 
 .layout-topbar {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 6px;
     background-color: var(--d-background-color);
-    border-bottom: 1px solid var(--d-border-color);
-    padding: 1px 2rem;
-    height: 48px;
-    line-height: 48px;
+    border-bottom: 1px solid red;
+    padding: 0 1rem;
+    height: 44px;
+    /* line-height: 44px; */
     width: 100%;
     z-index: 997;
-    box-sizing: content-box;
 }
 
-.layout-topbar .topbar-icon i {
-    font-size: 1.5rem;
+.layout-topbar-start {
+    display: inline-flex;
+    gap: 6px;
 }
 
-.layout-topbar .topbar-menu {
+.layout-topbar-center {
     flex: 1;
+    height: 100%;
 }
 
-.layout-topbar .topbar-menu-toggle {
-    cursor: pointer;
-    padding: 0 .5rem;
-    display: none;
-
-    /* display: flex; */
-    align-items: center;
-    justify-content: center;
-    /* border-radius: 50%;
-    width: 2rem;
-    height: 2rem; */
-}
-
-.layout-topbar .topbar-menu-toggle:hover {
-    background-color: #eee;
-}
-
-.layout-topbar .topbar-menu-toggle i {
-    font-size: 1.5rem;
-}
-
-.layout-topbar .topbar-items {
+.layout-topbar-end {
     display: inline-flex;
     gap: 6px;
 }
 
 
-#topbar-checkbox:checked~.layout-sidebar-mask {
-    display: block;
-}
 
-#topbar-checkbox:checked~.layout-sidebar {
-    display: block;
-    transform: translateX(0%);
-    opacity: 1;
-}
-
-.layout-sidebar-mask {
-    display: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-
-    animation: fadein linear 0.2s;
-    z-index: 998;
-}
 
 .layout-sidebar {
     display: none;

@@ -38,11 +38,15 @@ const visibleDropdown = computed(() => props.item.children && props.item.childre
 <style>
 .d-menuitem {
     display: inline-flex;
+    float: left;
+    height: 100%;
+    background-color: rebeccapurple;
 }
 
 .d-menuitem-content {
     padding: 0 16px;
     background-color: #eee;
+    height: 100%;
 }
 .d-menuitem-content:hover {
     background-color: #dbdbdb;
