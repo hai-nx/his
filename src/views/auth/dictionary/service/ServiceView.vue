@@ -2,7 +2,6 @@
     <div>
         <div class="d-flex justify-content-between align-items-center">
             <h3>Danh mục dịch vụ kỹ thuật</h3>
-
             <div>
                 <a-button
                     type="primary"
@@ -11,14 +10,6 @@
                 >
                     Nhập dịch vụ từ Excel
                 </a-button>
-
-                <!-- <a-button
-                    type="primary"
-                    style="margin-right: 10px"
-                    @click="handleResultIndexImportExcel(true)"
-                >
-                    Nhập kết quả từ Excel
-                </a-button> -->
 
                 <a-button type="primary" @click="handleAdd">
                     <i class="bi bi-plus-lg me-2"></i>
@@ -91,6 +82,7 @@ import { Modal } from "ant-design-vue";
 import { ServiceModel } from "@/models";
 import { serviceService } from "@/services";
 import ServiceDetailView from "./ServiceDetailView.vue";
+// import ServiceDetailViews from "./ServiceDetailViews.vue";
 import ServiceDetailImportView from "./ServiceDetailImportView.vue";
 import ServiceDetailResultIndiceImportView from "./ServiceDetailResultIndiceImportView.vue";
 
@@ -260,6 +252,7 @@ export default defineComponent({
     },
     components: {
         ServiceDetailView,
+        // ServiceDetailViews,
         ServiceDetailImportView,
         ServiceDetailResultIndiceImportView,
     },

@@ -7,7 +7,7 @@ export interface PatientModel {
     birthDate?: Date | string,
     birthYear?: number,
     birthplace?: string,
-    genderId?: string,
+    genderId?: number,
     ethnicId?: string,
     religionId?: string,
     careerId?: string,

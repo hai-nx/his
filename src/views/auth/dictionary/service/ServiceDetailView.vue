@@ -358,15 +358,6 @@
                                                 column.key === 'executionTime'
                                             "
                                         >
-                                            <!-- <a-date-picker
-                                                class="my-0 mx-0 w-100"
-                                                placeholder="dd/MM/yyyy"
-                                                format="YYYY-MM-DD[T]HH:mm:ss"
-                                                v-model:value="
-                                                    record.executionTime
-                                                "
-                                            /> -->
-
                                             <DxDateBox
                                                 v-model:value="
                                                     record.executionTime
@@ -419,7 +410,11 @@
                             </div>
                         </div>
                     </a-tab-pane>
-                    <a-tab-pane key="3" tab="Trị số kết quả">
+                    <a-tab-pane
+                        key="3"
+                        tab="Trị số kết quả"
+                        v-if="isShowResultIndices"
+                    >
                         <div class="container">
                             <div class="row">
                                 <div class="flex-container-resultIndice">
@@ -693,7 +688,7 @@ export default defineComponent({
 
         const result = ref<boolean>(false);
         const title = ref<string>("Thêm mới dịch vụ ký thuật");
-        let service = reactive<ServiceModel>({
+        var service = reactive<ServiceModel>({
             id: null,
             code: null,
             name: null,
@@ -951,28 +946,6 @@ export default defineComponent({
                 service.sServiceResultIndices =
                     resultDto.data.result.sServiceResultIndices;
 
-                // if (
-                //     resultDto.data.result.sServicePricePolicies &&
-                //     resultDto.data.result.sServicePricePolicies !== undefined &&
-                //     resultDto.data.result.sServicePricePolicies.length > 0
-                // ) {
-                //     resultDto.data.result.sServicePricePolicies.forEach(
-                //         (element) => {
-                //             if (
-                //                 element.executionTimeString !== null &&
-                //                 element.executionTimeString !== ""
-                //             ) {
-                //                 element.executionTime = dayjs(
-                //                     element.executionTimeString,
-                //                     "DD-MM-YYYY"
-                //                 );
-                //             } else {
-                //                 element.executionTime = null;
-                //             }
-                //         }
-                //     );
-                // }
-
                 title.value = "Sửa dịch vụ kỹ thuật";
                 loading.value = false;
             } else {
@@ -1040,10 +1013,10 @@ export default defineComponent({
                     serviceGroupHeIn.code === "CDHA" ||
                     serviceGroupHeIn.code === "TDCN")
             ) {
-                const length = service.sExecutionRooms.filter(
+                const length = service.sExecutionRooms?.filter(
                     (f) => f.isMain === true
                 ).length;
-                if (length > 1) {
+                if (length && length > 1) {
                     strArr.push(
                         "Chỉ được phép chọn một Phòng thực hiện chính!"
                     );
@@ -1114,6 +1087,16 @@ export default defineComponent({
             } else return false;
         });
 
+        const isShowResultIndices = computed(() => {
+            let serviceGroupHeIn = serviceGroupHeIns.value.find(
+                (f) => f.id === service.serviceGroupHeInId
+            );
+
+            if (serviceGroupHeIn !== null && serviceGroupHeIn?.code === "XN") {
+                return true;
+            } else return false;
+        });
+
         //#endregion
 
         const handleSave = async () => {
@@ -1124,13 +1107,6 @@ export default defineComponent({
                 loading.value = false;
                 return;
             }
-
-            // service.sServicePricePolicies.forEach((element) => {
-            //     if (element.executionTime !== null) {
-            //         element.executionTimeString =
-            //             element.executionTime.format("DD/MM/YYYY");
-            //     }
-            // });
 
             let resultSave = await serviceService.createOrEdit(service);
             if (resultSave.data.isSucceeded) {
@@ -1204,25 +1180,26 @@ export default defineComponent({
         };
 
         const handleSaveResultIndice = (record: ServiceResultIndiceModel) => {
-            const resultIndice = service.sServiceResultIndices.find(
+            const resultIndice = service.sServiceResultIndices?.find(
                 (f) => f.id == record.id
             );
 
-            if (resultIndice !== null && resultIndice != undefined) {
-                const index =
-                    service.sServiceResultIndices.indexOf(resultIndice);
-                service.sServiceResultIndices[index] = { ...record };
-            } else {
-                service.sServiceResultIndices.push({ ...record });
-            }
-            service.sServiceResultIndices = service.sServiceResultIndices.sort(
-                (a, b) => {
-                    if (a.sortOrder && b.sortOrder) {
-                        return a.sortOrder - b.sortOrder;
-                    }
-                    return 0;
+            if (service.sServiceResultIndices) {
+                if (resultIndice) {
+                    const index =
+                        service.sServiceResultIndices.indexOf(resultIndice);
+                    service.sServiceResultIndices[index] = { ...record };
+                } else {
+                    service.sServiceResultIndices.push({ ...record });
                 }
-            );
+                service.sServiceResultIndices =
+                    service.sServiceResultIndices.sort((a, b) => {
+                        if (a.sortOrder && b.sortOrder) {
+                            return a.sortOrder - b.sortOrder;
+                        }
+                        return 0;
+                    });
+            }
 
             visibleResultIndice.value = false;
         };
@@ -1246,7 +1223,8 @@ export default defineComponent({
             data: ServiceResultIndiceModel | undefined
         ) => {
             resetResultIndice();
-            if (data !== undefined) {
+
+            if (data) {
                 const dataCopy = { ...data };
 
                 resultIndiceSelected.id = dataCopy.id;
@@ -1273,10 +1251,12 @@ export default defineComponent({
                 okText: "Đồng ý",
                 cancelText: "Bỏ qua",
                 onOk() {
-                    service.sServiceResultIndices =
-                        service.sServiceResultIndices.filter(
-                            (f) => f.id != record.id
-                        );
+                    if (service.sServiceResultIndices) {
+                        service.sServiceResultIndices =
+                            service.sServiceResultIndices.filter(
+                                (f) => f.id != record.id
+                            );
+                    }
                 },
                 onCancel() {
                     Modal.destroyAll();
@@ -1320,6 +1300,7 @@ export default defineComponent({
             serviceGroupHeIns,
             units,
             isShowExecutionRooms,
+            isShowResultIndices,
             erro,
             columnResultIndices,
             handleSave,

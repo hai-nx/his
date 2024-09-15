@@ -1,8 +1,6 @@
 import DictionaryBase from '../base'
 
 interface BranchModel extends DictionaryBase {
-    branchCode?: string,
-    branchName?: string,
     mediOrgCode?: string,
     mediOrgAcceptCode?: string,
     hospitalLevelID?: string,
