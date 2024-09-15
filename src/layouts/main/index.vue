@@ -19,7 +19,6 @@ function newsClose() {
 }
 
 function menuItemClick(item: MenuItem){
-    console.log(item)
     let path = item?.path;
     if (path !== null) router.push({ name: path });
 }
@@ -195,7 +194,6 @@ function menuItemClick(item: MenuItem){
 
 .layout-main-container {
     flex: 1;
-    padding: 8px;
 }
 
 .layout-mask {

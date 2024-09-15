@@ -19,11 +19,15 @@ const emit = defineEmits<{
 }>()
 
 /* function */
+function visible(item: MenuItem) {
+    return item.visible !== false
+}
+
 function onItemClick(item: MenuItem) {
     if (item.disabled) {
         return;
     }
-console.log('item')
+    console.log('item')
     console.log(item)
     emit('item-click', item)
 }
@@ -33,23 +37,31 @@ console.log('item')
 <template>
     <ul class="d-menu" role="menu" :tabindex="tabindex">
         <template v-for="(item, index) in items" :key="index">
-            <d-menuitem :item="item" :depth="0" @click="onItemClick" />
+            <li v-if="visible(item) && item.separator" role="separator" class="d-menu-item-separator"></li>
+            <d-menuitem 
+            v-else-if="visible(item)" 
+            :item="item" 
+            :level="0" 
+            @click="onItemClick" 
+            />
         </template>
     </ul>
 </template>
 
 <style>
 .d-menu {
-    display: inline-block;
+    display: inline-flex;
+    gap: .25rem;
     height: 100%;
     list-style: none;
     list-style-type: none;
+    text-wrap: nowrap;
     margin: 0;
     padding: 0;
 }
 
-.d-menu ul {
-    padding: 0;
+.d-menu-item-separator {
+    border-left: var(--d-border-width) solid var(--d-border-color);
+    margin: .5rem 0;
 }
-
 </style>

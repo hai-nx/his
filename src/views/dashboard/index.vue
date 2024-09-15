@@ -10,6 +10,7 @@ function hihi(payload: any) {
 }
 
 import type { MenuProps } from 'ant-design-vue';
+import { MenuItem } from '@/components/menuitem';
 
 const visible = ref(false);
 const handleButtonClick = (e: Event) => {
@@ -21,11 +22,19 @@ const handleMenuClick: MenuProps['onClick'] = e => {
     }
 };
 
-const xxx= ref<string>('uno')
+const breadcrumbs = ref<Array<MenuItem>>([
+    { key: '1', label: 'Danh mục', icon: '', path: '' },
+    { key: '2', label: 'Danh sách chi nhánh', icon: '', path: '' }
+]);
+
+function onClick(item: any){
+console.log(item)
+}
 
 </script>
 
 <template>
-    <x-layout :title="title" :show-header="true">
-    </x-layout>
+    <d-page :breadcrumb="breadcrumbs">
+
+    </d-page>
 </template>

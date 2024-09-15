@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-
+const title = ref("Danh sách bệnh nhân")
 
 </script>
 
 <template>
-    <div>
+    <d-page :title="title">
 
-    </div>
+    </d-page>
 </template>

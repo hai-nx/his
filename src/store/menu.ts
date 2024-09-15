@@ -4,12 +4,14 @@ import { MenuItem } from '../components/menuitem'
 export const useMenu = defineStore('menu', {
     state: () => ({
         items: [
-            { key: '1', label: 'Đón tiếp' },
-            { key: '2', label: 'Khám bệnh' },
+            { key: '1', label: 'Đón tiếp', path: 'reception' },
+            { key: '2', label: 'Khám bệnh', path: 'clinical' },
 
             { key: 'diagnosticImaging', label: "CĐHA - TDCN", path: 'diagnosticImaging' },
             { key: 'testing', label: "Xét nghiệm", path: 'testing' },
 
+            { key: 'invoice', label: 'Viện phí' },
+            { separator: true },
             { key: '80', label: 'Danh mục',
                 children: [
                     {
@@ -49,7 +51,6 @@ export const useMenu = defineStore('menu', {
                     { key: 'other', label: 'Khác', path: 'dictionary' },
                 ]
              },
-            // { separator: true },
             { key: '90', label: 'Hệ thống',
                 children: [
                     { key: '90.1', label: 'Người dùng', path: 'user' },
