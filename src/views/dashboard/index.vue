@@ -27,11 +27,5 @@ const xxx= ref<string>('uno')
 
 <template>
     <x-layout :title="title" :show-header="true">
-        <d-radio name="choice" value="una" label="uno" :v-model="xxx"></d-radio>
-        <d-radio name="choice" value="uno" label="una" :v-model="xxx"></d-radio>
-        <d-radio name="choice" value="uni" label="un2" :v-model="xxx"></d-radio>
-        <d-checkbox></d-checkbox>
-        <d-checkbox></d-checkbox>
-        <d-checkbox></d-checkbox>
     </x-layout>
 </template>

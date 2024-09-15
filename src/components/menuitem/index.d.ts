@@ -6,4 +6,5 @@ export interface MenuItem {
     visible?: boolean;
     separator?: boolean;
     children?: MenuItem[];
+    path?: string
 }

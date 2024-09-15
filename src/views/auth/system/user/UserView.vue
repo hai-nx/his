@@ -1,5 +1,5 @@
 <template>
-    <x-layout>
+    <x-layout title="hihihihihihihihi">
 
     </x-layout>
 </template>

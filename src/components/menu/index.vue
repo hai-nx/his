@@ -3,7 +3,6 @@ import { defineEmits, defineProps, PropType } from 'vue'
 import { MenuItem } from '../menuitem';
 import DMenuitem from '../menuitem/index.vue'
 
-
 const props = defineProps({
     items: {
         type: Array as PropType<MenuItem[]>,
@@ -24,7 +23,8 @@ function onItemClick(item: MenuItem) {
     if (item.disabled) {
         return;
     }
-
+console.log('item')
+    console.log(item)
     emit('item-click', item)
 }
 
@@ -33,7 +33,7 @@ function onItemClick(item: MenuItem) {
 <template>
     <ul class="d-menu" role="menu" :tabindex="tabindex">
         <template v-for="(item, index) in items" :key="index">
-            <d-menuitem :item="item" :depth="0" @item-click="onItemClick" />
+            <d-menuitem :item="item" :depth="0" @click="onItemClick" />
         </template>
     </ul>
 </template>
@@ -42,10 +42,13 @@ function onItemClick(item: MenuItem) {
 .d-menu {
     display: inline-block;
     height: 100%;
-    background-color: aquamarine;
     list-style: none;
     list-style-type: none;
     margin: 0;
+    padding: 0;
+}
+
+.d-menu ul {
     padding: 0;
 }
 

@@ -35,13 +35,14 @@ import testingView from "@/views/auth/business/testings/TestingView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   { path: "/", name: "home", component: () => import("@/views/public/login/index.vue"), meta: { layout: LAYOUT_DEFAULT } },
+  { path: "/login", name: "login", component: () => import("@/views/public/login/index.vue"), meta: { layout: LAYOUT_DEFAULT } },
 
   { path: "/dashboard", name: "dashboard", component: () => import("../views/dashboard/index.vue"), meta: { layout: appLayout.MAIN } },
   { path: "/dboption", name: "dboption", component: dboptionView, meta: { layout: LAYOUT_AUTH } },
 
-  { path: "/dictionary", name: "dictionary", component: dictionaryView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/branch", name: "branch", component: branchView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/country", name: "country", component: countryView, meta: { layout: LAYOUT_AUTH } },
+  { path: "/dictionary", name: "dictionary", component: dictionaryView, meta: { layout: appLayout.MAIN } },
+  { path: "/branch", name: "branch", component: branchView, meta: { layout: appLayout.MAIN } },
+  { path: "/country", name: "country", component: countryView, meta: { layout: appLayout.MAIN } },
   { path: "/department", name: "department", component: departmentView, meta: { layout: LAYOUT_AUTH } },
   { path: "/department-type", name: "department-type", component: departmentTypeView, meta: { layout: LAYOUT_AUTH } },
   { path: "/district", name: "district", component: districtView, meta: { layout: LAYOUT_AUTH } },
@@ -84,9 +85,9 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/testing", name: "testing", component: testingView, meta: { layout: LAYOUT_AUTH } },
 
   // hệ thống
-  { path: "/sys/user", name: "user", component: () => import("../views/auth/system/user/UserView.vue"), meta: { layout: LAYOUT_AUTH } },
-  { path: "/sys/role", name: "role", component: () => import("../views/auth/system/role/RoleView.vue"), meta: { layout: LAYOUT_AUTH } },
-  { path: "/sys/option", name: "option", component: () => import("../views/auth/system/option/OptionView.vue"), meta: { layout: LAYOUT_AUTH } },
+  { path: "/sys/user", name: "user", component: () => import("../views/auth/system/user/UserView.vue"), meta: { layout: appLayout.MAIN } },
+  { path: "/sys/role", name: "role", component: () => import("../views/auth/system/role/RoleView.vue"), meta: { layout: appLayout.MAIN } },
+  { path: "/sys/option", name: "option", component: () => import("../views/auth/system/option/OptionView.vue"), meta: { layout: appLayout.MAIN } },
 ];
 
 const router = createRouter({

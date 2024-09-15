@@ -3,16 +3,34 @@ import { computed, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import { useAuth, useMenu } from "@/store";
+import { MenuItem } from "@/components/menuitem";
 
+
+const router = useRouter();
 
 const menu = useMenu();
 const { items } = storeToRefs(menu);
 
-const news = ref<string | undefined>('1')
+const news = ref<string | undefined>('')
+const theme = ref('blue')
 
 function newsClose() {
     news.value = undefined
 }
+
+function menuItemClick(item: MenuItem){
+    console.log(item)
+    let path = item?.path;
+    if (path !== null) router.push({ name: path });
+}
+
+// function themeChange() {
+//     const container = document.getElementById('html')
+//     const theme = container.getAttribute('data-theme')
+//     container.setAttribute('data-theme', theme)
+
+//     localStorage.setItem("theme", theme)
+// }
 
 </script>
 
@@ -30,29 +48,21 @@ function newsClose() {
         <div class="layout-topbar">
             <div class="layout-topbar-start">
                 <div class="topbar-menu-toggle">
-                    <i class="bi bi-list"></i>
+                    <i class="bi bi-list topbar-item"></i>
                 </div>
                 <div class="topbar-icon">
                     <div class="logo">
-                        <i class="bi bi-house-fill"></i>
+                        <i class="bi bi-house-fill topbar-item"></i>
                         <!-- <img class="layout-logo" src="../../assets//images//logo.png" /> -->
                     </div>
                 </div>
             </div>
             <div class="layout-topbar-center">
-                <d-menu :items="items"></d-menu>
+                <d-menu :items="items" @item-click="menuItemClick"></d-menu>
             </div>
             <div class="layout-topbar-end">
-                <div>
-                    <i class="bi bi-person-circle"></i>
-                </div>
-                <div>
-                    <i class="bi bi-person-circle"></i>
-                </div>
-                <div>
-                    <i class="bi bi-person-circle"></i>
-                </div>
-                <button>sádasdashdkjh</button>
+                <d-button type="text" rounded icon="bi bi-palette"></d-button>
+                <d-button type="text" rounded icon="bi bi-person-circle user-info"></d-button>
             </div>
         </div>
 
@@ -113,9 +123,10 @@ function newsClose() {
 .layout-topbar {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 6px;
     background-color: var(--d-background-color);
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid #dbdbdb;
     padding: 0 1rem;
     height: 44px;
     /* line-height: 44px; */
@@ -123,21 +134,32 @@ function newsClose() {
     z-index: 997;
 }
 
-.layout-topbar-start {
+.layout-topbar .layout-topbar-start {
     display: inline-flex;
     gap: 6px;
 }
 
-.layout-topbar-center {
+.layout-topbar .layout-topbar-center {
     flex: 1;
     height: 100%;
 }
 
-.layout-topbar-end {
+.layout-topbar .layout-topbar-end {
     display: inline-flex;
     gap: 6px;
 }
 
+.topbar-menu-toggle {
+    display: none;
+}
+
+.topbar-item {
+    font-size: 1.25rem !important;
+}
+.user-info {
+    font-size: 1.5rem !important;
+    color: var(--d-primary-color);
+}
 
 
 
@@ -156,6 +178,19 @@ function newsClose() {
     opacity: 0;
     transition: transform linear 0.2s, opacity linear 0.2s;
     z-index: 998;
+}
+
+.layout-sidebar .layout-sidebar-start {
+    display: flex;
+}
+
+.layout-sidebar .layout-sidebar-center {
+    display: flex;
+    flex: 1;
+}
+
+.layout-sidebar .layout-sidebar-end {
+    display: flex;
 }
 
 .layout-main-container {
@@ -177,15 +212,11 @@ function newsClose() {
 
 
 @media screen and (max-width: 720px) {
-    .layout-topbar {
-        padding: 0 .5rem;
+    .layout-topbar-start .topbar-menu-toggle {
+        display: block;
     }
 
-    .layout-topbar .topbar-menu-toggle {
-        display: flex;
-    }
-
-    .layout-topbar .topbar-menu {
+    .layout-topbar-center {
         display: none;
     }
 }
