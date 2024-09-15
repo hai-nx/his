@@ -1,31 +1,103 @@
-/* variable */
+/*  */
 :root {
-    /** app **/
-    --his-background-color: #ECECEC;
-    --his-color: #161E2E;
-    --his-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --his-font-size: 14px;
+    --d-font-family: 
+        -apple-system,
+        BlinkMacSystemFont,
+        'Segoe UI',
+        Roboto,
+        'Helvetica Neue',
+        Arial,
+        'Noto Sans',
+        sans-serif,
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol',
+        'Noto Color Emoji';
+    --d-font-size: 0.875;
+    --d-font-weight: 400;
+    --d-line-height: 22px;
+    --d-icon-size: 1rem;
+    --d-disabled-opacity: 0.6;
+    --d-border-radius: 2px;
+    --d-border-width: 1px;
 
-    /** nav **/
-    --his-nav-background-color: #FFFFFF;
-    --his-nav-color: #161E2E;
-    --his-nav-background-color-hover: #3461b2;
-    --his-nav-color-hover: #FFFFFF;
-    --his-nav-height: 40px;
-    --his-nav-height-item: 38px;
-    --his-nav-width: 320px;
+    --d-main-background-color: #eeeeee;
+    --d-text-color: #334155;
+    --d-background-color: #ffffff;
+    --d-border-color: #d9d9d9;
+    
+    --d-primary-color: #3b82f6;
+    --d-primary-contrast-color: #ffffff;
+    --d-primary-hover-color: #2563eb;
+    --d-primary-active-color: #1d4ed8;
+    --d-danger-color: #d1242f;
+    --d-danger-contrast-color: #ffffff;
+    --d-danger-hover-color: #a40e26;
+    --d-danger-active-color: #8b0820;
+
+    --d-button-color: var(--d-text-color);
+    --d-button-background-color: var(--d-background-color);
+    --d-button-border-color: var(--d-border-color);
+    --d-button-hover-color: var(--d-text-color);
+    --d-button-hover-background-color: var(--d-background-color);
+    --d-button-hover-border-color: var(--d-primary-hover-color);
+    --d-button-active-color: var(--d-text-color);
+    --d-button-active-background-color: var(--d-background-color);
+    --d-button-active-border-color: var(--d-primary-active-color);
+    --d-button-focus-ring-color: var(--d-primary-active-color);
+    --d-button-focus-ring-style: solid;
+    --d-button-focus-ring-width: 2px;
+    --d-button-focus-ring-offset: 1px;
+    --d-button-font-weight: 500;
+    --d-button-padding-x: 8px;
+    --d-button-padding-y: 2px;
+    --d-button-border-radius: var(--d-border-radius);
+    --d-button-border-width: var(--d-border-width);
+    --d-button-gap: 6px;
+
+    --d-input-color: var(--d-text-color);
+    --d-input-background-color: var(--d-background-color);
+    --d-input-readonly-background-color: #091E420F;
+    --d-input-border-color: var(--d-border-color);
+    --d-input-hover-border-color: var(--d-primary-color);
+    --d-input-focus-border-color: var(--d-primary-active-color);
+    --d-input-invalid-color: var(--d-danger-color);
+    --d-input-focus-ring-color: var(--d-primary-active-color);
+    --d-input-focus-ring-style: solid;
+    --d-input-focus-ring-width: 1px;
+    --d-input-focus-ring-offset: 0px;
+    --d-input-padding-x: 8px;
+    --d-input-padding-y: 2px;
+    --d-input-font-weight: var(--d-font-weight);
+    --d-input-border-radius: var(--d-border-radius);
+    --d-input-border-width: var(--d-border-width);
+}
+
+:root[theme=green] {
+    --d-primary-color: #2ca01c;
+    --d-primary-contrast-color: #ffffff;
+    --d-primary-hover-color: #35bf22;
+    --d-primary-active-color: #248b15;
 }
 
 /* global style */
 #app {
-    background-color: var(--his-background-color);
-    color: var(--his-color);
-    font-family: var(--his-font-family);
-    font-size: var(--his-font-size);
-    overflow: hidden;
+    background-color: var(--d-main-background-color);
+    color: var(--d-text-color);
+    font-family: var(--d-font-family);
+    font-size: var(--d-font-size);
+    font-weight: var(--d-font-weight);
+    overflow-x: hidden;
+    overflow-y: auto;
     height: 100%;
     width: 100%;
 }
+
+i {
+    font-size: var(--d-icon-size);
+}
+
+
 
 
 .btn-save {
@@ -40,20 +112,10 @@
     width: 150px;
 }
 
-/* .datetime {
-    border: 1px solid #d9d9d9;
-    padding: 4px 10px;
-} */
-
 .datetime:focus,
 .datetime:hover {
     border: 1px solid #40a9ff;
     outline: none;
-}
-
-/* x: custom components */
-.x-input {
-    padding: 2px 5px;
 }
 
 .bold {

@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import { LAYOUT_DEFAULT, LAYOUT_AUTH } from "@/utils/constant";
-import { useAuth } from "@/stores/auth";
 
+import { useAuth } from "@/store";
 import { appLayout } from "../layouts/index"
 
 import dboptionView from "@/views/auth/system/dbOption/DbOptionView.vue";
@@ -34,61 +33,55 @@ import diagnosticImagingView from "@/views/auth/business/diagnosticImagings/Diag
 import testingView from "@/views/auth/business/testings/TestingView.vue";
 
 const routes: Array<RouteRecordRaw> = [
-  { path: "/", name: "home", component: () => import("@/views/public/LoginView.vue"), meta: { layout: LAYOUT_DEFAULT } },
-  { path: "/login", name: "login", component: () => import("@/views/public/LoginView.vue"), meta: { layout: LAYOUT_DEFAULT } },
+  { path: "/", name: "home", component: () => import("@/views/public/login/index.vue"), meta: { layout: appLayout.DEFAULT } },
+  { path: "/login", name: "login", component: () => import("@/views/public/login/index.vue"), meta: { layout: appLayout.DEFAULT } },
 
-  { path: "/dashboard", name: "dashboard", component: () => import("../views/auth/dashboard/index.vue"), meta: { layout: appLayout.AUTH } },
-  // { path: "/dashboard", name: "dashboard", component: () => import("../views/auth/dashboard/index.vue"), meta: { layout: LAYOUT_AUTH } },
-  { path: "/dboption", name: "dboption", component: dboptionView, meta: { layout: LAYOUT_AUTH } },
+  { path: "/dashboard", name: "dashboard", component: () => import("../views/dashboard/index.vue"), meta: { layout: appLayout.MAIN } },
+  { path: "/dboption", name: "dboption", component: dboptionView, meta: { layout: appLayout.MAIN } },
 
-  { path: "/dictionary", name: "dictionary", component: dictionaryView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/branch", name: "branch", component: branchView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/country", name: "country", component: countryView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/department", name: "department", component: departmentView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/department-type", name: "department-type", component: departmentTypeView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/district", name: "district", component: districtView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/employee", name: "employee", component: employeeView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/supplier", name: "supplier", component: supplierView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/ethnic", name: "ethnic", component: ethnicView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/gender", name: "gender", component: genderView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/hospital", name: "hospital", component: hospitalView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/icd", name: "icd", component: icdView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/career", name: "career", component: careerView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/province", name: "province", component: provinceView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/room", name: "room", component: roomView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/room-type", name: "room-type", component: roomTypeView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/ward", name: "ward", component: wardView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/service", name: "service", component: serviceView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/chapter", name: "chapter", component: chapterView, meta: { layout: LAYOUT_AUTH } },
+  { path: "/dictionary", name: "dictionary", component: dictionaryView, meta: { layout: appLayout.MAIN } },
+  { path: "/branch", name: "branch", component: branchView, meta: { layout: appLayout.MAIN } },
+  { path: "/country", name: "country", component: countryView, meta: { layout: appLayout.MAIN } },
+  { path: "/department", name: "department", component: departmentView, meta: { layout: appLayout.MAIN } },
+  { path: "/department-type", name: "department-type", component: departmentTypeView, meta: { layout: appLayout.MAIN } },
+  { path: "/district", name: "district", component: districtView, meta: { layout: appLayout.MAIN } },
+  { path: "/employee", name: "employee", component: employeeView, meta: { layout: appLayout.MAIN } },
+  { path: "/supplier", name: "supplier", component: supplierView, meta: { layout: appLayout.MAIN } },
+  { path: "/ethnic", name: "ethnic", component: ethnicView, meta: { layout: appLayout.MAIN } },
+  { path: "/gender", name: "gender", component: genderView, meta: { layout: appLayout.MAIN } },
+  { path: "/hospital", name: "hospital", component: hospitalView, meta: { layout: appLayout.MAIN } },
+  { path: "/icd", name: "icd", component: icdView, meta: { layout: appLayout.MAIN } },
+  { path: "/career", name: "career", component: careerView, meta: { layout: appLayout.MAIN } },
+  { path: "/province", name: "province", component: provinceView, meta: { layout: appLayout.MAIN } },
+  { path: "/room", name: "room", component: roomView, meta: { layout: appLayout.MAIN } },
+  { path: "/room-type", name: "room-type", component: roomTypeView, meta: { layout: appLayout.MAIN } },
+  { path: "/ward", name: "ward", component: wardView, meta: { layout: appLayout.MAIN } },
+  { path: "/service", name: "service", component: serviceView, meta: { layout: appLayout.MAIN } },
+  { path: "/chapter", name: "chapter", component: chapterView, meta: { layout: appLayout.MAIN } },
 
-  { path: "/item-group", name: "item-group", component: itemGroupView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/medicine-type", name: "medicine-type", component: medicienTypeView, meta: { layout: LAYOUT_AUTH } },
-  { path: "/material-type", name: "material-type", component: materialTypeView, meta: { layout: LAYOUT_AUTH } },
+  { path: "/item-group", name: "item-group", component: itemGroupView, meta: { layout: appLayout.MAIN } },
+  { path: "/medicine-type", name: "medicine-type", component: medicienTypeView, meta: { layout: appLayout.MAIN } },
+  { path: "/material-type", name: "material-type", component: materialTypeView, meta: { layout: appLayout.MAIN } },
 
   // bệnh nhân
-  // { path: '/reception', name: 'reception', component: () => import('@/views/auth/business/receptions/ReceptionView.vue'), meta: { layout: LAYOUT_AUTH } },
-  // { path: '/reception-detail', name: 'reception-detail', component: () => import('@/views/auth/business/receptions/ReceptionDetailView.vue'), meta: { layout: LAYOUT_AUTH } },
-  { path: "/reception", name: "reception", component: () => import("@/views/auth/business/reception/index.vue"), meta: { layout: LAYOUT_AUTH } },
-  { path: "/reception-detail", name: "reception-detail", component: () => import("@/views/auth/business/reception/detail/index.vue"), meta: { layout: LAYOUT_AUTH } },
-
-  { path: "/clinical", name: "clinicals", component: () => import("@/views/auth/business/clinicals/ClinicalView.vue"), meta: { layout: LAYOUT_AUTH } },
-  { path: "/clinical-detail", name: "clinical-detail", component: () => import("@/views/auth/business/clinicals/ClinicalDetailView.vue"), meta: { layout: LAYOUT_AUTH } },
-
-  { path: "/kb", name: "clinical", component: () => import("@/views/auth/business/clinical/index.vue"), meta: { layout: LAYOUT_AUTH } },
+  { path: "/reception", name: "reception", component: () => import("@/views/business/reception/list.vue"), meta: { layout: appLayout.MAIN } },
+  { path: "/reception-detail", name: "reception-detail", component: () => import("@/views/auth/business/reception/detail/index.vue"), meta: { layout: appLayout.MAIN } },
+  { path: "/clinical", name: "clinical", component: () => import("@/views/business/clinic/list.vue"), meta: { layout: appLayout.MAIN } },
+  { path: "/invoice", name: "invoice", component: () => import("@/views/auth/business/clinical/index.vue"), meta: { layout: appLayout.MAIN } },
 
   // Dược
-  { path: "/pharmaceutical", name: "pharmaceutical", component: pharmaceuticalView, meta: { layout: LAYOUT_AUTH } },
+  { path: "/pharmaceutical", name: "pharmaceutical", component: pharmaceuticalView, meta: { layout: appLayout.MAIN } },
 
   // Chẩn đoán hình ảnh - Thăm dò chức năng
-  { path: "/diagnosticImaging", name: "diagnosticImaging", component: diagnosticImagingView, meta: { layout: LAYOUT_AUTH } },
+  { path: "/diagnosticImaging", name: "diagnosticImaging", component: diagnosticImagingView, meta: { layout: appLayout.MAIN } },
 
   // Xét nghiệm
-  { path: "/testing", name: "testing", component: testingView, meta: { layout: LAYOUT_AUTH } },
+  { path: "/testing", name: "testing", component: testingView, meta: { layout: appLayout.MAIN } },
 
   // hệ thống
-  { path: "/sys/user", name: "user", component: () => import("../views/auth/system/user/UserView.vue"), meta: { layout: LAYOUT_AUTH } },
-  { path: "/sys/role", name: "role", component: () => import("../views/auth/system/role/RoleView.vue"), meta: { layout: LAYOUT_AUTH } },
-  { path: "/sys/option", name: "option", component: () => import("../views/auth/system/option/OptionView.vue"), meta: { layout: LAYOUT_AUTH } },
+  { path: "/sys/user", name: "user", component: () => import("../views/auth/system/user/UserView.vue"), meta: { layout: appLayout.MAIN } },
+  { path: "/sys/role", name: "role", component: () => import("../views/auth/system/role/RoleView.vue"), meta: { layout: appLayout.MAIN } },
+  { path: "/sys/option", name: "option", component: () => import("../views/auth/system/option/OptionView.vue"), meta: { layout: appLayout.MAIN } },
 ];
 
 const router = createRouter({
@@ -101,7 +94,7 @@ router.beforeEach((to, from, next) => {
   // kiểm tra đăng nhập
   const isAuthenticated = store.getAuthenticated;
   // kiểm tra trang có yêu càu quyền đăng nhập
-  const isAuthenticationRequired = to.meta.layout === LAYOUT_AUTH;
+  const isAuthenticationRequired = to.meta.layout === appLayout.MAIN;
 
   // nếu trang yêu cầu quyền đăng nhập mà chưa đăng nhập thì trả về trang login
   if (!isAuthenticated && isAuthenticationRequired) next({ name: "login" });

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { defineProps, ref } from "vue";
 import { storeToRefs } from "pinia";
-import { useLayout } from "../stores/layout";
+import { useMenu } from "../store/menu";
 
-const layout = useLayout();
-const { items, menu } = storeToRefs(layout);
+const menu = useMenu();
+const { items } = storeToRefs(menu);
 
 const open = ref<boolean>(false)
 
@@ -12,8 +12,16 @@ const open = ref<boolean>(false)
 
 <template>
     <div class="layout-main">
+
         <div class="layout-topbar">
-            <div class="layout-topbar-logo-container">
+            <d-topbar :items="items">
+                <template #start>
+                    <img class="layout-logo" src="../assets/images/logo.png" />
+                </template>
+            </d-topbar>
+
+
+            <!-- <div class="layout-topbar-logo-container">
                 <label class="layout-toggle" for="layout-toggle-checkbox">
                     <i class="bi bi-list"></i>
                 </label>
@@ -40,7 +48,7 @@ const open = ref<boolean>(false)
 
                 <v-dropdown :options="menu">
                 </v-dropdown>
-            </div>
+            </div> -->
         </div>
 
         <input id="layout-toggle-checkbox" type="checkbox" hidden />
@@ -99,18 +107,18 @@ const open = ref<boolean>(false)
 
 .layout-logo {
     cursor: pointer;
-    height: 48px;
-    padding: 8px;
+    height: 44px;
+    padding: 4px;
 }
 
 
 
 .layout-topbar {
-    display: flex;
-    background-color: #001529;
-    border-bottom: 1px solid #00000012;
+    display: grid;
+    background-color: #00446D;
+    border-bottom: 0px solid #00000012;
     justify-content: space-between;
-    height: 40px;
+    height: 44px;
 }
 
 .layout-topbar-logo-container {

@@ -1,72 +1,67 @@
 <script setup lang="ts">
-import { defineEmits, defineProps, PropType } from 'vue';
-import { MenuItem } from '../menuitem'
-import DMenuItem from '../menuitem/index.vue'
+import { defineEmits, defineProps, PropType } from 'vue'
+import { MenuItem } from '../menuitem';
+import DMenuitem from '../menuitem/index.vue'
 
 const props = defineProps({
     items: {
-        type: Object as PropType<MenuItem[]>
+        type: Array as PropType<MenuItem[]>,
     },
+    tabindex: { type: Number },
     mode: {
-        type: String as PropType<'vertical' | 'horizontal'>,
-        required: false,
-        default: 'horizontal',
-        validator: (value: string) => {
-            return ['vertical', 'horizontal'].includes(value)
-        }
-    },
-    startClass: {
-        type: String
-    },
-    endClass: {
-        type: String
+        type: String as PropType<'horizontal' | 'vertical' | 'inline'>,
+        default: 'horizontal'
     }
 })
 
 const emit = defineEmits<{
-    (e: "click", item: MenuItem): void;
+    (e: "item-click", item: MenuItem): void;
 }>()
 
-// xử lý sự kiện chọn
-function itemClick(item: MenuItem) {
+/* function */
+function visible(item: MenuItem) {
+    return item.visible !== false
+}
+
+function onItemClick(item: MenuItem) {
     if (item.disabled) {
         return;
     }
-
-    emit('click', item)
+    console.log('item')
+    console.log(item)
+    emit('item-click', item)
 }
 
 </script>
 
 <template>
-    <div class="menu">
-        <div v-if="$slots.start" :class="startClass">
-            <slot name="start"></slot>
-        </div>
-
-        <ul class="menu-list">
-            <li v-for="(item, index) in items" :key="index">
-                <d-menu-item :item="item" :depth="0" @click="itemClick"></d-menu-item>
-            </li>
-        </ul>
-
-        <div v-if="$slots.end" :class="endClass">
-            <slot name="end"></slot>
-        </div>
-    </div>
+    <ul class="d-menu" role="menu" :tabindex="tabindex">
+        <template v-for="(item, index) in items" :key="index">
+            <li v-if="visible(item) && item.separator" role="separator" class="d-menu-item-separator"></li>
+            <d-menuitem 
+            v-else-if="visible(item)" 
+            :item="item" 
+            :level="0" 
+            @click="onItemClick" 
+            />
+        </template>
+    </ul>
 </template>
 
-<style scoped>
-.menu {
-    display: grid;
+<style>
+.d-menu {
+    display: inline-flex;
+    gap: .25rem;
     height: 100%;
-}
-
-.menu-list {
-    display: flex;
-    flex-wrap: nowrap;
     list-style: none;
+    list-style-type: none;
+    text-wrap: nowrap;
     margin: 0;
     padding: 0;
+}
+
+.d-menu-item-separator {
+    border-left: var(--d-border-width) solid var(--d-border-color);
+    margin: .5rem 0;
 }
 </style>

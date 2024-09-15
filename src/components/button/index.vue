@@ -1,221 +1,220 @@
 <script setup lang="ts">
-import { computed, defineEmits, defineProps, useSlots, PropType } from "vue"
-import { SizeType } from '../context'
-
-const slots = useSlots()
+import { computed, defineProps, defineEmits, useSlots, PropType } from 'vue'
 
 const props = defineProps({
-  htmlType: {
-    type: String as PropType<'submit' | 'button' | 'reset'>,
-    default: "button",
-  },
-  type: {
-    type: String as PropType<'default' | 'primary' | 'dashed' | 'link' | 'text'>,
-    default: "default",
-  },
-  size: {
-    type: String as PropType<SizeType>,
-    default: undefined
-  },
-  icon: { type: String },
-  title: { type: String },
-  fluid: { type: Boolean, default: false },
-  rounded: { type: Boolean, default: false },
-  loading: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false }
-});
+    htmlType: {
+        type: String as PropType<'submit' | 'button' | 'reset'>,
+        default: 'button',
+    },
+    type: {
+        type: String as PropType<'primary' | 'link' | 'text' | undefined>,
+        default: undefined,
+    },
+    danger: { type: Boolean, default: false },
+    rounded: { type: Boolean, default: false },
+    loading: { type: Boolean, default: false },
+    icon: { type: String },
+    title: { type: String },
+    disabled: { type: Boolean }
+})
 
 const emit = defineEmits<{
-  (e: 'click', payload: any): void
+    (e: 'click', payload: any): void
 }>()
 
+const slots = useSlots()
 const hasIcon = computed(() => props.icon || slots['icon'])
-
-/* style */
-const typeClass = computed(() => {
-  switch (props.type) {
-    case 'primary': return 'd-btn-primary'
-    case 'dashed': return 'd-btn-dashed'
-    case 'link': return 'd-btn-link'
-    case 'text': return 'd-btn-text'
-    default:
-      return 'd-btn-default'
-  }
-});
-const fluidClass = computed(() => props.fluid ? 'd-btn-fluid' : undefined)
-const roundedClass = computed(() => props.rounded ? 'd-btn-rounded' : undefined)
-const sizeClass = computed(() => {
-  switch (props.size) {
-    case 'large': return 'd-btn-lg'
-    case 'small': return 'd-btn-sm'
-    default:
-      return undefined
-  }
-})
-const iconOnlyClass = computed(() => hasIcon.value && !slots.default ? 'd-btn-icon-only' : undefined)
+const cls = computed(() => ({
+    // type
+    'd-button-primary': props.type === 'primary',
+    'd-button-link': props.type === 'link',
+    'd-button-text': props.type === 'text',
+    // danger
+    'd-button-danger': props.danger,
+    // icon
+    'd-button-icon-only': hasIcon.value && !slots.default
+}))
 
 /* event */
 function onClick(payload: any) {
-  emit('click', payload)
+    emit('click', payload)
 }
 
 </script>
 
 <template>
-  <button :type="htmlType" :disabled="disabled" :class="['d-btn', typeClass, fluidClass, roundedClass, sizeClass, iconOnlyClass]"
-    :title="title" @click="onClick">
-    <slot v-if="hasIcon" name="icon">
-      <i :class="[icon]"></i>
-    </slot>
-    <slot></slot>
-  </button>
+    <button class="d-button" :class="cls" :type="htmlType" :disabled="disabled || loading" :title="title" @click="onClick">
+        <slot v-if="loading" name="loadingIcon">
+            <div class="d-button-loadingicon"></div>
+        </slot>
+        <slot v-else name="icon">
+            <i v-if="hasIcon" class="d-buton-icon" :class="icon"></i>
+        </slot>
+
+        <slot></slot>
+    </button>
 </template>
 
 <style>
-.d-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  height: 28px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-family: var(--his-font-family);
-  font-size: var(--his-font-size);
-  font-weight: 500;
-  line-height: 20px;
-  list-style: none;
-  padding: 6px 16px;
-  position: relative;
-  outline: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  vertical-align: middle;
-  white-space: nowrap;
-  word-wrap: break-word;
-  width: fit-content;
-
-  text-decoration: none;
-  transition-duration: 0.2s;
+.d-button {
+    display: inline-flex;
+    cursor: pointer;
+    user-select: none;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    color: var(--d-button-color);
+    background: var(--d-button-background-color);
+    border: var(--d-button-border-width) solid var(--d-button-border-color);
+    border-radius: var(--d-button-border-radius);
+    padding: var(--d-button-padding-y) var(--d-button-padding-x);
+    line-height: var(--d-line-height);
+    font-weight: var(--d-button-font-weight);
+    outline-color: transparent;
+    gap: var(--d-button-gap);
 }
 
-.d-btn:focus-visible {
-  border-color: #0366d6;
-  outline: 0;
-  box-shadow: 0 0 0 2px #5a96da;
+.d-button:not(:disabled):hover {
+    color: var(--d-button-hover-color);
+    background-color: var(--d-button-hover-background-color);
+    border-color: var(--d-button-hover-border-color);
 }
 
-.d-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.d-button:not(:disabled):active {
+    color: var(--d-button-active-color);
+    background-color: var(--d-button-active-background-color);
+    border-color: var(--d-button-active-border-color);
 }
 
-/* type */
-/* type: default */
-.d-btn-default {
-  background-color: #fafbfc;
-  border: 1px solid #dbdbdb;
-  color: #333333;
+.d-button:not(:disabled):focus-visible {
+    outline: var(--d-button-focus-ring-color) var(--d-button-focus-ring-style) var(--d-button-focus-ring-width);
+    outline-offset: var(--d-button-focus-ring-offset);
 }
 
-.d-btn-default:active,
-.d-btn-default:focus,
-.d-btn-default:hover {
-  background-color: #F3F4F6;
-  border-color: #0366d6;
-  /* box-shadow: 0 0 0 1px #0366d6; */
+.d-button:disabled {
+    opacity: var(--d-disabled-opacity);
+    cursor: not-allowed;
 }
 
 /* type: primary */
-.d-btn-primary {
-  background-color: #0366d6;
-  border: 1px solid #0366d6;
-  color: #f3f4f6;
-}
-
-.d-btn-primary:active,
-.d-btn-primary:focus,
-.d-btn-primary:hover {
-  background-color: #1d4ed8;
-  border-color: #1d4ed8;
-  /* box-shadow: 0 0 0 1px #0366d6; */
-}
-
-/* type: dashed */
-.d-btn-dashed {
-  background-color: #fafbfc;
-  border: 1px dashed #dbdbdb;
-  color: #333333;
-}
-
-.d-btn-dashed:active,
-.d-btn-dashed:focus,
-.d-btn-dashed:hover {
-  background-color: #F3F4F6;
-  border-color: #0366d6;
+.d-button-primary {
+    --d-button-color: var(--d-primary-contrast-color);
+    --d-button-background-color: var(--d-primary-color);
+    --d-button-border-color: var(--d-primary-color);
+    --d-button-hover-color: var(--d-primary-contrast-color);
+    --d-button-hover-background-color: var(--d-primary-hover-color);
+    --d-button-hover-border-color: var(--d-primary-hover-color);
+    --d-button-active-color: var(--d-primary-contrast-color);
+    --d-button-active-background-color: var(--d-primary-active-color);
+    --d-button-active-border-color: var(--d-primary-active-color);
 }
 
 /* type: link */
-.d-btn-link {
-  background-color: transparent;
-  border-width: 0px;
-  color: #0366d6;
-  font-weight: 400;
-}
+.d-button-link {
+    --d-button-color: var(--d-primary-color);
+    --d-button-background-color: transparent;
+    --d-button-border-color: transparent;
+    --d-button-hover-color: var(--d-primary-hover-color);
+    --d-button-hover-background-color: #0C66E410;
+    --d-button-hover-border-color: transparent;
+    --d-button-active-color: var(--d-primary-active-color);
+    --d-button-active-background-color: #0C66E420;
+    --d-button-active-border-color: transparent;
 
-.d-btn-link:active,
-.d-btn-link:focus,
-.d-btn-link:hover {
-  color: #1d4ed8;
+    padding: 0;
 }
 
 /* type: text */
-.d-btn-text {
-  background-color: transparent;
-  border: 1px solid transparent;
-  color: #333333;
+.d-button-text {
+    --d-button-color: var(--d-text-color);
+    --d-button-background-color: transparent;
+    --d-button-border-color: transparent;
+    --d-button-hover-color: var(--d-text-color);
+    --d-button-hover-background-color: #091E420F;
+    --d-button-hover-border-color: transparent;
+    --d-button-active-color: var(--d-text-color);
+    --d-button-active-background-color: #091E4224;
+    --d-button-active-border-color: transparent;
 }
 
-.d-btn-text:active,
-.d-btn-text:focus,
-.d-btn-text:hover {
-  background-color: #F3F4F6;
-  border-color: #F3F4F6;
-  /* box-shadow: 0 0 0 1px #0366d6; */
+/* danger */
+.d-button-danger {
+    --d-button-color: var(--d-danger-contrast-color);
+    --d-button-background-color: var(--d-danger-color);
+    --d-button-border-color: var(--d-danger-color);
+    --d-button-hover-color: var(--d-danger-contrast-color);
+    --d-button-hover-background-color: var(--d-danger-hover-color);
+    --d-button-hover-border-color: var(--d-danger-hover-color);
+    --d-button-active-color: var(--d-danger-contrast-color);
+    --d-button-active-background-color: var(--d-danger-active-color);
+    --d-button-active-border-color: var(--d-danger-active-color);
+}
+
+.d-button-text.d-button-danger {
+    --d-button-color: var(--d-danger-color);
+    --d-button-background-color: transparent;
+    --d-button-border-color: transparent;
+    --d-button-hover-color: var(--d-danger-color);
+    --d-button-hover-background-color: transparent;
+    --d-button-hover-border-color: var(--d-danger-hover-color);
+    --d-button-active-color: var(--d-danger-contrast-color);
+    --d-button-active-background-color: var(--d-danger-active-color);
+    --d-button-active-border-color: var(--d-danger-active-color);
+}
+
+/* icon only */
+.d-button-icon-only {
+    gap: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
+}
+
+/* icon */
+.d-buton-icon {
+    font-size: var(--d-icon-size);
+}
+
+.d-button-loadingicon {
+    font-size: var(--d-icon-size);
+    border: 0.175rem solid currentcolor;
+    border-right-color: transparent;
+}
+
+.d-button-loadingicon {
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    /* vertical-align: -0.125em; */
+    border-radius: 50%;
+    animation: 0.75s linear infinite d-button-loadingicon;
+}
+
+@keyframes d-button-loadingicon {
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 
-/* size */
-.d-btn-sm {
-  height: 24px;
+.loader {
+    border: 2px solid #f3f3f3;
+    /* Light grey */
+    border-top: 2px solid transparent;
+    /* Blue */
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+    animation: spin 1s linear infinite;
 }
 
-.d-btn-lg {
-  height: 32px;
-}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
 
-/**/
-.d-btn-icon-only {
-  gap: 0;
-  padding-inline-start: 0;
-  padding-inline-end: 0;
-}
-
-.d-btn-fluid {
-  width: 100%;
-}
-
-.d-btn-rounded {
-  border-radius: 9998px;
-  min-width: 28px;
-}
-
-.d-btn-rounded.d-btn-lg {
-  min-width: 32px;
-}
-
-.d-btn-rounded.d-btn-sm {
-  min-width: 24px;
+    100% {
+        transform: rotate(360deg);
+    }
 }
 </style>

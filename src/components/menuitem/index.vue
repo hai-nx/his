@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { computed, defineEmits, defineProps, ref, PropType } from 'vue';
-import { MenuItem } from './index'
+import { computed, defineEmits, defineProps, ref, PropType } from 'vue'
+import { MenuItem } from '.';
 
 const props = defineProps({
     item: {
         type: Object as PropType<MenuItem>,
-        required: true
+        required: true,
     },
-    depth: {
+    level: {
         type: Number,
         default: 0
     }
@@ -17,101 +17,135 @@ const emit = defineEmits<{
     (e: "click", item: MenuItem): void;
 }>()
 
+const showDropdown = ref(true)
+const hasDropdown = computed(() => props.item.children && props.item.children.length > 0)
+const visible = computed(() => props.item.visible !== false)
+const cls = computed(() => {
+    return {
+        'd-menu-subitem': props.level > 0
+    }
+})
 
-const allowOpenPopup = ref<boolean>(true)
-const hasChildren = computed(() => props.item.children !== undefined && props.item.children.length > 0)
-
-function itemClick(item: MenuItem) {
+function onClick(item: MenuItem) {
     try {
-        // đóng poup
-        allowOpenPopup.value = false
-
+        // đóng danh sách con
+        showDropdown.value = false;
         // gọi sự kiện
         emit("click", item)
     }
     finally {
         // delay 1s để có thời gian đóng các danh sách con
-        setTimeout(() => {
-            allowOpenPopup.value = true
-        }, 1000)
+        setTimeout(() => showDropdown.value = true, 1000)
     }
 }
 
-function cls() {
-    return props.depth === 0 ? '' : 'sub-item'
-}
 </script>
 
 <template>
-    <transition>
-        <div class="menu-item" :class="cls()">
-            <!--label-->
-            <div class="menu-item-label" @click.stop="itemClick(item)">
-                <span>{{ item.label }}</span>
-                <i class="bi bi-chevron-down" v-if="hasChildren"></i>
-            </div>
-
-            <!--dropdown-->
-            <div class="menu-item-dropdown">
-                <ul>
-                    <li v-for="(item, index) in item.children" :key="index">
-                        <div v-if="item.separator" class="border-bottom">
-                        </div>
-                        <x-nav-item v-else :data-source="item" :depth="depth + 1" @click="onClick"></x-nav-item>
-                    </li>
-                </ul>
-            </div>
+    <li class="d-menu-item" :class="cls">
+        <div class="d-menu-item-content" @click.stop="onClick(item)">
+            <span>{{ item.label }}</span>
+            <i class="d-menu-item-icon bi bi-chevron-down" v-if="hasDropdown"></i>
         </div>
-    </transition>
+
+        <div v-if="hasDropdown && showDropdown" class="d-menu-item-popup">
+            <ul class="d-menu-submenu">
+                <template v-for="(child, index) in item.children" :key="index">
+                    <li v-if="visible && child.separator" role="separator" class="d-menu-subitem-separator"></li>
+                    <index v-else-if="visible" :item="child" :level="level + 1" @click="onClick" />
+                </template>
+            </ul>
+        </div>
+    </li>
 </template>
 
-<style scoped>
-.menu-item {
-    display: block;
-    position: relative;
-    color: #FFF;
+<style>
+.d-menu-item {
+    float: left;
+    display: inline-flex;
     cursor: pointer;
-    padding: 0 .75rem;
-    white-space: nowrap;
-    height: 100%;
+    font-weight: 500;
+    margin: 0;
+    padding: .25rem 0;
+    position: relative;
 }
 
-.menu-item:hover {
-    background-color: #30305a;
-    color: var(--his-nav-color-hover);
-    transition: all linear 0.2s;
+.d-menu-item-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border-radius: 2px;
+    padding-right: .75rem;
+    padding-left: .75rem;
 }
 
-.menu-item:hover>.menu-item-dropdown {
+.d-menu-item-icon {
+    font-size: 0.75rem;
+}
+
+.d-menu-item-popup {
+    display: none;
+    opacity: 0;
+    position: absolute;
+    background-color: transparent;
+    left: 0;
+    top: 100%;
+    padding: .25rem 0;
+    min-width: 15rem;
+}
+
+
+
+.d-menu-item:hover>.d-menu-item-content {
+    background-color: #eee;
+}
+
+.d-menu-item:hover>.d-menu-item-popup {
     display: block;
     opacity: 1;
     transition: all linear .2s;
 }
 
-.menu-item .sub-item {
-    line-height: var(--his-nav-height-item);
+/* submenu */
+.d-menu-submenu {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background-color: #fff;
+    padding: .25rem 0;
+    border: var(--d-border-width) solid var(--d-border-color);
+    border-radius: var(--d-border-radius);
 }
 
-.menu-item-label {
+.d-menu-subitem-separator {
+    border-top: var(--d-border-width) solid var(--d-border-color) !important;
+    margin: 0;
+}
+
+.d-menu-subitem {
+    width: 100%;
+    padding: 0;
+    height: 32px;
+}
+
+.d-menu-subitem .d-menu-item-content {
     display: flex;
     justify-content: space-between;
-    text-wrap: nowrap;
+    border-radius: 0;
+    width: 100%;
 }
 
-.menu-item-dropdown {
+.d-menu-subitem .d-menu-item-icon {
+    transform: rotate(-90deg);
+}
+
+.d-menu-subitem .d-menu-item-popup {
     display: none;
-    opacity: 0;
-    left: 0;
-    position: absolute;
-    padding-top: .25rem;
-    min-width: 15rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
-}
-
-.menu-item ul {
-    flex-wrap: nowrap;
-    list-style: none;
-    margin: 0;
+    left: 100%;
+    top: -.25rem;
     padding: 0;
+    margin: 0;
+    padding-left: .25rem;
 }
 </style>

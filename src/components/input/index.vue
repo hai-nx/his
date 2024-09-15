@@ -1,52 +1,87 @@
 <script setup lang="ts">
-import { defineProps, PropType } from "vue";
+import { computed, defineEmits, defineModel, defineProps, PropType } from 'vue'
 
-defineProps({
-    type: {
-        type: String as PropType<"number" | "search" | "time" | "date" | "week" | "month" | "submit" | "hidden" | "button" | "image" | "text" | "reset" | "checkbox" | "radio" | "color" | "range" | "tel" | "url" | "email" | "datetime-local" | "file" | "password", string>,
-        default: "text",
-    },
+const model = defineModel();
+
+const props = defineProps({
     id: { type: String },
     name: { type: String },
-    placeholder: { type: String },
-    value: { type: String },
-    maxlength: { type: Number },
+    type: {
+        type: String as PropType<'text' | 'password' | 'date' | 'number' | string>,
+        default: 'text'
+    },
+    value: { type: Object, default: undefined },
     max: { type: Number },
-    readonly: { type: Boolean },
+    maxlength: { type: Number },
+    placeholder: { type: String },
     disabled: { type: Boolean },
-});
+    readonly: { type: Boolean },
+    invalid: { type: Boolean }
+})
+
+const emit = defineEmits<{
+    (e: 'change', payload: any): void,
+    (e: 'blur', payload: any): void
+}>()
+
+const cls = computed(() => ({
+    'd-input-invalid': props.invalid
+}))
+
+function onChange(e: any) {
+    emit('change', e)
+}
+
+function onBlur(e: any) {
+    emit('blur', e)
+}
+
+
 </script>
 
 <template>
-    <input :type="type" :id="id" :name="name" :placeholder="placeholder" :readonly="readonly" :disabled="disabled"
-        :value="value" :maxlength="maxlength" :max="max" :class="['d-input']"
-        @input="$emit('update:value', ($event?.target as HTMLInputElement).value)" />
+    <input class="d-input" :class="cls" v-model="model" :id="id" :name="name" :type="type" :max="max"
+        :maxlength="maxlength" :placeholder="placeholder" :disabled="disabled" :readonly="readonly" @change="onChange"
+        @blur="onBlur">
 </template>
 
-<style scoped>
+<style>
 .d-input {
-    padding: 2px 5px;
-    font-size: 14px;
-    line-height: 20px;
-    color: #24292e;
-    vertical-align: middle;
-    background-color: #ffffff;
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    border: 1px solid #BDBDBD;
-    border-radius: 2px;
-    outline: none;
-    box-shadow: rgba(225, 228, 232, 0.2) 0px 1px 0px 0px inset;
+    color: var(--d-input-color);
+    background: var(--d-input-background-color);
+    border: var(--d-input-border-width) solid var(--d-input-border-color);
+    border-radius: var(--d-input-border-radius);
+    padding: var(--d-input-padding-y) var(--d-input-padding-x);
+    line-height: var(--d-line-height);
 }
 
-.d-input:hover,
-.d-input:focus-visible {
-    border-color: #0366d6;
-    box-shadow: 0 0 0 1px #0366d6;
-    outline: none;
+.d-input:not(:disabled):hover {
+    border-color: var(--d-input-hover-border-color);
+}
+
+.d-input:not(:disabled):focus {
+    border-color: var(--d-input-focus-border-color);
+}
+
+.d-input:not(:disabled):focus-visible {
+    outline: var(--d-input-focus-ring-color) var(--d-input-focus-ring-style) var(--d-input-focus-ring-width);
+    outline-offset: var(--d-input-focus-ring-offset);
 }
 
 .d-input:disabled {
-    background-color: #f1f1f1;
+    opacity: var(--d-disabled-opacity);
+    cursor: not-allowed;
+}
+
+.d-input:not(:disabled):read-only {
+    background-color: var(--d-input-readonly-background-color);
+}
+
+.d-input.d-input-invalid:not(:focus-visible) {
+    border-color: red !important;
+}
+
+input[type="password"]:not(:placeholder-shown).d-input {
+    font-size: 1.25rem;
 }
 </style>
