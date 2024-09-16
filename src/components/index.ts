@@ -10,7 +10,7 @@ export interface XItemType {
 
 import { defineAsyncComponent, App } from 'vue'
 
-export function defineAsyncComponents(app: App<Element>) {
+export function defineComponents(app: App<Element>) {
     app.component("DBreadcrumb", defineAsyncComponent(() => import('./breadcrumb/index.vue')));
     app.component("DButton", defineAsyncComponent(() => import('./button/index.vue')));
     app.component("DCard", defineAsyncComponent(() => import('./card/index.vue')));

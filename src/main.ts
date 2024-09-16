@@ -3,8 +3,8 @@ import { createPinia } from 'pinia'
 import Antd from 'ant-design-vue'
 import App from './App.vue'
 import router from './router'
-import { defineAsyncLayoutComponents } from './layouts'
-import { defineAsyncComponents } from './components'
+import { defineComponents } from './components'
+import { defineLayouts } from './layouts'
 
 // reset css
 import './assets/style/reset.css'
@@ -22,8 +22,8 @@ import './assets/style/dateTime.css'
 import 'devextreme/dist/css/dx.light.css';
 
 const app = createApp(App);
-defineAsyncComponents(app);
-defineAsyncLayoutComponents(app);
+defineComponents(app);
+defineLayouts(app);
 app.use(createPinia());
 app.use(router);
 app.use(Antd);

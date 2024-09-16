@@ -13,6 +13,8 @@ const errors = ref({
     password: undefined
 });
 
+const open = ref(true)
+
 const onLogin = () => {
     store.login(username.value, password.value)
 }
@@ -52,6 +54,19 @@ function valid() {
             </div>
 
         </div>
+
+        <d-modal v-model="open">
+            <p>Bla bla ...</p>
+            <p>Bla bla ...</p>
+            <p>Bla bla ...</p>
+        </d-modal>
+
+
+        <!-- <a-modal v-model:visible="open" title="Modal">
+            <p>Bla bla ...</p>
+            <p>Bla bla ...</p>
+            <p>Bla bla ...</p>
+        </a-modal> -->
     </div>
 </template>
 

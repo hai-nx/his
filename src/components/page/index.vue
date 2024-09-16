@@ -26,7 +26,7 @@ const props = defineProps({
         </slot>
 
         <div class="d-page-content-wrapper">
-            <slot>
+            <slot name="header">
                 <div>
 
                 </div>

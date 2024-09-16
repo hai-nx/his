@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 import { useAuth } from "@/store";
-import { appLayout } from "../layouts/index"
+import { appLayout } from "../layouts"
 
 import dboptionView from "@/views/auth/system/dbOption/DbOptionView.vue";
 
