@@ -16,7 +16,8 @@ const errors = ref({
 const open = ref(true)
 
 const onLogin = () => {
-    store.login(username.value, password.value)
+    //store.login(username.value, password.value)
+    open.value = true
 }
 
 const err_username = ref<string|undefined>(undefined)

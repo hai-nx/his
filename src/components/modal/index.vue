@@ -19,7 +19,7 @@ function onMaskClick(e: any) {
 }
 
 function close() {
-console.log('asdasdasd')
+    console.log('asdasdasd')
 
     model.value = false;
 }
@@ -28,45 +28,50 @@ console.log('asdasdasd')
 
 <template>
     <teleport to='body'>
-        <div v-if="model" class="d-modal-mask" @click="onMaskClick">
-            <transition name="d-modal">
-                <div class="d-modal" @click.stop="">
+        <div v-if="model" class="d-modal-root">
+            <div class="d-modal-mask" @click="onMaskClick"></div>
+            <div class="d-modal-container">
+                <transition name="d-modal">
+                    <div class="d-modal">
+                        <slot name="header">
+                            <div v-if="title || closable" class="d-modal-header">
+                                <span> {{ title }} </span>
+                                <d-button v-if="closable" @click.stop="close">X</d-button>
+                            </div>
+                        </slot>
 
-                    <slot name="header">
-                        <div v-if="title || closable" class="d-modal-header">
-                            <span> {{ title }} </span>
-                            <div v-if="closable" @click.stop="close">X</div>
+                        <div class="d-modal-body">
+                            <slot></slot>
                         </div>
-                    </slot>
 
-                    <div class="d-modal-body">
-                        <slot></slot>
+                        <div class="d-modal-footer">
+                            <slot name="footer"></slot>
+                        </div>
                     </div>
-
-                    <div class="d-modal-footer">
-                        <slot name="footer"></slot>
-                    </div>
-                </div>
-            </transition>
+                </transition>
+            </div>
         </div>
-
     </teleport>
-
 </template>
 
 <style>
-.d-modal-mask {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.45);
+.d-modal-root {
+    display: block;
+}
+
+.d-modal-root .d-modal-mask,
+.d-modal-root .d-modal-container {
     position: fixed;
     top: 0;
     bottom: 0;
     inset-inline-start: 0;
     inset-inline-end: 0;
-    z-index: 1000;
     height: 100%;
+}
+
+.d-modal-mask {
+    background-color: rgba(0, 0, 0, 0.45);
+    animation: fadeIn ease .3s;
 }
 
 .d-modal {
@@ -82,7 +87,7 @@ console.log('asdasdasd')
     border-radius: 4px;
     width: 25rem;
 
-    transition: all 4s;
+    animation: fadeIn ease .3s;
 }
 
 .d-modal-header {
