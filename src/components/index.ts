@@ -21,6 +21,7 @@ export function defineComponents(app: App<Element>) {
     app.component("DMenuitem", defineAsyncComponent(() => import('./menuitem/index.vue')));
     app.component("DModal", defineAsyncComponent(() => import('./modal/index.vue')));
     app.component("DPage", defineAsyncComponent(() => import('./page/index.vue')));
+    app.component("DPaginator", defineAsyncComponent(() => import('./paginator/index.vue')));
     app.component("DPassword", defineAsyncComponent(() => import('./password/index.vue')));
     app.component("DRadio", defineAsyncComponent(() => import('./radio/index.vue')));
     app.component("DTable", defineAsyncComponent(() => import('./table/index.vue')));

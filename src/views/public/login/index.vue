@@ -29,10 +29,14 @@ function valid() {
         err_username.value = undefined
 }
 
+const currentPage = ref(0)
+const totalPage = ref(1000)
+
 </script>
 
 <template>
     <div class="login">
+        <d-paginator v-model:current="currentPage" :total="totalPage"></d-paginator>
         <div class="login-container">
             <d-text as="h2" class="login-title">Đăng nhập</d-text>
 
