@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineModel, defineProps, stop } from 'vue'
+import { computed, defineModel, defineProps, stop } from 'vue'
 
 const model = defineModel()
 
@@ -19,20 +19,24 @@ function onMaskClick(e: any) {
 }
 
 function close() {
-    console.log('asdasdasd')
-
     model.value = false;
 }
+
+const cls = computed(() => {
+    return {
+        
+    }
+})
 
 </script>
 
 <template>
     <teleport to='body'>
         <div v-if="model" class="d-modal-root">
-            <div class="d-modal-mask" @click="onMaskClick"></div>
+            <div v-if="mask" class="d-modal-mask" @click="onMaskClick"></div>
             <div class="d-modal-container">
-                <transition name="d-modal">
-                    <div class="d-modal">
+                <transition name="d-modal" appear>
+                    <div class="d-modal" :class="cls">
                         <slot name="header">
                             <div v-if="title || closable" class="d-modal-header">
                                 <span> {{ title }} </span>
@@ -57,37 +61,86 @@ function close() {
 <style>
 .d-modal-root {
     display: block;
+    animation: fade-in ease .3s;
 }
 
-.d-modal-root .d-modal-mask,
-.d-modal-root .d-modal-container {
+.d-modal-mask {
     position: fixed;
     top: 0;
     bottom: 0;
     inset-inline-start: 0;
     inset-inline-end: 0;
     height: 100%;
+    background-color: rgba(0, 0, 0, 0.45);
 }
 
-.d-modal-mask {
-    background-color: rgba(0, 0, 0, 0.45);
-    animation: fadeIn ease .3s;
+.d-modal-container {
+    display: flex;
+    position: fixed;
+    width: 100vw;
+    height: 100dvh;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    top: 0;
+    /* overflow: auto; */
 }
 
 .d-modal {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
     box-sizing: border-box;
-    margin: 0 auto;
+    margin: 20px 20px;
     padding: 0;
     background-color: #fff;
     border: 1px solid #dbdbdb;
     border-radius: 4px;
     width: 25rem;
 
-    animation: fadeIn ease .3s;
+    -webkit-animation: slide-in linear .2s;
+    animation: slide-in linear .2s;
+    max-height: 100%;
+}
+
+
+@keyframes animatebottom {
+    from {
+        top: 0;
+        opacity: 1;
+    }
+
+    to {
+        top: 300px;
+        opacity: 0;
+    }
+}
+.d-modal-fade {
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatebottom;
+    animation-duration: 0.4s;
+}
+
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(-60px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+@keyframes growth {
+    from {
+        transform: scale(0.7);
+    }
+    to {
+        transform: scale(1);
+    }
 }
 
 .d-modal-header {
@@ -101,5 +154,6 @@ function close() {
 .d-modal-body {
     flex: 1;
     padding: 1rem;
+    overflow: auto;
 }
 </style>

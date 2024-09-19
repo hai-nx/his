@@ -60,10 +60,20 @@ const totalPage = ref(1000)
 
         </div>
 
-        <d-modal v-model="open">
+        <d-modal v-model="open" class="bg-primary">
+            <p>Bla bla .4..</p>
             <p>Bla bla ...</p>
             <p>Bla bla ...</p>
             <p>Bla bla ...</p>
+            <p>Bla bla ...</p>
+            <p>Bla bla ...</p>
+            <p>Bla bla ...</p>
+            <p>Bla bla ...</p>
+            <p>Bla bla ...</p>
+            <p>Bla bla .3..</p>
+            <p>Bla bla ...</p>
+
+
         </d-modal>
 
 

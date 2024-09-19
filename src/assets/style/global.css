@@ -21,6 +21,8 @@
     --d-border-radius: 2px;
     --d-border-width: 1px;
 
+    -d-animation-slidein-y: 64px;
+
     --d-main-background-color: #eeeeee;
     --d-text-color: #334155;
     --d-background-color: #ffffff;
@@ -98,7 +100,7 @@ i {
 }
 
 
-@keyframes fadeIn {
+@keyframes fade-in {
     0% {
         opacity: 0;
     }
@@ -107,6 +109,8 @@ i {
         opacity: 1;
     }
 }
+
+
 
 
 .btn-save {
