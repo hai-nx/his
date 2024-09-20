@@ -32,10 +32,11 @@ const cls = computed(() => {
 
 <template>
     <teleport to='body'>
-        <div v-if="model" class="d-modal-root">
-            <div v-if="mask" class="d-modal-mask" @click="onMaskClick"></div>
-            <div class="d-modal-container">
-                <transition name="d-modal" appear>
+        <div class="d-modal-root">
+            <div v-if="model && mask" class="d-modal-mask" @click="onMaskClick"></div>
+            <transition name="d-modal" appear>
+                <div v-if="model" class="d-modal-container">
+
                     <div class="d-modal" :class="cls">
                         <slot name="header">
                             <div v-if="title || closable" class="d-modal-header">
@@ -52,8 +53,9 @@ const cls = computed(() => {
                             <slot name="footer"></slot>
                         </div>
                     </div>
-                </transition>
-            </div>
+
+                </div>
+            </transition>
         </div>
     </teleport>
 </template>
@@ -61,7 +63,6 @@ const cls = computed(() => {
 <style>
 .d-modal-root {
     display: block;
-    animation: fade-in ease .3s;
 }
 
 .d-modal-mask {
@@ -98,29 +99,24 @@ const cls = computed(() => {
     border-radius: 4px;
     width: 25rem;
 
-    -webkit-animation: slide-in linear .2s;
-    animation: slide-in linear .2s;
+    /* -webkit-animation: slide-in linear .2s; */
+    /* animation: slide-in linear .2s; */
     max-height: 100%;
 }
 
-
-@keyframes animatebottom {
-    from {
-        top: 0;
-        opacity: 1;
-    }
-
-    to {
-        top: 300px;
-        opacity: 0;
-    }
+.d-modal-enter-active {
+    transition: all 180ms ease-in;
 }
-.d-modal-fade {
-    -webkit-animation-name: animatebottom;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatebottom;
-    animation-duration: 0.4s;
+.d-modal-leave-active {
+    transition: all 150ms ease-in; /*opacity 0.5s ease, translateY(0px) linear .2s;*/
 }
+
+.d-modal-enter-from,
+.d-modal-leave-to {
+    opacity: 0;
+    transform: translateY(-60px);
+}
+
 
 @keyframes slide-in {
     from {

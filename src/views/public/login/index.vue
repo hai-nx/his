@@ -61,17 +61,9 @@ const totalPage = ref(1000)
         </div>
 
         <d-modal v-model="open" class="bg-primary">
-            <p>Bla bla .4..</p>
-            <p>Bla bla ...</p>
-            <p>Bla bla ...</p>
-            <p>Bla bla ...</p>
-            <p>Bla bla ...</p>
-            <p>Bla bla ...</p>
-            <p>Bla bla ...</p>
-            <p>Bla bla ...</p>
-            <p>Bla bla ...</p>
-            <p>Bla bla .3..</p>
-            <p>Bla bla ...</p>
+            <p class="dialog__content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit necessitatibus
+                illo deleniti doloremque culpa voluptas recusandae, sunt eligendi amet, ut modi voluptatibus ipsa quas
+                voluptatem consectetur atque, velit reprehenderit debitis.</p>
 
 
         </d-modal>
