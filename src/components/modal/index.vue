@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { computed, defineModel, defineProps, stop } from 'vue'
 
-const model = defineModel()
-
 const props = defineProps({
     title: { type: String },
     closable: { type: Boolean, default: true },
@@ -11,6 +9,14 @@ const props = defineProps({
     maskStyle: { type: Object },
     width: { type: [String, Number], default: 520 }
 })
+
+const model = defineModel()
+const cls = computed(() => {
+    return {
+
+    }
+})
+
 
 function onMaskClick(e: any) {
     if (model && props.mask && props.maskClosable) {
@@ -22,11 +28,7 @@ function close() {
     model.value = false;
 }
 
-const cls = computed(() => {
-    return {
-        
-    }
-})
+
 
 </script>
 
@@ -36,7 +38,6 @@ const cls = computed(() => {
             <div v-if="model && mask" class="d-modal-mask" @click="onMaskClick"></div>
             <transition name="d-modal" appear>
                 <div v-if="model" class="d-modal-container">
-
                     <div class="d-modal" :class="cls">
                         <slot name="header">
                             <div v-if="title || closable" class="d-modal-header">

@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import { ResultModel, ItemStockModel } from '@/models'
-import { CommodityType } from "@/enums/commodityType"
+import { CommodityType } from "@/utils/enums/commodityType"
 
 const itemStockService = {
     getAll(params: any = null) {

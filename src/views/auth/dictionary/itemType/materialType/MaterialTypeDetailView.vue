@@ -331,7 +331,7 @@
 </template>
 
 <script lang="ts">
-import { CommodityType } from "@/enums/commodityType";
+import { CommodityType } from "@/utils/enums/commodityType";
 import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
 import { Modal } from "ant-design-vue";
 import {

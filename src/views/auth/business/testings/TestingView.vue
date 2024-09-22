@@ -266,12 +266,12 @@ import {
     RoomRequestModel,
     SimpleModel,
 } from "@/models";
-import { RoomType } from "@/enums/roomtypes";
+import { RoomType } from "@/utils/enums/roomtypes";
 import { testingService, roomService } from "@/services";
 import { DxSelectBox } from "devextreme-vue/select-box";
 import DxDateBox from "devextreme-vue/date-box";
 import datetimeHelper from "@/utils/helpers/datetimeHelper";
-import { ServiceRequestStatusType } from "@/enums/serviceRequestStatusType";
+import { ServiceRequestStatusType } from "@/utils/enums/serviceRequestStatusType";
 
 import TestingDetailView from "./TestingDetailView.vue";
 import XLayout from "@/components/XLayout.vue";

@@ -395,7 +395,7 @@
 
 <script lang="ts">
 import { Modal } from "ant-design-vue";
-import { RoomType } from "@/enums/roomtypes";
+import { RoomType } from "@/utils/enums/roomtypes";
 import {
     defineComponent,
     ref,
@@ -422,7 +422,7 @@ import {
     itemStockService,
     inOutStockService,
 } from "@/services";
-import { CommodityType } from "@/enums/commodityType";
+import { CommodityType } from "@/utils/enums/commodityType";
 
 export default defineComponent({
     name: "ImportFromAnotherStocksView",

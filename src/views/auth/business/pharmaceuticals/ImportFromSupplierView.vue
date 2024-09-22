@@ -630,7 +630,7 @@ import {
     itemPricePolicyService,
     inOutStockService,
 } from "@/services";
-import { RoomType } from "@/enums/roomtypes";
+import { RoomType } from "@/utils/enums/roomtypes";
 import DxDateBox from "devextreme-vue/date-box";
 
 export default defineComponent({

@@ -404,8 +404,8 @@ import {
     inOutStockService,
     itemStockService,
 } from "@/services";
-import { CommodityType } from "@/enums/commodityType";
-import { RoomType } from "@/enums/roomtypes";
+import { CommodityType } from "@/utils/enums/commodityType";
+import { RoomType } from "@/utils/enums/roomtypes";
 import DxDateBox from "devextreme-vue/date-box";
 
 export default defineComponent({

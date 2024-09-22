@@ -188,7 +188,7 @@ import { DxTextBox } from "devextreme-vue/text-box";
 import DxNumberBox from "devextreme-vue/number-box";
 import DxButton from "devextreme-vue/button";
 import { testingService } from "@/services";
-import { ServiceRequestStatusType } from "@/enums/serviceRequestStatusType";
+import { ServiceRequestStatusType } from "@/utils/enums/serviceRequestStatusType";
 
 export default defineComponent({
     name: "TestingDetailView",

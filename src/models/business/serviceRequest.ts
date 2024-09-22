@@ -1,6 +1,6 @@
 import { ServiceRequestDetailModel, ServiceRequestDetailResultModel } from "@/models"
 import PagedResultRequestModel from "@/models/PagedResultRequestModel"
-import { ServiceRequestStatusType } from "@/enums/serviceRequestStatusType"
+import { ServiceRequestStatusType } from "@/utils/enums/serviceRequestStatusType"
 
 export default interface ServiceRequestModel {
     id?: string
