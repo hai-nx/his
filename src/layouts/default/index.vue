@@ -8,6 +8,6 @@
 .layout-wrapper {
     display: block;
     background-color: var(---d-main-background-color);
-    min-height: 100vh;
+    height: 100vh;
 }
 </style>

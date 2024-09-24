@@ -3,14 +3,16 @@ import { computed, defineProps, PropType } from 'vue'
 import { MenuItem } from '../menuitem';
 
 const props = defineProps({
-    fluid: {
-        type: Boolean, default: true
-    },
     breadcrumb: {
         type: Array as PropType<MenuItem[]>
     },
-    title: { type: String }
-
+    extra: {
+        type: Array as PropType<MenuItem[]>
+    },
+    title: { type: String },
+    fluid: {
+        type: Boolean, default: true
+    },
 })
 
 const cls = computed(() => {
@@ -32,26 +34,16 @@ function onFeedbackClick() {
 <template>
     <div class="el-page-header" :class="cls">
         <div class="el-page-header-topbar">
-            <slot name="breadcrumb">
-                <div class="el-page-header-breadcrumb">
-                    <d-breadcrumb :items="breadcrumb"></d-breadcrumb>
-                </div>
-            </slot>
-
-            <slot name="extra">
-                <div class="el-page-header-extra">
-                    <button class="btn btn-sm py-0 text-muted">
-                        <i class="bi bi-gear-fill h6"></i>
-                    </button>
-                    <button class="btn btn-sm py-0 text-muted">
-                        <i class="bi bi-question-circle-fill h6"></i>
-                    </button>
-                    <button class="btn btn-sm py-0 text-muted">
-                        <i class="bi bi-chat-left-dots h6"></i>
-                    </button>
-                </div>
-            </slot>
-
+            <div class="el-page-header-breadcrumb">
+                <d-breadcrumb :items="breadcrumb"></d-breadcrumb>
+            </div>
+            <div class="el-page-header-extra">
+                <ul>
+                    <li v-for="(item, index) in extra" :key="index">
+                        <i :class="item.icon"></i>
+                    </li>
+                </ul>
+            </div>
         </div>
 
         <div class="el-page-header-main">
@@ -78,31 +70,41 @@ function onFeedbackClick() {
 </template>
 
 <style>
-.el-page-header-fluid {
-    display: flex;
-}
-
-
-
-.d-page {
+.el-page-header {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    height: 100%;
     padding: .5rem;
+    height: 100%;
 }
 
-.d-page-topbar {
-    display: inline-flex;
-    justify-content: space-between;
+/* topbar */
+.el-page-header-topbar {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
 }
 
-.d-page-content-wrapper {
+/* main */
+.el-page-header-main {
     display: flex;
     flex-direction: column;
     flex: 1;
-    background-color: #fff;
-    border: var(--d-border-width) solid var(--d-border-color);
-    border-radius: 2px;
+    background: var(--d-button-background-color);
+    border: var(--d-button-border-width) solid var(--d-button-border-color);
+    border-radius: var(--d-button-border-radius);
 }
+
+.el-page-header-start {
+    display: flex;
+}
+
+.el-page-header-center {
+    flex: 1;
+}
+
+.el-page-header-end {
+    display: flex;
+}
+
 </style>

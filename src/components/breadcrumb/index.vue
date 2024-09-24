@@ -20,8 +20,8 @@ function onClick(e: MenuItem) {
 <template>
     <nav class="d-breadcrumb">
         <ol class="d-breadcrumb-list">
-            <template v-for="(item, i) in items" :key="item.label + '_' + i">
-                <li v-if="i != 0" class="d-breadcrumb-separator">
+            <template v-for="(item, index) in items" :key="item.label + '_' + index">
+                <li v-if="index != 0" class="d-breadcrumb-separator">
                     <slot name="separator">
                         <i class="bi bi-chevron-right"></i>
                     </slot>

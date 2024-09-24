@@ -35,7 +35,7 @@ const totalPage = ref(1000)
 </script>
 
 <template>
-    <div class="login">
+    <!-- <div class="login">
         <d-paginator v-model:current="currentPage" :total="totalPage"></d-paginator>
         <div class="login-container">
             <d-text as="h2" class="login-title">Đăng nhập</d-text>
@@ -68,13 +68,13 @@ const totalPage = ref(1000)
 
         </d-modal>
 
-
-        <!-- <a-modal v-model:visible="open" title="Modal">
-            <p>Bla bla ...</p>
-            <p>Bla bla ...</p>
-            <p>Bla bla ...</p>
-        </a-modal> -->
-    </div>
+    
+    </div> -->
+    <d-page-header>
+        <div class="mb-4 d-flex justify-content-center">
+            <d-button type="link" class="px-0" @click.prevent="onLogin">Quên mật khẩu?</d-button>
+        </div>
+    </d-page-header>
 </template>
 
 <style>
