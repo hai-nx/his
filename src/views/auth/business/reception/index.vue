@@ -35,8 +35,8 @@ const columns = ref([
 
 function loadSource() {
     let filter: GetAllReceptionInputModel = {
-        receptionFromDateFilter: dayjsToNumber(fromDate.value),
-        receptionToDateFilter: dayjsToNumber(toDate.value)
+        // receptionFromDateFilter: dayjsToNumber(fromDate.value),
+        // receptionToDateFilter: dayjsToNumber(toDate.value)
     }
 
     receptionService.getAll(filter)

@@ -4,6 +4,11 @@ import { MenuItem } from '../../components/menuitem';
 const breadcrumbs = ref<MenuItem[]>()
 const extras = ref<MenuItem[]>()
 
+const title = ref('')
+const currentPage = ref(1)
+const pageSize = ref(20)
+const totalRowCount = ref(0)
+
 function loadBreadcrumb() {
     console.log('asdasd ád')
 }
@@ -17,6 +22,12 @@ function loadExtra() {
         }
     ]
 }
+
+// function pageSizeChanged(){
+// }
+
+// function currentPageChanged(){
+// }
 
 export function useLayout() {
     return {

@@ -7,12 +7,10 @@
                         <ol class="breadcrumb mb-0">
                             <template v-for="(route, index) in breadcrumbs" :key="index">
                                 <template v-if="index + 1 === breadcrumbLength">
-                                    <li class="breadcrumb-item" :class="route.path ? 'active' : ''" aria-current="page">{{
-                                        route.label }}</li>
+                                    <li class="breadcrumb-item" :class="route.path ? 'active' : ''" aria-current="page">{{route.label }}</li>
                                 </template>
                                 <template v-else>
-                                    <li class="breadcrumb-item"><router-link class="breadcrumb-item-link"
-                                            :to="{ name: route.path }">{{ route.label }}</router-link></li>
+                                    <li class="breadcrumb-item"><router-link class="breadcrumb-item-link" :to="{ name: route.path }">{{ route.label }}</router-link></li>
                                 </template>
                             </template>
                         </ol>

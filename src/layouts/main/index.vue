@@ -2,14 +2,14 @@
 import { computed, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
-import { useAuth, useMenu } from "@/store";
+import { useAuth, useApp } from "@/store";
 import { MenuItem } from "@/components/menuitem";
 
 
 const router = useRouter();
 
-const menu = useMenu();
-const { items } = storeToRefs(menu);
+const app = useApp();
+const { menu } = storeToRefs(app);
 
 const news = ref<string | undefined>('')
 const theme = ref('blue')
@@ -57,7 +57,7 @@ function menuItemClick(item: MenuItem){
                 </div>
             </div>
             <div class="layout-topbar-center">
-                <d-menu :items="items" @item-click="menuItemClick"></d-menu>
+                <d-menu :items="menu" @item-click="menuItemClick"></d-menu>
             </div>
             <div class="layout-topbar-end">
                 <d-button type="text" rounded icon="bi bi-palette"></d-button>
@@ -85,6 +85,7 @@ function menuItemClick(item: MenuItem){
     flex-direction: column;
     background-color: var(---d-main-background-color);
     height: 100vh;
+    overflow-x: auto;
 }
 
 .layout-news {
@@ -129,7 +130,7 @@ function menuItemClick(item: MenuItem){
     padding: 0 1rem;
     height: 44px;
     /* line-height: 44px; */
-    width: 100%;
+    /* width: 100%; */
     z-index: 997;
 }
 

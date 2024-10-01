@@ -8,11 +8,8 @@ const password = ref<string>('');
 const loading = computed(() => store.loading);
 const error = computed(() => store.error);
 
-const open = ref(true)
-
 const onLogin = () => {
-    //store.login(username.value, password.value)
-    open.value = true
+    store.login(username.value, password.value)
 }
 
 const err_username = ref<string|undefined>(undefined)
