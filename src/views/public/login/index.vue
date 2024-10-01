@@ -8,11 +8,6 @@ const password = ref<string>('');
 const loading = computed(() => store.loading);
 const error = computed(() => store.error);
 
-const errors = ref({
-    username: undefined,
-    password: undefined
-});
-
 const open = ref(true)
 
 const onLogin = () => {
@@ -29,14 +24,11 @@ function valid() {
         err_username.value = undefined
 }
 
-const currentPage = ref(0)
-const totalPage = ref(1000)
 
 </script>
 
 <template>
-    <!-- <div class="login">
-        <d-paginator v-model:current="currentPage" :total="totalPage"></d-paginator>
+    <div class="login">
         <div class="login-container">
             <d-text as="h2" class="login-title">Đăng nhập</d-text>
 
@@ -59,30 +51,11 @@ const totalPage = ref(1000)
             </div>
 
         </div>
-
-        <d-modal v-model="open" class="bg-primary">
-            <p class="dialog__content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit necessitatibus
-                illo deleniti doloremque culpa voluptas recusandae, sunt eligendi amet, ut modi voluptatibus ipsa quas
-                voluptatem consectetur atque, velit reprehenderit debitis.</p>
-
-
-        </d-modal>
-
-    
-    </div> -->
-    <d-page-header>
-        <div class="mb-4 d-flex justify-content-center">
-            <d-button type="link" class="px-0" @click.prevent="onLogin">Quên mật khẩu?</d-button>
-        </div>
-    </d-page-header>
+    </div>
 </template>
 
 <style>
 .login {
-    font-family: Roboto,
-        Helvetica,
-        Arial,
-        sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;

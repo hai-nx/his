@@ -1,7 +1,8 @@
 /*  */
 :root {
     --d-font-family: 
-        -apple-system,
+        "Helvetica Neue", Helvetica, Arial, sans-serif;
+        /* -apple-system,
         BlinkMacSystemFont,
         'Segoe UI',
         Roboto,
@@ -12,7 +13,7 @@
         'Apple Color Emoji',
         'Segoe UI Emoji',
         'Segoe UI Symbol',
-        'Noto Color Emoji';
+        'Noto Color Emoji'; */
     --d-font-size: 0.875;
     --d-font-weight: 400;
     --d-line-height: 22px;
