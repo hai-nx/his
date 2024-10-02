@@ -33,4 +33,8 @@ export function defineComponents(app: App<Element>) {
     app.component("XLayout", defineAsyncComponent(() => import('@/components/XLayout.vue')));
     app.component("XNav", defineAsyncComponent(() => import('@/components/XNav.vue')));
     app.component("XNavItem", defineAsyncComponent(() => import('@/components/XNavItem.vue')));
+
 }
+
+
+export { default as COMessage } from './message';

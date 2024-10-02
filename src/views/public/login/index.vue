@@ -9,7 +9,8 @@ const loading = computed(() => store.loading);
 const error = computed(() => store.error);
 
 const onLogin = () => {
-    store.login(username.value, password.value)
+    Msg.success('ahsdjhasdhaljkhs dhaksjdh a');
+    //store.login(username.value, password.value)
 }
 
 const err_username = ref<string|undefined>(undefined)
@@ -20,6 +21,8 @@ function valid() {
     else
         err_username.value = undefined
 }
+
+import Msg from '@/components/message/index'
 
 
 </script>
