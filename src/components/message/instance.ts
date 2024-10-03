@@ -21,18 +21,19 @@ function createInstance(cfg: any) {
 
 
     // reset each message's distance (Top value) to the top 
-    // const resetMsgTop = () => {
+    // function resetMsgTop() {
     //     for (let i = 0; i < messageList.length; i++) {
     //         messageList[i].style.top = `${i * height}px`;
     //     }
     // };
 
-    //function handleRemove() {
+    function handleRemove() {
         //app.unmount(messageNode);
         //app.unmount();
-        //document.body.removeChild(messageNode);
+        document.body.removeChild(messageNode);
+        config.resolve(1)
         //resetMsgTop();
-    //};
+    }
 
 
     // create a Vue instance and append to Body
@@ -41,8 +42,7 @@ function createInstance(cfg: any) {
 
         // remove the element, close message and unmount and remove from DOM
         remove() {
-            console.log('remove')
-            // handleRemove();
+            handleRemove();
         }
     });
 

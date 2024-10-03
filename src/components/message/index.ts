@@ -5,7 +5,7 @@ import createInstance from '@/components/message/instance';
  * @param {Object} typeCfg 
  * @param {Object/String} cfg
  */
-function renderMsg(typeCfg = {}, cfg: any = '') {
+function renderMsg(typeCfg = {}, cfg: any = '', resolve: any) {
     // allow passing params, need to tell the type 
     const isContent = typeof cfg === 'string';
 
@@ -33,7 +33,9 @@ function renderMsg(typeCfg = {}, cfg: any = '') {
         content,
         immersive,
         duration,
-        close
+        close,
+
+        resolve
     });
 }
 
@@ -45,7 +47,7 @@ export default {
             icon: ''
         };
 
-        return renderMsg(textCfg, cfg);
+        return renderMsg(textCfg, cfg, null);
     },
     // success ere
     success(cfg = '') {
@@ -54,7 +56,11 @@ export default {
             icon: 'icon-success success'
         };
 
-        return renderMsg(successCfg, cfg);
+        return new Promise(resolve => {
+            console.log(resolve)
+            renderMsg(successCfg, cfg, resolve)
+        })
+        //return renderMsg(successCfg, cfg);
     },
     // warning here
     warning(cfg = '') {
@@ -63,7 +69,7 @@ export default {
             icon: 'icon-warning warning'
         };
 
-        return renderMsg(warningCfg, cfg);
+        return renderMsg(warningCfg, cfg, null);
     },
     // error here
     error(cfg = '') {
@@ -72,7 +78,7 @@ export default {
             icon: 'icon-error error'
         };
 
-        return renderMsg(errorCfg, cfg);
+        return renderMsg(errorCfg, cfg, null);
     }
 
 };
