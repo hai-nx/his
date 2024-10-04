@@ -11,28 +11,29 @@ function createInstance(cfg: any) {
     // create a container and set its class
     const messageNode = document.createElement('div');
     const attr = document.createAttribute('class');
-    attr.value = 'CO-message';
+    attr.value = 'd-message';
     messageNode.setAttributeNode(attr);
 
     // set a counter, when the next message happens, it will have a distance from the previous one
     const height = 70; // height, play around 
-    const messageList = document.getElementsByClassName('CO-message');
+    //const messageList = document.getElementsByClassName('d-message');
+    const messageList = document.getElementsByClassName('d-message') as HTMLCollectionOf<HTMLElement>;
     messageNode.style.top = `${messageList.length * height}px`;
 
 
     // reset each message's distance (Top value) to the top 
-    // function resetMsgTop() {
-    //     for (let i = 0; i < messageList.length; i++) {
-    //         messageList[i].style.top = `${i * height}px`;
-    //     }
-    // };
+    function resetMsgTop() {
+        for (let i = 0; i < messageList.length; i++) {
+            messageList[i].style.top = `${i * height}px`;
+        }
+    }
 
-    function handleRemove() {
+    function handleRemove(result: any) {
         //app.unmount(messageNode);
-        //app.unmount();
+        app.unmount();
         document.body.removeChild(messageNode);
-        config.resolve(1)
-        //resetMsgTop();
+        config.resolve(result)
+        resetMsgTop();
     }
 
 
@@ -41,8 +42,8 @@ function createInstance(cfg: any) {
         config,
 
         // remove the element, close message and unmount and remove from DOM
-        remove() {
-            handleRemove();
+        remove(result: any) {
+            handleRemove(result);
         }
     });
 

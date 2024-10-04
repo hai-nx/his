@@ -53,11 +53,10 @@ export default {
     success(cfg = '') {
         const successCfg = {
             type: 'success',
-            icon: 'icon-success success'
+            icon: 'icon-success success bi bi-question-circle-fill'
         };
 
-        return new Promise(resolve => {
-            console.log(resolve)
+        return new Promise<string>(resolve => {
             renderMsg(successCfg, cfg, resolve)
         })
         //return renderMsg(successCfg, cfg);

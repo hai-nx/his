@@ -9,12 +9,16 @@ const loading = computed(() => store.loading);
 const error = computed(() => store.error);
 
 const onLogin = () => {
+    // for (let index = 0; index < 3; index++) {
+    //     Msg.success(username.value + index).then(value => {
+    //         console.log('value: --', value)
+    //     });
+    // }
+
     Msg.success(username.value).then(value => {
-        console.log('value:', value)
+        console.log('value: --', value)
     });
-
-
-    console.log('messsssss')
+    
     //store.login(username.value, password.value)
 }
 
