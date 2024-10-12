@@ -97,7 +97,10 @@ router.beforeEach((to, from, next) => {
   const isAuthenticationRequired = to.meta.layout === appLayout.MAIN;
 
   // nếu trang yêu cầu quyền đăng nhập mà chưa đăng nhập thì trả về trang login
-  if (!isAuthenticated && isAuthenticationRequired) next({ name: "login" });
+  if (!isAuthenticated && isAuthenticationRequired) {
+    next({ name: "login" });
+    
+  }
   else next();
 });
 

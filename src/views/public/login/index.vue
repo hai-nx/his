@@ -14,10 +14,10 @@ const onLogin = () => {
     //         console.log('value: --', value)
     //     });
     // }
-
-    Msg.success(username.value).then(value => {
-        console.log('value: --', value)
-    });
+    document.title = 'HIS - Đăng nhập'
+    // Msg.success(username.value).then(value => {
+    //     console.log('value: --', value)
+    // });
     
     //store.login(username.value, password.value)
 }
@@ -33,11 +33,86 @@ function valid() {
 
 import Msg from '@/components/message/index'
 
+const columns = ref([
+    {
+        label: "Mã chi nhánh",
+        key: "code",
+        dataIndex: "code",
+        width: 200,
+    },
+    {
+        label: "Tên chi nhánh",
+        key: "name",
+        dataIndex: "name",
+        width: 500,
+    },
+    {
+        label: "Địa chỉ",
+        key: "address",
+        dataIndex: "address",
+        width: 500,
+    },
+    {
+        label: "Mã KCBBĐ",
+        key: "mediOrgCode",
+        dataIndex: "mediOrgCode",
+        width: 120,
+    },
+    {
+        label: "Mã KCBBĐ đúng tuyến",
+        key: "mediOrgAcceptCode",
+        dataIndex: "mediOrgAcceptCode",
+        width: 500,
+    },
+    {
+        label: "Mô tả",
+        key: "description",
+        dataIndex: "description",
+        width: 500,
+    },
+    {
+        label: "Trạng thái",
+        key: "inactive",
+        dataIndex: "inactive",
+        width: 200,
+    },
+    { title: "Xử lý", key: "action", width: 100 },
+]);
+
+const items = ref([
+    { patientCode: "1", description: "hihihihihi" },
+    { patientCode: "2", description: "hihihihihi" },
+    { patientCode: "3", description: "hihihihihi" },
+    { patientCode: "4", description: "hihihihihi" },
+    { patientCode: "5", description: "hihihihihi" },
+    { patientCode: "6", patientName: 'NGUYỄN VĂN A' },
+    { patientCode: "7", patientName: 'NGUYỄN VĂN B' },
+    { patientCode: "8", patientName: 'NGUYỄN VĂN C' },
+    { patientCode: "9", patientName: 'NGUYỄN VĂN D' },
+    { patientCode: "10", patientName: 'NGUYỄN VĂN E' },
+    { patientCode: "11", patientName: 'NGUYỄN VĂN F' },
+])
 
 </script>
 
 <template>
     <div class="login">
+
+        <d-table :items="items" :columns="columns">
+            <template #cell="{ column, row}">
+                <template v-if="column.key === 'code'">
+                    <span>
+                        {{ row.patientCode }}
+                    </span>
+                </template>
+                <template v-else-if="column.key === 'name'">
+                    <span>
+                        {{ row.patientName }}
+                    </span>
+                </template>
+            </template>
+        </d-table>
+
         <div class="login-container">
             <d-text as="h2" class="login-title">Đăng nhập</d-text>
 
