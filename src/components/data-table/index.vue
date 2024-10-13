@@ -37,51 +37,61 @@ function getObjectValue(object: any, path: string, defaultValue: any) {
 </script>
 
 <template>
-    <table role="table" class="d-table">
-        <thead>
-            <tr>
-                <th v-for="(col, index) in columns" :key="index">
-                    <span>{{ col.label }}</span>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <template v-if="itemCount > 0">
-                <tr v-for="(item, rowIndex) in items" :key="rowIndex">
-                    <td v-for="(col, columnIndex) in columns" :key="columnIndex">
-                        <slot name="cell" :column="col" :row="item">
-                            {{ getObjectValue(item, col.key, "") }}
-                        </slot>
-                    </td>
-                </tr>
-            </template>
-            <template v-else>
+    <div class="d-data-table">
+        <table role="table" class="d-table">
+            <thead>
                 <tr>
-                    <td :colspan="columnCount">
-                        <slot name="no-data"></slot>
-                    </td>
+                    <th v-for="(col, index) in columns" :key="index" style="width: 200px">
+                        <span>{{ col.label }}</span>
+                    </th>
                 </tr>
-            </template>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <template v-if="itemCount > 0">
+                    <tr v-for="(item, rowIndex) in items" :key="rowIndex" class="d-table-tr">
+                        <td v-for="(col, columnIndex) in columns" :key="columnIndex" class="d-table-td">
+                            <slot name="cell" :column="col" :row="item">
+                                <span>{{ getObjectValue(item, col.key, "") }}</span>
+                            </slot>
+                        </td>
+                    </tr>
+                </template>
+                <template v-else>
+                    <tr>
+                        <td :colspan="columnCount">
+                            <slot name="no-data"></slot>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </div>
 </template>
 
 <style>
+.d-data-table {
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+    
+}
 .d-table {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    table-layout: fixed;
 }
 
 .d-table td,
 .d-table th {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 0px 8px;
 }
 
 .d-table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
 
 .d-table tr:hover {
     background-color: #ddd;
@@ -93,5 +103,10 @@ function getObjectValue(object: any, path: string, defaultValue: any) {
     text-align: left;
     background-color: #04AA6D;
     color: white;
+}
+
+
+.d-table-tr {
+    height: 30px;
 }
 </style>

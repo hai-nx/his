@@ -22,6 +22,8 @@ const onLogin = () => {
     //store.login(username.value, password.value)
 }
 
+document.title = 'HIS - Đăng nhập'
+
 const err_username = ref<string|undefined>(undefined)
 
 function valid() {
@@ -76,7 +78,7 @@ const columns = ref([
         dataIndex: "inactive",
         width: 200,
     },
-    { title: "Xử lý", key: "action", width: 100 },
+    { label: "Xử lý", key: "action", width: 100 },
 ]);
 
 const items = ref([
@@ -84,7 +86,7 @@ const items = ref([
     { patientCode: "2", description: "hihihihihi" },
     { patientCode: "3", description: "hihihihihi" },
     { patientCode: "4", description: "hihihihihi" },
-    { patientCode: "5", description: "hihihihihi" },
+    { patientCode: "5", description: "hihixsdas das asd asd asdasdasd asdhihihi" },
     { patientCode: "6", patientName: 'NGUYỄN VĂN A' },
     { patientCode: "7", patientName: 'NGUYỄN VĂN B' },
     { patientCode: "8", patientName: 'NGUYỄN VĂN C' },
@@ -98,7 +100,7 @@ const items = ref([
 <template>
     <div class="login">
 
-        <d-table :items="items" :columns="columns">
+        <d-table :items="items" :columns="columns" style="height: 300px;">
             <template #cell="{ column, row}">
                 <template v-if="column.key === 'code'">
                     <span>

@@ -14,6 +14,8 @@ export function defineComponents(app: App<Element>) {
     app.component("DBreadcrumb", defineAsyncComponent(() => import('./breadcrumb/index.vue')));
     app.component("DButton", defineAsyncComponent(() => import('./button/index.vue')));
     app.component("DCard", defineAsyncComponent(() => import('./card/index.vue')));
+    app.component("DDataTable", defineAsyncComponent(() => import('./data-table/index.vue')));
+    app.component("DDataTree", defineAsyncComponent(() => import('./data-tree/index.vue')));
     app.component("DDivider", defineAsyncComponent(() => import('./divider/index.vue')));
     app.component("DDropdown", defineAsyncComponent(() => import('./dropdown/index.vue')));
     app.component("DInput", defineAsyncComponent(() => import('./input/index.vue')));
@@ -24,7 +26,7 @@ export function defineComponents(app: App<Element>) {
     app.component("DPaginator", defineAsyncComponent(() => import('./paginator/index.vue')));
     app.component("DPassword", defineAsyncComponent(() => import('./password/index.vue')));
     app.component("DRadio", defineAsyncComponent(() => import('./radio/index.vue')));
-    app.component("DTable", defineAsyncComponent(() => import('./table/index.vue')));
+    
     app.component("DText", defineAsyncComponent(() => import('./text/index.vue')));
     app.component("DTextarea", defineAsyncComponent(() => import('./textarea/index.vue')));
     app.component("DTooltip", defineAsyncComponent(() => import('./tooltip/index.vue')));
