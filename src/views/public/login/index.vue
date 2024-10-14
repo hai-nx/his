@@ -15,8 +15,13 @@ const onLogin = () => {
     //     });
     // }
 
-    Msg.success(username.value).then(value => {
-        console.log('value: --', value)
+    Msg.success(username.value)
+    .then(value => {
+        
+        return Msg.success("hihihihihihi" + value)
+    })
+    .then(value => {
+        return Msg.success("hahahah" + value)
     });
     
     //store.login(username.value, password.value)
@@ -24,7 +29,7 @@ const onLogin = () => {
 
 
 
-document.title = 'HIS - Đăng nhập'
+
 
 const err_username = ref<string|undefined>(undefined)
 

@@ -54,7 +54,6 @@ function close() {
                             <slot name="footer"></slot>
                         </div>
                     </div>
-
                 </div>
             </transition>
         </div>
