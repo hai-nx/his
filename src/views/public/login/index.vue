@@ -14,13 +14,15 @@ const onLogin = () => {
     //         console.log('value: --', value)
     //     });
     // }
-    document.title = 'HIS - Đăng nhập'
-    // Msg.success(username.value).then(value => {
-    //     console.log('value: --', value)
-    // });
+
+    Msg.success(username.value).then(value => {
+        console.log('value: --', value)
+    });
     
     //store.login(username.value, password.value)
 }
+
+
 
 document.title = 'HIS - Đăng nhập'
 

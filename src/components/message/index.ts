@@ -81,3 +81,14 @@ export default {
     }
 
 };
+
+
+export function Message(cfg = '') {
+    const textCfg = {
+        type: 'text',
+        icon: ''
+    };
+
+    return renderMsg(textCfg, cfg, null);
+}
+
