@@ -46,10 +46,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { Modal } from 'ant-design-vue'
 import { RoomTypeModel } from '@/models'
 import { roomTypeService } from '@/services';
 import RoomTypeDetailView from './RoomTypeDetailView.vue'
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: 'RoomTypeView',
@@ -89,21 +89,16 @@ export default defineComponent({
         const handleDelete = (item: RoomTypeModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
-                Modal.confirm({
-                    content: 'Bạn có thực sự muốn xóa phòng <' + item.code + '> đã chọn không?',
-                    okText: 'Đồng ý',
-                    cancelText: 'Bỏ qua',
-                    onOk() {
-                        roomTypeService.delete(id)
-                            .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
-                            .finally(() => {
-                                handleLoad();
-                            });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
-                    }
-                });
+                Msg.confirm('Bạn có thực sự muốn xóa phòng <' + item.code + '> đã chọn không?')
+                    .then(resolve => {
+                        if (resolve === "ok") {
+                            roomTypeService.delete(id)
+                                .catch(error => { Msg.warning(error.message); })
+                                .finally(() => {
+                                    handleLoad();
+                                });
+                        }
+                    })
             }
         }
 
