@@ -46,10 +46,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { Modal } from 'ant-design-vue'
 import { ProvinceModel } from '@/models'
 import { provinceService } from '@/services';
 import ProvinceDetailView from './ProvinceDetailView.vue'
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: 'ProvinceView',
@@ -88,21 +88,16 @@ export default defineComponent({
         const handleDelete = (item: ProvinceModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
-                Modal.confirm({
-                    content: 'Bạn có thực sự muốn xóa mã bệnh <' + item.code + '> đã chọn không?',
-                    okText: 'Đồng ý',
-                    cancelText: 'Bỏ qua',
-                    onOk() {
-                        provinceService.delete(id)
-                            .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
-                            .finally(() => {
-                                handleLoad();
-                            });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
-                    }
-                });
+                Msg.confirm('Bạn có thực sự muốn xóa mã bệnh <' + item.code + '> đã chọn không?')
+                    .then(resolve => {
+                        if (resolve === "ok"){
+                            provinceService.delete(id)
+                                .catch(error => { Msg.warning(error.message); })
+                                .finally(() => {
+                                    handleLoad();
+                                });
+                        }
+                    })
             }
         }
 
