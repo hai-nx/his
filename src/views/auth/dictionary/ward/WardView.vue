@@ -1,10 +1,9 @@
-
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { Modal } from 'ant-design-vue'
 import { WardModel } from '@/models'
 import { wardService } from '@/services';
 import WardDetailView from './WardDetailView.vue'
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: 'WardView',
@@ -47,29 +46,18 @@ export default defineComponent({
             if (item.id !== undefined) {
                 let id = item.id!;
                 console.log(id)
-                Modal.confirm({
-                    content: 'Bạn có thực sự muốn xóa mã bệnh <' + item.code + '> đã chọn không?',
-                    okText: 'Đồng ý',
-                    cancelText: 'Bỏ qua',
-                    onOk() {
-                        wardService.delete(id)
-                            // .then(res => {
-                            //     console.log(res)
-                            //     notification.success({
-                            //         message: 'Thông báo',
-                            //         description:
-                            //             'Xóa thành công!',
-                            //     });
-                            // })
-                            .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
-                            .finally(() => {
-                                handleLoad();
-                            });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
-                    }
-                });
+                Msg.confirm("Bạn có thực sự muốn xóa mã bệnh <" + item.code + "> đã chọn không?")
+                    .then(resolve => {
+                        if (resolve === 'ok') {
+                            wardService.delete(id)
+                                .catch(error => {
+                                    Msg.warning(error.message)
+                                })
+                                .finally(() => {
+                                    handleLoad();
+                                })
+                        }
+                    })
             }
         }
 
@@ -112,9 +100,9 @@ export default defineComponent({
     <x-layout title="Danh mục xã, phường" :show-header="true">
         <template #action>
             <a-button type="primary" @click="handleAdd">
-                    <i class="bi bi-plus-lg me-2"></i>
-                    <span>Thêm xã, phường</span>
-                </a-button>
+                <i class="bi bi-plus-lg me-2"></i>
+                <span>Thêm xã, phường</span>
+            </a-button>
         </template>
 
         <a-table class="ant-table-striped p-2" size="middle" :columns="columns" :data-source="items" bordered>

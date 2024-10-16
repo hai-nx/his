@@ -11,13 +11,7 @@
             </div>
         </div>
 
-        <a-table
-            class="ant-table-striped"
-            size="middle"
-            :columns="columns"
-            :data-source="items"
-            bordered
-        >
+        <a-table class="ant-table-striped" size="middle" :columns="columns" :data-source="items" bordered>
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'inactive'">
                     <span>
@@ -31,19 +25,13 @@
                 </template>
                 <template v-else-if="column.key === 'action'">
                     <span>
-                        <button
-                            class="btn btn-outline-primary border-0 btn-sm me-2"
-                            title="Sửa"
-                            @click="handleEdit(record)"
-                        >
+                        <button class="btn btn-outline-primary border-0 btn-sm me-2" title="Sửa"
+                            @click="handleEdit(record)">
                             <i class="bi bi-pen"></i>
                         </button>
 
-                        <button
-                            class="btn btn-outline-danger border-0 btn-sm"
-                            title="Xóa"
-                            @click="handleDelete(record)"
-                        >
+                        <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa"
+                            @click="handleDelete(record)">
                             <i class="bi bi-x-lg"></i>
                         </button>
                     </span>
@@ -52,21 +40,17 @@
         </a-table>
 
         <teleport to="body">
-            <SupplierDetailView
-                :visible="visible"
-                :data="record"
-                @toggle="handleToggle"
-            />
+            <SupplierDetailView :visible="visible" :data="record" @toggle="handleToggle" />
         </teleport>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { Modal } from "ant-design-vue";
 import { SupplierModel } from "@/models";
 import { supplierService } from "@/services";
 import SupplierDetailView from "./SupplierDetailView.vue";
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: "SupplierView",
@@ -130,30 +114,18 @@ export default defineComponent({
         const handleDelete = (item: SupplierModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
-                Modal.confirm({
-                    content:
-                        "Bạn có thực sự muốn xóa mã bệnh <" +
-                        item.code +
-                        "> đã chọn không?",
-                    okText: "Đồng ý",
-                    cancelText: "Bỏ qua",
-                    onOk() {
-                        supplierService
-                            .delete(id)
-                            .catch((error) => {
-                                Modal.error({
-                                    content: error.message,
-                                    okText: "Đồng ý",
+                Msg.confirm("Bạn có thực sự muốn xóa mã bệnh <" + item.code + "> đã chọn không?")
+                    .then(resolve => {
+                        if (resolve === "ok") {
+                            supplierService.delete(id)
+                                .catch((error) => {
+                                    Msg.warning(error.message);
+                                })
+                                .finally(() => {
+                                    handleLoad();
                                 });
-                            })
-                            .finally(() => {
-                                handleLoad();
-                            });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
-                    },
-                });
+                        }
+                    })
             }
         };
 

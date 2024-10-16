@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, PropType, ref, onMounted } from 'vue'
+import { defineProps, PropType, ref, onMounted, computed } from 'vue'
 import DButton from '@/components/button/index.vue'
 
 const props = defineProps({
@@ -13,8 +13,6 @@ const props = defineProps({
 })
 
 const visible = ref(false)
-
-const header = ref("header")
 
 function onClose() {
     visible.value = false;
@@ -34,23 +32,16 @@ onMounted(() => {
         <transition name="slide-fade">
             <div class="d-message-wrap" v-if="visible">
                 <div class="d-message-header">
-                    <span>{{ header }}</span>
-                    <!-- <div class="option" v-if="!config.close">
-                        <button @click="onClose">
-                            <i class="bi bi-question-circle-fill"></i>
-                        </button>
-                    </div> -->
+                    <span>{{ config.title }}</span>
                     <d-button type="text" v-if="!config.close" @click="onClose">
-                        <i class="bi bi-question-circle-fill"></i>
+                        <i class="bi bi-x-lg"></i>
                     </d-button>
                 </div>
                 <div class="d-message-content">
-                    <!-- message icon -->
                     <div class="message-icon" v-if="config.icon">
                         <i :class="config.icon"></i>
                     </div>
                     <span v-text="config.content" class="message-text"></span>
-
                 </div>
                 <div class="d-message-footer">
                     <d-button type="primary">

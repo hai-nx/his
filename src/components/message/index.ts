@@ -1,16 +1,9 @@
-import createInstance from '@/components/message/instance';
+import { createApp } from 'vue';
+import message from './index.vue';
 
-/**
- * read, config and render Message
- * @param {Object} typeCfg 
- * @param {Object/String} cfg
- */
-function renderMsg(typeCfg = {}, cfg: any = '', resolve: any) {
-    // allow passing params, need to tell the type 
-    const isContent = typeof cfg === 'string';
 
-    // piece together config and merge them
-    cfg = isContent
+function renderMsg(typeCfg = {}, cfg: any = '') {
+    cfg = typeof cfg === 'string'
         ? {
             content: cfg
         }
@@ -18,77 +11,109 @@ function renderMsg(typeCfg = {}, cfg: any = '', resolve: any) {
 
     const config = Object.assign({}, typeCfg, cfg); // merge configuration
     const {
-        type = 'text', // type of message
-        icon = '', // your icon
-        content = '', // content
-        immersive = false, // show immersive? 
-        duration = 3000, // set the duration 
-        close = false // showClose? 
+        button = 'ok', 
+        icon = '', 
+        title = '', // tiêu đề
+        content = '', // nội dung
+        close = false, // hiện nút đóng thông báo
+        resolve = 'none' // kết quả trả về 
     } = config;
 
     // create instance
     return createInstance({
-        type,
+        button,
         icon,
+        title,
         content,
-        immersive,
-        duration,
         close,
-
         resolve
     });
 }
 
+function createInstance(cfg: any) {
+    const config = cfg || {};
+
+    // create a container and set its class
+    const messageNode = document.createElement('div');
+    const attr = document.createAttribute('class');
+    attr.value = 'd-message';
+    messageNode.setAttributeNode(attr);
+
+    // set a counter, when the next message happens, it will have a distance from the previous one
+    const height = 70; // height, play around 
+    //const messageList = document.getElementsByClassName('d-message');
+    const messageList = document.getElementsByClassName('d-message') as HTMLCollectionOf<HTMLElement>;
+    messageNode.style.top = `${messageList.length * height}px`;
+
+
+    // reset each message's distance (Top value) to the top 
+    function resetMsgTop() {
+        for (let i = 0; i < messageList.length; i++) {
+            messageList[i].style.top = `${i * height}px`;
+        }
+    }
+
+    function handleRemove(result: any) {
+        //app.unmount(messageNode);
+        app.unmount();
+        document.body.removeChild(messageNode);
+        config.resolve(result)
+        resetMsgTop();
+    }
+
+
+    // create a Vue instance and append to Body
+    const app = createApp(message, {
+        config,
+
+        // remove the element, close message and unmount and remove from DOM
+        remove(result: any) {
+            handleRemove(result);
+        }
+    });
+
+
+    // mount the instance and append to end of Body
+    //app.vm = app.mount(messageNode);
+    app.mount(messageNode);
+    document.body.appendChild(messageNode);
+
+    // app.close = () => {
+    //     handleRemove();
+    // };
+    return app;
+}
+
 export default {
-    // purely info
-    text(cfg = '') {
-        const textCfg = {
-            type: 'text',
-            icon: ''
-        };
-
-        return renderMsg(textCfg, cfg, null);
-    },
-    // success ere
-    success(cfg = '') {
-        const successCfg = {
-            type: 'success',
-            icon: 'icon-success success bi bi-question-circle-fill'
-        };
-
+    show(cfg = ''){
         return new Promise<string>(resolve => {
-            renderMsg(successCfg, cfg, resolve)
+            renderMsg({
+                resolve: resolve
+            },
+            cfg)
         })
-        //return renderMsg(successCfg, cfg);
     },
-    // warning here
+    confirm(cfg = ''){
+        return new Promise<string>(resolve => {
+            renderMsg({
+                button: 'okcancel',
+                icon: 'bi bi-question-circle-fill',
+                resolve: resolve
+            }, 
+            cfg)
+        })
+    },
     warning(cfg = '') {
-        const warningCfg = {
-            type: 'warning',
-            icon: 'icon-warning warning'
-        };
-
-        return renderMsg(warningCfg, cfg, null);
-    },
-    // error here
-    error(cfg = '') {
-        const errorCfg = {
-            type: 'error',
-            icon: 'icon-error error'
-        };
-
-        return renderMsg(errorCfg, cfg, null);
+        return new Promise<string>(resolve => {
+            renderMsg({
+                type: 'warning',
+                icon: 'bi bi-exclamation-triangle-fill',
+                resolve: resolve
+            },
+            cfg)
+        })
     }
 
 };
 
-
-export function Message(cfg = '') {
-    const textCfg = {
-        type: 'text',
-        icon: ''
-    };
-
-    return renderMsg(textCfg, cfg, null);
-}
 

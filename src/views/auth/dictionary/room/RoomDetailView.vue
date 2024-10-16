@@ -109,9 +109,9 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from "vue";
-import { Modal } from "ant-design-vue";
 import { DepartmentModel, RoomModel, RoomTypeModel } from "@/models";
 import { departmentService, roomService, roomTypeService } from "@/services";
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: "DepartmentDetailView",
@@ -151,11 +151,11 @@ export default defineComponent({
                         result.value = true;
                         toggle();
                     } else {
-                        Modal.error({ content: res.data.message, okText: "Đồng ý" });
+                        Msg.warning(res.data.message);
                     }
                 })
                 .catch((error) => {
-                    Modal.error({ content: error.message, okText: "Đồng ý" });
+                    Msg.warning(error.message);
                 })
                 .finally(() => {
                     loading.value = false;
@@ -207,10 +207,7 @@ export default defineComponent({
                             loading.value = false;
                         })
                         .catch((error) => {
-                            Modal.error({
-                                content: error.message,
-                                okText: "Đồng ý",
-                            });
+                            Msg.warning(error.message);
                             toggle();
                         });
                 } else {

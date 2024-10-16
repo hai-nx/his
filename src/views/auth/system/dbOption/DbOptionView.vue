@@ -8,16 +8,10 @@
                     <i class="bi bi-plus-lg me-2"></i>
                     <span>Thêm cấu hình</span>
                 </a-button>
-            </div>            
+            </div>
         </div>
 
-        <a-table
-            class="ant-table-striped"
-            size="middle"
-            :columns="columns"
-            :data-source="items"
-            bordered
-        >
+        <a-table class="ant-table-striped" size="middle" :columns="columns" :data-source="items" bordered>
             <template #bodyCell="{ column, record }">
                 <!-- <template v-if="column.key === 'inactive'">
                     <span>
@@ -31,21 +25,13 @@
                 </template> -->
                 <template v-if="column.key === 'action'">
                     <span>
-                        <button
-                            :disabled="record.isSystem"
-                            class="btn btn-outline-primary border-0 btn-sm me-2"
-                            title="Sửa"
-                            @click="handleEdit(record)"
-                        >
+                        <button :disabled="record.isSystem" class="btn btn-outline-primary border-0 btn-sm me-2"
+                            title="Sửa" @click="handleEdit(record)">
                             <i class="bi bi-pen"></i>
                         </button>
 
-                        <button
-                            :disabled="!record.isSystem"
-                            class="btn btn-outline-danger border-0 btn-sm"
-                            title="Xóa"
-                            @click="handleDelete(record)"
-                        >
+                        <button :disabled="!record.isSystem" class="btn btn-outline-danger border-0 btn-sm" title="Xóa"
+                            @click="handleDelete(record)">
                             <i class="bi bi-x-lg"></i>
                         </button>
                     </span>
@@ -54,21 +40,17 @@
         </a-table>
 
         <teleport to="body">
-            <DbOptionDetailView
-                :visible="visible"
-                :data="record"
-                @toggle="handleToggle"
-            />
+            <DbOptionDetailView :visible="visible" :data="record" @toggle="handleToggle" />
         </teleport>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { Modal } from "ant-design-vue";
-import { DbOptionModel } from "@/models";
-import { dbOptionService } from "@/services";
-import DbOptionDetailView from "./DbOptionDetailView.vue";
+import { defineComponent, ref } from "vue"
+import { DbOptionModel } from "@/models"
+import { dbOptionService } from "@/services"
+import DbOptionDetailView from "./DbOptionDetailView.vue"
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: "DbOptionView",
@@ -94,14 +76,14 @@ export default defineComponent({
                 dataIndex: "description",
                 width: 200,
                 className: "column-header-center",
-            },            
+            },
             { title: "Xử lý", key: "action", width: 100, align: "center" },
         ]);
         const items = ref<DbOptionModel[]>([]);
         const record = ref<DbOptionModel>();
         const visible = ref<boolean>(false);
 
-         // lấy dữ liệu
+        // lấy dữ liệu
         const handleLoad = () => {
             items.value = [];
             dbOptionService.getAll().then((res) => {
@@ -128,30 +110,16 @@ export default defineComponent({
         const handleDelete = (item: DbOptionModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
-                Modal.confirm({
-                    content:
-                        "Bạn có thực sự muốn xóa cấu hình <" +
-                        item.dbOptionId +
-                        "> đã chọn không?",
-                    okText: "Đồng ý",
-                    cancelText: "Bỏ qua",
-                    onOk() {
-                        dbOptionService
-                            .delete(id)
-                            // .catch((error) => {
-                            //     Modal.error({
-                            //         content: error.message,
-                            //         okText: "Đồng ý",
-                            //     });
-                            // })
-                            .finally(() => {
-                                handleLoad();
-                            });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
-                    },
-                });
+
+                Msg.confirm("Bạn có thực sự muốn xóa cấu hình <" + item.dbOptionId + "> đã chọn không?")
+                    .then(resolve => {
+                        if (resolve == 'ok') {
+                            dbOptionService.delete(id)
+                                .finally(() => {
+                                    handleLoad();
+                                })
+                        }
+                    })
             }
         };
 
@@ -169,8 +137,8 @@ export default defineComponent({
             visible.value = v;
         };
 
-        const order = (r: DbOptionModel | undefined) => {            
-            record.value = r;            
+        const order = (r: DbOptionModel | undefined) => {
+            record.value = r;
         };
 
         return {

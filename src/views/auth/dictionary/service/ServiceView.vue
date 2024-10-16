@@ -78,13 +78,13 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { Modal } from "ant-design-vue";
 import { ServiceModel } from "@/models";
 import { serviceService } from "@/services";
 import ServiceDetailView from "./ServiceDetailView.vue";
 // import ServiceDetailViews from "./ServiceDetailViews.vue";
 import ServiceDetailImportView from "./ServiceDetailImportView.vue";
 import ServiceDetailResultIndiceImportView from "./ServiceDetailResultIndiceImportView.vue";
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: "BranchView",
@@ -162,30 +162,19 @@ export default defineComponent({
         const handleDelete = (item: ServiceModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
-                Modal.confirm({
-                    content:
-                        "Bạn có thực sự muốn xóa dịch vụ kỹ thuật <" +
-                        item.code +
-                        "> đã chọn không?",
-                    okText: "Đồng ý",
-                    cancelText: "Bỏ qua",
-                    onOk() {
-                        serviceService
-                            .delete(id)
-                            .catch((error) => {
-                                Modal.error({
-                                    content: error.message,
-                                    okText: "Đồng ý",
+                Msg.confirm("Bạn có thực sự muốn xóa dịch vụ kỹ thuật <" + item.code + "> đã chọn không?")
+                    .then(resolve => {
+                        if (resolve === "ok"){
+                            serviceService
+                                .delete(id)
+                                .catch((error) => {
+                                    Msg.warning(error.message);
+                                })
+                                .finally(() => {
+                                    handleLoad();
                                 });
-                            })
-                            .finally(() => {
-                                handleLoad();
-                            });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
-                    },
-                });
+                        }
+                    })
             }
         };
 
