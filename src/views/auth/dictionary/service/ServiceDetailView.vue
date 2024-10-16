@@ -663,10 +663,10 @@ import {
     serviceGroupHeInService,
     unitService,
 } from "@/services";
-import { Modal } from "ant-design-vue";
-import dayjs from "dayjs";
+//import dayjs from "dayjs";
 import guidHelper from "@/utils/helpers/guidHelper";
 import DxDateBox from "devextreme-vue/date-box";
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: "ServiceDetailViews",
@@ -949,10 +949,7 @@ export default defineComponent({
                 title.value = "Sửa dịch vụ kỹ thuật";
                 loading.value = false;
             } else {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
+                Msg.warning(resultDto.data.message);
                 toggle();
             }
         }
@@ -994,11 +991,7 @@ export default defineComponent({
                 erro.value = "- " + strArr.join(", ") + " không được để trống!";
                 isValid = false;
 
-                Modal.error({
-                    content: erro.value,
-                    title: "Thông báo",
-                    okText: "Đồng ý",
-                });
+                Msg.warning(erro.value);
                 return isValid;
             }
 
@@ -1061,11 +1054,7 @@ export default defineComponent({
                 erro.value = strArr.join("\n");
                 isValid = false;
 
-                Modal.error({
-                    content: erro.value,
-                    title: "Thông báo",
-                    okText: "Đồng ý",
-                });
+                Msg.warning(erro.value);
                 return isValid;
             }
 
@@ -1113,10 +1102,7 @@ export default defineComponent({
                 result.value = true;
                 toggle();
             } else {
-                Modal.error({
-                    content: resultSave.data.message,
-                    okText: "Đồng ý",
-                });
+                Msg.warning(resultSave.data.message);
                 loading.value = false;
             }
         };
@@ -1243,25 +1229,17 @@ export default defineComponent({
         };
 
         const handleDeleteResultIndice = (record: ServiceResultIndiceModel) => {
-            Modal.confirm({
-                content:
-                    "Bạn có thực sự muốn xóa trị số [" +
-                    record.code +
-                    "] đã chọn không?",
-                okText: "Đồng ý",
-                cancelText: "Bỏ qua",
-                onOk() {
-                    if (service.sServiceResultIndices) {
-                        service.sServiceResultIndices =
-                            service.sServiceResultIndices.filter(
-                                (f) => f.id != record.id
-                            );
+            Msg.confirm("Bạn có thực sự muốn xóa trị số [" + record.code +"] đã chọn không?")
+                .then(resolve => {
+                    if (resolve === "ok"){
+                        if (service.sServiceResultIndices) {
+                            service.sServiceResultIndices =
+                                service.sServiceResultIndices.filter(
+                                    (f) => f.id != record.id
+                                );
+                        }
                     }
-                },
-                onCancel() {
-                    Modal.destroyAll();
-                },
-            });
+                })
         };
 
         const toggle = () => {
