@@ -259,7 +259,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from "vue";
-import { PlusOutlined } from "@ant-design/icons-vue";
 import { RoomModel, InOutStockModel, InOutStockTypeModel } from "@/models";
 import {
     roomService,
@@ -573,8 +572,6 @@ export default defineComponent({
         // DxSelectBox,
         // DxDateBox,
         XLayout,
-
-        PlusOutlined,
         ImportFromSupplierView,
         ImportFromAnotherStockView,
 

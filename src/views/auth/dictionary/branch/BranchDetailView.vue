@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, computed, watch, PropType } from "vue";
-import { Modal } from "ant-design-vue";
+import Msg from '@/components/message'
 import {
     BranchModel,
     ProvinceModel,
@@ -62,12 +62,11 @@ const handleSave = function () {
                 result = true;
                 toggle();
             } else {
-                Modal.error({ content: res.data.message, okText: "Đồng ý" });
+                Msg.warning(res.data.message);
             }
         })
         .catch((error) => {
-            Modal.error({ content: error.message, okText: "Đồng ý" });
-            //errors.value = error.response.data.errors;
+            Msg.warning(error.message);
         })
         .finally(() => {
             loading.value = false;
@@ -84,12 +83,11 @@ const handleSaveAndAddNew = function () {
             if (res) {
                 result = true;
             } else {
-                Modal.error({ content: res, okText: "Đồng ý" });
+                Msg.warning(res);
             }
         })
         .catch((error) => {
-            Modal.error({ content: error.message, okText: "Đồng ý" });
-            //errors.value = error.response.data.errors;
+            Msg.warning(error.message);
         })
         .finally(() => {
             loading.value = false;
@@ -136,10 +134,7 @@ watch(show, (value) => {
                     loading.value = false;
                 })
                 .catch((error) => {
-                    Modal.error({
-                        content: error.message,
-                        okText: "Đồng ý",
-                    });
+                    Msg.warning(error.message);
                     toggle();
                 });
         } else {

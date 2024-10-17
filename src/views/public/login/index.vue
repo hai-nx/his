@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { useAuth } from '@/store'
+import Msg from '@/components/message'
 
 const store = useAuth();
 const username = ref();
@@ -15,14 +16,7 @@ const onLogin = () => {
     //     });
     // }
 
-    Msg.success(username.value)
-    .then(value => {
-        
-        return Msg.success("hihihihihihi" + value)
-    })
-    .then(value => {
-        return Msg.success("hahahah" + value)
-    });
+    Msg.warning(username.value)
     
     //store.login(username.value, password.value)
 }
@@ -39,8 +33,6 @@ function valid() {
     else
         err_username.value = undefined
 }
-
-import Msg from '@/components/message/index'
 
 const columns = ref([
     {

@@ -65,10 +65,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { Modal } from "ant-design-vue";
 import { ChapterIcdModel } from "@/models";
 import { chapterService } from "@/services";
 import ChapterDetailView from "./ChapterDetailView.vue";
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: "MedicineGroupView",
@@ -137,30 +137,16 @@ export default defineComponent({
         const handleDelete = (item: ChapterIcdModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
-                Modal.confirm({
-                    content:
-                        "Bạn có thực sự muốn xóa chương <" +
-                        item.code +
-                        "> đã chọn không?",
-                    okText: "Đồng ý",
-                    cancelText: "Bỏ qua",
-                    onOk() {
-                        chapterService
-                            .delete(id)
-                            // .catch((error) => {
-                            //     Modal.error({
-                            //         content: error.message,
-                            //         okText: "Đồng ý",
-                            //     });
-                            // })
+
+                Msg.confirm("Bạn có thực sự muốn xóa chương <" +item.code +"> đã chọn không?")
+                .then(res => {
+                    if (res === "ok") {
+                        chapterService.delete(id)
                             .finally(() => {
                                 handleLoad();
                             });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
-                    },
-                });
+                    }
+                })
             }
         };
 

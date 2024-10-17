@@ -46,10 +46,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { Modal } from 'ant-design-vue'
 import { CareerModel } from '@/models'
 import { careerService } from '@/services';
 import CareerDetailView from './CareerDetailView.vue'
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: 'JobView',
@@ -88,21 +88,16 @@ export default defineComponent({
         const handleDelete = (item: CareerModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
-                Modal.confirm({
-                    content: 'Bạn có thực sự muốn xóa mã bệnh <' + item.code + '> đã chọn không?',
-                    okText: 'Đồng ý',
-                    cancelText: 'Bỏ qua',
-                    onOk() {
+                Msg.confirm('Bạn có thực sự muốn xóa mã bệnh <' + item.code + '> đã chọn không?')
+                .then(res => {
+                    if (res === "ok") {
                         careerService.delete(id)
-                            .catch(error => { Modal.error({ content: error.message, okText: 'Đồng ý' }); })
+                            .catch(error => { Msg.warning(error.message); })
                             .finally(() => {
                                 handleLoad();
                             });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
                     }
-                });
+                })
             }
         }
 
