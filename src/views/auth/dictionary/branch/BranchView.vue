@@ -1,23 +1,16 @@
 <template>
-    <x-layout :title="title" :breadcrumbs="breadcrumbs" :show-header="true">
-        <template #action>
-            <a-button type="primary" @click="handleAdd">
-                <i class="bi bi-plus-lg me-2"></i>
+    <d-page-container :title="title" :breadcrumbs="breadcrumbs" :show-header="true">
+        <template #actions>
+            <d-button type="primary" icon="bi bi-plus-lg" @click="handleAdd">
                 <span>Thêm chi nhánh</span>
-            </a-button>
+            </d-button>
         </template>
 
-        <a-table
-            class="ant-table-striped m-2"
-            size="middle"
-            :columns="columns"
-            :data-source="items"
-            bordered
-        >
-            <template #bodyCell="{ column, record }">
+        <d-table class="p-2" size="middle" :columns="columns" :items="items" bordered>
+            <template #cell="{ column, row }">
                 <template v-if="column.key === 'inactive'">
                     <span>
-                        <a-tag v-if="record.inactive" color="error">
+                        <a-tag v-if="row.inactive" color="error">
                             <span>Ngừng hoạt động</span>
                         </a-tag>
                         <a-tag v-else color="success">
@@ -27,33 +20,22 @@
                 </template>
                 <template v-else-if="column.key === 'action'">
                     <span>
-                        <button
-                            class="btn btn-outline-primary border-0 btn-sm me-2"
-                            title="Sửa"
-                            @click="handleEdit(record)"
-                        >
+                        <button class="btn btn-outline-primary border-0 btn-sm me-2" title="Sửa"
+                            @click="handleEdit(row)">
                             <i class="bi bi-pen"></i>
                         </button>
 
-                        <button
-                            class="btn btn-outline-danger border-0 btn-sm"
-                            title="Xóa"
-                            @click="handleDelete(record)"
-                        >
+                        <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa" @click="handleDelete(row)">
                             <i class="bi bi-x-lg"></i>
                         </button>
                     </span>
                 </template>
             </template>
-        </a-table>
-    </x-layout>
+        </d-table>
+    </d-page-container>
 
     <teleport to="body">
-        <BranchDetailView
-            :visible="visible"
-            :data="record"
-            @toggle="handleToggle"
-        />
+        <BranchDetailView :visible="visible" :data="record" @toggle="handleToggle" />
     </teleport>
 </template>
 
@@ -63,61 +45,61 @@ import { BranchModel } from "@/models";
 import { XItemType } from "@/components";
 import { branchService } from "@/services";
 import BranchDetailView from "./BranchDetailView.vue";
-import XLayout from "@/components/XLayout.vue";
+// import XLayout from "@/components/XLayout.vue";
 import Msg from '@/components/message'
 
 export default defineComponent({
     name: "BranchView",
     setup() {
         const title = "Chi nhánh";
-        const breadcrumbs = ref<Array<XItemType>>([
+        const breadcrumbs = ref([
             { key: "1", label: "Danh mục", icon: "", path: "" },
             { key: "2", label: "Danh sách chi nhánh", icon: "", path: "" },
         ]);
         const columns = ref([
             {
-                title: "Mã chi nhánh",
+                label: "Mã chi nhánh",
                 key: "code",
                 dataIndex: "code",
                 width: 200,
             },
             {
-                title: "Tên chi nhánh",
+                label: "Tên chi nhánh",
                 key: "name",
                 dataIndex: "name",
                 width: 500,
             },
             {
-                title: "Địa chỉ",
+                label: "Địa chỉ",
                 key: "address",
                 dataIndex: "address",
                 width: 500,
             },
             {
-                title: "Mã KCBBĐ",
+                label: "Mã KCBBĐ",
                 key: "mediOrgCode",
                 dataIndex: "mediOrgCode",
                 width: 120,
             },
             {
-                title: "Mã KCBBĐ đúng tuyến",
+                label: "Mã KCBBĐ đúng tuyến",
                 key: "mediOrgAcceptCode",
                 dataIndex: "mediOrgAcceptCode",
                 width: 500,
             },
             {
-                title: "Mô tả",
+                label: "Mô tả",
                 key: "description",
                 dataIndex: "description",
                 width: 500,
             },
             {
-                title: "Trạng thái",
+                label: "Trạng thái",
                 key: "inactive",
                 dataIndex: "inactive",
                 width: 200,
             },
-            { title: "Xử lý", key: "action", width: 100 },
+            { label: "Xử lý", key: "action", width: 100 },
         ]);
         const items = ref<BranchModel[]>([]);
         const record = ref<BranchModel>();
@@ -193,7 +175,7 @@ export default defineComponent({
         this.handleLoad();
     },
     components: {
-        XLayout,
+        // XLayout,
         BranchDetailView,
     },
 });

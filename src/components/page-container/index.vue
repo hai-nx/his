@@ -9,14 +9,14 @@ const emit = defineEmits<{
 }>()
 
 const props = defineProps({
-    breadcrumb: {
+    breadcrumbs: {
         type: Array as PropType<MenuItem[]>
     },
     extra: {
         type: Array as PropType<MenuItem[]>
     },
     title: { type: String },
-    fluid: { type: Boolean, default: false }
+    fluid: { type: Boolean, default: true }
 })
 
 const cls = computed(() => {
@@ -40,7 +40,7 @@ function itemClick(e: MenuItem) {
         <div class="el-page-container-topbar">
             <slot name="topbar">
                 <div class="el-page-container-breadcrumb">
-                    <d-breadcrumb :items="breadcrumb" @click="breadcrumbClick"></d-breadcrumb>
+                    <d-breadcrumb :items="breadcrumbs" @click="breadcrumbClick"></d-breadcrumb>
                 </div>
                 <div class="el-page-container-extra">
                     <div v-for="(item, index) in extra" :key="index">

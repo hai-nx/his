@@ -3,9 +3,9 @@ import { computed, defineModel, defineProps, stop } from 'vue'
 
 const props = defineProps({
     title: { type: String },
-    closable: { type: Boolean, default: true },
+    closable: { type: Boolean, default: false },
     mask: { type: Boolean, default: true },
-    maskClosable: { type: Boolean, default: true },
+    maskClosable: { type: Boolean, default: false },
     maskStyle: { type: Object },
     width: { type: [String, Number], default: 520 }
 })
