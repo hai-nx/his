@@ -85,9 +85,9 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from "vue";
-import { Modal } from "ant-design-vue";
 import { ProvinceModel } from "@/models";
 import { provinceService } from "@/services";
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: "ProvinceDetailView",
@@ -123,11 +123,11 @@ export default defineComponent({
                         result = true;
                         toggle();
                     } else {
-                        Modal.error({ content: res, okText: "Đồng ý" });
+                        Msg.warning(res);
                     }
                 })
                 .catch((error) => {
-                    Modal.error({ content: error.message, okText: "Đồng ý" });
+                    Msg.warning(error.message);
                     //errors.value = error.response.data.errors;
                 })
                 .finally(() => {
@@ -145,11 +145,11 @@ export default defineComponent({
                     if (res) {
                         result = true;
                     } else {
-                        Modal.error({ content: res, okText: "Đồng ý" });
+                        Msg.warning(res);
                     }
                 })
                 .catch((error) => {
-                    Modal.error({ content: error.message, okText: "Đồng ý" });
+                    Msg.warning(error.message);
                     //errors.value = error.response.data.errors;
                 })
                 .finally(() => {
@@ -196,10 +196,7 @@ export default defineComponent({
                             loading.value = false;
                         })
                         .catch((error) => {
-                            Modal.error({
-                                content: error.message,
-                                okText: "Đồng ý",
-                            });
+                            Msg.warning(error.message);
                             toggle();
                         });
                 } else {

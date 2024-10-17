@@ -149,13 +149,13 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from "vue";
-import { Modal } from "ant-design-vue";
 import { BranchModel, DepartmentModel, DepartmentTypeModel } from "@/models";
 import {
     branchService,
     departmentService,
     departmentTypeService,
 } from "@/services";
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: "DepartmentDetailView",
@@ -197,14 +197,11 @@ export default defineComponent({
                         result = true;
                         toggle();
                     } else {
-                        Modal.error({
-                            content: res.data.message,
-                            okText: "Đồng ý",
-                        });
+                        Msg.warning(res.data.message)
                     }
                 })
                 .catch((error) => {
-                    Modal.error({ content: error.message, okText: "Đồng ý" });
+                    Msg.warning(error.message)
                 })
                 .finally(() => {
                     loading.value = false;
@@ -221,11 +218,11 @@ export default defineComponent({
                     if (res) {
                         result = true;
                     } else {
-                        Modal.error({ content: res, okText: "Đồng ý" });
+                        Msg.warning(res)
                     }
                 })
                 .catch((error) => {
-                    Modal.error({ content: error.message, okText: "Đồng ý" });
+                    Msg.warning(error.message)
                 })
                 .finally(() => {
                     loading.value = false;
@@ -273,10 +270,7 @@ export default defineComponent({
                             loading.value = false;
                         })
                         .catch((error) => {
-                            Modal.error({
-                                content: error.message,
-                                okText: "Đồng ý",
-                            });
+                            Msg.warning(error.message)
                             toggle();
                         });
                 } else {

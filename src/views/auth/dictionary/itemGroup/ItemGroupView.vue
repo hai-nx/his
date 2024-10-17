@@ -75,10 +75,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { Modal } from "ant-design-vue";
 import { ItemGroupModel } from "@/models";
 import { itemGroupService } from "@/services";
 import ItemGroupDetailView from "./ItemGroupDetailView.vue";
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: "itemGroupView",
@@ -142,30 +142,20 @@ export default defineComponent({
         const handleDelete = (item: ItemGroupModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
-                Modal.confirm({
-                    content:
-                        "Bạn có thực sự muốn xóa nhóm thuốc <" +
-                        item.code +
-                        "> đã chọn không?",
-                    okText: "Đồng ý",
-                    cancelText: "Bỏ qua",
-                    onOk() {
+                Msg.confirm("Bạn có thực sự muốn xóa nhóm thuốc <" + item.code + "> đã chọn không?")
+                .then(res => {
+                    if (res === "ok"){
                         itemGroupService
                             .delete(id)
                             .catch((error) => {
-                                Modal.error({
-                                    content: error.message,
-                                    okText: "Đồng ý",
-                                });
+                                Msg.warning(error.message);
                             })
                             .finally(() => {
                                 handleLoad();
                             });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
-                    },
-                });
+                    }
+                })
+                
             }
         };
 

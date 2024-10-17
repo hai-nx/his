@@ -475,7 +475,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType, reactive } from "vue";
-import { Modal } from "ant-design-vue";
+import Msg from '@/components/message'
+
 import {
     ItemTypeModel,
     UnitModel,
@@ -650,10 +651,7 @@ export default defineComponent({
                 result.value = true;
                 toggle();
             } else {
-                Modal.error({
-                    content: resultSave.data.message,
-                    okText: "Đồng ý",
-                });
+                Msg.warning(resultSave.data.message);
                 loading.value = false;
             }
         };
@@ -666,10 +664,7 @@ export default defineComponent({
             if (resultSave.data.isSucceeded) {
                 result.value = true;
             } else {
-                Modal.error({
-                    content: resultSave.data.message,
-                    okText: "Đồng ý",
-                });
+                Msg.warning(resultSave.data.message);
             }
 
             reset();
@@ -762,10 +757,7 @@ export default defineComponent({
                             loading.value = false;
                         })
                         .catch((error) => {
-                            Modal.error({
-                                content: error.message,
-                                okText: "Đồng ý",
-                            });
+                            Msg.warning(error.message);
                             toggle();
                         });
                 } else {

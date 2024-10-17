@@ -4,11 +4,7 @@
             <h3>Danh mục thuốc</h3>
 
             <div>
-                <a-button
-                    type="primary"
-                    style="margin-right: 10px"
-                    @click="handleImportExcel(true)"
-                >
+                <a-button type="primary" style="margin-right: 10px" @click="handleImportExcel(true)">
                     Nhập thuốc từ Excel
                 </a-button>
                 <a-button type="primary" @click="handleAdd">
@@ -18,13 +14,7 @@
             </div>
         </div>
 
-        <a-table
-            class="ant-table-striped"
-            size="middle"
-            :columns="columns"
-            :data-source="items"
-            bordered
-        >
+        <a-table class="ant-table-striped" size="middle" :columns="columns" :data-source="items" bordered>
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'inactive'">
                     <span>
@@ -38,19 +28,13 @@
                 </template>
                 <template v-else-if="column.key === 'action'">
                     <span>
-                        <button
-                            class="btn btn-outline-primary border-0 btn-sm me-2"
-                            title="Sửa"
-                            @click="handleEdit(record)"
-                        >
+                        <button class="btn btn-outline-primary border-0 btn-sm me-2" title="Sửa"
+                            @click="handleEdit(record)">
                             <i class="bi bi-pen"></i>
                         </button>
 
-                        <button
-                            class="btn btn-outline-danger border-0 btn-sm"
-                            title="Xóa"
-                            @click="handleDelete(record)"
-                        >
+                        <button class="btn btn-outline-danger border-0 btn-sm" title="Xóa"
+                            @click="handleDelete(record)">
                             <i class="bi bi-x-lg"></i>
                         </button>
                     </span>
@@ -59,26 +43,19 @@
         </a-table>
 
         <teleport to="body">
-            <ItemTypeDetailView
-                :visible="visible"
-                :data="record"
-                @toggle="handleToggle"
-            />
-            <ItemTypeDetailImportView
-                :visible="visibleImportExcel"
-                @toggle="handleToggleImportExcel"
-            />
+            <ItemTypeDetailView :visible="visible" :data="record" @toggle="handleToggle" />
+            <ItemTypeDetailImportView :visible="visibleImportExcel" @toggle="handleToggleImportExcel" />
         </teleport>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { Modal } from "ant-design-vue";
 import { ItemTypeModel } from "@/models";
 import { itemTypeService } from "@/services";
 import ItemTypeDetailView from "./MedicineTypeDetailView.vue";
 import ItemTypeDetailImportView from "./MedicineTypeDetailImportView.vue";
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: "ItemTypeView",
@@ -142,30 +119,19 @@ export default defineComponent({
         const handleDelete = (item: ItemTypeModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
-                Modal.confirm({
-                    content:
-                        "Bạn có thực sự muốn xóa thuốc <" +
-                        item.code +
-                        "> đã chọn không?",
-                    okText: "Đồng ý",
-                    cancelText: "Bỏ qua",
-                    onOk() {
-                        itemTypeService
-                            .delete(id)
-                            .catch((error) => {
-                                Modal.error({
-                                    content: error.message,
-                                    okText: "Đồng ý",
+                Msg.confirm("Bạn có thực sự muốn xóa thuốc <" + item.code + "> đã chọn không?")
+                    .then(res => {
+                        if (res === "ok") {
+                            itemTypeService
+                                .delete(id)
+                                .catch((error) => {
+                                    Msg.warning(error.message);
+                                })
+                                .finally(() => {
+                                    handleLoad();
                                 });
-                            })
-                            .finally(() => {
-                                handleLoad();
-                            });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
-                    },
-                });
+                        }
+                    })
             }
         };
 

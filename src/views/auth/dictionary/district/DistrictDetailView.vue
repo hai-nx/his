@@ -104,9 +104,9 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, PropType } from "vue";
-import { Modal } from "ant-design-vue";
 import { ProvinceModel, DistrictModel } from "@/models";
 import { districtService, provinceService } from "@/services";
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: "DistrictDetailView",
@@ -145,12 +145,11 @@ export default defineComponent({
                         result = true;
                         toggle();
                     } else {
-                        Modal.error({ content: res, okText: "Đồng ý" });
+                        Msg.warning(res);
                     }
                 })
                 .catch((error) => {
-                    Modal.error({ content: error.message, okText: "Đồng ý" });
-                    //errors.value = error.response.data.errors;
+                    Msg.warning(error.message);
                 })
                 .finally(() => {
                     loading.value = false;
@@ -167,12 +166,11 @@ export default defineComponent({
                     if (res) {
                         result = true;
                     } else {
-                        Modal.error({ content: res, okText: "Đồng ý" });
+                        Msg.warning(res);
                     }
                 })
                 .catch((error) => {
-                    Modal.error({ content: error.message, okText: "Đồng ý" });
-                    //errors.value = error.response.data.errors;
+                    Msg.warning(error.message);
                 })
                 .finally(() => {
                     loading.value = false;
@@ -218,10 +216,7 @@ export default defineComponent({
                             loading.value = false;
                         })
                         .catch((error) => {
-                            Modal.error({
-                                content: error.message,
-                                okText: "Đồng ý",
-                            });
+                            Msg.warning(error.message);
                             toggle();
                         });
                 } else {

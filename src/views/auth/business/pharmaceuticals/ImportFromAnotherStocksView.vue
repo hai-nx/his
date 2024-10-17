@@ -283,11 +283,7 @@
                             <template v-if="column.key === 'unitId'">
                                 <a-select
                                     class="w-100"
-                                    style="
-                                         {
-                                            padding: 0px;
-                                        }
-                                    "
+                                    style="padding: 0px;"
                                     v-model:value="record.unitId"
                                     :field-names="fields"
                                     :options="sUnits"
@@ -394,7 +390,7 @@
 </template>
 
 <script lang="ts">
-import { Modal } from "ant-design-vue";
+import Msg from '@/components/message'
 import { RoomType } from "@/utils/enums/roomtypes";
 import {
     defineComponent,
@@ -771,10 +767,7 @@ export default defineComponent({
                         source.value = resultDto.data.result;
                         afterLoadSource();
                     } else {
-                        Modal.error({
-                            content: resultDto.data.message,
-                            okText: "Đồng ý",
-                        });
+                        Msg.warning(resultDto.data.message);
                         toggle();
                     }
 
@@ -1284,10 +1277,7 @@ export default defineComponent({
                     source.value
                 );
             if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
+                Msg.warning(resultDto.data.message)
             } else {
                 // result.value = true;
                 // toggle();
@@ -1311,10 +1301,7 @@ export default defineComponent({
                     source.value
                 );
             if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
+                Msg.warning(resultDto.data.message)
             } else {
                 // result.value = true;
                 // toggle();
@@ -1334,10 +1321,7 @@ export default defineComponent({
                     source.value
                 );
             if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
+                Msg.warning(resultDto.data.message)
             } else {
                 // result.value = true;
                 // toggle();
@@ -1357,10 +1341,7 @@ export default defineComponent({
                     source.value
                 );
             if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
+                Msg.warning(resultDto.data.message)
             } else {
                 // result.value = true;
                 // toggle();
@@ -1380,10 +1361,7 @@ export default defineComponent({
                     source.value
                 );
             if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
+                Msg.warning(resultDto.data.message)
             } else {
                 // result.value = true;
                 // toggle();
@@ -1402,10 +1380,7 @@ export default defineComponent({
                     source.value
                 );
             if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
+                Msg.warning(resultDto.data.message)
             } else {
                 // result.value = true;
                 // toggle();
@@ -1425,10 +1400,7 @@ export default defineComponent({
                     source.value
                 );
             if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
+                Msg.warning(resultDto.data.message)
             } else {
                 // result.value = true;
                 // toggle();
@@ -1448,10 +1420,7 @@ export default defineComponent({
                     source.value
                 );
             if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
+                Msg.warning(resultDto.data.message)
             } else {
                 // result.value = true;
                 // toggle();
@@ -1473,10 +1442,7 @@ export default defineComponent({
                     source.value
                 );
             if (!resultDto.data.isSucceeded) {
-                Modal.error({
-                    content: resultDto.data.message,
-                    okText: "Đồng ý",
-                });
+                Msg.warning(resultDto.data.message)
             } else {
                 // result.value = true;
                 // toggle();
@@ -1497,10 +1463,7 @@ export default defineComponent({
                         source.value.id
                     );
                 if (!resultDto.data.isSucceeded) {
-                    Modal.error({
-                        content: resultDto.data.message,
-                        okText: "Đồng ý",
-                    });
+                    Msg.warning(resultDto.data.message)
                 } else {
                     result.value = true;
                     toggle();

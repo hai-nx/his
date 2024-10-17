@@ -63,10 +63,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { Modal } from "ant-design-vue";
 import { DepartmentModel } from "@/models";
 import { departmentService } from "@/services";
 import DepartmentDetailView from "./DepartmentDetailView.vue";
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: "DepartmentView",
@@ -126,30 +126,19 @@ export default defineComponent({
         const handleDelete = (item: DepartmentModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
-                Modal.confirm({
-                    content:
-                        "Bạn có thực sự muốn xóa khoa <" +
-                        item.code +
-                        "> đã chọn không?",
-                    okText: "Đồng ý",
-                    cancelText: "Bỏ qua",
-                    onOk() {
+                Msg.confirm("Bạn có thực sự muốn xóa khoa <" +item.code +"> đã chọn không?")
+                .then(res => {
+                    if (res === "ok") {
                         departmentService
                             .delete(id)
                             .catch((error) => {
-                                Modal.error({
-                                    content: error.message,
-                                    okText: "Đồng ý",
-                                });
+                                Msg.warning(error.message);
                             })
                             .finally(() => {
                                 handleLoad();
                             });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
-                    },
-                });
+                    }
+                })
             }
         };
 

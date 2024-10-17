@@ -74,11 +74,11 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { Modal } from "ant-design-vue";
 import { ItemTypeModel } from "@/models";
 import { itemTypeService } from "@/services";
 import MaterialTypeDetailView from "./MaterialTypeDetailView.vue";
 import MaterialTypeDetailImportView from "./MaterialTypeDetailImportView.vue";
+import Msg from '@/components/message'
 
 export default defineComponent({
     name: "MaterialTypeView",
@@ -142,30 +142,19 @@ export default defineComponent({
         const handleDelete = (item: ItemTypeModel) => {
             if (item.id !== undefined) {
                 let id = item.id!;
-                Modal.confirm({
-                    content:
-                        "Bạn có thực sự muốn xóa vật tư <" +
-                        item.code +
-                        "> đã chọn không?",
-                    okText: "Đồng ý",
-                    cancelText: "Bỏ qua",
-                    onOk() {
+                Msg.confirm("Bạn có thực sự muốn xóa vật tư <" + item.code + "> đã chọn không?")
+                .then(res=> {
+                    if (res === "ok"){
                         itemTypeService
                             .delete(id)
                             .catch((error) => {
-                                Modal.error({
-                                    content: error.message,
-                                    okText: "Đồng ý",
-                                });
+                                Msg.warning(error.message);
                             })
                             .finally(() => {
                                 handleLoad();
-                            });
-                    },
-                    onCancel() {
-                        Modal.destroyAll();
-                    },
-                });
+                            })
+                        }
+                    })
             }
         };
 
