@@ -16,6 +16,15 @@ const props = defineProps({
 const itemCount = computed(() => props.items?.length ?? 0)
 const columnCount = computed(() => props.items?.length ?? 0)
 
+function getColStyle(col: any){
+    return {
+        color: 'red',
+        width: col.width + 'px',
+        minWidth: col.width + 'px !important',
+    }
+}
+
+// lấy giá trị của cell
 function getObjectValue(object: any, path: string, defaultValue: any) {
     defaultValue = (typeof defaultValue == 'undefined') ? null : defaultValue
 
@@ -41,7 +50,7 @@ function getObjectValue(object: any, path: string, defaultValue: any) {
         <table role="table" class="d-table">
             <thead>
                 <tr>
-                    <th v-for="(col, index) in columns" :key="index" style="width: 200px">
+                    <th v-for="(col, index) in columns" :key="index" :style="getColStyle(col)">
                         <span>{{ col.label }}</span>
                     </th>
                 </tr>
@@ -49,7 +58,7 @@ function getObjectValue(object: any, path: string, defaultValue: any) {
             <tbody>
                 <template v-if="itemCount > 0">
                     <tr v-for="(item, rowIndex) in items" :key="rowIndex" class="d-table-tr">
-                        <td v-for="(col, columnIndex) in columns" :key="columnIndex" class="d-table-td">
+                        <td v-for="(col, columnIndex) in columns" :key="columnIndex" class="d-table-td" :style="getColStyle(col)">
                             <slot name="cell" :column="col" :row="item">
                                 <span>{{ getObjectValue(item, col.key, "") }}</span>
                             </slot>
@@ -71,15 +80,20 @@ function getObjectValue(object: any, path: string, defaultValue: any) {
 <style>
 .d-data-table {
     overflow: auto;
+    border: 1px solid #04AA6D;
     height: 100%;
     width: 100%;
-    
 }
+
 .d-table {
-    font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
-    table-layout: fixed;
+}
+
+.d-table thead,
+.d-table tbody {
+    display: block;
+    overflow: auto;
 }
 
 .d-table td,

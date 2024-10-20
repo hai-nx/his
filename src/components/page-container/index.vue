@@ -9,19 +9,17 @@ const emit = defineEmits<{
 }>()
 
 const props = defineProps({
-    breadcrumbs: {
-        type: Array as PropType<MenuItem[]>
+    config: {
+        type: Object as PropType<any>
     },
-    extra: {
-        type: Array as PropType<MenuItem[]>
-    },
-    title: { type: String },
-    fluid: { type: Boolean, default: true }
+    fluid: { 
+        type: Boolean, default: true 
+    }
 })
 
 const cls = computed(() => {
     return {
-        'el-page-container-fluid': props.fluid
+        'd-page-container-fluid': props.fluid
     }
 })
 
@@ -36,36 +34,36 @@ function itemClick(e: MenuItem) {
 </script>
 
 <template>
-    <div class="el-page-container " :class="cls">
-        <div class="el-page-container-topbar">
+    <div class="d-page-container" :class="cls">
+        <div class="d-page-container-topbar">
             <slot name="topbar">
-                <div class="el-page-container-breadcrumb">
-                    <d-breadcrumb :items="breadcrumbs" @click="breadcrumbClick"></d-breadcrumb>
+                <div class="d-page-container-breadcrumb">
+                    <d-breadcrumb :items="config.breadcrumbs" @click="breadcrumbClick"></d-breadcrumb>
                 </div>
-                <div class="el-page-container-extra">
-                    <div v-for="(item, index) in extra" :key="index">
+                <div class="d-page-container-extra">
+                    <div v-for="(item, index) in config.extra" :key="index">
                         <i :class="item.icon" @click="itemClick(item)"></i>
                     </div>
                 </div>
             </slot>
         </div>
-        <div class="el-page-container-wrap">
-            <div v-if="$slots.header || title" class="el-page-container-header">
+        <div class="d-page-container-wrap">
+            <div v-if="$slots.header || config.title" class="d-page-container-header">
                 <slot name="header">
-                    <div class="el-page-container-title">
+                    <div class="d-page-container-title">
                         <slot name="title">
-                            <label>{{ title }}</label>
+                            <label>{{ config.title }}</label>
                         </slot>
                     </div>
-                    <div class="el-page-container-actions">
+                    <div class="d-page-container-actions">
                         <slot name="actions"></slot>
                     </div>
                 </slot>
             </div>
-            <div class="el-page-container-body">
+            <div class="d-page-container-body">
                 <slot></slot>
             </div>
-            <div v-if="$slots.footer" class="el-page-container-footer">
+            <div v-if="$slots.footer" class="d-page-container-footer">
                 <slot name="footer"></slot>
             </div>
         </div>
@@ -73,7 +71,7 @@ function itemClick(e: MenuItem) {
 </template>
 
 <style>
-.el-page-container {
+.d-page-container {
     --el-page-container-background-color: #ffffff;
     --el-page-container-border-color: #dbdbdb;
     --el-page-container-border-width: 1px;
@@ -82,26 +80,25 @@ function itemClick(e: MenuItem) {
     display: flex;
     flex-direction: column;
     gap: .25rem;
-    /* width: 100%; */
     margin-right: auto;
     margin-left: auto;
     padding: .5rem;
     height: 100%;
 }
 
-.el-page-container-topbar {
+.d-page-container-topbar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     gap: 6px;
 }
 
-.el-page-container-extra {
+.d-page-container-extra {
     display: flex;
     gap: .5rem;
 }
 
-.el-page-container-wrap {
+.d-page-container-wrap {
     display: flex;
     flex-direction: column;
     background-color: var(--el-page-container-background-color);
@@ -110,7 +107,7 @@ function itemClick(e: MenuItem) {
     height: 100%;
 }
 
-.el-page-container-header {
+.d-page-container-header {
     display: inline-flex;
     justify-content: space-between;
     gap: 6px;
@@ -119,13 +116,18 @@ function itemClick(e: MenuItem) {
     padding: 10px;
 }
 
-.el-page-container-title {
+.d-page-container-title {
     font-weight: bold;
     font-size: 16px;
 }
 
+.d-page-container-body {
+    padding: .5rem;
+    height: 100%;
+}
+
 @media screen and (min-width: 1400px) {
-    .el-page-container:not(.el-page-container-fluid) {
+    .d-page-container:not(.d-page-container-fluid) {
         max-width: 1366px;
     }
 }

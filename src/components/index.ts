@@ -20,6 +20,7 @@ export function defineComponents(app: App<Element>) {
     app.component("DMenu", defineAsyncComponent(() => import('./menu/index.vue')));
     app.component("DMenuitem", defineAsyncComponent(() => import('./menuitem/index.vue')));
     app.component("DModal", defineAsyncComponent(() => import('./modal/index.vue')));
+    app.component("DNotification", defineAsyncComponent(() => import('./notification/index.vue')));
     app.component("DPageContainer", defineAsyncComponent(() => import('./page-container/index.vue')));
     app.component("DPaginator", defineAsyncComponent(() => import('./paginator/index.vue')));
     app.component("DPassword", defineAsyncComponent(() => import('./password/index.vue')));

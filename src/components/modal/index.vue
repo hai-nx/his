@@ -10,7 +10,9 @@ const props = defineProps({
     width: { type: [String, Number], default: 520 }
 })
 
-const model = defineModel()
+const model = defineModel({ type: Boolean })
+const visible = defineModel('visible', { type: Boolean })
+
 const cls = computed(() => {
     return {
 
@@ -19,13 +21,17 @@ const cls = computed(() => {
 
 
 function onMaskClick(e: any) {
-    if (model && props.mask && props.maskClosable) {
+    console.log('sadasdasd----')
+    if (visible && props.mask && props.maskClosable) {
         close()
+        
     }
 }
 
 function close() {
     model.value = false;
+    visible.value = false
+    console.log('sadasdasd')
 }
 
 
@@ -35,9 +41,9 @@ function close() {
 <template>
     <teleport to='body'>
         <div class="d-modal-root">
-            <div v-if="model && mask" class="d-modal-mask" @click="onMaskClick"></div>
+            <div v-if="(model, visible) && mask" class="d-modal-mask" @click="onMaskClick"></div>
             <transition name="d-modal" appear>
-                <div v-if="model" class="d-modal-container">
+                <div v-if="(model, visible)" class="d-modal-container">
                     <div class="d-modal" :class="cls">
                         <slot name="header">
                             <div v-if="title || closable" class="d-modal-header">

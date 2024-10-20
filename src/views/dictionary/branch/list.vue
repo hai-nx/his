@@ -1,24 +1,82 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import DetailView from './detail.vue'
 
-const title = ref('Chi nhánh')
-const breadcrumbs = ref([
-    { key: "1", label: "Danh mục" },
-    { key: "2", label: "Danh sách chi nhánh" },
-])
+const config = ref({
+    title: 'Chi nhánh',
+    breadcrumbs: [
+        { key: "1", label: "Danh mục" },
+        { key: "2", label: "Danh sách chi nhánh" },
+    ]
+})
+
+const columns = ref([
+    {
+        label: "Mã chi nhánh",
+        key: "code",
+        dataIndex: "code",
+        width: 200,
+    },
+    {
+        label: "Tên chi nhánh",
+        key: "name",
+        dataIndex: "name",
+        width: 500,
+    },
+    {
+        label: "Địa chỉ",
+        key: "address",
+        dataIndex: "address",
+        width: 500,
+    },
+    {
+        label: "Mã KCBBĐ",
+        key: "mediOrgCode",
+        dataIndex: "mediOrgCode",
+        width: 120,
+    },
+    {
+        label: "Mã KCBBĐ đúng tuyến",
+        key: "mediOrgAcceptCode",
+        dataIndex: "mediOrgAcceptCode",
+        width: 500,
+    },
+    {
+        label: "Mô tả",
+        key: "description",
+        dataIndex: "description",
+        width: 500,
+    },
+    {
+        label: "Trạng thái",
+        key: "inactive",
+        dataIndex: "inactive",
+        width: 200,
+    },
+    { label: "Xử lý", key: "action", width: 100 },
+]);
+
+const showDetail = ref(false)
 
 function handleAdd() {
-    console.log('show')
+    showDetail.value = true
 }
 
 </script>
 
 <template>
-    <d-page-container :title="title" :breadcrumbs="breadcrumbs">
+    <d-page-container :config="config">
         <template #actions>
             <d-button type="primary" icon="bi bi-plus-lg" @click="handleAdd">
                 <span>Thêm chi nhánh</span>
             </d-button>
         </template>
+
+        <d-table :columns="columns">
+
+        </d-table>
     </d-page-container>
+
+    <DetailView v-model:visible="showDetail">
+    </DetailView>
 </template>

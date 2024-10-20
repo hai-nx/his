@@ -14,13 +14,18 @@ function loadBreadcrumb() {
 }
 function loadExtra() {
     extras.value = [
-        { 
-            key: 'faq', label: 'Câu hỏi', icon: 'bi bi-question-circle-fill' 
+        {
+            key: 'faq', label: 'Câu hỏi', icon: 'bi bi-question-circle-fill'
         },
-        { 
-            key: 'feedback', label: 'Góp ý', icon: 'bi bi-chat-left-dots' 
+        {
+            key: 'feedback', label: 'Góp ý', icon: 'bi bi-chat-left-dots'
         }
     ]
+}
+
+function initData() {
+    loadBreadcrumb()
+    loadExtra()
 }
 
 // function pageSizeChanged(){
@@ -33,6 +38,7 @@ export function useLayout() {
     return {
         breadcrumbs,
         extras,
+        initData,
         loadBreadcrumb,
         loadExtra
     }

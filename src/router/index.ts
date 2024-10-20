@@ -40,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/dboption", name: "dboption", component: dboptionView, meta: { layout: appLayout.MAIN } },
 
   { path: "/dictionary", name: "dictionary", component: dictionaryView, meta: { layout: appLayout.MAIN } },
-  { path: "/branch", name: "branch", component: branchView, meta: { layout: appLayout.MAIN } },
+  { path: "/branch", name: "branch", component: () => import("../views/dictionary/branch/list.vue"), meta: { layout: appLayout.MAIN } },
   { path: "/country", name: "country", component: countryView, meta: { layout: appLayout.MAIN } },
   { path: "/department", name: "department", component: departmentView, meta: { layout: appLayout.MAIN } },
   { path: "/department-type", name: "department-type", component: departmentTypeView, meta: { layout: appLayout.MAIN } },

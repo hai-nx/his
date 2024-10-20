@@ -18,7 +18,7 @@ const cls = computed(() => ({
 </script>
 
 <template>
-    <component class="d-text" :class="cls" :is="as" :for="forProp">
+    <component :is="as" :class="cls" :for="forProp" class="d-text">
         <slot></slot>
     </component>
 </template>
@@ -26,9 +26,8 @@ const cls = computed(() => ({
 <style>
 .d-text {
     color: var(--d-text-color);
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .d-text-star::before {
