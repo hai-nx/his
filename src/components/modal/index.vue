@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, defineModel, defineProps, stop } from 'vue'
 
+const visible = defineModel('visible', { type: Boolean })
 const props = defineProps({
     title: { type: String },
     closable: { type: Boolean, default: false },
@@ -10,23 +11,15 @@ const props = defineProps({
     width: { type: [String, Number], default: 520 }
 })
 
-const model = defineModel({ type: Boolean })
-const visible = defineModel('visible', { type: Boolean })
-
-
 function onMaskClick(e: any) {
     if (visible && props.mask && props.maskClosable) {
         close()
-
     }
 }
 
 function close() {
-    model.value = false;
     visible.value = false
-    console.log('sadasdasd')
 }
-
 
 
 </script>
