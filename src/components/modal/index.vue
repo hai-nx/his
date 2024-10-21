@@ -13,18 +13,11 @@ const props = defineProps({
 const model = defineModel({ type: Boolean })
 const visible = defineModel('visible', { type: Boolean })
 
-const cls = computed(() => {
-    return {
-
-    }
-})
-
 
 function onMaskClick(e: any) {
-    console.log('sadasdasd----')
     if (visible && props.mask && props.maskClosable) {
         close()
-        
+
     }
 }
 
@@ -41,21 +34,23 @@ function close() {
 <template>
     <teleport to='body'>
         <div class="d-modal-root">
-            <div v-if="(model, visible) && mask" class="d-modal-mask" @click="onMaskClick"></div>
-            <transition name="d-modal" appear>
-                <div v-if="(model, visible)" class="d-modal-container">
-                    <div class="d-modal" :class="cls">
-                        <slot name="header">
-                            <div v-if="title || closable" class="d-modal-header">
-                                <span> {{ title }} </span>
-                                <d-button v-if="closable" @click.stop="close">X</d-button>
-                            </div>
-                        </slot>
+            <div v-if="visible && mask" class="d-modal-mask" :style="maskStyle" @click.stop="onMaskClick"></div>
+            <transition name="d-modal">
+                <div v-if="visible" class="d-modal-wrap">
+                    <div class="d-modal">
+                        <div class="d-modal-header">
+                            <slot name="header">
+                                <span class="d-modal-title">{{ title }}</span>
+                            </slot>
 
+                            <div class="d-modal-header-actions">
+                                <d-button v-if="closable" type="text" rounded icon="bi bi-x-lg"
+                                    @click.stop="close"></d-button>
+                            </div>
+                        </div>
                         <div class="d-modal-body">
                             <slot></slot>
                         </div>
-
                         <div class="d-modal-footer">
                             <slot name="footer"></slot>
                         </div>
@@ -68,94 +63,122 @@ function close() {
 
 <style>
 .d-modal-root {
+    --d-mask-background: rgba(0, 0, 0, 0.45);
+    --d-mask-color: #e2e8f0;
+    --d-mask-transitition-duration: 0.2s;
+
+    --d-modal-background: #ffffff;
+    --d-modal-border-color: #e2e8f0;
+    --d-modal-color: #334155;
+    --d-modal-border-radius: 4px;
+    --d-modal-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 8px 10px -6px rgba(0, 0, 0, 0.1);
+    --d-modal-header-padding: 0.5rem 1rem;
+    --d-modal-header-gap: 0.5rem;
+    --d-modal-title-font-weight: 600;
+    --d-modal-title-font-size: 1.25rem;
+    --d-modal-body-padding: 1rem;
+    --d-modal-footer-padding: 0.5rem;
+    --d-modal-footer-gap: 0.5rem 1rem;
+}
+
+.d-modal-root {
     display: block;
+    z-index: 999;
 }
 
 .d-modal-mask {
+    animation: d-modal-mask-animation var(--d-mask-transitition-duration) ease-out;
+    background-color: var(--d-mask-background);
+    color: var(--d-mask-color);
     position: fixed;
-    top: 0;
-    bottom: 0;
-    inset-inline-start: 0;
-    inset-inline-end: 0;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.45);
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: inherit;
 }
 
-.d-modal-container {
-    display: flex;
+.d-modal-wrap {
     position: fixed;
-    width: 100vw;
-    height: 100dvh;
-    align-items: center;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    display: flex;
     justify-content: center;
-    left: 0;
-    top: 0;
-    /* overflow: auto; */
+    align-items: center;
+    z-index: inherit;
 }
 
 .d-modal {
+    background: var(--d-modal-background);
+    border: 1px solid var(--d-modal-border-color);
+    color: var(--d-modal-color);
+    border-radius: var(--d-modal-border-radius);
+    box-shadow: var(--d-modal-shadow);
+    max-height: 90%;
+    min-width: 25rem;
     display: flex;
     flex-direction: column;
+}
+
+.d-modal-header {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    box-sizing: border-box;
-    margin: 20px 20px;
-    padding: 0;
-    background-color: #fff;
-    border: 1px solid #dbdbdb;
-    border-radius: 4px;
-    width: 25rem;
-
-    /* -webkit-animation: slide-in linear .2s; */
-    /* animation: slide-in linear .2s; */
-    max-height: 100%;
+    flex-shrink: 0;
+    padding: var(--d-modal-header-padding);
+    border-bottom: 1px solid var(--d-modal-border-color);
 }
 
+.d-modal-title {
+    font-weight: var(--d-modal-title-font-weight);
+    font-size: var(--d-modal-title-font-size);
+}
+
+.d-modal-header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--d-modal-header-gap);
+}
+
+.d-modal-body {
+    overflow-y: auto;
+    padding: var(--d-modal-body-padding);
+}
+
+.d-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    padding: var(--d-modal-footer-padding);
+    border-top: 1px solid var(--d-modal-border-color);
+    gap: var(--d-modal-footer-gap);
+}
+
+
+
+/* animation */
 .d-modal-enter-active {
-    transition: all 180ms ease-in;
+    transition: all var(--d-mask-transitition-duration) ease-out;
 }
+
 .d-modal-leave-active {
-    transition: all 150ms ease-in; /*opacity 0.5s ease, translateY(0px) linear .2s;*/
+    transition: all var(--d-mask-transitition-duration) ease-out;
 }
 
 .d-modal-enter-from,
 .d-modal-leave-to {
     opacity: 0;
-    transform: translateY(-60px);
+    transform: translateY(-20px);
 }
 
-
-@keyframes slide-in {
-    from {
+@keyframes d-modal-mask-animation {
+    0% {
         opacity: 0;
-        transform: translateY(-60px);
     }
-
-    to {
+    100% {
         opacity: 1;
-        transform: translateY(0px);
     }
-}
-
-@keyframes growth {
-    from {
-        transform: scale(0.7);
-    }
-    to {
-        transform: scale(1);
-    }
-}
-
-.d-modal-header {
-    display: inline-flex;
-    justify-content: space-between;
-    gap: 6px;
-    padding: 1rem;
-    border-bottom: 1px solid #dbdbdb;
-}
-
-.d-modal-body {
-    flex: 1;
-    padding: 1rem;
-    overflow: auto;
 }
 </style>

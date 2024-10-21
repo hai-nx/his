@@ -25,5 +25,9 @@ function close() {
 <template>
     <d-modal v-model:visible="visible" closable>
         ahsodhasodhoashdjashdk
+
+        <template #footer>
+            <d-button>hihiihihih</d-button>
+        </template>
     </d-modal>
 </template>
