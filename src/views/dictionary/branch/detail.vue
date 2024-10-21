@@ -23,7 +23,7 @@ function close() {
 </script>
 
 <template>
-    <d-modal v-model:visible="visible" closable>
+    <d-modal v-model:visible="visible" :width="1000" closable>
         ahsodhasodhoashdjashdk
 
         <template #footer>

@@ -11,6 +11,12 @@ const props = defineProps({
     width: { type: [String, Number], default: 520 }
 })
 
+const style = computed(() => {
+    return {
+        'width': typeof props.width === 'number' ? props.width + 'px' : props.width
+    }
+})
+
 function onMaskClick(e: any) {
     if (visible && props.mask && props.maskClosable) {
         close()
@@ -30,7 +36,7 @@ function close() {
             <div v-if="visible && mask" class="d-modal-mask" :style="maskStyle" @click.stop="onMaskClick"></div>
             <transition name="d-modal">
                 <div v-if="visible" class="d-modal-wrap">
-                    <div class="d-modal">
+                    <div class="d-modal" :style="style">
                         <div class="d-modal-header">
                             <slot name="header">
                                 <span class="d-modal-title">{{ title }}</span>
