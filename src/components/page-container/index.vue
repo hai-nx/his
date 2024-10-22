@@ -41,7 +41,7 @@ function itemClick(e: MenuItem) {
                     <d-breadcrumb :items="config.breadcrumbs" @click="breadcrumbClick"></d-breadcrumb>
                 </div>
                 <div class="d-page-container-extra">
-                    <div v-for="(item, index) in config.extra" :key="index">
+                    <div v-for="(item, index) in config.extras" :key="index">
                         <i :class="item.icon" @click="itemClick(item)"></i>
                     </div>
                 </div>
@@ -63,8 +63,10 @@ function itemClick(e: MenuItem) {
             <div class="d-page-container-body">
                 <slot></slot>
             </div>
-            <div v-if="$slots.footer" class="d-page-container-footer">
-                <slot name="footer"></slot>
+            <div v-if="$slots.footer || config.paginator" class="d-page-container-footer">
+                <slot name="footer">
+                    <d-paginator></d-paginator>
+                </slot>
             </div>
         </div>
     </div>

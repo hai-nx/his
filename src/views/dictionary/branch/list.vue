@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useLayout } from '@/utils/uses/layout'
 import DetailView from './detail.vue'
 
-const config = ref({
-    title: 'Chi nhánh',
-    breadcrumbs: [
-        { key: "1", label: "Danh mục" },
-        { key: "2", label: "Danh sách chi nhánh" },
-    ]
-})
+const config = useLayout()
+config.title = "Chi nhánh 2";
+config.breadcrumbs = [
+    { key: "1", label: "Danh mục" },
+    { key: "2", label: "Danh sách chi nhánh" }
+]
 
 const columns = ref([
     {
@@ -59,7 +59,8 @@ const columns = ref([
 const showDetail = ref(false)
 
 function handleAdd() {
-    showDetail.value = true
+    config.title = "chi nhanh 3"
+    //showDetail.value = true
 }
 
 </script>
