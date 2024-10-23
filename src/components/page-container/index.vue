@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, defineEmits, defineProps, PropType } from 'vue'
+import { computed, defineEmits, defineModel, defineProps, PropType, ref } from 'vue'
 import { MenuItem } from '../menuitem'
+import { PageContainerConfig } from './index'
 import router from '@/router'
-
 
 const emit = defineEmits<{
     (e: 'item-click', item: MenuItem): void
@@ -12,10 +12,15 @@ const props = defineProps({
     config: {
         type: Object as PropType<any>
     },
-    fluid: { 
-        type: Boolean, default: true 
+    fluid: {
+        type: Boolean, 
+        default: true
     }
 })
+
+
+const currentPage = ref(0)
+const pageSize = ref(20)
 
 const cls = computed(() => {
     return {
@@ -24,11 +29,17 @@ const cls = computed(() => {
 })
 
 function breadcrumbClick(e: MenuItem) {
+    currentPage.value = 2;
     router.push({ name: e.path });
 }
 
 function itemClick(e: MenuItem) {
     emit('item-click', e)
+}
+
+function pageChange(item: any) {
+    console.log('pageChange: ')
+    console.log(item)
 }
 
 </script>
@@ -65,7 +76,7 @@ function itemClick(e: MenuItem) {
             </div>
             <div v-if="$slots.footer || config.paginator" class="d-page-container-footer">
                 <slot name="footer">
-                    <d-paginator></d-paginator>
+                    <d-paginator :page="currentPage" v-model:pageSize="pageSize" :total="config.totalRowCount" @change="pageChange"></d-paginator>
                 </slot>
             </div>
         </div>

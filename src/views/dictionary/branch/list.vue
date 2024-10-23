@@ -10,6 +10,8 @@ config.breadcrumbs = [
     { key: "2", label: "Danh sách chi nhánh" }
 ]
 
+config.totalRowCount = 100
+
 const columns = ref([
     {
         label: "Mã chi nhánh",

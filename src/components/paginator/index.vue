@@ -23,11 +23,12 @@ const isLastPage = computed(() => current.value === pageCount.value - 1)
 
 
 function changePage(page: number) {
-    console.log(page)
-    if (page >= 0 && page < pageCount.value) {
+    console.log("page: " + page)
+    console.log("pageCount: " + pageCount.value)
+    if (page >= 0 && page <= pageCount.value) {
         current.value = page;
 
-        console.log(current.value)
+        console.log("current: " + current.value)
         const state = {
             current: current.value,
             pageCount: pageCount.value,
@@ -39,8 +40,12 @@ function changePage(page: number) {
 
 
 function visiblePage(page: number) {
+    console.log("page: " + page + " current2: " + current.value)
     return page >= current.value - props.range && page <= current.value + props.range
 }
+
+
+
 </script>
 
 <template>
@@ -51,23 +56,25 @@ function visiblePage(page: number) {
             </select>
         </div>
         <div class="d-paginator-content">
-            <div class="d-paginator-first" @click="changePage(0)">
+            <d-button class="d-paginator-first" @click="changePage(0)">
                 first
-            </div>
-            <div class="d-paginator-prev" @click="changePage(current - 1)">
+            </d-button>
+            <d-button class="d-paginator-prev" @click="changePage(current - 1)">
                 prev
+            </d-button>
+
+            <div v-for="(item, index) in pageCount" :key="index" class="d-paginator-page"
+                :class="{ 'd-paginator-page-selected': item === current }" @click="changePage(item)">
+                <d-button v-if="visiblePage(item)">{{ item }}
+                </d-button>
             </div>
 
-            <div v-for="(item, index) in pageCount" :key="index" class="d-paginator-page" :class="{ 'd-paginator-page-selected' : item === current}" @click="changePage(item)">
-                <div v-if="visiblePage(item)">{{ item }}</div>
-            </div>
-
-            <div class="d-paginator-prev" @click="changePage(current + 1)">
+            <d-button class="d-paginator-prev" @click="changePage(current + 1)">
                 next
-            </div>
-            <div class="d-paginator-last" @click="changePage(pageCount - 1)">
+            </d-button>
+            <d-button class="d-paginator-last" @click="changePage(pageCount - 1)">
                 last
-            </div>
+            </d-button>
         </div>
     </div>
 </template>
