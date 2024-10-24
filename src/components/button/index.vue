@@ -31,6 +31,8 @@ const cls = computed(() => ({
     'd-button-text': props.type === 'text',
     // danger
     'd-button-danger': props.danger,
+    // rounded
+    "d-button-rounded": props.rounded,
     // icon
     'd-button-icon-only': hasIcon.value && !slots.default
 }))
@@ -43,14 +45,14 @@ function onClick(payload: any) {
 </script>
 
 <template>
-    <button class="d-button" :class="cls" :type="htmlType" :disabled="disabled || loading" :title="title" @click="onClick">
+    <button class="d-button" :class="cls" :type="htmlType" :disabled="disabled || loading" :title="title"
+        @click="onClick">
         <slot v-if="loading" name="loadingIcon">
             <div class="d-button-loadingicon"></div>
         </slot>
         <slot v-else name="icon">
             <i v-if="hasIcon" class="d-buton-icon" :class="icon"></i>
         </slot>
-
         <slot></slot>
     </button>
 </template>
@@ -163,6 +165,12 @@ function onClick(payload: any) {
     --d-button-active-border-color: var(--d-danger-active-color);
 }
 
+
+.d-button-rounded {
+    border-radius: 30px;
+}
+
+
 /* icon only */
 .d-button-icon-only {
     gap: 0;
@@ -185,7 +193,6 @@ function onClick(payload: any) {
     display: inline-block;
     width: 1.25rem;
     height: 1.25rem;
-    /* vertical-align: -0.125em; */
     border-radius: 50%;
     animation: 0.75s linear infinite d-button-loadingicon;
 }

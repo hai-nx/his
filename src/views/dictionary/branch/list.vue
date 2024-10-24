@@ -10,7 +10,8 @@ config.breadcrumbs = [
     { key: "2", label: "Danh sách chi nhánh" }
 ]
 
-config.totalRowCount = 100
+config.currentPage = 2
+config.totalRowCount = 600
 
 const columns = ref([
     {
@@ -70,7 +71,7 @@ function handleAdd() {
 <template>
     <d-page-container :config="config">
         <template #actions>
-            <d-button type="primary" icon="bi bi-plus-lg" @click="handleAdd">
+            <d-button type="primary" rounded icon="bi bi-plus-lg" @click="handleAdd">
                 <span>Thêm chi nhánh</span>
             </d-button>
         </template>
