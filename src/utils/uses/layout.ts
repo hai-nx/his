@@ -1,8 +1,8 @@
 import { reactive, ref } from "vue"
 import MenuItem from "@/components/menuitem"
 
-function onPageChange(page: number) {
-    console.log("page change")
+function onPageChange(page: any) {
+    config.currentPage = page.current
 }
 function onPageSizeChange(pageSize: number) {
     console.log("page size change")

@@ -13,7 +13,7 @@ const props = defineProps({
         type: Object as PropType<any>
     },
     fluid: {
-        type: Boolean, 
+        type: Boolean,
         default: true
     }
 })
@@ -75,8 +75,13 @@ function pageChange(item: any) {
                 <slot></slot>
             </div>
             <div v-if="$slots.footer || config.paginator" class="d-page-container-footer">
+                <div>
+                    <span>{{ config.totalRowCount }}</span>
+                </div>
                 <slot name="footer">
-                    <d-paginator :page="currentPage" v-model:pageSize="pageSize" :total="config.totalRowCount" @change="pageChange"></d-paginator>
+                    <d-paginator :current="config.currentPage" :rows="config.pageSize" :total="config.totalRowCount"
+                        @change="config.onPageChange" 
+                        @rows-change="config.onPageSizeChange"></d-paginator>
                 </slot>
             </div>
         </div>
@@ -137,6 +142,12 @@ function pageChange(item: any) {
 .d-page-container-body {
     padding: .5rem;
     height: 100%;
+}
+
+.d-page-container-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem;
 }
 
 @media screen and (min-width: 1400px) {
